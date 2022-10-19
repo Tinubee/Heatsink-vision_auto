@@ -1,6 +1,8 @@
 # Heatsink-vision_auto
 Camera : Line Scan Camera (e2v SM2CL), Area Camera(MV-CH120-11GM), Area Camera(MV-CH012-10GM)
+
 POE Card : PCle-GIE74
+
 Vision Library : Cognex Vision Pro
 
 설비 입고 Target Date : 2022-11-30
