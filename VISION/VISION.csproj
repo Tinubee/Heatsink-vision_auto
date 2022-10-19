@@ -98,10 +98,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>bin\x64\Debug\ActUtlTypeLib.dll</HintPath>
     </Reference>
-    <Reference Include="bgapi2_genicam_dotnet, Version=2.8.15475.15736, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Program Files\Baumer\Baumer GAPI SDK\Components\Dev\C_Sharp\x64\bgapi2_genicam_dotnet.dll</HintPath>
-    </Reference>
     <Reference Include="Cognex.FieldCalibrationApplication.Plugin, Version=61.1.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Program Files\Cognex\VisionPro\ReferencedAssemblies\Cognex.FieldCalibrationApplication.Plugin.dll</HintPath>
@@ -398,12 +394,6 @@
     <Compile Include="Frm_CamSet.Designer.cs">
       <DependentUpon>Frm_CamSet.cs</DependentUpon>
     </Compile>
-    <Compile Include="Frm_Loading.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_Loading.Designer.cs">
-      <DependentUpon>Frm_Loading.cs</DependentUpon>
-    </Compile>
     <Compile Include="Frm_Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -455,9 +445,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_CamSet.resx">
       <DependentUpon>Frm_CamSet.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Loading.resx">
-      <DependentUpon>Frm_Loading.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_Main.resx">
       <DependentUpon>Frm_Main.cs</DependentUpon>

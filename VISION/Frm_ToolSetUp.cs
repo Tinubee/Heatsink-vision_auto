@@ -165,7 +165,7 @@ namespace VISION
                 num_Exposure.Value = Convert.ToDecimal(CamSet.ReadData($"Camera{Glob.CamNumber}", "Exposure"));
                 num_Gain.Value = Convert.ToDecimal(CamSet.ReadData($"Camera{Glob.CamNumber}", "Gain"));
 
-                for (int i = 0; i < 6; i++)
+                for (int i = 0; i < Main.camcount; i++)
                 {
                     gainvalue[i] = Convert.ToDouble(CamSet.ReadData($"Camera{i}", "Exposure"));
                     exposurevalue[i] = Convert.ToDouble(CamSet.ReadData($"Camera{i}", "Gain"));
@@ -232,15 +232,7 @@ namespace VISION
                 }
                 for (int i = 0; i < Program.CameraList.Count(); i++)
                 {
-                    if (Main.mDevice[i] != null)
-                    {
-                        if (Main.mDataStream[i].IsGrabbing || liveflag == true)
-                        {
-                            liveflag = false;
-                            Main.mDevice[i].RemoteNodeList["AcquisitionStop"].Execute();
-                            Main.mDataStream[i].StopAcquisition();
-                        }
-                    }
+                   
                 }
                 Main.LightOFF();
                 GC.Collect();
@@ -391,7 +383,7 @@ namespace VISION
                 cdyDisplay.Image = null;
                 cdyDisplay.InteractiveGraphics.Clear();
                 cdyDisplay.StaticGraphics.Clear();
-                Main.SnapShot(Glob.CamNumber);
+                
             }
             catch (Exception ee)
             {
@@ -408,16 +400,7 @@ namespace VISION
                     cdyDisplay.InteractiveGraphics.Clear();
                     cdyDisplay.StaticGraphics.Clear();
                     cdyDisplay.Fit();
-                    if (Main.StartLive1(Glob.CamNumber))
-                    {
-                        liveflag = true;
-                        btn_OneShot.Enabled = false;
-                        btn_Live.Enabled = false;
-                        num_Exposure.Enabled = true;
-                        num_Gain.Enabled = true;
-                        btn_Livestop.Enabled = true;
-                        btn_Exit.Enabled = false;
-                    }
+                   
                 }
             }
             catch (Exception ee)
@@ -426,62 +409,10 @@ namespace VISION
                 return;
             }
         }
-        private void CameraSet()
-        {
-            try
-            {
-                for (int i = 0; i < Main.mDevice.Count(); i++)
-                {
-                    if (Main.mDevice[i] != null)
-                    {
-                        Main.mDevice[i].RemoteNodeList["AcquisitionStop"].Execute();
-                        Main.mDataStream[i].StopAcquisition();
-                        Thread.Sleep(200);
-                        //exposurevalue[i] = (double)num_Exposure.Value;
-                        Main.mDevice[i].RemoteNodeList["ExposureTime"].Value = exposurevalue[i];
-                        Thread.Sleep(50);
-                        if (FormLoad == false)
-                        {
-                            Main.mDataStream[i].StartAcquisition();
-                            Main.mDevice[i].RemoteNodeList["AcquisitionStart"].Execute();
-                        }
-                    }
-                }
-
-            }
-            catch (BGAPI2.Exceptions.IException ex)
-            {
-                cm.info(ex.Message);
-            }
-        }
+       
         private void num_Exposure_ValueChanged(object sender, EventArgs e)
         {
-            try
-            {
-                if (num_Exposure.Enabled == true)
-                {
-                    if (Main.mDevice[Glob.CamNumber] != null)
-                    {
-                        Main.mDevice[Glob.CamNumber].RemoteNodeList["AcquisitionStop"].Execute();
-                        Main.mDataStream[Glob.CamNumber].StopAcquisition();
-                        Thread.Sleep(200);
-                        exposurevalue[Glob.CamNumber] = (double)num_Exposure.Value;
-                        Main.mDevice[Glob.CamNumber].RemoteNodeList["ExposureTime"].Value = (double)num_Exposure.Value;
-                        Thread.Sleep(50);
-                        if (FormLoad == false)
-                        {
-                            Main.mDataStream[Glob.CamNumber].StartAcquisition();
-                            Main.mDevice[Glob.CamNumber].RemoteNodeList["AcquisitionStart"].Execute();
-                        }
-                    }
-                }
-            }
-            catch (BGAPI2.Exceptions.IException ex)
-            {
-                Console.Write("ExceptionType:    {0} \r\n", ex.GetType());
-                Console.Write("ErrorDescription: {0} \r\n", ex.GetErrorDescription());
-                Console.Write("in function:      {0} \r\n", ex.GetFunctionName());
-            }
+           
         }
 
         private void btn_Livestop_Click(object sender, EventArgs e)
@@ -496,7 +427,7 @@ namespace VISION
                 num_Exposure.Enabled = false;
                 num_Gain.Enabled = false;
                 btn_Exit.Enabled = true;
-                Main.StopLive1(Glob.CamNumber);
+               
             }
             catch (Exception ee)
             {
@@ -506,32 +437,7 @@ namespace VISION
 
         private void num_Gain_ValueChanged(object sender, EventArgs e)
         {
-            try
-            {
-                if (num_Gain.Enabled == true)
-                {
-                    if (Main.mDevice[Glob.CamNumber] != null)
-                    {
-                        Main.mDevice[Glob.CamNumber].RemoteNodeList["AcquisitionStop"].Execute();
-                        Main.mDataStream[Glob.CamNumber].StopAcquisition();
-                        Thread.Sleep(200);
-                        gainvalue[Glob.CamNumber] = (double)num_Gain.Value;
-                        Main.mDevice[Glob.CamNumber].RemoteNodeList["Gain"].Value = (double)num_Gain.Value;
-                        Thread.Sleep(50);
-                        if (FormLoad == false)
-                        {
-                            Main.mDataStream[Glob.CamNumber].StartAcquisition();
-                            Main.mDevice[Glob.CamNumber].RemoteNodeList["AcquisitionStart"].Execute();
-                        }
-                    }
-                }
-            }
-            catch (BGAPI2.Exceptions.IException ex)
-            {
-                Console.Write("ExceptionType:    {0} \r\n", ex.GetType());
-                Console.Write("ErrorDescription: {0} \r\n", ex.GetErrorDescription());
-                Console.Write("in function:      {0} \r\n", ex.GetFunctionName());
-            }
+            
         }
 
         private void btn_ImageSave_Click(object sender, EventArgs e)

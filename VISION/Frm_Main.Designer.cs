@@ -458,7 +458,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(803, 77);
             this.label1.TabIndex = 11;
-            this.label1.Text = "Channel Vision Program";
+            this.label1.Text = "HeatSink Vision Program";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // timer_Setting
