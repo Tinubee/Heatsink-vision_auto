@@ -20,6 +20,7 @@ using Cognex.VisionPro.Dimensioning;
 using System.Drawing.Imaging;
 using System.Reflection;
 using KimLib;
+using Cognex.VisionPro.FGGigE;
 
 namespace VISION
 {
@@ -36,6 +37,8 @@ namespace VISION
         internal bool[] trigflag; //트리거 불함수
         private CogImage8Grey Fiximage; //PMAlign툴의 결과이미지(픽스쳐이미지)
         private string FimageSpace; //PMAlign툴 SpaceName(보정하기위해)
+
+        private Cogs.Camera[] TempCam;
 
         private Cogs.Model TempModel; //모델
         private Cogs.Blob[,] TempBlobs; //블롭툴
@@ -113,6 +116,7 @@ namespace VISION
             InitializeComponent();
             ColumnHeader h = new ColumnHeader();
             StandFirst(); //처음 실행되어야 하는부분. - 이거 왜했지.. 이유는 모르겠다 일단 냅두자 필요없을꺼같기도함. - 20200121 김형민
+            CamSet();
             Glob.RunnModel = new Cogs.Model(); //코그넥스 모델 확인.
         }
         public void StandFirst()
@@ -134,14 +138,10 @@ namespace VISION
         {
             lb_Ver.Text = $"Ver. {Glob.PROGRAM_VERSION}";
             LoadSetup(); //프로그램 셋팅 로드.
-            //Line1DataLoad(); //LINE #1 DATA LOAD - TOOL NAME
-            //Line2DataLoad(); //LINE #2 DATA LOAD - TOOL NAME
             timer_Setting.Start(); //타이머에서 계속해서 확인하는 것들
             InitializeDIO(); //IO보드 통신연결.
-            CamSet();
             CognexModelLoad();
             log.AddLogMessage(LogType.Infomation, 0, "Vision Program Start");
-            //Process.Start($"{Glob.LOADINGFROM}");
             Process[] myProcesses = Process.GetProcessesByName("LoadingForm_KHM");
             if (myProcesses.LongLength > 0)
             {
@@ -152,7 +152,16 @@ namespace VISION
         {
             try
             {
-               
+                CogFrameGrabberGigEs frameGrabbers = new CogFrameGrabberGigEs();
+                Glob.allCameraCount = frameGrabbers.Count;
+                foreach (ICogFrameGrabber fg in frameGrabbers)
+                {
+                    Console.WriteLine(fg.Name);
+                    //MV-CS020-10GM
+                    //MV-CH120-11GM
+                    //MV-CS020-10GM
+                }
+
             }
             catch(Exception ee)
             {
@@ -247,7 +256,7 @@ namespace VISION
                 string LastModel = CFGFILE.ReadData("LASTMODEL", "NAME"); //마지막 사용모델 확인.
                 //확인 필요. - LastModel Name 변수에 들어오는 String값 확인하기.
                 INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{LastModel}\\CamSet.ini");
-                for (int i = 0; i < camcount; i++)
+                for (int i = 0; i < Glob.allCameraCount; i++)
                 {
                     Glob.RunnModel.Loadmodel(LastModel, Glob.MODELROOT, i); //VISION TOOL LOAD
                 }
@@ -681,6 +690,7 @@ namespace VISION
             TempDistance_HighValue = TempModel.Distance_HighValues();
             TempCaliper = TempModel.Calipes();
             TempCaliperEnable = TempModel.CaliperEnables();
+            TempCam = TempModel.Cam();
         }
 
         public void DisplayLabelShow(CogGraphicCollection Collection, CogDisplay cog, int X, int Y, string Text)
@@ -2045,6 +2055,12 @@ namespace VISION
                     log.AddLogMessage(LogType.Error, 0, ee.Message);
                 }
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            cdyDisplay.Image = TempCam[2].Run();
+            //TempCam.Run();
         }
     }
 

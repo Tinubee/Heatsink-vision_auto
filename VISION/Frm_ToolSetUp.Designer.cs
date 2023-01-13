@@ -263,7 +263,7 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1920, 75);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1700, 75);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // lb_CurruntModelName
@@ -274,7 +274,7 @@
             this.lb_CurruntModelName.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lb_CurruntModelName.Location = new System.Drawing.Point(4, 1);
             this.lb_CurruntModelName.Name = "lb_CurruntModelName";
-            this.lb_CurruntModelName.Size = new System.Drawing.Size(205, 73);
+            this.lb_CurruntModelName.Size = new System.Drawing.Size(180, 73);
             this.lb_CurruntModelName.TabIndex = 4;
             this.lb_CurruntModelName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -282,9 +282,9 @@
             // 
             this.btn_Exit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Exit.Image = ((System.Drawing.Image)(resources.GetObject("btn_Exit.Image")));
-            this.btn_Exit.Location = new System.Drawing.Point(1806, 4);
+            this.btn_Exit.Location = new System.Drawing.Point(1601, 4);
             this.btn_Exit.Name = "btn_Exit";
-            this.btn_Exit.Size = new System.Drawing.Size(110, 67);
+            this.btn_Exit.Size = new System.Drawing.Size(95, 67);
             this.btn_Exit.TabIndex = 0;
             this.btn_Exit.UseVisualStyleBackColor = true;
             this.btn_Exit.Click += new System.EventHandler(this.btn_Exit_Click);
@@ -293,9 +293,9 @@
             // 
             this.btn_Save.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Save.Image = ((System.Drawing.Image)(resources.GetObject("btn_Save.Image")));
-            this.btn_Save.Location = new System.Drawing.Point(1700, 4);
+            this.btn_Save.Location = new System.Drawing.Point(1507, 4);
             this.btn_Save.Name = "btn_Save";
-            this.btn_Save.Size = new System.Drawing.Size(99, 67);
+            this.btn_Save.Size = new System.Drawing.Size(87, 67);
             this.btn_Save.TabIndex = 0;
             this.btn_Save.UseVisualStyleBackColor = true;
             this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
@@ -304,9 +304,9 @@
             // 
             this.btn_ImageOpen.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_ImageOpen.Image = ((System.Drawing.Image)(resources.GetObject("btn_ImageOpen.Image")));
-            this.btn_ImageOpen.Location = new System.Drawing.Point(852, 4);
+            this.btn_ImageOpen.Location = new System.Drawing.Point(755, 4);
             this.btn_ImageOpen.Name = "btn_ImageOpen";
-            this.btn_ImageOpen.Size = new System.Drawing.Size(99, 67);
+            this.btn_ImageOpen.Size = new System.Drawing.Size(87, 67);
             this.btn_ImageOpen.TabIndex = 0;
             this.btn_ImageOpen.UseVisualStyleBackColor = true;
             this.btn_ImageOpen.Click += new System.EventHandler(this.btn_ImageOpen_Click);
@@ -315,9 +315,9 @@
             // 
             this.btn_ImageSave.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_ImageSave.Image = ((System.Drawing.Image)(resources.GetObject("btn_ImageSave.Image")));
-            this.btn_ImageSave.Location = new System.Drawing.Point(958, 4);
+            this.btn_ImageSave.Location = new System.Drawing.Point(849, 4);
             this.btn_ImageSave.Name = "btn_ImageSave";
-            this.btn_ImageSave.Size = new System.Drawing.Size(99, 67);
+            this.btn_ImageSave.Size = new System.Drawing.Size(87, 67);
             this.btn_ImageSave.TabIndex = 0;
             this.btn_ImageSave.UseVisualStyleBackColor = true;
             this.btn_ImageSave.Click += new System.EventHandler(this.btn_ImageSave_Click);
@@ -326,9 +326,9 @@
             // 
             this.btn_ToolRun.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_ToolRun.Image = ((System.Drawing.Image)(resources.GetObject("btn_ToolRun.Image")));
-            this.btn_ToolRun.Location = new System.Drawing.Point(1276, 4);
+            this.btn_ToolRun.Location = new System.Drawing.Point(1131, 4);
             this.btn_ToolRun.Name = "btn_ToolRun";
-            this.btn_ToolRun.Size = new System.Drawing.Size(99, 67);
+            this.btn_ToolRun.Size = new System.Drawing.Size(87, 67);
             this.btn_ToolRun.TabIndex = 1;
             this.btn_ToolRun.UseVisualStyleBackColor = true;
             this.btn_ToolRun.Click += new System.EventHandler(this.btn_ToolRun_Click);
@@ -337,9 +337,9 @@
             // 
             this.btn_OneShot.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_OneShot.Image = ((System.Drawing.Image)(resources.GetObject("btn_OneShot.Image")));
-            this.btn_OneShot.Location = new System.Drawing.Point(428, 4);
+            this.btn_OneShot.Location = new System.Drawing.Point(379, 4);
             this.btn_OneShot.Name = "btn_OneShot";
-            this.btn_OneShot.Size = new System.Drawing.Size(99, 67);
+            this.btn_OneShot.Size = new System.Drawing.Size(87, 67);
             this.btn_OneShot.TabIndex = 2;
             this.btn_OneShot.UseVisualStyleBackColor = true;
             this.btn_OneShot.Click += new System.EventHandler(this.btn_OneShot_Click);
@@ -348,9 +348,9 @@
             // 
             this.btn_Live.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Live.Image = ((System.Drawing.Image)(resources.GetObject("btn_Live.Image")));
-            this.btn_Live.Location = new System.Drawing.Point(534, 4);
+            this.btn_Live.Location = new System.Drawing.Point(473, 4);
             this.btn_Live.Name = "btn_Live";
-            this.btn_Live.Size = new System.Drawing.Size(99, 67);
+            this.btn_Live.Size = new System.Drawing.Size(87, 67);
             this.btn_Live.TabIndex = 0;
             this.btn_Live.UseVisualStyleBackColor = true;
             this.btn_Live.Click += new System.EventHandler(this.btn_Live_Click);
@@ -359,9 +359,9 @@
             // 
             this.btn_Livestop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Livestop.Image = ((System.Drawing.Image)(resources.GetObject("btn_Livestop.Image")));
-            this.btn_Livestop.Location = new System.Drawing.Point(640, 4);
+            this.btn_Livestop.Location = new System.Drawing.Point(567, 4);
             this.btn_Livestop.Name = "btn_Livestop";
-            this.btn_Livestop.Size = new System.Drawing.Size(99, 67);
+            this.btn_Livestop.Size = new System.Drawing.Size(87, 67);
             this.btn_Livestop.TabIndex = 3;
             this.btn_Livestop.UseVisualStyleBackColor = true;
             this.btn_Livestop.Click += new System.EventHandler(this.btn_Livestop_Click);
@@ -2249,7 +2249,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(1920, 1080);
+            this.ClientSize = new System.Drawing.Size(1700, 1070);
             this.Controls.Add(this.dgv_ToolSetUp);
             this.Controls.Add(this.tableLayoutPanel29);
             this.Controls.Add(this.tableLayoutPanel23);

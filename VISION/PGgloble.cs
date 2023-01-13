@@ -108,6 +108,7 @@ namespace VISION
         public double StandPoint_Y;
    
         public double[,] MultiPatternResultData = new double[6, 30];
+        public int allCameraCount;
     }
     public struct CamSets
     {

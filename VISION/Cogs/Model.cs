@@ -1,8 +1,10 @@
 ﻿using Cognex.VisionPro;
 using Cognex.VisionPro.Dimensioning;
+using Cognex.VisionPro.ToolGroup;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -28,6 +30,8 @@ namespace VISION.Cogs
         public const int CALIPERMAX = 10;
         public const int CIRCLETOOLMAX = 10;
         //Program.CameraList = CamList.LoadCamInfo();
+
+        private Camera[] Camera = new Camera[Program.CameraList.Count()];
 
         private Line[,] Lines = new Line[Program.CameraList.Count(), LINETOOLMAX];
         private bool[,] LineEnable = new bool[Program.CameraList.Count(), LINETOOLMAX];
@@ -63,6 +67,12 @@ namespace VISION.Cogs
             int MultiPatternMax = MULTIPATTERNMAX - 1;
             int DistanceMax = DISTANCEMAX - 1;
             int CalipersMax = CALIPERMAX - 1;
+
+            for (int lop = 0; lop < Glob.allCameraCount; lop++)
+            {
+                Camera[lop] = new Camera(lop);
+            }
+
 
             for (int i = 0; i < Program.CameraList.Count(); i++)
             {
@@ -161,6 +171,11 @@ namespace VISION.Cogs
             int CalipersMax = CALIPERMAX - 1;
             int MultiPatternMax = MULTIPATTERNMAX - 1;
             int DistanceMax = DISTANCEMAX - 1;
+
+
+            
+            Camera[cam].Loadtool(path + $"\\cam - {cam.ToString()}.vpp");
+  
 
             for (int lop = 0; lop <= MultiPatternMax; lop++)
             {
@@ -404,6 +419,11 @@ namespace VISION.Cogs
         public Line[,] Line()
         {
             return Lines;
+        }
+
+        public Camera[] Cam()
+        {
+            return Camera;
         }
 
         public Caliper[,] Calipes()

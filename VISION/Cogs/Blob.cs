@@ -39,7 +39,7 @@ namespace VISION.Cogs
 
         private bool NewTool()
         { // 툴의 가장 초기 상태 셋업
-            Cognex.VisionPro.CogPolygon Region = new Cognex.VisionPro.CogPolygon();
+            CogPolygon Region = new Cognex.VisionPro.CogPolygon();
 
             Region.NumVertices = 4;
             Region.SetVertexX(0, 130);
