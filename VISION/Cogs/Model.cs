@@ -635,7 +635,7 @@ namespace VISION.Cogs
                 //}
                 return Result;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 //MessageBox.Show(ee.Message);
                 return false;
@@ -705,7 +705,7 @@ namespace VISION.Cogs
 
                 return Result;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return false;
             }
@@ -742,7 +742,7 @@ namespace VISION.Cogs
 
                 return Result;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return false;
             }
@@ -778,7 +778,7 @@ namespace VISION.Cogs
                 }
                 return Result;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return false;
             }
@@ -814,7 +814,7 @@ namespace VISION.Cogs
                 }
                 return Result;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return false;
             }

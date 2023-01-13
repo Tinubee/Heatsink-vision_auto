@@ -60,6 +60,8 @@ namespace VISION
         private double[,] TempDistance_LowValue;
         private double[,] TempDistance_HighValue;
 
+        private Cogs.Camera[] TempCam;
+
         private bool Dataset = false;
         public bool liveflag = false;
         bool FormLoad = false;
@@ -96,6 +98,7 @@ namespace VISION
             TempDistance_HighValue = TempModel.Distance_HighValues();
             TempCaliper = TempModel.Calipes();
             TempCaliperEnable = TempModel.CaliperEnables();
+            TempCam = TempModel.Cam();
 
             string[] Polarty = { "White to Black", "Black to  White", "Don't Care" };
             string[] Blob = { "White Blob", "Black Blob" };
@@ -880,24 +883,6 @@ namespace VISION
             TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].SearchArea(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, Glob.CamNumber, (int)num_MultiPatternToolNumber.Value);
         }
 
-        //private void button3_Click(object sender, EventArgs e)
-        //{
-        //    if (TempLineEnable[Glob.CamNumber,4] == true && TempLineEnable[Glob.CamNumber,5] == true)
-        //    {
-        //        Main.CognexModelLoad();
-        //        Pattern_Train();
-        //        CogGraphicCollection Collection = new CogGraphicCollection();
-        //        ImageClear();
-        //        Main.StandLocationSet(cdyDisplay, Glob.CamNumber, Collection);
-        //        tb_StandPointX.Text = Glob.StandPoint_X.ToString("F3");
-        //        tb_StandPointY.Text = Glob.StandPoint_Y.ToString("F3");
-        //        tb_SearchAreaRotation.Text = TempLines[Glob.CamNumber, 4].GetRotation().ToString("F3");
-        //    }
-        //    else
-        //    {
-        //        cm.info("기준선 설정을 해주세요");
-        //    }
-        //}
 
         private void cb_MultiPatternName_SelectedIndexChanged(object sender, EventArgs e)
         {

@@ -436,7 +436,7 @@ namespace VISION.Cogs
 
                 Window.ShowDialog(); // 폼 실행
             }
-            catch(Exception ee)
+            catch(Exception)
             {
                 
             }

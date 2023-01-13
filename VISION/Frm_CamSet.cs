@@ -108,7 +108,7 @@ namespace VISION
                     sw.Close();
                 }
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 Result = false;
             }

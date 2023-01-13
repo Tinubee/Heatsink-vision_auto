@@ -98,20 +98,9 @@ namespace VISION
         ushort[] didata = new ushort[16];
         #endregion 
 
-        //********************BAUMER CAMERA 변수********************//
-
-        public struct COPYDATASTRUCT
-        {
-            public IntPtr dwData;
-            public int cbData;
-            [MarshalAs(UnmanagedType.LPStr)]
-            public string lpData;
-        }
-
         public Frm_Main()
         {
             Glob = PGgloble.getInstance; //전역변수 사용
-            //별도 로딩프로그램 만들기
             Process.Start($"{Glob.LOADINGFROM}");
             InitializeComponent();
             ColumnHeader h = new ColumnHeader();
@@ -192,19 +181,7 @@ namespace VISION
                 cm.info(ee.Message);
             }
         }
-
      
-        internal void CreateGrayColorMap(ref Bitmap image)
-        {
-            ColorPalette pal = image.Palette;
-            Color[] entries = pal.Entries;
-            for (int i = 0; i < 256; i++)
-            {
-                entries[i] = Color.FromArgb(i, i, i);
-            }
-            image.Palette = pal;
-        }   
-
         private void InitializeDIO()
         {
             try
@@ -279,20 +256,7 @@ namespace VISION
                 //****************************검사 사용유무****************************//
                 Glob.InspectUsed = setting.ReadData("SYSTEM", "Inspect Used Check", true) == "1" ? true : false;
                 Glob.OKImageSave = setting.ReadData("SYSTEM", "OK IMAGE SAVE", true) == "1" ? true : false;
-                Glob.NGImageSave = setting.ReadData("SYSTEM", "NG IMAGE SAVE", true) == "1" ? true : false;
-
-                //연결되어있는 디바이스(카메라)확인.
-                //for (int i = 0; i < mDevice.Count(); i++)
-                //{
-                //    if (mDevice[i] != null)
-                //    {
-                //        mDevice[i].RemoteNodeList["AcquisitionStopAbs"].Execute();
-                //        mDataStream[i].StopAcquisition();
-                //        Thread.Sleep(200);
-                //        mDevice[i].RemoteNodeList["ExposureTime"].Value = Convert.ToDouble(setting.ReadData("Camera", "Exposure"));
-                //        Thread.Sleep(50);
-                //    }
-                //}
+                Glob.NGImageSave = setting.ReadData("SYSTEM", "NG IMAGE SAVE", true) == "1" ? true : false;        
             }
             catch (Exception ee)
             {
@@ -401,7 +365,6 @@ namespace VISION
                 }
                 ushort i;
                 short result;
-                short o_result;
 
                 for (i = 0; i < 16; i++)
                 {
@@ -429,122 +392,6 @@ namespace VISION
                     {
                         switch (i)
                         {
-                            case 8: // LINE #1 Vision Trigger 신호
-                                OutPutSignal_Off(1);
-                                OutPutSignal_Off(2);
-                                OutPutSignal_Off(3);
-                                OutPutSignal_Off(4);
-                                OutPutSignal_Off(5);
-                                OutPutSignal_Off(6);
-                                log.AddLogMessage(LogType.Infomation, 0, "Line #1 Vision Trigger");
-                                if (InspectFlag[0] == false && InspectFlag[1] == false && InspectFlag[2] == false)
-                                {
-
-                                    cdyDisplay.Image = null;
-                                    cdyDisplay.InteractiveGraphics.Clear();
-                                    cdyDisplay.StaticGraphics.Clear();
-                                    cdyDisplay2.Image = null;
-                                    cdyDisplay2.InteractiveGraphics.Clear();
-                                    cdyDisplay2.StaticGraphics.Clear();
-                                    cdyDisplay3.Image = null;
-                                    cdyDisplay3.InteractiveGraphics.Clear();
-                                    cdyDisplay3.StaticGraphics.Clear();
-                                    BeginInvoke((Action)delegate
-                                    {
-                                        lb_Cam1_Result.Text = "Result";
-                                        lb_Cam1_Result.BackColor = SystemColors.Control;
-                                        lb_Cam2_Result.Text = "Result";
-                                        lb_Cam2_Result.BackColor = SystemColors.Control;
-                                        lb_Cam3_Result.Text = "Result";
-                                        lb_Cam3_Result.BackColor = SystemColors.Control;
-                                    });
-
-                                 
-                                }
-                                else
-                                {
-                                    OutPutSignal_Off(1);
-                                    OutPutSignal_Off(2);
-                                    OutPutSignal_Off(3);
-                                    OutPutSignal_Off(4);
-                                    OutPutSignal_Off(5);
-                                    OutPutSignal_Off(6);
-                                    InspectFlag[0] = false;
-                                    InspectFlag[1] = false;
-                                    InspectFlag[2] = false;
-                                    log.AddLogMessage(LogType.Infomation, 0, "LINE #1 검사 결과 초기화");
-                                }
-                                break;
-                            case 9: //LINE #1 결과 체크 신호
-                                log.AddLogMessage(LogType.Infomation, 0, "Line #1 Result Check");
-                                //if (InspectFlag[0] == false && InspectFlag[1] == false && InspectFlag[2] == false)
-                                //{
-                                OutPutSignal_Off(1);
-                                OutPutSignal_Off(2);
-                                OutPutSignal_Off(3);
-                                OutPutSignal_Off(4);
-                                OutPutSignal_Off(5);
-                                OutPutSignal_Off(6);
-                                //}
-                                break;
-                            case 10:// LINE #2 Vision Trigger 신호
-                                log.AddLogMessage(LogType.Infomation, 0, "Line #2 Vision Trigger");
-                                OutPutSignal_Off(9);
-                                OutPutSignal_Off(10);
-                                OutPutSignal_Off(11);
-                                OutPutSignal_Off(12);
-                                OutPutSignal_Off(13);
-                                OutPutSignal_Off(14);
-                                if (InspectFlag[3] == false && InspectFlag[4] == false && InspectFlag[5] == false)
-                                {
-                                    cdyDisplay4.Image = null;
-                                    cdyDisplay4.InteractiveGraphics.Clear();
-                                    cdyDisplay4.StaticGraphics.Clear();
-                                    cdyDisplay5.Image = null;
-                                    cdyDisplay5.InteractiveGraphics.Clear();
-                                    cdyDisplay5.StaticGraphics.Clear();
-                                    cdyDisplay6.Image = null;
-                                    cdyDisplay6.InteractiveGraphics.Clear();
-                                    cdyDisplay6.StaticGraphics.Clear();
-                                    BeginInvoke((Action)delegate
-                                    {
-                                        lb_Cam4_Result.Text = "Result";
-                                        lb_Cam4_Result.BackColor = SystemColors.Control;
-                                        lb_Cam5_Result.Text = "Result";
-                                        lb_Cam5_Result.BackColor = SystemColors.Control;
-                                        lb_Cam6_Result.Text = "Result";
-                                        lb_Cam6_Result.BackColor = SystemColors.Control;
-                                    });
-                                 
-                                }
-                                else
-                                {
-                                    OutPutSignal_Off(9);
-                                    OutPutSignal_Off(10);
-                                    OutPutSignal_Off(11);
-                                    OutPutSignal_Off(12);
-                                    OutPutSignal_Off(13);
-                                    OutPutSignal_Off(14);
-                                    InspectFlag[3] = false;
-                                    InspectFlag[4] = false;
-                                    InspectFlag[5] = false;
-                                    log.AddLogMessage(LogType.Infomation, 0, "LINE #2 검사 결과 초기화");
-                                }
-                                break;
-                            case 11: //LINE #2 결과 체크 신호
-                                log.AddLogMessage(LogType.Infomation, 0, "Line #2 Result Check");
-                                //if (InspectFlag[3] == false && InspectFlag[4] == false && InspectFlag[5] == false)
-                                //{
-                                OutPutSignal_Off(9);
-                                OutPutSignal_Off(10);
-                                OutPutSignal_Off(11);
-                                OutPutSignal_Off(12);
-                                OutPutSignal_Off(13);
-                                OutPutSignal_Off(14);
-                                //}
-                                break;
-                            case 12:
-                                break;
                             case 13:
                                 Process.Start($"{Glob.MODELCHANGEFROM}");
                                 for (int k = 0; k < camcount; k++)
@@ -565,51 +412,6 @@ namespace VISION
                                         }
                                     }
                                 }
-                                break;
-                            case 14: 
-                                Process.Start($"{Glob.MODELCHANGEFROM}");
-                                for (int k = 0; k < camcount; k++)
-                                {
-                                    if (Glob.RunnModel.Loadmodel("K12E WEBBING", Glob.MODELROOT, k) == true)
-                                    {
-                                        if (k == camcount - 1)
-                                        {
-                                            lb_CurruntModelName.Text = Glob.RunnModel.Modelname();
-                                            Glob.CurruntModelName = Glob.RunnModel.Modelname();
-                                            CamSet();
-                                            Process[] myProcesses = Process.GetProcessesByName("ModelChange_KHM");
-                                            if (myProcesses.LongLength > 0)
-                                            {
-                                                myProcesses[0].Kill();
-                                            }
-                                            log.AddLogMessage(LogType.Infomation, 0, "모델 전환 성공");
-                                        }
-                                    }
-                                }
-                                break;
-                            case 15: 
-                                Process.Start($"{Glob.MODELCHANGEFROM}");
-                                for (int k = 0; k < camcount; k++)
-                                {
-                                    if (Glob.RunnModel.Loadmodel("K12E CABLE STOPPER", Glob.MODELROOT, k) == true)
-                                    {
-                                        if (k == camcount - 1)
-                                        {
-                                            lb_CurruntModelName.Text = Glob.RunnModel.Modelname();
-                                            Glob.CurruntModelName = Glob.RunnModel.Modelname();
-                                            CamSet();
-                                            Process[] myProcesses = Process.GetProcessesByName("ModelChange_KHM");
-                                            if (myProcesses.LongLength > 0)
-                                            {
-                                                myProcesses[0].Kill();
-                                            }
-                                            log.AddLogMessage(LogType.Infomation, 0, "모델 전환 성공");
-                                        }
-                                    }
-                                }
-                                //lb_CurruntModelName.Text = Glob.RunnModel.Modelname();
-                                //Glob.CurruntModelName = Glob.RunnModel.Modelname();
-                                //CamSet();
                                 break;
                         }
                     }
@@ -665,9 +467,6 @@ namespace VISION
                 //I/O 백드라운드 동작 시작.
                 bk_IO.RunWorkerAsync();
             }
-            //cdyDisplay.Image = null;
-            //cdyDisplay.InteractiveGraphics.Clear();
-            //cdyDisplay.StaticGraphics.Clear();
         }
         public void CognexModelLoad()
         {
@@ -1602,27 +1401,7 @@ namespace VISION
             }
             else
             {
-                //for (int i = 0; i < 30; i++)
-                //{
-                //    if (TempBlobEnable[camnumber, i] == true)
-                //    {
-                //        if (TempBlobs[camnumber, i].ResultBlobCount() != TempBlobOKCount[camnumber, i]) // - 검사결과 NG
-                //        {
-                //            dgv.Rows[i].Cells[cellnumber + 1].Value = $"{TempBlobs[camnumber, i].ResultBlobCount()}-({TempBlobOKCount[camnumber, i]})";
-                //            dgv.Rows[i].Cells[cellnumber + 1].Style.BackColor = Color.Red;
-                //        }
-                //        else // - 검사결과 OK
-                //        {
-                //            dgv.Rows[i].Cells[cellnumber + 1].Value = $"{TempBlobs[camnumber, i].ResultBlobCount()}-({TempBlobOKCount[camnumber, i]})";
-                //            dgv.Rows[i].Cells[cellnumber + 1].Style.BackColor = Color.Lime;
-                //        }
-                //    }
-                //    else
-                //    {
-                //        dgv.Rows[i].Cells[cellnumber + 1].Value = "NOT USED";
-                //        dgv.Rows[i].Cells[cellnumber + 1].Style.BackColor = SystemColors.Control;
-                //    }
-                //}
+               
             }
 
         }
@@ -1959,8 +1738,6 @@ namespace VISION
                 btn_ToolSetUp.PerformClick();
             if (e.Control && e.KeyCode == Keys.M) //ctrl + m : 모델창 열기
                 btn_Model.PerformClick();
-            if (e.Control && e.KeyCode == Keys.C) //ctrl + c : 카메라 셋팅창 열기.
-                btn_CamList_Click(sender, e);
             if (e.KeyCode == Keys.Escape) // esc : 프로그램 종료
                 btn_Exit.PerformClick();
         }
@@ -2000,61 +1777,7 @@ namespace VISION
 
         private void bk_AutoDelete_DoWork(object sender, DoWorkEventArgs e)
         {
-            //*************************************************************Image저장경로*************************************************************//
-            //string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}";
-            //string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
-            //******************************************************************************************************************************************//
-
-            while (true)
-            {
-                try
-                {
-                    if (bk_AutoDelete.CancellationPending)
-                        return;
-
-                    DirectoryInfo di = new DirectoryInfo(Glob.ImageSaveRoot);
-                    if (di.Exists)
-                    {
-                        DirectoryInfo[] dirInfo = di.GetDirectories();
-                        string Date = DateTime.Now.AddDays(-Glob.ImageSaveDay).ToString("yyyyMMdd");
-                        foreach (DirectoryInfo dir in dirInfo)
-                        {
-                            if (Date.CompareTo(dir.CreationTime.ToString("yyyyMMdd")) > 0)
-                            {
-                                string DeleteName = dir.Name;
-                                dir.Attributes = FileAttributes.Normal;
-                                dir.Delete(true);
-                                log.AddLogMessage(LogType.Infomation, 0, $"{DeleteName} IMAGE 폴더 삭제 완료");
-                                //df_Image.EnumerateFiles().ToList().ForEach(f => f.Delete());
-                                //df_Image.EnumerateDirectories().ToList().ForEach(d => d.Delete(true));
-                                //df_Image.Delete();
-                            }
-                        }
-                    }
-                    //DateTime del_img = DateTime.Now.AddDays(-(Glob.ImageSaveDay));
-                    //string FolderName_Image = Path.Combine(Glob.ImageSaveRoot, del_img.ToString("yyyyMMdd")); // Day를 뺀날의 이름을 가진 Image 폴더
-
-                    ////Day를 뺀 날짜의 폴더.
-                    //DirectoryInfo df_Image = new DirectoryInfo(FolderName_Image);
-                    //if (Directory.Exists(FolderName_Image) == false) //Day를 뺀 날짜의 Image폴더가 존재하지 않을 때
-                    //{
-
-                    //}
-                    //else// Day를 뺀날의 이름을 가진 Image 폴더가 존재 할 때 삭제.
-                    //{
-                    //    if (df_Image.CreationTime < del_img)
-                    //    {
-                    //        df_Image.EnumerateFiles().ToList().ForEach(f => f.Delete());
-                    //        df_Image.EnumerateDirectories().ToList().ForEach(d => d.Delete(true));
-                    //        df_Image.Delete();
-                    //    }
-                    //}
-                }
-                catch (Exception ee)
-                {
-                    log.AddLogMessage(LogType.Error, 0, ee.Message);
-                }
-            }
+           
         }
 
         private void button1_Click(object sender, EventArgs e)

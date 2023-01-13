@@ -149,7 +149,7 @@ namespace VISION.Cogs
             {
                 return Tool.Results.GetLine().Rotation;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return 0;
             }
@@ -161,7 +161,7 @@ namespace VISION.Cogs
             {
                 return Tool.Results.GetLine();
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return null;
             }
@@ -347,7 +347,7 @@ namespace VISION.Cogs
                 Collection.Add(Tool.Results.GetLine());
                 display.StaticGraphics.AddList(Collection, "");
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 return;
             }
