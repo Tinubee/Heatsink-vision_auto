@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_ToolSetUp));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.lb_CurruntModelName = new System.Windows.Forms.Label();
             this.btn_Exit = new System.Windows.Forms.Button();
@@ -55,8 +55,6 @@
             this.btn_ApplyMaster = new System.Windows.Forms.Button();
             this.btn_Cam4 = new System.Windows.Forms.Button();
             this.btn_Cam1 = new System.Windows.Forms.Button();
-            this.btn_Cam7 = new System.Windows.Forms.Button();
-            this.btn_Cam8 = new System.Windows.Forms.Button();
             this.btn_Cam6 = new System.Windows.Forms.Button();
             this.btn_Cam5 = new System.Windows.Forms.Button();
             this.tableLayoutPanel29 = new System.Windows.Forms.TableLayoutPanel();
@@ -263,7 +261,7 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1700, 75);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1920, 75);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // lb_CurruntModelName
@@ -274,7 +272,7 @@
             this.lb_CurruntModelName.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lb_CurruntModelName.Location = new System.Drawing.Point(4, 1);
             this.lb_CurruntModelName.Name = "lb_CurruntModelName";
-            this.lb_CurruntModelName.Size = new System.Drawing.Size(180, 73);
+            this.lb_CurruntModelName.Size = new System.Drawing.Size(205, 73);
             this.lb_CurruntModelName.TabIndex = 4;
             this.lb_CurruntModelName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -282,9 +280,9 @@
             // 
             this.btn_Exit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Exit.Image = ((System.Drawing.Image)(resources.GetObject("btn_Exit.Image")));
-            this.btn_Exit.Location = new System.Drawing.Point(1601, 4);
+            this.btn_Exit.Location = new System.Drawing.Point(1806, 4);
             this.btn_Exit.Name = "btn_Exit";
-            this.btn_Exit.Size = new System.Drawing.Size(95, 67);
+            this.btn_Exit.Size = new System.Drawing.Size(110, 67);
             this.btn_Exit.TabIndex = 0;
             this.btn_Exit.UseVisualStyleBackColor = true;
             this.btn_Exit.Click += new System.EventHandler(this.btn_Exit_Click);
@@ -293,9 +291,9 @@
             // 
             this.btn_Save.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Save.Image = ((System.Drawing.Image)(resources.GetObject("btn_Save.Image")));
-            this.btn_Save.Location = new System.Drawing.Point(1507, 4);
+            this.btn_Save.Location = new System.Drawing.Point(1700, 4);
             this.btn_Save.Name = "btn_Save";
-            this.btn_Save.Size = new System.Drawing.Size(87, 67);
+            this.btn_Save.Size = new System.Drawing.Size(99, 67);
             this.btn_Save.TabIndex = 0;
             this.btn_Save.UseVisualStyleBackColor = true;
             this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
@@ -304,9 +302,9 @@
             // 
             this.btn_ImageOpen.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_ImageOpen.Image = ((System.Drawing.Image)(resources.GetObject("btn_ImageOpen.Image")));
-            this.btn_ImageOpen.Location = new System.Drawing.Point(755, 4);
+            this.btn_ImageOpen.Location = new System.Drawing.Point(852, 4);
             this.btn_ImageOpen.Name = "btn_ImageOpen";
-            this.btn_ImageOpen.Size = new System.Drawing.Size(87, 67);
+            this.btn_ImageOpen.Size = new System.Drawing.Size(99, 67);
             this.btn_ImageOpen.TabIndex = 0;
             this.btn_ImageOpen.UseVisualStyleBackColor = true;
             this.btn_ImageOpen.Click += new System.EventHandler(this.btn_ImageOpen_Click);
@@ -315,9 +313,9 @@
             // 
             this.btn_ImageSave.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_ImageSave.Image = ((System.Drawing.Image)(resources.GetObject("btn_ImageSave.Image")));
-            this.btn_ImageSave.Location = new System.Drawing.Point(849, 4);
+            this.btn_ImageSave.Location = new System.Drawing.Point(958, 4);
             this.btn_ImageSave.Name = "btn_ImageSave";
-            this.btn_ImageSave.Size = new System.Drawing.Size(87, 67);
+            this.btn_ImageSave.Size = new System.Drawing.Size(99, 67);
             this.btn_ImageSave.TabIndex = 0;
             this.btn_ImageSave.UseVisualStyleBackColor = true;
             this.btn_ImageSave.Click += new System.EventHandler(this.btn_ImageSave_Click);
@@ -326,9 +324,9 @@
             // 
             this.btn_ToolRun.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_ToolRun.Image = ((System.Drawing.Image)(resources.GetObject("btn_ToolRun.Image")));
-            this.btn_ToolRun.Location = new System.Drawing.Point(1131, 4);
+            this.btn_ToolRun.Location = new System.Drawing.Point(1276, 4);
             this.btn_ToolRun.Name = "btn_ToolRun";
-            this.btn_ToolRun.Size = new System.Drawing.Size(87, 67);
+            this.btn_ToolRun.Size = new System.Drawing.Size(99, 67);
             this.btn_ToolRun.TabIndex = 1;
             this.btn_ToolRun.UseVisualStyleBackColor = true;
             this.btn_ToolRun.Click += new System.EventHandler(this.btn_ToolRun_Click);
@@ -337,9 +335,9 @@
             // 
             this.btn_OneShot.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_OneShot.Image = ((System.Drawing.Image)(resources.GetObject("btn_OneShot.Image")));
-            this.btn_OneShot.Location = new System.Drawing.Point(379, 4);
+            this.btn_OneShot.Location = new System.Drawing.Point(428, 4);
             this.btn_OneShot.Name = "btn_OneShot";
-            this.btn_OneShot.Size = new System.Drawing.Size(87, 67);
+            this.btn_OneShot.Size = new System.Drawing.Size(99, 67);
             this.btn_OneShot.TabIndex = 2;
             this.btn_OneShot.UseVisualStyleBackColor = true;
             this.btn_OneShot.Click += new System.EventHandler(this.btn_OneShot_Click);
@@ -348,9 +346,9 @@
             // 
             this.btn_Live.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Live.Image = ((System.Drawing.Image)(resources.GetObject("btn_Live.Image")));
-            this.btn_Live.Location = new System.Drawing.Point(473, 4);
+            this.btn_Live.Location = new System.Drawing.Point(534, 4);
             this.btn_Live.Name = "btn_Live";
-            this.btn_Live.Size = new System.Drawing.Size(87, 67);
+            this.btn_Live.Size = new System.Drawing.Size(99, 67);
             this.btn_Live.TabIndex = 0;
             this.btn_Live.UseVisualStyleBackColor = true;
             this.btn_Live.Click += new System.EventHandler(this.btn_Live_Click);
@@ -359,9 +357,9 @@
             // 
             this.btn_Livestop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Livestop.Image = ((System.Drawing.Image)(resources.GetObject("btn_Livestop.Image")));
-            this.btn_Livestop.Location = new System.Drawing.Point(567, 4);
+            this.btn_Livestop.Location = new System.Drawing.Point(640, 4);
             this.btn_Livestop.Name = "btn_Livestop";
-            this.btn_Livestop.Size = new System.Drawing.Size(87, 67);
+            this.btn_Livestop.Size = new System.Drawing.Size(99, 67);
             this.btn_Livestop.TabIndex = 3;
             this.btn_Livestop.UseVisualStyleBackColor = true;
             this.btn_Livestop.Click += new System.EventHandler(this.btn_Livestop_Click);
@@ -531,36 +529,6 @@
             this.btn_Cam1.UseVisualStyleBackColor = false;
             this.btn_Cam1.Click += new System.EventHandler(this.btn_Cam1_Click);
             // 
-            // btn_Cam7
-            // 
-            this.btn_Cam7.BackColor = System.Drawing.Color.Silver;
-            this.btn_Cam7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_Cam7.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Cam7.Location = new System.Drawing.Point(483, 3);
-            this.btn_Cam7.Name = "btn_Cam7";
-            this.btn_Cam7.Size = new System.Drawing.Size(74, 72);
-            this.btn_Cam7.TabIndex = 16;
-            this.btn_Cam7.Tag = "6";
-            this.btn_Cam7.Text = "CAM7";
-            this.btn_Cam7.UseVisualStyleBackColor = false;
-            this.btn_Cam7.Visible = false;
-            this.btn_Cam7.Click += new System.EventHandler(this.btn_Cam1_Click);
-            // 
-            // btn_Cam8
-            // 
-            this.btn_Cam8.BackColor = System.Drawing.Color.Silver;
-            this.btn_Cam8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_Cam8.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Cam8.Location = new System.Drawing.Point(563, 3);
-            this.btn_Cam8.Name = "btn_Cam8";
-            this.btn_Cam8.Size = new System.Drawing.Size(76, 72);
-            this.btn_Cam8.TabIndex = 17;
-            this.btn_Cam8.Tag = "7";
-            this.btn_Cam8.Text = "CAM8";
-            this.btn_Cam8.UseVisualStyleBackColor = false;
-            this.btn_Cam8.Visible = false;
-            this.btn_Cam8.Click += new System.EventHandler(this.btn_Cam1_Click);
-            // 
             // btn_Cam6
             // 
             this.btn_Cam6.BackColor = System.Drawing.Color.Silver;
@@ -605,9 +573,7 @@
             this.tableLayoutPanel29.Controls.Add(this.btn_Cam4, 1, 0);
             this.tableLayoutPanel29.Controls.Add(this.btn_Cam1, 0, 0);
             this.tableLayoutPanel29.Controls.Add(this.btn_Cam5, 2, 0);
-            this.tableLayoutPanel29.Controls.Add(this.btn_Cam8, 5, 0);
             this.tableLayoutPanel29.Controls.Add(this.btn_Cam6, 3, 0);
-            this.tableLayoutPanel29.Controls.Add(this.btn_Cam7, 4, 0);
             this.tableLayoutPanel29.Location = new System.Drawing.Point(1, 124);
             this.tableLayoutPanel29.Name = "tableLayoutPanel29";
             this.tableLayoutPanel29.RowCount = 1;
@@ -647,28 +613,28 @@
             // 
             this.dgv_ToolSetUp.AllowUserToAddRows = false;
             this.dgv_ToolSetUp.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_ToolSetUp.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_ToolSetUp.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgv_ToolSetUp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_ToolSetUp.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colname,
             this.coldata,
             this.Column1,
             this.Column2});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_ToolSetUp.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_ToolSetUp.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgv_ToolSetUp.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgv_ToolSetUp.Location = new System.Drawing.Point(1127, 324);
             this.dgv_ToolSetUp.Margin = new System.Windows.Forms.Padding(0);
@@ -676,8 +642,8 @@
             this.dgv_ToolSetUp.Name = "dgv_ToolSetUp";
             this.dgv_ToolSetUp.ReadOnly = true;
             this.dgv_ToolSetUp.RowHeadersWidth = 10;
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            this.dgv_ToolSetUp.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
+            this.dgv_ToolSetUp.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.dgv_ToolSetUp.RowTemplate.Height = 23;
             this.dgv_ToolSetUp.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgv_ToolSetUp.Size = new System.Drawing.Size(302, 752);
@@ -2249,7 +2215,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(1700, 1070);
+            this.ClientSize = new System.Drawing.Size(1920, 1080);
             this.Controls.Add(this.dgv_ToolSetUp);
             this.Controls.Add(this.tableLayoutPanel29);
             this.Controls.Add(this.tableLayoutPanel23);
@@ -2373,8 +2339,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel23;
         private System.Windows.Forms.Button btn_Cam4;
         private System.Windows.Forms.Button btn_Cam1;
-        private System.Windows.Forms.Button btn_Cam7;
-        private System.Windows.Forms.Button btn_Cam8;
         private System.Windows.Forms.Button btn_Cam6;
         private System.Windows.Forms.Button btn_Cam5;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel29;

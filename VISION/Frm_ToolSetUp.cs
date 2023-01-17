@@ -386,7 +386,7 @@ namespace VISION
                 cdyDisplay.Image = null;
                 cdyDisplay.InteractiveGraphics.Clear();
                 cdyDisplay.StaticGraphics.Clear();
-                
+                Main.SnapShot(Glob.CamNumber,cdyDisplay);
             }
             catch (Exception ee)
             {

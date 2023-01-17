@@ -39,6 +39,7 @@ namespace VISION
         private string FimageSpace; //PMAlign툴 SpaceName(보정하기위해)
 
         private Cogs.Camera[] TempCam;
+        private CogDisplay[] TempCogDisplay;
 
         private Cogs.Model TempModel; //모델
         private Cogs.Blob[,] TempBlobs; //블롭툴
@@ -128,7 +129,6 @@ namespace VISION
             lb_Ver.Text = $"Ver. {Glob.PROGRAM_VERSION}";
             LoadSetup(); //프로그램 셋팅 로드.
             timer_Setting.Start(); //타이머에서 계속해서 확인하는 것들
-            InitializeDIO(); //IO보드 통신연결.
             CognexModelLoad();
             log.AddLogMessage(LogType.Infomation, 0, "Vision Program Start");
             Process[] myProcesses = Process.GetProcessesByName("LoadingForm_KHM");
@@ -143,78 +143,13 @@ namespace VISION
             {
                 CogFrameGrabberGigEs frameGrabbers = new CogFrameGrabberGigEs();
                 Glob.allCameraCount = frameGrabbers.Count;
-                foreach (ICogFrameGrabber fg in frameGrabbers)
-                {
-                    Console.WriteLine(fg.Name);
-                    //MV-CS020-10GM
-                    //MV-CH120-11GM
-                    //MV-CS020-10GM
-                }
-
+                log.AddLogMessage(LogType.Program, 0, $"확인 된 카메라 개수 : {Glob.allCameraCount}");
             }
-            catch(Exception ee)
+            catch (Exception ee)
             {
                 log.AddLogMessage(LogType.Error, 0, ee.Message);
             }
-         
-        }
 
-        private void Initialize_LightControl()
-        {
-            try
-            {
-                INIControl setting = new INIControl(Glob.SETTING);
-                if (LightControl.IsOpen == true)
-                {
-                    LightControl.Close();
-                }
-                LightControl.BaudRate = Convert.ToInt32(setting.ReadData("COMMUNICATION", "Baud Rate"));
-                LightControl.Parity = Parity.None;
-                LightControl.DataBits = Convert.ToInt32(setting.ReadData("COMMUNICATION", "Data Bits"));
-                LightControl.StopBits = StopBits.One;
-                LightControl.PortName = setting.ReadData("COMMUNICATION", "Port number");
-                LightControl.Open();
-                LightOFF(); // 처음 실행했을때는 조명을 꺼주자. (AUTO모드로 변경됐을때, 조명 켜주자)
-            }
-            catch (Exception ee)
-            {
-                cm.info(ee.Message);
-            }
-        }
-     
-        private void InitializeDIO()
-        {
-            try
-            {
-                //카드번호 입력.
-                m_dev = DASK.Register_Card(DASK.PCI_7230, 0);
-                if (m_dev < 0)
-                {
-                    log.AddLogMessage(LogType.Error, 0, "Register_Card error!");
-                }
-                else
-                {
-                    ushort i;
-                    short result;
-                    for (i = 0; i < 16; i++)
-                    {
-                        result = DASK.DI_ReadLine((ushort)m_dev, 0, i, out didata[i]); //InPut 읽음 (카드넘버,포트0번,In단자번호,버퍼메모리(In단자1일때 1,In단자0일때 0) 
-                        if (didata[i] == 1)
-                        {
-                            gbool_di[i] = true;
-                        }
-                        else
-                        {
-                            gbool_di[i] = false;
-                        }
-                    }
-                    bk_IO.RunWorkerAsync(); // IO 백그라운드 스타트
-                }
-            }
-            catch (Exception ee)
-            {
-                log.AddLogMessage(LogType.Error, 0, $"{ee.Message}");
-            }
         }
 
         private void LoadSetup()
@@ -225,6 +160,7 @@ namespace VISION
                 NG_Label = new Label[6] { lb_CAM1_NG, lb_CAM2_NG, lb_CAM3_NG, lb_CAM4_NG, lb_CAM5_NG, lb_CAM6_NG };
                 TOTAL_Label = new Label[6] { lb_CAM1_TOTAL, lb_CAM2_TOTAL, lb_CAM3_TOTAL, lb_CAM4_TOTAL, lb_CAM5_TOTAL, lb_CAM6_TOTAL };
                 NGRATE_Label = new Label[6] { lb_CAM1_NGRATE, lb_CAM2_NGRATE, lb_CAM3_NGRATE, lb_CAM4_NGRATE, lb_CAM5_NGRATE, lb_CAM6_NGRATE };
+                TempCogDisplay = new CogDisplay[6] { cdyDisplay, cdyDisplay2, cdyDisplay3, cdyDisplay4, cdyDisplay5, cdyDisplay6 };
 
                 INIControl Modellist = new INIControl(Glob.MODELLIST); ;
                 INIControl CFGFILE = new INIControl(Glob.CONFIGFILE); ;
@@ -237,7 +173,7 @@ namespace VISION
                 {
                     Glob.RunnModel.Loadmodel(LastModel, Glob.MODELROOT, i); //VISION TOOL LOAD
                 }
-             
+
                 Glob.ImageSaveRoot = setting.ReadData("SYSTEM", "Image Save Root"); //이미지 저장 경로
                 Glob.DataSaveRoot = setting.ReadData("SYSTEM", "Data Save Root"); //데이터 저장 경로
                 Glob.ImageSaveDay = Convert.ToInt32(setting.ReadData("SYSTEM", "Image Save Day")); //이미지 보관일수
@@ -256,7 +192,7 @@ namespace VISION
                 //****************************검사 사용유무****************************//
                 Glob.InspectUsed = setting.ReadData("SYSTEM", "Inspect Used Check", true) == "1" ? true : false;
                 Glob.OKImageSave = setting.ReadData("SYSTEM", "OK IMAGE SAVE", true) == "1" ? true : false;
-                Glob.NGImageSave = setting.ReadData("SYSTEM", "NG IMAGE SAVE", true) == "1" ? true : false;        
+                Glob.NGImageSave = setting.ReadData("SYSTEM", "NG IMAGE SAVE", true) == "1" ? true : false;
             }
             catch (Exception ee)
             {
@@ -315,45 +251,7 @@ namespace VISION
         // 4 = CAM 2 NG                 12 = CAM 5 NG
         // 5 = CAM 3 OK                 13 = CAM 6 OK
         // 6 = CAM 3 NG                 14 = CAM 6 NG
-
-        public void OutPutSignal_On(int jobNo)
-        {
-            short ret;
-            ret = DASK.DO_WriteLine((ushort)m_dev, 0, (ushort)jobNo, 1);
-        }
-
-        public void OutPutSignal_Off(int jobNo)
-        {
-            short ret;
-            ret = DASK.DO_WriteLine((ushort)m_dev, 0, (ushort)jobNo, 0);
-        }
-
-        private void OUTPUT_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                short ret;
-                int jobNo = Convert.ToInt16((sender as Button).Tag);
-                ret = DASK.DO_WriteLine((ushort)m_dev, 0, (ushort)jobNo, 1);
-            }
-            catch (Exception ee)
-            {
-                cm.info(ee.Message);
-            }
-        }
-        private void OUTPUTOFF_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                short ret;
-                int jobNo = Convert.ToInt16((sender as Button).Tag);
-                ret = DASK.DO_WriteLine((ushort)m_dev, 0, (ushort)jobNo, 0);
-            }
-            catch (Exception ee)
-            {
-                cm.info(ee.Message);
-            }
-        }
+       
         private void bk_IO_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
@@ -392,6 +290,11 @@ namespace VISION
                     {
                         switch (i)
                         {
+                            case 0:
+                                snap1 = new Thread(new ThreadStart(ShotAndInspect_Cam1));
+                                snap1.Priority = ThreadPriority.Highest;
+                                snap1.Start();
+                                break;
                             case 13:
                                 Process.Start($"{Glob.MODELCHANGEFROM}");
                                 for (int k = 0; k < camcount; k++)
@@ -418,6 +321,165 @@ namespace VISION
                 }
             }
         }
+
+        public void ShotAndInspect_Cam1()
+        {
+            try
+            {
+                InspectTime[0] = new Stopwatch();
+                InspectTime[0].Reset();
+                InspectTime[0].Start();
+
+                TempCogDisplay[0].Image = TempCam[0].Run();
+                if (TempCogDisplay[0].Image == null)
+                {
+                    log.AddLogMessage(LogType.Error, 0, "이미지 획들을 하지 못하였습니다. CAM - 1");
+                    return;
+                }
+                if (Inspect_Cam0(TempCogDisplay[0]) == true) // 검사 결과
+                {
+                    //검사 결과 OK
+                    BeginInvoke((Action)delegate
+                    {
+                        //DgvResult(dgv_Line1, 0, 1); //-추가된함수
+                        lb_Cam1_Result.BackColor = Color.Lime;
+                        lb_Cam1_Result.Text = "O K";
+                        OK_Count[0]++;
+                        if (Glob.OKImageSave)
+                            ImageSave1("OK", 1, cdyDisplay);
+                    });
+                }
+                else
+                {
+                    BeginInvoke((Action)delegate
+                    {
+                        //DgvResult(dgv_Line1, 0, 1); //-추가된함수
+                        lb_Cam1_Result.BackColor = Color.Red;
+                        lb_Cam1_Result.Text = "N G";
+                        NG_Count[0]++;
+                        if (Glob.NGImageSave)
+                            ImageSave1("NG", 1, cdyDisplay);
+                    });
+                }
+
+                InspectTime[0].Stop();
+                InspectFlag[0] = false;
+
+                BeginInvoke((Action)delegate { lb_Cam1_InsTime.Text = InspectTime[0].ElapsedMilliseconds.ToString() + "msec"; });
+                Thread.Sleep(100);
+            }
+            catch (Exception ee)
+            {
+                log.AddLogMessage(LogType.Error,0, $"Camera - 1 Error : {ee.Message}");
+            }
+        }
+
+        public void ShotAndInspect_Cam2()
+        {
+            try
+            {
+                InspectTime[1] = new Stopwatch();
+                InspectTime[1].Reset();
+                InspectTime[1].Start();
+
+                TempCogDisplay[1].Image = TempCam[1].Run();
+                if (TempCogDisplay[1].Image == null)
+                {
+                    log.AddLogMessage(LogType.Error, 0, "이미지 획들을 하지 못하였습니다. CAM - 2");
+                    return;
+                }
+                if (Inspect_Cam1(TempCogDisplay[1]) == true) // 검사 결과
+                {
+                    //검사 결과 OK
+                    BeginInvoke((Action)delegate
+                    {
+                        //DgvResult(dgv_Line1, 0, 1); //-추가된함수
+                        lb_Cam2_Result.BackColor = Color.Lime;
+                        lb_Cam2_Result.Text = "O K";
+                        OK_Count[1]++;
+                        if (Glob.OKImageSave)
+                            ImageSave2("OK", 2, TempCogDisplay[1]);
+                    });
+                }
+                else
+                {
+                    BeginInvoke((Action)delegate
+                    {
+                        //DgvResult(dgv_Line1, 0, 1); //-추가된함수
+                        lb_Cam2_Result.BackColor = Color.Red;
+                        lb_Cam2_Result.Text = "N G";
+                        NG_Count[1]++;
+                        if (Glob.NGImageSave)
+                            ImageSave2("NG", 2, TempCogDisplay[1]);
+                    });
+                    //검사 결과 NG
+         
+                }
+
+                InspectTime[1].Stop();
+                InspectFlag[1] = false;
+
+                BeginInvoke((Action)delegate { lb_Cam2_InsTime.Text = InspectTime[1].ElapsedMilliseconds.ToString() + "msec"; });
+                Thread.Sleep(100);
+            }
+            catch (Exception ee)
+            {
+                log.AddLogMessage(LogType.Error, 0, $"Camera - 2 Error : {ee.Message}");
+            }
+        }
+
+        public void ShotAndInspect_Cam3()
+        {
+            try
+            {
+                InspectTime[2] = new Stopwatch();
+                InspectTime[2].Reset();
+                InspectTime[2].Start();
+
+                TempCogDisplay[2].Image = TempCam[2].Run();
+                if (TempCogDisplay[2].Image == null)
+                {
+                    log.AddLogMessage(LogType.Error, 0, "이미지 획들을 하지 못하였습니다. CAM - 3");
+                    return;
+                }
+                if (Inspect_Cam3(TempCogDisplay[2]) == true) // 검사 결과
+                {
+                    //검사 결과 OK
+                    BeginInvoke((Action)delegate
+                    {
+                        //DgvResult(dgv_Line1, 0, 1); //-추가된함수
+                        lb_Cam3_Result.BackColor = Color.Lime;
+                        lb_Cam3_Result.Text = "O K";
+                        OK_Count[2]++;
+                        if (Glob.OKImageSave)
+                            ImageSave3("OK", 3, TempCogDisplay[2]);
+                    });
+                }
+                else
+                {
+                    BeginInvoke((Action)delegate
+                    {
+                        //DgvResult(dgv_Line1, 0, 1); //-추가된함수
+                        lb_Cam3_Result.BackColor = Color.Red;
+                        lb_Cam3_Result.Text = "N G";
+                        NG_Count[2]++;
+                        if (Glob.NGImageSave)
+                            ImageSave3("NG", 3, TempCogDisplay[2]);
+                    });
+                }
+
+                InspectTime[2].Stop();
+                InspectFlag[2] = false;
+
+                BeginInvoke((Action)delegate { lb_Cam3_InsTime.Text = InspectTime[2].ElapsedMilliseconds.ToString() + "msec"; });
+                Thread.Sleep(100);
+            }
+            catch (Exception ee)
+            {
+                log.AddLogMessage(LogType.Error, 0, $"Camera - 3 Error : {ee.Message}");
+            }
+        }
+
         private void IOCHECK()
         {
             btn_INPUT8.BackColor = gbool_di[8] == true ? Color.Lime : SystemColors.Control;
@@ -449,19 +511,7 @@ namespace VISION
             btn_Model.Enabled = false;
             btn_SystemSetup.Enabled = false;
             btn_Stop.Enabled = true;
-            OutPutSignal_On(0); //LINE #1 VISION READY ON 
-            OutPutSignal_On(8); //LINE #2 VISION READY ON 
             CognexModelLoad();
-            for (int num = 1; num < 7; num++)
-            {
-                //LINE #1 검사 결과 초기화
-                OutPutSignal_Off(num);
-            }
-            for (int num = 9; num < 15; num++)
-            {
-                //LINE #2 검사 결과 초기화
-                OutPutSignal_Off(num);
-            }
             if (bk_IO.IsBusy == false) //I/O 백그라운드가 돌고있지 않으면.
             {
                 //I/O 백드라운드 동작 시작.
@@ -1686,8 +1736,6 @@ namespace VISION
 
         private void btn_Stop_Click(object sender, EventArgs e)
         {
-            OutPutSignal_Off(0);
-            OutPutSignal_Off(8);
             btn_Stop.Enabled = false;
             btn_ToolSetUp.Enabled = true;
             btn_Model.Enabled = true;
@@ -1775,15 +1823,23 @@ namespace VISION
             frm_analyzeresult.Show();
         }
 
-        private void bk_AutoDelete_DoWork(object sender, DoWorkEventArgs e)
-        {
-           
-        }
-
+      
         private void button1_Click(object sender, EventArgs e)
         {
             cdyDisplay.Image = TempCam[2].Run();
             //TempCam.Run();
+        }
+
+        public void SnapShot(int camNumber, CogDisplay cdy)
+        {
+            try
+            {
+                cdy.Image = TempCam[camNumber].Run();
+            }
+            catch (Exception ex)
+            {
+                log.AddLogMessage(LogType.Error,0,ex.Message);
+            }
         }
     }
 
