@@ -8,10 +8,10 @@ Vision Library : Cognex Vision Pro
 설비 입고 Target Date : 2022-11-30
 
 ### Todo List
-- 카메라 연결 [ ]
+- 카메라 연결 [ ✅ ]
 - PLC 연결 [ ]
-- 조명 연결 [ ]
-- Model Setting 파일 [ ]
+- 조명 연결 [ ✅ ]
+- Model Setting 파일 [ ✅ ]
 - Program 2개로 나누기 [ ]
 - 이미지 분석 Form 추가 [ ]
 - 이미지 자동삭제 추가 [ ]
