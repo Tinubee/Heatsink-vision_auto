@@ -21,6 +21,9 @@ using System.Drawing.Imaging;
 using System.Reflection;
 using KimLib;
 using Cognex.VisionPro.FGGigE;
+using VISION.Cogs;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
+using System.Net.Sockets;
 
 namespace VISION
 {
@@ -90,14 +93,30 @@ namespace VISION
         Label[] TOTAL_Label;
         Label[] NGRATE_Label;
 
-        #region ADLINK DIO
-        //PLC <-> PC 통신 시 I/O 확인하는 변수들
-        public short m_dev;
-        bool[] gbool_di = new bool[16];
-        bool[] re_gbool_di = new bool[16];
-        bool[] gbool_do = new bool[16];
-        ushort[] didata = new ushort[16];
-        #endregion 
+        //PLC 신호 관련 변수들
+        // is selected OCX
+
+        private string[] IOModel = new string[2];
+        private Button[] inputBtn;
+        private System.Windows.Forms.CheckBox[] outputBtn;
+        //private CheckBox[] checkHigh = new CheckBox[16];
+        //private CheckBox[] checkLow = new CheckBox[16];
+        private uint hInterrupt = 0;
+        private Thread EventThread = null;
+        private bool bThread = false;
+
+        public readonly static uint INFINITE = 0xFFFFFFFF;
+        public readonly static uint STATUS_WAIT_0 = 0x00000000;
+        public readonly static uint WAIT_OBJECT_0 = ((STATUS_WAIT_0) + 0);
+
+        public bool[] gbool_di = new bool[12];
+        public bool[] re_gbool_di = new bool[12];
+
+        [DllImport("kernel32", EntryPoint = "WaitForSingleObject", SetLastError = true, CharSet = CharSet.Unicode)]
+        private static extern uint WaitForSingleObject(uint hHandle, uint dwMilliseconds);
+
+        [DllImport("KERNEL32", EntryPoint = "SetEvent", SetLastError = true, CharSet = CharSet.Unicode)]
+        private static extern bool SetEvent(long hEvent);
 
         public Frm_Main()
         {
@@ -130,6 +149,8 @@ namespace VISION
             LoadSetup(); //프로그램 셋팅 로드.
             timer_Setting.Start(); //타이머에서 계속해서 확인하는 것들
             CognexModelLoad();
+            DigitalIO_Load();//IO Load
+            SelectModule();
             log.AddLogMessage(LogType.Infomation, 0, "Vision Program Start");
             Process[] myProcesses = Process.GetProcessesByName("LoadingForm_KHM");
             if (myProcesses.LongLength > 0)
@@ -142,7 +163,7 @@ namespace VISION
             try
             {
                 CogFrameGrabberGigEs frameGrabbers = new CogFrameGrabberGigEs();
-                Glob.allCameraCount = frameGrabbers.Count;
+                Glob.allCameraCount = frameGrabbers.Count + 3;
                 log.AddLogMessage(LogType.Program, 0, $"확인 된 카메라 개수 : {Glob.allCameraCount}");
             }
             catch (Exception ee)
@@ -150,6 +171,280 @@ namespace VISION
                 log.AddLogMessage(LogType.Error, 0, ee.Message);
             }
 
+        }
+
+        private bool SelectModule()
+        {
+            int nModuleCount = 0;
+
+            CAXD.AxdInfoGetModuleCount(ref nModuleCount);
+
+            if (nModuleCount > 0)
+            {
+                int nBoardNo = 0;
+                int nModulePos = 0;
+                uint uModuleID = 0;
+                short nIndex = 0;
+                uint uDataHigh = 0;
+                uint uDataLow = 0;
+                uint uFlagHigh = 0;
+                uint uFlagLow = 0;
+                uint uUse = 0;
+
+                CAXD.AxdInfoGetModule(0, ref nBoardNo, ref nModulePos, ref uModuleID);
+
+                switch ((AXT_MODULE)uModuleID)
+                {
+                    case AXT_MODULE.AXT_SIO_DI32:
+                    case AXT_MODULE.AXT_SIO_RDI32:
+                    case AXT_MODULE.AXT_SIO_RSIMPLEIOMLII:
+                    case AXT_MODULE.AXT_SIO_RDO16AMLII:
+                    case AXT_MODULE.AXT_SIO_RDO16BMLII:
+                    case AXT_MODULE.AXT_SIO_DI32_P:
+                    case AXT_MODULE.AXT_SIO_RDI32RTEX:
+                        //groupHigh.Text = "INPUT  0bit ~ 15Bit";
+                        //groupLow.Text = "INPUT 16bit ~ 31Bit";
+
+                        if (((AXT_MODULE)uModuleID) == AXT_MODULE.AXT_SIO_RDI32)
+                        {
+                            //checkInterrupt.Checked = false;
+                            //radioCallback.Enabled = false;
+                            //radioMessage.Enabled = false;
+                            //radioEvent.Enabled = false;
+                            //checkRigingEdge.Checked = false;
+                            //checkFallingEdge.Checked = false;
+                        }
+                        else
+                        {
+                            //checkInterrupt.Checked = true;
+                            //radioCallback.Enabled = true;
+                            //radioMessage.Enabled = true;
+                            //radioEvent.Enabled = true;
+                            //checkRigingEdge.Checked = true;
+                            //checkFallingEdge.Checked = true;
+
+                            CAXD.AxdiInterruptGetModuleEnable(0, ref uUse);
+                            if (uUse == (uint)AXT_USE.ENABLE)
+                            {
+                                //checkInterrupt.Checked = true;
+                                //SelectMessage();
+                            }
+                            else
+                               // checkInterrupt.Checked = false;
+
+                            CAXD.AxdiInterruptEdgeGetWord(0, 0, (uint)AXT_DIO_EDGE.UP_EDGE, ref uDataHigh);
+                            CAXD.AxdiInterruptEdgeGetWord(0, 1, (uint)AXT_DIO_EDGE.UP_EDGE, ref uDataLow);
+                            //if (uDataHigh == 0xFFFF && uDataLow == 0xFFFF)
+                            //    checkRigingEdge.Checked = true;
+                            //else
+                            //    checkRigingEdge.Checked = false;
+
+                            CAXD.AxdiInterruptEdgeGetWord(0, 0, (uint)AXT_DIO_EDGE.DOWN_EDGE, ref uDataHigh);
+                            CAXD.AxdiInterruptEdgeGetWord(0, 1, (uint)AXT_DIO_EDGE.DOWN_EDGE, ref uDataLow);
+                            //if (uDataHigh == 0xFFFF && uDataLow == 0xFFFF)
+                            //    checkFallingEdge.Checked = true;
+                            //else
+                            //    checkFallingEdge.Checked = false;
+                        }
+
+                        //for (nIndex = 0; nIndex < 16; nIndex++)
+                        //{
+                        //    checkHigh[nIndex].Text = String.Format("{0:D2}", nIndex);
+                        //    checkLow[nIndex].Text = String.Format("{0:D2}", nIndex + 16);
+                        //}
+                        break;
+
+                    case AXT_MODULE.AXT_SIO_DO32P:
+                    case AXT_MODULE.AXT_SIO_DO32T:
+                    case AXT_MODULE.AXT_SIO_RDO32:
+                    case AXT_MODULE.AXT_SIO_DO32T_P:
+                    case AXT_MODULE.AXT_SIO_RDO32RTEX:
+                       
+                        //++
+                        // Read outputting signal in WORD
+                        CAXD.AxdoReadOutportWord(1, 0, ref uDataHigh);
+                        CAXD.AxdoReadOutportWord(1, 1, ref uDataLow);
+
+                        for (nIndex = 0; nIndex < 12; nIndex++)
+                        {
+                            // Verify the last bit value of data read
+                            uFlagHigh = uDataHigh & 0x0001;
+                            uFlagLow = uDataLow & 0x0001;
+
+                            // Shift rightward by bit by bit
+                            uDataHigh = uDataHigh >> 1;
+                            uDataLow = uDataLow >> 1;
+
+                            // Updat bit value in control
+                            if (uFlagHigh == 1)
+                            {
+                                outputBtn[nIndex].BackColor = Color.Lime;
+                                gbool_di[nIndex] = true;
+                            }
+
+                            else
+                            {
+                                outputBtn[nIndex].BackColor = SystemColors.Control;
+                                gbool_di[nIndex] = false;
+                            }
+                               
+
+                            //if (uFlagLow == 1)
+                            //    outputBtn[nIndex].BackColor = Color.Lime;
+                            //else
+                            //    outputBtn[nIndex].BackColor = SystemColors.Control;
+
+                            //outputBtn[nIndex].Text = String.Format("{0:D2}", nIndex);
+                            //outputBtn[nIndex].Text = String.Format("{0:D2}", nIndex + 16);
+                        }
+                        break;
+
+                    case AXT_MODULE.AXT_SIO_DB32P:
+                    case AXT_MODULE.AXT_SIO_DB32T:
+                    case AXT_MODULE.AXT_SIO_RDB128MLII:
+                    case AXT_MODULE.AXT_SIO_RDB32T:
+                    case AXT_MODULE.AXT_SIO_RDB32RTEX:
+                    case AXT_MODULE.AXT_SIO_RDB96MLII:
+                        //groupHigh.Text = "INPUT  0bit ~ 15Bit";
+                        //groupLow.Text = "OUTPUT  0bit ~ 15Bit";
+
+                        //// Only Digital Input was used
+                        //checkInterrupt.Enabled = true;
+                        //checkRigingEdge.Enabled = true;
+                        //checkFallingEdge.Enabled = true;
+
+                        CAXD.AxdiInterruptGetModuleEnable(0, ref uUse);
+                        //if (uUse == (uint)AXT_USE.ENABLE)
+                        //{
+                        //    checkInterrupt.Checked = true;
+                        //    SelectMessage();
+                        //}
+                        //else
+                        //    checkInterrupt.Checked = false;
+
+                        CAXD.AxdiInterruptEdgeGetWord(0, 0, (uint)AXT_DIO_EDGE.UP_EDGE, ref uDataHigh);
+                        //if (uDataHigh == 0xFFFF)
+                        //    checkRigingEdge.Checked = true;
+                        //else
+                        //    checkRigingEdge.Checked = false;
+
+                        CAXD.AxdiInterruptEdgeGetWord(0, 0, (uint)AXT_DIO_EDGE.DOWN_EDGE, ref uDataHigh);
+                        //if (uDataHigh == 0xFFFF)
+                        //    checkFallingEdge.Checked = true;
+                        //else
+                        //    checkFallingEdge.Checked = false;
+
+                        //++
+                        // Read outputting signal in WORD
+                        CAXD.AxdoReadOutportWord(0, 0, ref uDataLow);
+
+                        for (nIndex = 0; nIndex < 12; nIndex++)
+                        {
+                            // Verify the last bit value of data read
+                            uFlagLow = uDataLow & 0x0001;
+
+                            // Shift rightward by bit by bit
+                            uDataLow = uDataLow >> 1;
+
+                            // Updat bit value in control
+                            if (uFlagLow == 1)
+                                inputBtn[nIndex].BackColor = Color.Lime;
+                            else
+                                inputBtn[nIndex].BackColor = SystemColors.Control;
+
+                            //checkHigh[nIndex].Text = String.Format("{0:D2}", nIndex);
+                            //checkLow[nIndex].Text = String.Format("{0:D2}", nIndex);
+                        }
+                        break;
+                }
+            }
+
+            return true;
+        }
+
+        private void DigitalIO_Load()
+        {
+            inputBtn = new Button[12] { btn_INPUT0, btn_INPUT1, btn_INPUT2, btn_INPUT3, btn_INPUT4, btn_INPUT5, btn_INPUT6, btn_INPUT7, btn_INPUT8, btn_INPUT9, btn_INPUT10, btn_INPUT11 };
+            outputBtn = new System.Windows.Forms.CheckBox[12] { btn_OUTPUT0, btn_OUTPUT1, btn_OUTPUT2, btn_OUTPUT3, btn_OUTPUT4, btn_OUTPUT5, btn_OUTPUT6, btn_OUTPUT7, btn_OUTPUT8, btn_OUTPUT9, btn_OUTPUT10, btn_OUTPUT11 };
+
+            if (OpenDevice())
+            {
+                //radioMessage.Checked = true;
+                timerSensor.Enabled = true;
+                //frmDigitalIO = this;
+            }
+            CheckForIllegalCrossThreadCalls = false;
+        }
+
+        private bool OpenDevice()
+        {
+            //++
+            // Initialize library 
+            if (CAXL.AxlOpen(7) == (uint)AXT_FUNC_RESULT.AXT_RT_SUCCESS)
+            {
+                uint uStatus = 0;
+
+                if (CAXD.AxdInfoIsDIOModule(ref uStatus) == (uint)AXT_FUNC_RESULT.AXT_RT_SUCCESS)
+                {
+                    if ((AXT_EXISTENCE)uStatus == AXT_EXISTENCE.STATUS_EXIST)
+                    {
+                        int nModuleCount = 0;
+
+                        if (CAXD.AxdInfoGetModuleCount(ref nModuleCount) == (uint)AXT_FUNC_RESULT.AXT_RT_SUCCESS)
+                        {
+                            short i = 0;
+                            int nBoardNo = 0;
+                            int nModulePos = 0;
+                            uint uModuleID = 0;
+                            string strData = "";
+
+                            for (i = 0; i < nModuleCount; i++)
+                            {
+                                if (CAXD.AxdInfoGetModule(i, ref nBoardNo, ref nModulePos, ref uModuleID) == (uint)AXT_FUNC_RESULT.AXT_RT_SUCCESS)
+                                {
+                                    switch ((AXT_MODULE)uModuleID)
+                                    {
+                                        case AXT_MODULE.AXT_SIO_DI32: strData = String.Format("[{0:D2}:{1:D2}] SIO-DI32", nBoardNo, i); break;
+                                        case AXT_MODULE.AXT_SIO_DO32P: strData = String.Format("[{0:D2}:{1:D2}] SIO-DO32P", nBoardNo, i); break;
+                                        case AXT_MODULE.AXT_SIO_DB32P: strData = String.Format("[{0:D2}:{1:D2}] SIO-DB32P", nBoardNo, i); break;
+                                        case AXT_MODULE.AXT_SIO_DO32T: strData = String.Format("[{0:D2}:{1:D2}] SIO-DO32T", nBoardNo, i); break;
+                                        case AXT_MODULE.AXT_SIO_DB32T: strData = String.Format("[{0:D2}:{1:D2}] SIO-DB32T", nBoardNo, i); break;
+                                        case AXT_MODULE.AXT_SIO_RDI32: strData = String.Format("[{0:D2}:{1:D2}] SIO_RDI32", nBoardNo, i); break;
+                                        case AXT_MODULE.AXT_SIO_RDO32: strData = String.Format("[{0:D2}:{1:D2}] SIO_RDO32", nBoardNo, i); break;
+                                        case AXT_MODULE.AXT_SIO_RDB128MLII: strData = String.Format("[{0:D2}:{1:D2}] SIO-RDB128MLII", nBoardNo, i); break;
+                                        case AXT_MODULE.AXT_SIO_RSIMPLEIOMLII: strData = String.Format("[{0:D2}:{1:D2}] SIO-RSIMPLEIOMLII", nBoardNo, i); break;
+                                        case AXT_MODULE.AXT_SIO_RDO16AMLII: strData = String.Format("[{0:D2}:{1:D2}] SIO-RDO16AMLII", nBoardNo, i); break;
+                                        case AXT_MODULE.AXT_SIO_RDO16BMLII: strData = String.Format("[{0:D2}:{1:D2}] SIO-RDO16BMLII", nBoardNo, i); break;
+                                        case AXT_MODULE.AXT_SIO_RDB96MLII: strData = String.Format("[{0:D2}:{1:D2}] SIO-RDB96MLII", nBoardNo, i); break;
+                                        case AXT_MODULE.AXT_SIO_RDO32RTEX: strData = String.Format("[{0:D2}:{1:D2}] SIO-RDO32RTEX", nBoardNo, i); break;
+                                        case AXT_MODULE.AXT_SIO_RDI32RTEX: strData = String.Format("[{0:D2}:{1:D2}] SIO-RDI32RTEX", nBoardNo, i); break;
+                                        case AXT_MODULE.AXT_SIO_RDB32RTEX: strData = String.Format("[{0:D2}:{1:D2}] SIO-RDB32RTEX", nBoardNo, i); break;
+                                        case AXT_MODULE.AXT_SIO_DI32_P: strData = String.Format("[{0:D2}:{1:D2}] SIO-DI32_P", nBoardNo, i); break;
+                                        case AXT_MODULE.AXT_SIO_DO32T_P: strData = String.Format("[{0:D2}:{1:D2}] SIO-DO32T_P", nBoardNo, i); break;
+                                        case AXT_MODULE.AXT_SIO_RDB32T: strData = String.Format("[{0:D2}:{1:D2}] SIO-RDB32T", nBoardNo, i); break;
+                                    }
+                                    IOModel.Append(strData);
+                                    //comboModule.Items.Add(strData);
+                                }
+                            }
+
+                            //comboModule.SelectedIndex = 0;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Module not exist.");
+
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Open Error!");
+            }
+
+            return true;
         }
 
         private void LoadSetup()
@@ -251,74 +546,46 @@ namespace VISION
         // 4 = CAM 2 NG                 12 = CAM 5 NG
         // 5 = CAM 3 OK                 13 = CAM 6 OK
         // 6 = CAM 3 NG                 14 = CAM 6 NG
-       
+
         private void bk_IO_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
             {
-                Thread.Sleep(200);
-                if (bk_IO.CancellationPending == true) //취소요청이 들어오면 return
-                {
-                    return;
-                }
-                ushort i;
-                short result;
 
-                for (i = 0; i < 16; i++)
-                {
-                    re_gbool_di[i] = gbool_di[i];
-                }
-
-                for (i = 0; i < 16; i++)
-                {
-                    result = DASK.DI_ReadLine((ushort)m_dev, 0, i, out didata[i]); //InPut 읽음 (카드넘버,포트0번,In단자번호,버퍼메모리(In단자1일때 1,In단자0일때 0) 
-                    //o_result = DASK.di_re
-                    if (didata[i] == 1)
-                    {
-                        gbool_di[i] = true;
-                    }
-                    else
-                    {
-                        gbool_di[i] = false;
-                    }
-                }
                 //IO CHECK - DISPLAY 표시 부분
                 BeginInvoke((Action)delegate { IOCHECK(); });
-                for (i = 0; i < 16; i++)
-                {
-                    if (gbool_di[i] != re_gbool_di[i] && gbool_di[i] == true)
-                    {
-                        switch (i)
-                        {
-                            case 0:
-                                snap1 = new Thread(new ThreadStart(ShotAndInspect_Cam1));
-                                snap1.Priority = ThreadPriority.Highest;
-                                snap1.Start();
-                                break;
-                            case 13:
-                                Process.Start($"{Glob.MODELCHANGEFROM}");
-                                for (int k = 0; k < camcount; k++)
-                                {
-                                    if (Glob.RunnModel.Loadmodel("K12E DIMPLE", Glob.MODELROOT, k) == true)
-                                    {
-                                        if (k == camcount - 1)
-                                        {
-                                            lb_CurruntModelName.Text = Glob.RunnModel.Modelname();
-                                            Glob.CurruntModelName = Glob.RunnModel.Modelname();
-                                            CamSet();
-                                            Process[] myProcesses = Process.GetProcessesByName("ModelChange_KHM");
-                                            if (myProcesses.LongLength > 0)
-                                            {
-                                                myProcesses[0].Kill();
-                                            }
-                                            log.AddLogMessage(LogType.Infomation, 0, "모델 전환 성공");
-                                        }
-                                    }
-                                }
-                                break;
-                        }
-                    }
-                }
+
+
+
+                //case 0:
+                //    snap1 = new Thread(new ThreadStart(ShotAndInspect_Cam1));
+                //    snap1.Priority = ThreadPriority.Highest;
+                //    snap1.Start();
+                //    break;
+                //case 13:
+                //    Process.Start($"{Glob.MODELCHANGEFROM}");
+                //    for (int k = 0; k < camcount; k++)
+                //    {
+                //        if (Glob.RunnModel.Loadmodel("K12E DIMPLE", Glob.MODELROOT, k) == true)
+                //        {
+                //            if (k == camcount - 1)
+                //            {
+                //                lb_CurruntModelName.Text = Glob.RunnModel.Modelname();
+                //                Glob.CurruntModelName = Glob.RunnModel.Modelname();
+                //                CamSet();
+                //                Process[] myProcesses = Process.GetProcessesByName("ModelChange_KHM");
+                //                if (myProcesses.LongLength > 0)
+                //                {
+                //                    myProcesses[0].Kill();
+                //                }
+                //                log.AddLogMessage(LogType.Infomation, 0, "모델 전환 성공");
+                //            }
+                //        }
+                //    }
+                //    break;
+
+
+
             }
         }
 
@@ -370,7 +637,7 @@ namespace VISION
             }
             catch (Exception ee)
             {
-                log.AddLogMessage(LogType.Error,0, $"Camera - 1 Error : {ee.Message}");
+                log.AddLogMessage(LogType.Error, 0, $"Camera - 1 Error : {ee.Message}");
             }
         }
 
@@ -413,7 +680,7 @@ namespace VISION
                             ImageSave2("NG", 2, TempCogDisplay[1]);
                     });
                     //검사 결과 NG
-         
+
                 }
 
                 InspectTime[1].Stop();
@@ -430,19 +697,20 @@ namespace VISION
 
         public void ShotAndInspect_Cam3()
         {
+            int funCamNumber = 2;
             try
             {
-                InspectTime[2] = new Stopwatch();
-                InspectTime[2].Reset();
-                InspectTime[2].Start();
+                InspectTime[funCamNumber] = new Stopwatch();
+                InspectTime[funCamNumber].Reset();
+                InspectTime[funCamNumber].Start();
 
-                TempCogDisplay[2].Image = TempCam[2].Run();
-                if (TempCogDisplay[2].Image == null)
+                TempCogDisplay[funCamNumber].Image = TempCam[funCamNumber].Run();
+                if (TempCogDisplay[funCamNumber].Image == null)
                 {
-                    log.AddLogMessage(LogType.Error, 0, "이미지 획들을 하지 못하였습니다. CAM - 3");
+                    log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber+1}");
                     return;
                 }
-                if (Inspect_Cam3(TempCogDisplay[2]) == true) // 검사 결과
+                if (Inspect_Cam2(TempCogDisplay[funCamNumber]) == true) // 검사 결과
                 {
                     //검사 결과 OK
                     BeginInvoke((Action)delegate
@@ -450,9 +718,9 @@ namespace VISION
                         //DgvResult(dgv_Line1, 0, 1); //-추가된함수
                         lb_Cam3_Result.BackColor = Color.Lime;
                         lb_Cam3_Result.Text = "O K";
-                        OK_Count[2]++;
+                        OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
-                            ImageSave3("OK", 3, TempCogDisplay[2]);
+                            ImageSave3("OK", funCamNumber+1, TempCogDisplay[funCamNumber]);
                     });
                 }
                 else
@@ -462,37 +730,200 @@ namespace VISION
                         //DgvResult(dgv_Line1, 0, 1); //-추가된함수
                         lb_Cam3_Result.BackColor = Color.Red;
                         lb_Cam3_Result.Text = "N G";
-                        NG_Count[2]++;
+                        NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
-                            ImageSave3("NG", 3, TempCogDisplay[2]);
+                            ImageSave3("NG", funCamNumber+1, TempCogDisplay[funCamNumber]);
                     });
                 }
 
-                InspectTime[2].Stop();
-                InspectFlag[2] = false;
+                InspectTime[funCamNumber].Stop();
+                InspectFlag[funCamNumber] = false;
 
-                BeginInvoke((Action)delegate { lb_Cam3_InsTime.Text = InspectTime[2].ElapsedMilliseconds.ToString() + "msec"; });
+                BeginInvoke((Action)delegate { lb_Cam3_InsTime.Text = InspectTime[funCamNumber].ElapsedMilliseconds.ToString() + "msec"; });
                 Thread.Sleep(100);
             }
             catch (Exception ee)
             {
-                log.AddLogMessage(LogType.Error, 0, $"Camera - 3 Error : {ee.Message}");
+                log.AddLogMessage(LogType.Error, 0, $"Camera - {funCamNumber+1} Error : {ee.Message}");
+            }
+        }
+
+        public void ShotAndInspect_Cam4()
+        {
+            int funCamNumber = 3;
+            try
+            {
+                InspectTime[funCamNumber] = new Stopwatch();
+                InspectTime[funCamNumber].Reset();
+                InspectTime[funCamNumber].Start();
+
+                TempCogDisplay[funCamNumber].Image = TempCam[funCamNumber].Run();
+                if (TempCogDisplay[funCamNumber].Image == null)
+                {
+                    log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
+                    return;
+                }
+                if (Inspect_Cam3(TempCogDisplay[funCamNumber]) == true) // 검사 결과
+                {
+                    //검사 결과 OK
+                    BeginInvoke((Action)delegate
+                    {
+                        //DgvResult(dgv_Line1, 0, 1); //-추가된함수
+                        lb_Cam4_Result.BackColor = Color.Lime;
+                        lb_Cam4_Result.Text = "O K";
+                        OK_Count[funCamNumber]++;
+                        if (Glob.OKImageSave)
+                            ImageSave4("OK", funCamNumber + 1, TempCogDisplay[funCamNumber]);
+                    });
+                }
+                else
+                {
+                    BeginInvoke((Action)delegate
+                    {
+                        //DgvResult(dgv_Line1, 0, 1); //-추가된함수
+                        lb_Cam4_Result.BackColor = Color.Red;
+                        lb_Cam4_Result.Text = "N G";
+                        NG_Count[funCamNumber]++;
+                        if (Glob.NGImageSave)
+                            ImageSave4("NG", funCamNumber + 1, TempCogDisplay[funCamNumber]);
+                    });
+                }
+
+                InspectTime[funCamNumber].Stop();
+                InspectFlag[funCamNumber] = false;
+
+                BeginInvoke((Action)delegate { lb_Cam4_InsTime.Text = InspectTime[funCamNumber].ElapsedMilliseconds.ToString() + "msec"; });
+                Thread.Sleep(100);
+            }
+            catch (Exception ee)
+            {
+                log.AddLogMessage(LogType.Error, 0, $"Camera - {funCamNumber + 1} Error : {ee.Message}");
+            }
+        }
+
+        public void ShotAndInspect_Cam5()
+        {
+            int funCamNumber = 4;
+            try
+            {
+                InspectTime[funCamNumber] = new Stopwatch();
+                InspectTime[funCamNumber].Reset();
+                InspectTime[funCamNumber].Start();
+
+                TempCogDisplay[funCamNumber].Image = TempCam[funCamNumber].Run();
+                if (TempCogDisplay[funCamNumber].Image == null)
+                {
+                    log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
+                    return;
+                }
+                if (Inspect_Cam4(TempCogDisplay[funCamNumber]) == true) // 검사 결과
+                {
+                    //검사 결과 OK
+                    BeginInvoke((Action)delegate
+                    {
+                        //DgvResult(dgv_Line1, 0, 1); //-추가된함수
+                        lb_Cam5_Result.BackColor = Color.Lime;
+                        lb_Cam5_Result.Text = "O K";
+                        OK_Count[funCamNumber]++;
+                        if (Glob.OKImageSave)
+                            ImageSave5("OK", funCamNumber + 1, TempCogDisplay[funCamNumber]);
+                    });
+                }
+                else
+                {
+                    BeginInvoke((Action)delegate
+                    {
+                        //DgvResult(dgv_Line1, 0, 1); //-추가된함수
+                        lb_Cam5_Result.BackColor = Color.Red;
+                        lb_Cam5_Result.Text = "N G";
+                        NG_Count[funCamNumber]++;
+                        if (Glob.NGImageSave)
+                            ImageSave5("NG", funCamNumber + 1, TempCogDisplay[funCamNumber]);
+                    });
+                }
+
+                InspectTime[funCamNumber].Stop();
+                InspectFlag[funCamNumber] = false;
+
+                BeginInvoke((Action)delegate { lb_Cam5_InsTime.Text = InspectTime[funCamNumber].ElapsedMilliseconds.ToString() + "msec"; });
+                Thread.Sleep(100);
+            }
+            catch (Exception ee)
+            {
+                log.AddLogMessage(LogType.Error, 0, $"Camera - {funCamNumber + 1} Error : {ee.Message}");
+            }
+        }
+
+        public void ShotAndInspect_Cam6()
+        {
+            int funCamNumber = 5;
+            try
+            {
+                InspectTime[funCamNumber] = new Stopwatch();
+                InspectTime[funCamNumber].Reset();
+                InspectTime[funCamNumber].Start();
+
+                TempCogDisplay[funCamNumber].Image = TempCam[funCamNumber].Run();
+                if (TempCogDisplay[funCamNumber].Image == null)
+                {
+                    log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
+                    return;
+                }
+                if (Inspect_Cam5(TempCogDisplay[funCamNumber]) == true) // 검사 결과
+                {
+                    //검사 결과 OK
+                    BeginInvoke((Action)delegate
+                    {
+                        //DgvResult(dgv_Line1, 0, 1); //-추가된함수
+                        lb_Cam6_Result.BackColor = Color.Lime;
+                        lb_Cam6_Result.Text = "O K";
+                        OK_Count[funCamNumber]++;
+                        if (Glob.OKImageSave)
+                            ImageSave6("OK", funCamNumber + 1, TempCogDisplay[funCamNumber]);
+                    });
+                }
+                else
+                {
+                    BeginInvoke((Action)delegate
+                    {
+                        //DgvResult(dgv_Line1, 0, 1); //-추가된함수
+                        lb_Cam6_Result.BackColor = Color.Red;
+                        lb_Cam6_Result.Text = "N G";
+                        NG_Count[funCamNumber]++;
+                        if (Glob.NGImageSave)
+                            ImageSave6("NG", funCamNumber + 1, TempCogDisplay[funCamNumber]);
+                    });
+                }
+
+                InspectTime[funCamNumber].Stop();
+                InspectFlag[funCamNumber] = false;
+
+                BeginInvoke((Action)delegate { lb_Cam6_InsTime.Text = InspectTime[funCamNumber].ElapsedMilliseconds.ToString() + "msec"; });
+                Thread.Sleep(100);
+            }
+            catch (Exception ee)
+            {
+                log.AddLogMessage(LogType.Error, 0, $"Camera - {funCamNumber + 1} Error : {ee.Message}");
             }
         }
 
         private void IOCHECK()
         {
-            btn_INPUT8.BackColor = gbool_di[8] == true ? Color.Lime : SystemColors.Control;
-            btn_INPUT9.BackColor = gbool_di[9] == true ? Color.Lime : SystemColors.Control;
-            btn_INPUT10.BackColor = gbool_di[10] == true ? Color.Lime : SystemColors.Control;
-            btn_INPUT11.BackColor = gbool_di[11] == true ? Color.Lime : SystemColors.Control;
-            btn_INPUT12.BackColor = gbool_di[12] == true ? Color.Lime : SystemColors.Control;
-            btn_INPUT13.BackColor = gbool_di[13] == true ? Color.Lime : SystemColors.Control;
-            btn_INPUT14.BackColor = gbool_di[14] == true ? Color.Lime : SystemColors.Control;
-            btn_INPUT15.BackColor = gbool_di[15] == true ? Color.Lime : SystemColors.Control;
+            //btn_INPUT8.BackColor = gbool_di[8] == true ? Color.Lime : SystemColors.Control;
+            //btn_INPUT9.BackColor = gbool_di[9] == true ? Color.Lime : SystemColors.Control;
+            //btn_INPUT10.BackColor = gbool_di[10] == true ? Color.Lime : SystemColors.Control;
+            //btn_INPUT11.BackColor = gbool_di[11] == true ? Color.Lime : SystemColors.Control;
+            //btn_INPUT12.BackColor = gbool_di[12] == true ? Color.Lime : SystemColors.Control;
+            //btn_INPUT13.BackColor = gbool_di[13] == true ? Color.Lime : SystemColors.Control;
+            //btn_INPUT14.BackColor = gbool_di[14] == true ? Color.Lime : SystemColors.Control;
+            //btn_INPUT15.BackColor = gbool_di[15] == true ? Color.Lime : SystemColors.Control;
         }
         private void Frm_Main_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (timerSensor.Enabled)
+            {
+                timerSensor.Stop();
+            }
             if (bk_IO.IsBusy == true)
             {
                 bk_IO.CancelAsync();
@@ -1451,7 +1882,7 @@ namespace VISION
             }
             else
             {
-               
+
             }
 
         }
@@ -1803,10 +2234,10 @@ namespace VISION
 
             }
         }
-       
+
         private void Frm_Main_Paint(object sender, PaintEventArgs e)
         {
-           
+
         }
 
         private void btn_Log_Click(object sender, EventArgs e)
@@ -1823,7 +2254,7 @@ namespace VISION
             frm_analyzeresult.Show();
         }
 
-      
+
         private void button1_Click(object sender, EventArgs e)
         {
             cdyDisplay.Image = TempCam[2].Run();
@@ -1838,18 +2269,165 @@ namespace VISION
             }
             catch (Exception ex)
             {
-                log.AddLogMessage(LogType.Error,0,ex.Message);
+                log.AddLogMessage(LogType.Error, 0, ex.Message);
             }
         }
-    }
 
-    public static class ExtensionMethods
-    {
-        public static void DoubleBuffered(this DataGridView dgv, bool setting)
+        private void timerSensor_Tick(object sender, EventArgs e)
         {
-            Type dgvtype = dgv.GetType();
-            PropertyInfo pi = dgvtype.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
-            pi.SetValue(dgv, setting, null);
+            short nIndex = 0;
+            uint uDataHigh = 0;
+            uint uDataLow = 0;
+            uint uFlagHigh = 0;
+            uint uFlagLow = 0;
+            int nBoardNo = 0;
+            int nModulePos = 0;
+            uint uModuleID = 0;
+
+            CAXD.AxdInfoGetModule(0, ref nBoardNo, ref nModulePos, ref uModuleID);
+
+            switch ((AXT_MODULE)uModuleID)
+            {
+                case AXT_MODULE.AXT_SIO_DI32:
+                case AXT_MODULE.AXT_SIO_RDI32:
+                case AXT_MODULE.AXT_SIO_RSIMPLEIOMLII:
+                case AXT_MODULE.AXT_SIO_RDO16AMLII:
+                case AXT_MODULE.AXT_SIO_RDO16BMLII:
+                case AXT_MODULE.AXT_SIO_DI32_P:
+                case AXT_MODULE.AXT_SIO_RDI32RTEX:
+                    //++
+                    // Read inputting signal in WORD
+                    for (int i = 0; i < 12; i++)
+                    {
+                        re_gbool_di[i] = gbool_di[i];
+                    }
+
+                    CAXD.AxdiReadInportWord(0, 0, ref uDataHigh);
+                    CAXD.AxdiReadInportWord(0, 1, ref uDataLow);
+
+                    for (nIndex = 0; nIndex < 12; nIndex++)
+                    {
+                        // Verify the last bit value of data read
+                        uFlagHigh = uDataHigh & 0x0001;
+                        uFlagLow = uDataLow & 0x0001;
+
+                        // Shift rightward by bit by bit
+                        uDataHigh = uDataHigh >> 1;
+                        uDataLow = uDataLow >> 1;
+
+                        // Updat bit value in control
+                        if (uFlagHigh == 1)
+                        {
+                            gbool_di[nIndex] = true;
+                            inputBtn[nIndex].BackColor = Color.Lime;
+                        }
+                        else
+                        {
+                            gbool_di[nIndex] = false;
+                            inputBtn[nIndex].BackColor = SystemColors.Control;
+                        }
+                    }
+
+                    for (int i = 0; i < 12; i++)
+                    {
+                        if (gbool_di[i] != re_gbool_di[i] && gbool_di[i] == true)
+                        {
+                            log.AddLogMessage(LogType.Infomation, 0, i.ToString());
+                            switch (i)
+                            {
+                                case 0:
+                                    SnapShot(0, cdyDisplay);
+                                    break;
+                                case 1:
+                                    SnapShot(1, cdyDisplay2);
+                                    SnapShot(2, cdyDisplay3);
+                                    break;
+                                case 2:
+                                    SnapShot(3, cdyDisplay4);
+                                    break;
+                                case 3:
+                                    SnapShot(4, cdyDisplay5);
+                                    break;
+                                case 4:
+                                    SnapShot(5, cdyDisplay6);
+                                    break;
+                              
+                            }
+                        }
+                    }
+                    break;
+
+                case AXT_MODULE.AXT_SIO_DB32P:
+                case AXT_MODULE.AXT_SIO_DB32T:
+                case AXT_MODULE.AXT_SIO_RDB32T:
+                case AXT_MODULE.AXT_SIO_RDB32RTEX:
+                case AXT_MODULE.AXT_SIO_RDB96MLII:
+                case AXT_MODULE.AXT_SIO_RDB128MLII:
+                    //++
+                    // Read inputting signal in WORD
+                    CAXD.AxdiReadInportWord(0, 0, ref uDataHigh);
+
+                    for (nIndex = 0; nIndex < 12; nIndex++)
+                    {
+                        // Verify the last bit value of data read
+                        uFlagHigh = uDataHigh & 0x0001;
+
+                        // Shift rightward by bit by bit
+                        uDataHigh = uDataHigh >> 1;
+
+                        // Updat bit value in control
+                        if (uFlagHigh == 1)
+                            inputBtn[nIndex].BackColor = Color.Lime;
+                        else
+                            inputBtn[nIndex].BackColor = SystemColors.Control;
+                    }
+                    break;
+            }
         }
+
+        private bool SelectHighIndex(int nIndex, uint uValue)
+        {
+            int nModuleCount = 0;
+
+            CAXD.AxdInfoGetModuleCount(ref nModuleCount);
+
+            if (nModuleCount > 0)
+            {
+                int nBoardNo = 0;
+                int nModulePos = 0;
+                uint uModuleID = 0;
+
+                CAXD.AxdInfoGetModule(1, ref nBoardNo, ref nModulePos, ref uModuleID);
+
+                switch ((AXT_MODULE)uModuleID)
+                {
+                    case AXT_MODULE.AXT_SIO_DO32P:
+                    case AXT_MODULE.AXT_SIO_DO32T:
+                    case AXT_MODULE.AXT_SIO_RDO32:
+                        CAXD.AxdoWriteOutportBit(1, nIndex, uValue);
+                        break;
+
+                    default:
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void btn_OUTPUT0_CheckedChanged(object sender, EventArgs e)
+        {
+            int jobNo = Convert.ToInt16((sender as System.Windows.Forms.CheckBox).Tag);
+            SelectHighIndex(jobNo, (uint)outputBtn[jobNo].CheckState);
+        }
+    }
+}
+public static class ExtensionMethods
+{
+    public static void DoubleBuffered(this DataGridView dgv, bool setting)
+    {
+        Type dgvtype = dgv.GetType();
+        PropertyInfo pi = dgvtype.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+        pi.SetValue(dgv, setting, null);
     }
 }

@@ -450,6 +450,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AXD.cs" />
+    <Compile Include="AXHS.cs" />
+    <Compile Include="AXL.cs" />
     <Compile Include="Class_Common.cs" />
     <Compile Include="Cogs\Blob.cs" />
     <Compile Include="Cogs\Caliper.cs" />
@@ -459,7 +462,6 @@
     <Compile Include="Cogs\Line.cs" />
     <Compile Include="Cogs\Model.cs" />
     <Compile Include="Cogs\MultiPattern.cs" />
-    <Compile Include="DASK.cs" />
     <Compile Include="Frm_AnalyzeResult.cs">
       <SubType>Form</SubType>
     </Compile>
