@@ -24,7 +24,7 @@ namespace VISION.Cogs
             return true;
         }
 
-        public CogImage8Grey Run()
+        public  CogImage8Grey Run()
         {
             this.camTool.Run();
             CogImage8Grey Image = (CogImage8Grey)camTool.OutputImage;

@@ -2332,24 +2332,61 @@ namespace VISION
                     {
                         if (gbool_di[i] != re_gbool_di[i] && gbool_di[i] == true)
                         {
-                            log.AddLogMessage(LogType.Infomation, 0, i.ToString());
+                            log.AddLogMessage(LogType.Infomation, 0, $"Signal Number : {i.ToString()}");
                             switch (i)
                             {
                                 case 0:
-                                    SnapShot(0, cdyDisplay);
+                                    cdyDisplay.Image = null;
+                                    cdyDisplay.InteractiveGraphics.Clear();
+                                    cdyDisplay.StaticGraphics.Clear();
+
+                                    snap1 = new Thread(new ThreadStart(ShotAndInspect_Cam1));
+                                    snap1.Priority = ThreadPriority.Highest;
+                                    snap1.Start();
                                     break;
                                 case 1:
-                                    SnapShot(1, cdyDisplay2);
-                                    SnapShot(2, cdyDisplay3);
+                                    cdyDisplay2.Image = null;
+                                    cdyDisplay2.InteractiveGraphics.Clear();
+                                    cdyDisplay2.StaticGraphics.Clear();
+
+                                    cdyDisplay3.Image = null;
+                                    cdyDisplay3.InteractiveGraphics.Clear();
+                                    cdyDisplay3.StaticGraphics.Clear();
+
+                                    snap2 = new Thread(new ThreadStart(ShotAndInspect_Cam2));
+                                    snap2.Priority = ThreadPriority.Highest;
+                                    snap2.Start();
+
+                                    snap3 = new Thread(new ThreadStart(ShotAndInspect_Cam3));
+                                    snap3.Priority = ThreadPriority.Highest;
+                                    snap3.Start();
                                     break;
                                 case 2:
-                                    SnapShot(3, cdyDisplay4);
+                                    cdyDisplay4.Image = null;
+                                    cdyDisplay4.InteractiveGraphics.Clear();
+                                    cdyDisplay4.StaticGraphics.Clear();
+
+                                    snap4 = new Thread(new ThreadStart(ShotAndInspect_Cam4));
+                                    snap4.Priority = ThreadPriority.Highest;
+                                    snap4.Start();
                                     break;
                                 case 3:
-                                    SnapShot(4, cdyDisplay5);
+                                    cdyDisplay5.Image = null;
+                                    cdyDisplay5.InteractiveGraphics.Clear();
+                                    cdyDisplay5.StaticGraphics.Clear();
+
+                                    snap5 = new Thread(new ThreadStart(ShotAndInspect_Cam5));
+                                    snap5.Priority = ThreadPriority.Highest;
+                                    snap5.Start();
                                     break;
                                 case 4:
-                                    SnapShot(5, cdyDisplay6);
+                                    cdyDisplay6.Image = null;
+                                    cdyDisplay6.InteractiveGraphics.Clear();
+                                    cdyDisplay6.StaticGraphics.Clear();
+
+                                    snap6 = new Thread(new ThreadStart(ShotAndInspect_Cam6));
+                                    snap6.Priority = ThreadPriority.Highest;
+                                    snap6.Start();
                                     break;
                               
                             }
