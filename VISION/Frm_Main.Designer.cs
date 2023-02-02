@@ -2535,6 +2535,7 @@
             // 
             // timerSensor
             // 
+            this.timerSensor.Interval = 30;
             this.timerSensor.Tick += new System.EventHandler(this.timerSensor_Tick);
             // 
             // Frm_Main
@@ -2759,7 +2760,6 @@
         public System.Windows.Forms.Button btn_INPUT8;
         public System.Windows.Forms.Button btn_INPUT9;
         public System.Windows.Forms.Button btn_INPUT10;
-        private System.Windows.Forms.Timer timerSensor;
         private System.Windows.Forms.CheckBox btn_OUTPUT8;
         private System.Windows.Forms.CheckBox btn_OUTPUT9;
         private System.Windows.Forms.CheckBox btn_OUTPUT6;
@@ -2772,6 +2772,7 @@
         private System.Windows.Forms.CheckBox btn_OUTPUT1;
         private System.Windows.Forms.CheckBox btn_OUTPUT10;
         private System.Windows.Forms.CheckBox btn_OUTPUT11;
+        public System.Windows.Forms.Timer timerSensor;
     }
 }
 

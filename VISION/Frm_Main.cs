@@ -2273,6 +2273,74 @@ namespace VISION
             }
         }
 
+        public void SnapShot1()
+        {
+            try
+            {
+                cdyDisplay.Image = TempCam[0].Run();
+            }
+            catch (Exception ex)
+            {
+                log.AddLogMessage(LogType.Error, 0, ex.Message);
+            }
+        }
+        public void SnapShot2()
+        {
+            try
+            {
+                cdyDisplay2.Image = TempCam[1].Run();
+            }
+            catch (Exception ex)
+            {
+                log.AddLogMessage(LogType.Error, 0, ex.Message);
+            }
+        }
+        public void SnapShot3()
+        {
+            try
+            {
+                cdyDisplay3.Image = TempCam[2].Run();
+            }
+            catch (Exception ex)
+            {
+                log.AddLogMessage(LogType.Error, 0, ex.Message);
+            }
+        }
+        public void SnapShot4()
+        {
+            try
+            {
+                cdyDisplay4.Image = TempCam[3].Run();
+            }
+            catch (Exception ex)
+            {
+                log.AddLogMessage(LogType.Error, 0, ex.Message);
+            }
+        }
+        public void SnapShot5()
+        {
+            try
+            {
+                cdyDisplay5.Image = TempCam[4].Run();
+            }
+            catch (Exception ex)
+            {
+                log.AddLogMessage(LogType.Error, 0, ex.Message);
+            }
+        }
+        public void SnapShot6()
+        {
+            try
+            {
+                cdyDisplay6.Image = TempCam[5].Run();
+            }
+            catch (Exception ex)
+            {
+                log.AddLogMessage(LogType.Error, 0, ex.Message);
+            }
+        }
+
+
         private void timerSensor_Tick(object sender, EventArgs e)
         {
             short nIndex = 0;
@@ -2340,7 +2408,7 @@ namespace VISION
                                     cdyDisplay.InteractiveGraphics.Clear();
                                     cdyDisplay.StaticGraphics.Clear();
 
-                                    snap1 = new Thread(new ThreadStart(ShotAndInspect_Cam1));
+                                    snap1 = new Thread(new ThreadStart(SnapShot1));
                                     snap1.Priority = ThreadPriority.Highest;
                                     snap1.Start();
                                     break;
@@ -2349,15 +2417,15 @@ namespace VISION
                                     cdyDisplay2.InteractiveGraphics.Clear();
                                     cdyDisplay2.StaticGraphics.Clear();
 
+                                    snap2 = new Thread(new ThreadStart(SnapShot2));
+                                    snap2.Priority = ThreadPriority.Highest;
+                                    snap2.Start();
+
                                     cdyDisplay3.Image = null;
                                     cdyDisplay3.InteractiveGraphics.Clear();
                                     cdyDisplay3.StaticGraphics.Clear();
 
-                                    snap2 = new Thread(new ThreadStart(ShotAndInspect_Cam2));
-                                    snap2.Priority = ThreadPriority.Highest;
-                                    snap2.Start();
-
-                                    snap3 = new Thread(new ThreadStart(ShotAndInspect_Cam3));
+                                    snap3 = new Thread(new ThreadStart(SnapShot3));
                                     snap3.Priority = ThreadPriority.Highest;
                                     snap3.Start();
                                     break;
@@ -2366,7 +2434,7 @@ namespace VISION
                                     cdyDisplay4.InteractiveGraphics.Clear();
                                     cdyDisplay4.StaticGraphics.Clear();
 
-                                    snap4 = new Thread(new ThreadStart(ShotAndInspect_Cam4));
+                                    snap4 = new Thread(new ThreadStart(SnapShot4));
                                     snap4.Priority = ThreadPriority.Highest;
                                     snap4.Start();
                                     break;
@@ -2375,7 +2443,7 @@ namespace VISION
                                     cdyDisplay5.InteractiveGraphics.Clear();
                                     cdyDisplay5.StaticGraphics.Clear();
 
-                                    snap5 = new Thread(new ThreadStart(ShotAndInspect_Cam5));
+                                    snap5 = new Thread(new ThreadStart(SnapShot5));
                                     snap5.Priority = ThreadPriority.Highest;
                                     snap5.Start();
                                     break;
@@ -2384,7 +2452,7 @@ namespace VISION
                                     cdyDisplay6.InteractiveGraphics.Clear();
                                     cdyDisplay6.StaticGraphics.Clear();
 
-                                    snap6 = new Thread(new ThreadStart(ShotAndInspect_Cam6));
+                                    snap6 = new Thread(new ThreadStart(SnapShot6));
                                     snap6.Priority = ThreadPriority.Highest;
                                     snap6.Start();
                                     break;
@@ -2402,6 +2470,7 @@ namespace VISION
                 case AXT_MODULE.AXT_SIO_RDB128MLII:
                     //++
                     // Read inputting signal in WORD
+                    log.AddLogMessage(LogType.Infomation, 0, "axt sio rdb12ml11");
                     CAXD.AxdiReadInportWord(0, 0, ref uDataHigh);
 
                     for (nIndex = 0; nIndex < 12; nIndex++)
