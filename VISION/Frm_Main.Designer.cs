@@ -1332,7 +1332,7 @@
             this.btn_INPUT7.Size = new System.Drawing.Size(233, 34);
             this.btn_INPUT7.TabIndex = 18;
             this.btn_INPUT7.Tag = "7";
-            this.btn_INPUT7.Text = "Input 7";
+            this.btn_INPUT7.Text = "Cam 6 Trigger";
             this.btn_INPUT7.UseVisualStyleBackColor = true;
             // 
             // btn_INPUT6
@@ -1344,7 +1344,7 @@
             this.btn_INPUT6.Size = new System.Drawing.Size(233, 34);
             this.btn_INPUT6.TabIndex = 14;
             this.btn_INPUT6.Tag = "6";
-            this.btn_INPUT6.Text = "Input 6";
+            this.btn_INPUT6.Text = "Cam 4 Trigger";
             this.btn_INPUT6.UseVisualStyleBackColor = true;
             // 
             // btn_INPUT5
@@ -1356,7 +1356,7 @@
             this.btn_INPUT5.Size = new System.Drawing.Size(233, 34);
             this.btn_INPUT5.TabIndex = 12;
             this.btn_INPUT5.Tag = "5";
-            this.btn_INPUT5.Text = "Input 5";
+            this.btn_INPUT5.Text = "Cam 5 Trigger";
             this.btn_INPUT5.UseVisualStyleBackColor = true;
             // 
             // btn_INPUT4
@@ -1368,7 +1368,7 @@
             this.btn_INPUT4.Size = new System.Drawing.Size(233, 34);
             this.btn_INPUT4.TabIndex = 10;
             this.btn_INPUT4.Tag = "4";
-            this.btn_INPUT4.Text = "Cam 5 Trigger";
+            this.btn_INPUT4.Text = "Cam 4 Trigger";
             this.btn_INPUT4.UseVisualStyleBackColor = true;
             // 
             // btn_INPUT3
@@ -1380,7 +1380,7 @@
             this.btn_INPUT3.Size = new System.Drawing.Size(233, 34);
             this.btn_INPUT3.TabIndex = 8;
             this.btn_INPUT3.Tag = "3";
-            this.btn_INPUT3.Text = "Cam 4 Trigger";
+            this.btn_INPUT3.Text = "Cam 5 Trigger";
             this.btn_INPUT3.UseVisualStyleBackColor = true;
             // 
             // btn_INPUT2
@@ -1392,7 +1392,7 @@
             this.btn_INPUT2.Size = new System.Drawing.Size(233, 34);
             this.btn_INPUT2.TabIndex = 6;
             this.btn_INPUT2.Tag = "2";
-            this.btn_INPUT2.Text = "Cam 3 Trigger";
+            this.btn_INPUT2.Text = "Cam 4 Trigger";
             this.btn_INPUT2.UseVisualStyleBackColor = true;
             // 
             // btn_INPUT1
@@ -1404,7 +1404,7 @@
             this.btn_INPUT1.Size = new System.Drawing.Size(233, 34);
             this.btn_INPUT1.TabIndex = 4;
             this.btn_INPUT1.Tag = "1";
-            this.btn_INPUT1.Text = "Cam 2 Trigger";
+            this.btn_INPUT1.Text = "Cam 2 / Cam 3 Trigger";
             this.btn_INPUT1.UseVisualStyleBackColor = true;
             // 
             // label2

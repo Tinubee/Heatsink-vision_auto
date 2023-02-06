@@ -538,14 +538,7 @@ namespace VISION
 
             }
         }
-        //Output 신호들
-        // 0 = Line #1 Vision Ready      8 = Line #2 Vision Ready
-        // 1 = CAM 1 Ok                  9 = CAM 4 Ok 
-        // 2 = CAM 1 NG                 10 = CAM 4 NG
-        // 3 = CAM 2 OK                 11 = CAM 5 OK
-        // 4 = CAM 2 NG                 12 = CAM 5 NG
-        // 5 = CAM 3 OK                 13 = CAM 6 OK
-        // 6 = CAM 3 NG                 14 = CAM 6 NG
+      
 
         private void bk_IO_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -553,7 +546,7 @@ namespace VISION
             {
 
                 //IO CHECK - DISPLAY 표시 부분
-                BeginInvoke((Action)delegate { IOCHECK(); });
+                
 
 
 
@@ -907,17 +900,7 @@ namespace VISION
             }
         }
 
-        private void IOCHECK()
-        {
-            //btn_INPUT8.BackColor = gbool_di[8] == true ? Color.Lime : SystemColors.Control;
-            //btn_INPUT9.BackColor = gbool_di[9] == true ? Color.Lime : SystemColors.Control;
-            //btn_INPUT10.BackColor = gbool_di[10] == true ? Color.Lime : SystemColors.Control;
-            //btn_INPUT11.BackColor = gbool_di[11] == true ? Color.Lime : SystemColors.Control;
-            //btn_INPUT12.BackColor = gbool_di[12] == true ? Color.Lime : SystemColors.Control;
-            //btn_INPUT13.BackColor = gbool_di[13] == true ? Color.Lime : SystemColors.Control;
-            //btn_INPUT14.BackColor = gbool_di[14] == true ? Color.Lime : SystemColors.Control;
-            //btn_INPUT15.BackColor = gbool_di[15] == true ? Color.Lime : SystemColors.Control;
-        }
+       
         private void Frm_Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (timerSensor.Enabled)
@@ -943,10 +926,9 @@ namespace VISION
             btn_SystemSetup.Enabled = false;
             btn_Stop.Enabled = true;
             CognexModelLoad();
-            if (bk_IO.IsBusy == false) //I/O 백그라운드가 돌고있지 않으면.
+            if(timerSensor.Enabled == false)
             {
-                //I/O 백드라운드 동작 시작.
-                bk_IO.RunWorkerAsync();
+                timerSensor.Enabled = true;
             }
         }
         public void CognexModelLoad()
@@ -2403,21 +2385,21 @@ namespace VISION
                             log.AddLogMessage(LogType.Infomation, 0, $"Signal Number : {i.ToString()}");
                             switch (i)
                             {
-                                case 0:
+                                case 0: //1번째 라인스캔 카메라 촬영 신호 Cam 1
                                     cdyDisplay.Image = null;
                                     cdyDisplay.InteractiveGraphics.Clear();
                                     cdyDisplay.StaticGraphics.Clear();
 
-                                    snap1 = new Thread(new ThreadStart(SnapShot1));
+                                    snap1 = new Thread(new ThreadStart(ShotAndInspect_Cam1));
                                     snap1.Priority = ThreadPriority.Highest;
                                     snap1.Start();
                                     break;
-                                case 1:
+                                case 1: //사이드 라인스캔 카메라 촬영신호 Cam 2 & Cam 3
                                     cdyDisplay2.Image = null;
                                     cdyDisplay2.InteractiveGraphics.Clear();
                                     cdyDisplay2.StaticGraphics.Clear();
 
-                                    snap2 = new Thread(new ThreadStart(SnapShot2));
+                                    snap2 = new Thread(new ThreadStart(ShotAndInspect_Cam2));
                                     snap2.Priority = ThreadPriority.Highest;
                                     snap2.Start();
 
@@ -2425,37 +2407,65 @@ namespace VISION
                                     cdyDisplay3.InteractiveGraphics.Clear();
                                     cdyDisplay3.StaticGraphics.Clear();
 
-                                    snap3 = new Thread(new ThreadStart(SnapShot3));
+                                    snap3 = new Thread(new ThreadStart(ShotAndInspect_Cam3));
                                     snap3.Priority = ThreadPriority.Highest;
                                     snap3.Start();
                                     break;
-                                case 2:
+                                case 2: //4번촬영
                                     cdyDisplay4.Image = null;
                                     cdyDisplay4.InteractiveGraphics.Clear();
                                     cdyDisplay4.StaticGraphics.Clear();
 
-                                    snap4 = new Thread(new ThreadStart(SnapShot4));
+                                    snap4 = new Thread(new ThreadStart(ShotAndInspect_Cam4));
                                     snap4.Priority = ThreadPriority.Highest;
                                     snap4.Start();
                                     break;
-                                case 3:
+                                case 3: //5번촬영
                                     cdyDisplay5.Image = null;
                                     cdyDisplay5.InteractiveGraphics.Clear();
                                     cdyDisplay5.StaticGraphics.Clear();
 
-                                    snap5 = new Thread(new ThreadStart(SnapShot5));
+                                    snap5 = new Thread(new ThreadStart(ShotAndInspect_Cam5));
                                     snap5.Priority = ThreadPriority.Highest;
                                     snap5.Start();
                                     break;
-                                case 4:
+                                case 4: //4번촬영
+                                    cdyDisplay4.Image = null;
+                                    cdyDisplay4.InteractiveGraphics.Clear();
+                                    cdyDisplay4.StaticGraphics.Clear();
+
+                                    snap4 = new Thread(new ThreadStart(ShotAndInspect_Cam4));
+                                    snap4.Priority = ThreadPriority.Highest;
+                                    snap4.Start();
+                                    break;
+                                case 5: //5번촬영
+                                    cdyDisplay5.Image = null;
+                                    cdyDisplay5.InteractiveGraphics.Clear();
+                                    cdyDisplay5.StaticGraphics.Clear();
+
+                                    snap5 = new Thread(new ThreadStart(ShotAndInspect_Cam5));
+                                    snap5.Priority = ThreadPriority.Highest;
+                                    snap5.Start();
+                                    break;
+                                case 6: //4번촬영
+                                    cdyDisplay4.Image = null;
+                                    cdyDisplay4.InteractiveGraphics.Clear();
+                                    cdyDisplay4.StaticGraphics.Clear();
+
+                                    snap4 = new Thread(new ThreadStart(ShotAndInspect_Cam4));
+                                    snap4.Priority = ThreadPriority.Highest;
+                                    snap4.Start();
+                                    break;
+                                case 7:
                                     cdyDisplay6.Image = null;
                                     cdyDisplay6.InteractiveGraphics.Clear();
                                     cdyDisplay6.StaticGraphics.Clear();
 
-                                    snap6 = new Thread(new ThreadStart(SnapShot6));
+                                    snap6 = new Thread(new ThreadStart(ShotAndInspect_Cam6));
                                     snap6.Priority = ThreadPriority.Highest;
                                     snap6.Start();
                                     break;
+
                               
                             }
                         }
