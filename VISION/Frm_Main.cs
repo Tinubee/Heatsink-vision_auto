@@ -870,7 +870,7 @@ namespace VISION
             }
         }
 
-        public void ShotAndInspect_Cam6()
+        public void ShotAndInspect_Cam6(CogDisplay cdy)
         {
             int funCamNumber = 5;
             try
@@ -879,15 +879,15 @@ namespace VISION
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
 
-                TempCogDisplay[funCamNumber].Image = TempCam[funCamNumber].Run();
-                TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
-                TempCogDisplay[funCamNumber].StaticGraphics.Clear();
-                if (TempCogDisplay[funCamNumber].Image == null)
+                cdy.Image = TempCam[funCamNumber].Run();
+                cdy.InteractiveGraphics.Clear();
+                cdy.StaticGraphics.Clear();
+                if (cdy.Image == null)
                 {
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
                     return;
                 }
-                if (Inspect_Cam5(TempCogDisplay[funCamNumber]) == true) // 검사 결과
+                if (Inspect_Cam5(cdy) == true) // 검사 결과
                 {
                     //검사 결과 OK
                     BeginInvoke((Action)delegate
@@ -897,7 +897,7 @@ namespace VISION
                         lb_Cam6_Result.Text = "O K";
                         OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
-                            ImageSave6("OK", funCamNumber + 1, TempCogDisplay[funCamNumber]);
+                            ImageSave6("OK", funCamNumber + 1, cdy);
                     });
                 }
                 else
@@ -909,7 +909,7 @@ namespace VISION
                         lb_Cam6_Result.Text = "N G";
                         NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
-                            ImageSave6("NG", funCamNumber + 1, TempCogDisplay[funCamNumber]);
+                            ImageSave6("NG", funCamNumber + 1, cdy);
                     });
                 }
 
@@ -2363,7 +2363,7 @@ namespace VISION
         private void ReadInputSignal()
         {
             this.IO_DoWork = true;
-            Debug.WriteLine("IO Read Started!");
+            log.AddLogMessage(LogType.Infomation,0, "IO Read Started!"); ;
             while (IO_DoWork)
             {
                 UInt32 iVal = 0;
@@ -2408,19 +2408,19 @@ namespace VISION
                             Task.Run(() => { ShotAndInspect_Cam5(cdyDisplay5_1); });
                             break;
                         case 7:
-                            Task.Run(() => { ShotAndInspect_Cam6(); });
+                            Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6); });
                             break;
                         case 8:
-                            Task.Run(() => { ShotAndInspect_Cam6(); });
+                            Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6_2); });
                             break;
                         case 9:
-                            Task.Run(() => { ShotAndInspect_Cam6(); });
+                            Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6_3); });
                             break;
                         case 10:
-                            Task.Run(() => { ShotAndInspect_Cam6(); });
+                            Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6_4); });
                             break;
                         case 11:
-                            Task.Run(() => { ShotAndInspect_Cam6(); });
+                            Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6_5); });
                             break;
                     }
                 }
