@@ -24,6 +24,7 @@ using Cognex.VisionPro.FGGigE;
 using VISION.Cogs;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using System.Net.Sockets;
+using System.Collections;
 
 namespace VISION
 {
@@ -84,8 +85,11 @@ namespace VISION
         Thread snap2; //CAM2 Shot 쓰레드
         Thread snap3; //CAM3 Shot 쓰레드
 
-        Thread snap4; //CAM4 Shot 쓰레드
-        Thread snap5; //CAM5 Shot 쓰레드
+        Thread snap4_1; //CAM4 Shot 쓰레드
+        Thread snap4_2;
+        Thread snap4_3;
+        Thread snap5_1; //CAM5 Shot 쓰레드
+        Thread snap5_2;
         Thread snap6; //CAM6 Shot 쓰레드
 
         Label[] OK_Label;
@@ -109,6 +113,7 @@ namespace VISION
         public readonly static uint STATUS_WAIT_0 = 0x00000000;
         public readonly static uint WAIT_OBJECT_0 = ((STATUS_WAIT_0) + 0);
 
+        private DateTime[] TrigTime = new DateTime[12];
         public bool[] gbool_di = new bool[12];
         public bool[] re_gbool_di = new bool[12];
 
@@ -123,10 +128,18 @@ namespace VISION
             Glob = PGgloble.getInstance; //전역변수 사용
             Process.Start($"{Glob.LOADINGFROM}");
             InitializeComponent();
+
+            // 주석처리함
+            //this.timerSensor.Tick += this.timerSensor_Tick;
+
             ColumnHeader h = new ColumnHeader();
             StandFirst(); //처음 실행되어야 하는부분. - 이거 왜했지.. 이유는 모르겠다 일단 냅두자 필요없을꺼같기도함. - 20200121 김형민
             CamSet();
             Glob.RunnModel = new Cogs.Model(); //코그넥스 모델 확인.
+
+            // 최종 트리거 시간 초기화
+            for (Int32 i = 0; i < this.TrigTime.Length; i++)
+                this.TrigTime[i] = DateTime.Today;
         }
         public void StandFirst()
         {
@@ -157,6 +170,10 @@ namespace VISION
             {
                 myProcesses[0].Kill();
             }
+
+
+            // Trig Start
+            new Thread(ReadInputSignal).Start();
         }
         private void CamSet()
         {
@@ -370,7 +387,7 @@ namespace VISION
             if (OpenDevice())
             {
                 //radioMessage.Checked = true;
-                timerSensor.Enabled = true;
+                //timerSensor.Enabled = true;
                 //frmDigitalIO = this;
             }
             CheckForIllegalCrossThreadCalls = false;
@@ -546,9 +563,6 @@ namespace VISION
             {
 
                 //IO CHECK - DISPLAY 표시 부분
-                
-
-
 
                 //case 0:
                 //    snap1 = new Thread(new ThreadStart(ShotAndInspect_Cam1));
@@ -576,9 +590,6 @@ namespace VISION
                 //        }
                 //    }
                 //    break;
-
-
-
             }
         }
 
@@ -589,8 +600,10 @@ namespace VISION
                 InspectTime[0] = new Stopwatch();
                 InspectTime[0].Reset();
                 InspectTime[0].Start();
-
                 TempCogDisplay[0].Image = TempCam[0].Run();
+                TempCogDisplay[0].InteractiveGraphics.Clear();
+                TempCogDisplay[0].StaticGraphics.Clear();
+
                 if (TempCogDisplay[0].Image == null)
                 {
                     log.AddLogMessage(LogType.Error, 0, "이미지 획들을 하지 못하였습니다. CAM - 1");
@@ -643,6 +656,8 @@ namespace VISION
                 InspectTime[1].Start();
 
                 TempCogDisplay[1].Image = TempCam[1].Run();
+                TempCogDisplay[1].InteractiveGraphics.Clear();
+                TempCogDisplay[1].StaticGraphics.Clear();
                 if (TempCogDisplay[1].Image == null)
                 {
                     log.AddLogMessage(LogType.Error, 0, "이미지 획들을 하지 못하였습니다. CAM - 2");
@@ -698,6 +713,8 @@ namespace VISION
                 InspectTime[funCamNumber].Start();
 
                 TempCogDisplay[funCamNumber].Image = TempCam[funCamNumber].Run();
+                TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
+                TempCogDisplay[funCamNumber].StaticGraphics.Clear();
                 if (TempCogDisplay[funCamNumber].Image == null)
                 {
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber+1}");
@@ -741,7 +758,7 @@ namespace VISION
             }
         }
 
-        public void ShotAndInspect_Cam4()
+        public void ShotAndInspect_Cam4(CogDisplay cdy)
         {
             int funCamNumber = 3;
             try
@@ -750,13 +767,16 @@ namespace VISION
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
 
-                TempCogDisplay[funCamNumber].Image = TempCam[funCamNumber].Run();
-                if (TempCogDisplay[funCamNumber].Image == null)
+                cdy.Image = TempCam[funCamNumber].Run();
+                cdy.InteractiveGraphics.Clear();
+                cdy.StaticGraphics.Clear();
+
+                if (cdy.Image == null)
                 {
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
                     return;
                 }
-                if (Inspect_Cam3(TempCogDisplay[funCamNumber]) == true) // 검사 결과
+                if (Inspect_Cam3(cdy) == true) // 검사 결과
                 {
                     //검사 결과 OK
                     BeginInvoke((Action)delegate
@@ -766,7 +786,7 @@ namespace VISION
                         lb_Cam4_Result.Text = "O K";
                         OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
-                            ImageSave4("OK", funCamNumber + 1, TempCogDisplay[funCamNumber]);
+                            ImageSave4("OK", funCamNumber + 1, cdy);
                     });
                 }
                 else
@@ -778,7 +798,7 @@ namespace VISION
                         lb_Cam4_Result.Text = "N G";
                         NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
-                            ImageSave4("NG", funCamNumber + 1, TempCogDisplay[funCamNumber]);
+                            ImageSave4("NG", funCamNumber + 1, cdy);
                     });
                 }
 
@@ -794,7 +814,7 @@ namespace VISION
             }
         }
 
-        public void ShotAndInspect_Cam5()
+        public void ShotAndInspect_Cam5(CogDisplay cdy)
         {
             int funCamNumber = 4;
             try
@@ -803,13 +823,16 @@ namespace VISION
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
 
-                TempCogDisplay[funCamNumber].Image = TempCam[funCamNumber].Run();
-                if (TempCogDisplay[funCamNumber].Image == null)
+                cdy.Image = TempCam[funCamNumber].Run();
+                cdy.InteractiveGraphics.Clear();
+                cdy.StaticGraphics.Clear();
+
+                if ( cdy.Image == null)
                 {
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
                     return;
                 }
-                if (Inspect_Cam4(TempCogDisplay[funCamNumber]) == true) // 검사 결과
+                if (Inspect_Cam4(cdy) == true) // 검사 결과
                 {
                     //검사 결과 OK
                     BeginInvoke((Action)delegate
@@ -819,7 +842,7 @@ namespace VISION
                         lb_Cam5_Result.Text = "O K";
                         OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
-                            ImageSave5("OK", funCamNumber + 1, TempCogDisplay[funCamNumber]);
+                            ImageSave5("OK", funCamNumber + 1, cdy);
                     });
                 }
                 else
@@ -831,7 +854,7 @@ namespace VISION
                         lb_Cam5_Result.Text = "N G";
                         NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
-                            ImageSave5("NG", funCamNumber + 1, TempCogDisplay[funCamNumber]);
+                            ImageSave5("NG", funCamNumber + 1, cdy);
                     });
                 }
 
@@ -857,6 +880,8 @@ namespace VISION
                 InspectTime[funCamNumber].Start();
 
                 TempCogDisplay[funCamNumber].Image = TempCam[funCamNumber].Run();
+                TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
+                TempCogDisplay[funCamNumber].StaticGraphics.Clear();
                 if (TempCogDisplay[funCamNumber].Image == null)
                 {
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
@@ -903,6 +928,8 @@ namespace VISION
        
         private void Frm_Main_FormClosing(object sender, FormClosingEventArgs e)
         {
+            this.IO_DoWork = false;
+
             if (timerSensor.Enabled)
             {
                 timerSensor.Stop();
@@ -915,6 +942,11 @@ namespace VISION
             {
                 LightOFF();
             }
+            for (int i = 0; i < Glob.allCameraCount; i++)
+            {
+                TempCam[i].Close();
+            }
+            
         }
 
         private void btn_Status_Click(object sender, EventArgs e)
@@ -926,10 +958,12 @@ namespace VISION
             btn_SystemSetup.Enabled = false;
             btn_Stop.Enabled = true;
             CognexModelLoad();
-            if(timerSensor.Enabled == false)
-            {
-                timerSensor.Enabled = true;
-            }
+
+            // 주석처리함
+            //if(timerSensor.Enabled == false)
+            //{
+            //    timerSensor.Enabled = true;
+            //}
         }
         public void CognexModelLoad()
         {
@@ -1877,21 +1911,21 @@ namespace VISION
                 CogImageFileJPEG ImageSave = new CogImageFileJPEG();
                 DateTime dt = DateTime.Now;
                 string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}";
-                string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+                //string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
 
                 if (!Directory.Exists(Root))
                 {
                     Directory.CreateDirectory(Root);
                 }
-                if (!Directory.Exists(Root2))
-                {
-                    Directory.CreateDirectory(Root2);
-                }
+                //if (!Directory.Exists(Root2))
+               // {
+                //    Directory.CreateDirectory(Root2);
+               // }
                 ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
                 ImageSave.Append(cog.Image);
                 ImageSave.Close();
 
-                cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                //cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
             }
             catch (Exception ee)
             {
@@ -1907,21 +1941,21 @@ namespace VISION
                 CogImageFileJPEG ImageSave = new Cognex.VisionPro.ImageFile.CogImageFileJPEG();
                 DateTime dt = DateTime.Now;
                 string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}";
-                string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+                //string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
 
                 if (!Directory.Exists(Root))
                 {
                     Directory.CreateDirectory(Root);
                 }
-                if (!Directory.Exists(Root2))
-                {
-                    Directory.CreateDirectory(Root2);
-                }
+                //if (!Directory.Exists(Root2))
+                //{
+                //    Directory.CreateDirectory(Root2);
+                //}
                 ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
                 ImageSave.Append(cog.Image);
                 ImageSave.Close();
 
-                cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+               // cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
             }
             catch (Exception ee)
             {
@@ -1937,21 +1971,21 @@ namespace VISION
                 CogImageFileJPEG ImageSave = new Cognex.VisionPro.ImageFile.CogImageFileJPEG();
                 DateTime dt = DateTime.Now;
                 string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}";
-                string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+               // string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
 
                 if (!Directory.Exists(Root))
                 {
                     Directory.CreateDirectory(Root);
                 }
-                if (!Directory.Exists(Root2))
-                {
-                    Directory.CreateDirectory(Root2);
-                }
+               // if (!Directory.Exists(Root2))
+                //{
+                //    Directory.CreateDirectory(Root2);
+                //}
                 ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
                 ImageSave.Append(cog.Image);
                 ImageSave.Close();
 
-                cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                //cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
             }
             catch (Exception ee)
             {
@@ -1967,21 +2001,21 @@ namespace VISION
                 CogImageFileJPEG ImageSave = new Cognex.VisionPro.ImageFile.CogImageFileJPEG();
                 DateTime dt = DateTime.Now;
                 string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}";
-                string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+              //  string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
 
                 if (!Directory.Exists(Root))
                 {
                     Directory.CreateDirectory(Root);
                 }
-                if (!Directory.Exists(Root2))
-                {
-                    Directory.CreateDirectory(Root2);
-                }
+                //if (!Directory.Exists(Root2))
+                //{
+                //    Directory.CreateDirectory(Root2);
+                //}
                 ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
                 ImageSave.Append(cog.Image);
                 ImageSave.Close();
 
-                cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                //cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
             }
             catch (Exception ee)
             {
@@ -1997,21 +2031,21 @@ namespace VISION
                 CogImageFileJPEG ImageSave = new Cognex.VisionPro.ImageFile.CogImageFileJPEG();
                 DateTime dt = DateTime.Now;
                 string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}";
-                string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+                //string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
 
                 if (!Directory.Exists(Root))
                 {
                     Directory.CreateDirectory(Root);
                 }
-                if (!Directory.Exists(Root2))
-                {
-                    Directory.CreateDirectory(Root2);
-                }
+                //if (!Directory.Exists(Root2))
+               // {
+                //    Directory.CreateDirectory(Root2);
+               // }
                 ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
                 ImageSave.Append(cog.Image);
                 ImageSave.Close();
 
-                cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                //cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
             }
             catch (Exception ee)
             {
@@ -2027,21 +2061,21 @@ namespace VISION
                 CogImageFileJPEG ImageSave = new Cognex.VisionPro.ImageFile.CogImageFileJPEG();
                 DateTime dt = DateTime.Now;
                 string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}";
-                string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+                //string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
 
                 if (!Directory.Exists(Root))
                 {
                     Directory.CreateDirectory(Root);
                 }
-                if (!Directory.Exists(Root2))
-                {
-                    Directory.CreateDirectory(Root2);
-                }
+                //if (!Directory.Exists(Root2))
+               // {
+                //    Directory.CreateDirectory(Root2);
+               // }
                 ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
                 ImageSave.Append(cog.Image);
                 ImageSave.Close();
 
-                cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                //cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
             }
             catch (Exception ee)
             {
@@ -2322,7 +2356,90 @@ namespace VISION
             }
         }
 
+        // Trigger
+        private Boolean IO_DoWork = false;
+        //private DateTime IO_RunTime = DateTime.Now;
+        //private Int32 IO_CheckCount = 0;
+        private void ReadInputSignal()
+        {
+            this.IO_DoWork = true;
+            Debug.WriteLine("IO Read Started!");
+            while (IO_DoWork)
+            {
+                UInt32 iVal = 0;
+                //UInt32 oVal = 0;
+                CAXD.AxdiReadInportDword(0, 0, ref iVal);  // 입력신호 32점
+                //CAXD.AxdoReadOutportDword(1, 0, ref oVal); // 출력신호 32점
+                BitArray Inputs = new BitArray(BitConverter.GetBytes(iVal));
+                //BitArray Outputs = new BitArray(BitConverter.GetBytes(oVal));
 
+                for (Int32 i = 0; i < gbool_di.Length; i++)
+                {
+                    Boolean fired = Inputs[i];
+                    if (gbool_di[i] == fired) continue;
+                    if ((DateTime.Now - this.TrigTime[i]).TotalMilliseconds < 1000) continue; // 1000ms 이내에 Trig되면 패스
+                    this.TrigTime[i] = DateTime.Now;
+                    gbool_di[i] = fired;
+                    //inputBtn[i].BackColor = fired ? Color.Lime : SystemColors.Control;
+                    if (!fired) continue;
+
+                    switch (i)
+                    {
+                        case 0: //1번째 라인스캔 카메라 촬영 신호 Cam 1
+                            Task.Run(() => { ShotAndInspect_Cam1(); });
+                            break;
+                        case 1: //사이드 라인스캔 카메라 촬영신호 Cam 2 & Cam 3
+                            Task.Run(() => { ShotAndInspect_Cam2(); });
+                            Task.Run(() => { ShotAndInspect_Cam3(); });
+                            break;
+                        case 2: //4번촬영
+                            Task.Run(() => { ShotAndInspect_Cam4(cdyDisplay4); });
+                            break;
+                        case 3: //4번촬영
+                            Task.Run(() => { ShotAndInspect_Cam4(cdyDisplay4_2); });
+                            break;
+                        case 4: //4번촬영
+                            Task.Run(() => { ShotAndInspect_Cam4(cdyDisplay4_3); });
+                            break;
+                        case 5: //5번촬영
+                            Task.Run(() => { ShotAndInspect_Cam5(cdyDisplay5); });
+                            break;
+                        case 6: //5번촬영
+                            Task.Run(() => { ShotAndInspect_Cam5(cdyDisplay5_1); });
+                            break;
+                        case 7:
+                            Task.Run(() => { ShotAndInspect_Cam6(); });
+                            break;
+                        case 8:
+                            Task.Run(() => { ShotAndInspect_Cam6(); });
+                            break;
+                        case 9:
+                            Task.Run(() => { ShotAndInspect_Cam6(); });
+                            break;
+                        case 10:
+                            Task.Run(() => { ShotAndInspect_Cam6(); });
+                            break;
+                        case 11:
+                            Task.Run(() => { ShotAndInspect_Cam6(); });
+                            break;
+                    }
+                }
+
+                Thread.Sleep(1);
+
+                //IO_CheckCount++;
+                //if (IO_CheckCount >= 1000)
+                //{
+                //    Debug.WriteLine($"시간={(DateTime.Now - IO_RunTime).TotalMilliseconds}, 횟수={IO_CheckCount}");
+                //    IO_CheckCount = 0;
+                //    IO_RunTime = DateTime.Now;
+                //}
+            }
+
+            Debug.WriteLine("IO Read Ended!");
+        }
+
+        /*
         private void timerSensor_Tick(object sender, EventArgs e)
         {
             short nIndex = 0;
@@ -2416,45 +2533,45 @@ namespace VISION
                                     cdyDisplay4.InteractiveGraphics.Clear();
                                     cdyDisplay4.StaticGraphics.Clear();
 
-                                    snap4 = new Thread(new ThreadStart(ShotAndInspect_Cam4));
-                                    snap4.Priority = ThreadPriority.Highest;
-                                    snap4.Start();
+                                    snap4_1 = new Thread(() => ShotAndInspect_Cam4(cdyDisplay4));
+                                    snap4_1.Priority = ThreadPriority.Highest;
+                                    snap4_1.Start();
                                     break;
                                 case 3: //5번촬영
-                                    cdyDisplay5.Image = null;
-                                    cdyDisplay5.InteractiveGraphics.Clear();
-                                    cdyDisplay5.StaticGraphics.Clear();
+                                    cdyDisplay4_2.Image = null;
+                                    cdyDisplay4_2.InteractiveGraphics.Clear();
+                                    cdyDisplay4_2.StaticGraphics.Clear();
 
-                                    snap5 = new Thread(new ThreadStart(ShotAndInspect_Cam5));
-                                    snap5.Priority = ThreadPriority.Highest;
-                                    snap5.Start();
+                                    snap4_2 = new Thread(() => ShotAndInspect_Cam4(cdyDisplay4_2));
+                                    snap4_2.Priority = ThreadPriority.Highest;
+                                    snap4_2.Start();
                                     break;
                                 case 4: //4번촬영
-                                    cdyDisplay4.Image = null;
-                                    cdyDisplay4.InteractiveGraphics.Clear();
-                                    cdyDisplay4.StaticGraphics.Clear();
+                                    cdyDisplay4_3.Image = null;
+                                    cdyDisplay4_3.InteractiveGraphics.Clear();
+                                    cdyDisplay4_3.StaticGraphics.Clear();
 
-                                    snap4 = new Thread(new ThreadStart(ShotAndInspect_Cam4));
-                                    snap4.Priority = ThreadPriority.Highest;
-                                    snap4.Start();
+                                    snap4_3 = new Thread(() => ShotAndInspect_Cam4(cdyDisplay4_3));
+                                    snap4_3.Priority = ThreadPriority.Highest;
+                                    snap4_3.Start();
                                     break;
                                 case 5: //5번촬영
                                     cdyDisplay5.Image = null;
                                     cdyDisplay5.InteractiveGraphics.Clear();
                                     cdyDisplay5.StaticGraphics.Clear();
 
-                                    snap5 = new Thread(new ThreadStart(ShotAndInspect_Cam5));
-                                    snap5.Priority = ThreadPriority.Highest;
-                                    snap5.Start();
+                                    snap5_1 = new Thread(() => ShotAndInspect_Cam5(cdyDisplay5));
+                                    snap5_1.Priority = ThreadPriority.Highest;
+                                    snap5_1.Start();
                                     break;
                                 case 6: //4번촬영
-                                    cdyDisplay4.Image = null;
-                                    cdyDisplay4.InteractiveGraphics.Clear();
-                                    cdyDisplay4.StaticGraphics.Clear();
+                                    cdyDisplay5_1.Image = null;
+                                    cdyDisplay5_1.InteractiveGraphics.Clear();
+                                    cdyDisplay5_1.StaticGraphics.Clear();
 
-                                    snap4 = new Thread(new ThreadStart(ShotAndInspect_Cam4));
-                                    snap4.Priority = ThreadPriority.Highest;
-                                    snap4.Start();
+                                    snap5_2 = new Thread(() => ShotAndInspect_Cam5(cdyDisplay5_1));
+                                    snap5_2.Priority = ThreadPriority.Highest;
+                                    snap5_2.Start();
                                     break;
                                 case 7:
                                     cdyDisplay6.Image = null;
@@ -2465,8 +2582,43 @@ namespace VISION
                                     snap6.Priority = ThreadPriority.Highest;
                                     snap6.Start();
                                     break;
+                                case 8:
+                                    cdyDisplay6.Image = null;
+                                    cdyDisplay6.InteractiveGraphics.Clear();
+                                    cdyDisplay6.StaticGraphics.Clear();
 
-                              
+                                    snap6 = new Thread(new ThreadStart(ShotAndInspect_Cam6));
+                                    snap6.Priority = ThreadPriority.Highest;
+                                    snap6.Start();
+                                    break;
+
+                                case 9:
+                                    cdyDisplay6.Image = null;
+                                    cdyDisplay6.InteractiveGraphics.Clear();
+                                    cdyDisplay6.StaticGraphics.Clear();
+
+                                    snap6 = new Thread(new ThreadStart(ShotAndInspect_Cam6));
+                                    snap6.Priority = ThreadPriority.Highest;
+                                    snap6.Start();
+                                    break;
+                                case 10:
+                                    cdyDisplay6.Image = null;
+                                    cdyDisplay6.InteractiveGraphics.Clear();
+                                    cdyDisplay6.StaticGraphics.Clear();
+
+                                    snap6 = new Thread(new ThreadStart(ShotAndInspect_Cam6));
+                                    snap6.Priority = ThreadPriority.Highest;
+                                    snap6.Start();
+                                    break;
+                                case 11:
+                                    cdyDisplay6.Image = null;
+                                    cdyDisplay6.InteractiveGraphics.Clear();
+                                    cdyDisplay6.StaticGraphics.Clear();
+
+                                    snap6 = new Thread(new ThreadStart(ShotAndInspect_Cam6));
+                                    snap6.Priority = ThreadPriority.Highest;
+                                    snap6.Start();
+                                    break;
                             }
                         }
                     }
@@ -2500,6 +2652,8 @@ namespace VISION
                     break;
             }
         }
+        */
+
 
         private bool SelectHighIndex(int nIndex, uint uValue)
         {

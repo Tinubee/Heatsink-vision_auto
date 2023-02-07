@@ -135,6 +135,7 @@ namespace VISION
             ChangeMultiPatternToolNumber();
             ChangeDistanceToolNumber();
             lb_CurruntModelName.Text = Glob.RunnModel.Modelname(); //현재사용중인 모델명 체크
+           
             Dataset = false;
         }
 
@@ -309,6 +310,7 @@ namespace VISION
             Glob.RunnModel.DistanceEnables(TempDistanceEnable);
             Glob.RunnModel.Distance_UseTool1_Numbers(TempDistance_Tool1_Number);
             Glob.RunnModel.Distance_UseTool2_Numbers(TempDistance_Tool2_Number);
+            Glob.RunnModel.Cams(TempCam);
 
             Glob.RunnModel.SaveModel(Glob.MODELROOT + "\\" + Glob.RunnModel.Modelname() + "\\" + $"Cam{Glob.CamNumber}", Glob.CamNumber); //모델명
             CamSet.WriteData($"Camera{Glob.CamNumber}", "Exposure", num_Exposure.Value.ToString()); //카메라 노출값
@@ -403,7 +405,14 @@ namespace VISION
                     cdyDisplay.InteractiveGraphics.Clear();
                     cdyDisplay.StaticGraphics.Clear();
                     cdyDisplay.Fit();
-                   
+                }
+                TempCam[Glob.CamNumber].StartLive();
+                while (true)
+                {
+                    if(liveflag== false) break; 
+                    CogImage8Grey image = TempCam[Glob.CamNumber].Run();
+                    cdyDisplay.Image = image;
+                    Application.DoEvents();
                 }
             }
             catch (Exception ee)
@@ -415,7 +424,7 @@ namespace VISION
        
         private void num_Exposure_ValueChanged(object sender, EventArgs e)
         {
-           
+           TempCam[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
         }
 
         private void btn_Livestop_Click(object sender, EventArgs e)
@@ -440,7 +449,7 @@ namespace VISION
 
         private void num_Gain_ValueChanged(object sender, EventArgs e)
         {
-            
+            TempCam[Glob.CamNumber].SetBrightness((double)num_Gain.Value);
         }
 
         private void btn_ImageSave_Click(object sender, EventArgs e)
@@ -705,6 +714,7 @@ namespace VISION
         private void UpdateCameraSet()
         {
             try
+            
             {
                 INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{Glob.RunnModel.Modelname()}\\CamSet.ini");
                 //카메라 및 조명 setting값 ini파일에 저장. - 카메라별로
@@ -712,6 +722,12 @@ namespace VISION
                 // --> 모델별로 카메라값 가져가도록 변경완료 - 200122 김형민
                 num_Exposure.Value = Convert.ToDecimal(CamSet.ReadData($"Camera{Glob.CamNumber}", "Exposure"));
                 num_Gain.Value = Convert.ToDecimal(CamSet.ReadData($"Camera{Glob.CamNumber}", "Gain"));
+
+                TempCam[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
+                TempCam[Glob.CamNumber].SetBrightness((double)num_Gain.Value);
+                //num_Exposure.Value = Convert.ToDecimal(TempCam[Glob.CamNumber].GetExposure());
+                //num_Gain.Value = Convert.ToDecimal(TempCam[Glob.CamNumber].GetBrightness());
+
                 FormLoad = false;
             }
             catch (Exception ee)
@@ -1248,6 +1264,11 @@ namespace VISION
             //cdyDisplay.Image = (CogImage8Grey)curimage.OutputImage;
             cdyDisplay.Fit();
             GC.Collect();
+        }
+
+        private void btn_OpenCamSetfile_Click(object sender, EventArgs e)
+        {
+            TempCam[Glob.CamNumber].ToolSetup();
         }
     }
 }

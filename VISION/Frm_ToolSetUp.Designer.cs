@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_ToolSetUp));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.lb_CurruntModelName = new System.Windows.Forms.Label();
             this.btn_Exit = new System.Windows.Forms.Button();
@@ -169,6 +169,8 @@
             this.num_Exposure = new System.Windows.Forms.NumericUpDown();
             this.num_Gain = new System.Windows.Forms.NumericUpDown();
             this.tab_Menu = new System.Windows.Forms.TabControl();
+            this.label3 = new System.Windows.Forms.Label();
+            this.btn_OpenCamSetfile = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).BeginInit();
             this.tableLayoutPanel23.SuspendLayout();
@@ -613,28 +615,28 @@
             // 
             this.dgv_ToolSetUp.AllowUserToAddRows = false;
             this.dgv_ToolSetUp.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_ToolSetUp.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_ToolSetUp.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
             this.dgv_ToolSetUp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_ToolSetUp.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colname,
             this.coldata,
             this.Column1,
             this.Column2});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_ToolSetUp.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_ToolSetUp.DefaultCellStyle = dataGridViewCellStyle14;
             this.dgv_ToolSetUp.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgv_ToolSetUp.Location = new System.Drawing.Point(1127, 324);
             this.dgv_ToolSetUp.Margin = new System.Windows.Forms.Padding(0);
@@ -642,8 +644,8 @@
             this.dgv_ToolSetUp.Name = "dgv_ToolSetUp";
             this.dgv_ToolSetUp.ReadOnly = true;
             this.dgv_ToolSetUp.RowHeadersWidth = 10;
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
-            this.dgv_ToolSetUp.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle15.ForeColor = System.Drawing.Color.Black;
+            this.dgv_ToolSetUp.RowsDefaultCellStyle = dataGridViewCellStyle15;
             this.dgv_ToolSetUp.RowTemplate.Height = 23;
             this.dgv_ToolSetUp.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgv_ToolSetUp.Size = new System.Drawing.Size(302, 752);
@@ -2112,6 +2114,8 @@
             this.tableLayoutPanel4.Controls.Add(this.label2, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.num_Exposure, 1, 0);
             this.tableLayoutPanel4.Controls.Add(this.num_Gain, 1, 1);
+            this.tableLayoutPanel4.Controls.Add(this.label3, 0, 4);
+            this.tableLayoutPanel4.Controls.Add(this.btn_OpenCamSetfile, 0, 3);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
@@ -2150,7 +2154,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(182, 45);
             this.label1.TabIndex = 0;
-            this.label1.Text = "노출값";
+            this.label1.Text = "Exposure";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label2
@@ -2162,16 +2166,22 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(182, 45);
             this.label2.TabIndex = 0;
-            this.label2.Text = "증폭값";
+            this.label2.Text = "밝기";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // num_Exposure
             // 
+            this.num_Exposure.DecimalPlaces = 2;
             this.num_Exposure.Dock = System.Windows.Forms.DockStyle.Fill;
             this.num_Exposure.Font = new System.Drawing.Font("Consolas", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.num_Exposure.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
             this.num_Exposure.Location = new System.Drawing.Point(193, 4);
             this.num_Exposure.Maximum = new decimal(new int[] {
-            10000000,
+            10000,
             0,
             0,
             0});
@@ -2183,11 +2193,17 @@
             // 
             // num_Gain
             // 
+            this.num_Gain.DecimalPlaces = 2;
             this.num_Gain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.num_Gain.Font = new System.Drawing.Font("Consolas", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.num_Gain.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
             this.num_Gain.Location = new System.Drawing.Point(193, 50);
             this.num_Gain.Maximum = new decimal(new int[] {
-            10000000,
+            1,
             0,
             0,
             0});
@@ -2209,6 +2225,27 @@
             this.tab_Menu.SelectedIndex = 0;
             this.tab_Menu.Size = new System.Drawing.Size(489, 970);
             this.tab_Menu.TabIndex = 3;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label3.Location = new System.Drawing.Point(4, 185);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(0, 32);
+            this.label3.TabIndex = 2;
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btn_OpenCamSetfile
+            // 
+            this.btn_OpenCamSetfile.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn_OpenCamSetfile.Location = new System.Drawing.Point(4, 142);
+            this.btn_OpenCamSetfile.Name = "btn_OpenCamSetfile";
+            this.btn_OpenCamSetfile.Size = new System.Drawing.Size(182, 39);
+            this.btn_OpenCamSetfile.TabIndex = 13;
+            this.btn_OpenCamSetfile.Text = "설정파일열기";
+            this.btn_OpenCamSetfile.UseVisualStyleBackColor = true;
+            this.btn_OpenCamSetfile.Click += new System.EventHandler(this.btn_OpenCamSetfile_Click);
             // 
             // Frm_ToolSetUp
             // 
@@ -2458,5 +2495,7 @@
         private System.Windows.Forms.Button btn_OpenMaster;
         private System.Windows.Forms.Button btn_ApplyMaster;
         private System.Windows.Forms.Label lb_CurruntModelName;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btn_OpenCamSetfile;
     }
 }

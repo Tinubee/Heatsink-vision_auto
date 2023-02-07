@@ -267,6 +267,8 @@ namespace VISION.Cogs
             int DistanceMax = DISTANCEMAX - 1;
             int CalipersMax = CALIPERMAX - 1;
 
+            Camera[cam].SaveTool(path , $"cam - {cam.ToString()}.vpp");
+
             for (int lop = 0; lop <= MultiPatternMax; lop++)
             {
                 MultiPattern[cam, lop].SaveTool(path);
@@ -424,6 +426,11 @@ namespace VISION.Cogs
         public Camera[] Cam()
         {
             return Camera;
+        }
+
+        public void Cams(Camera[] cameras)
+        {
+            Camera = cameras;
         }
 
         public Caliper[,] Calipes()
