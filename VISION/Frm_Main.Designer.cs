@@ -77,7 +77,17 @@
             this.lb_Cam6_Result = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.lb_Cam6_InsTime = new System.Windows.Forms.Label();
+            this.tabcontrol = new System.Windows.Forms.TabControl();
+            this.tabPage9 = new System.Windows.Forms.TabPage();
             this.cdyDisplay6 = new Cognex.VisionPro.Display.CogDisplay();
+            this.tabPage10 = new System.Windows.Forms.TabPage();
+            this.cdyDisplay6_2 = new Cognex.VisionPro.Display.CogDisplay();
+            this.tabPage11 = new System.Windows.Forms.TabPage();
+            this.cdyDisplay6_3 = new Cognex.VisionPro.Display.CogDisplay();
+            this.tabPage12 = new System.Windows.Forms.TabPage();
+            this.cdyDisplay6_4 = new Cognex.VisionPro.Display.CogDisplay();
+            this.tabPage13 = new System.Windows.Forms.TabPage();
+            this.cdyDisplay6_5 = new Cognex.VisionPro.Display.CogDisplay();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
             this.lb_Cam4_Result = new System.Windows.Forms.Label();
@@ -194,17 +204,6 @@
             this.btn_Count = new System.Windows.Forms.Button();
             this.tableLayoutPanel31 = new System.Windows.Forms.TableLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
-            this.timerSensor = new System.Windows.Forms.Timer(this.components);
-            this.tabcontrol = new System.Windows.Forms.TabControl();
-            this.tabPage9 = new System.Windows.Forms.TabPage();
-            this.tabPage10 = new System.Windows.Forms.TabPage();
-            this.tabPage11 = new System.Windows.Forms.TabPage();
-            this.tabPage12 = new System.Windows.Forms.TabPage();
-            this.tabPage13 = new System.Windows.Forms.TabPage();
-            this.cdyDisplay6_2 = new Cognex.VisionPro.Display.CogDisplay();
-            this.cdyDisplay6_3 = new Cognex.VisionPro.Display.CogDisplay();
-            this.cdyDisplay6_4 = new Cognex.VisionPro.Display.CogDisplay();
-            this.cdyDisplay6_5 = new Cognex.VisionPro.Display.CogDisplay();
             this.tlpUnder.SuspendLayout();
             this.tlpTopSide.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -225,7 +224,17 @@
             this.tableLayoutPanel6.SuspendLayout();
             this.tableLayoutPanel9.SuspendLayout();
             this.tableLayoutPanel12.SuspendLayout();
+            this.tabcontrol.SuspendLayout();
+            this.tabPage9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay6)).BeginInit();
+            this.tabPage10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay6_2)).BeginInit();
+            this.tabPage11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay6_3)).BeginInit();
+            this.tabPage12.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay6_4)).BeginInit();
+            this.tabPage13.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay6_5)).BeginInit();
             this.tableLayoutPanel7.SuspendLayout();
             this.tableLayoutPanel11.SuspendLayout();
             this.Tab.SuspendLayout();
@@ -251,16 +260,6 @@
             this.tableLayoutPanel17.SuspendLayout();
             this.tableLayoutPanel16.SuspendLayout();
             this.tableLayoutPanel31.SuspendLayout();
-            this.tabcontrol.SuspendLayout();
-            this.tabPage9.SuspendLayout();
-            this.tabPage10.SuspendLayout();
-            this.tabPage11.SuspendLayout();
-            this.tabPage12.SuspendLayout();
-            this.tabPage13.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay6_2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay6_3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay6_4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay6_5)).BeginInit();
             this.SuspendLayout();
             // 
             // tlpUnder
@@ -939,6 +938,31 @@
             this.lb_Cam6_InsTime.Text = "label27";
             this.lb_Cam6_InsTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // tabcontrol
+            // 
+            this.tabcontrol.Controls.Add(this.tabPage9);
+            this.tabcontrol.Controls.Add(this.tabPage10);
+            this.tabcontrol.Controls.Add(this.tabPage11);
+            this.tabcontrol.Controls.Add(this.tabPage12);
+            this.tabcontrol.Controls.Add(this.tabPage13);
+            this.tabcontrol.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabcontrol.Location = new System.Drawing.Point(3, 61);
+            this.tabcontrol.Name = "tabcontrol";
+            this.tabcontrol.SelectedIndex = 0;
+            this.tabcontrol.Size = new System.Drawing.Size(462, 387);
+            this.tabcontrol.TabIndex = 12;
+            // 
+            // tabPage9
+            // 
+            this.tabPage9.Controls.Add(this.cdyDisplay6);
+            this.tabPage9.Location = new System.Drawing.Point(4, 22);
+            this.tabPage9.Name = "tabPage9";
+            this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage9.Size = new System.Drawing.Size(454, 361);
+            this.tabPage9.TabIndex = 0;
+            this.tabPage9.Text = "tabPage9";
+            this.tabPage9.UseVisualStyleBackColor = true;
+            // 
             // cdyDisplay6
             // 
             this.cdyDisplay6.ColorMapLowerClipColor = System.Drawing.Color.Black;
@@ -956,6 +980,122 @@
             this.cdyDisplay6.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay6.OcxState")));
             this.cdyDisplay6.Size = new System.Drawing.Size(448, 355);
             this.cdyDisplay6.TabIndex = 8;
+            // 
+            // tabPage10
+            // 
+            this.tabPage10.Controls.Add(this.cdyDisplay6_2);
+            this.tabPage10.Location = new System.Drawing.Point(4, 22);
+            this.tabPage10.Name = "tabPage10";
+            this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage10.Size = new System.Drawing.Size(454, 361);
+            this.tabPage10.TabIndex = 1;
+            this.tabPage10.Text = "tabPage10";
+            this.tabPage10.UseVisualStyleBackColor = true;
+            // 
+            // cdyDisplay6_2
+            // 
+            this.cdyDisplay6_2.ColorMapLowerClipColor = System.Drawing.Color.Black;
+            this.cdyDisplay6_2.ColorMapLowerRoiLimit = 0D;
+            this.cdyDisplay6_2.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
+            this.cdyDisplay6_2.ColorMapUpperClipColor = System.Drawing.Color.Black;
+            this.cdyDisplay6_2.ColorMapUpperRoiLimit = 1D;
+            this.cdyDisplay6_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cdyDisplay6_2.DoubleTapZoomCycleLength = 2;
+            this.cdyDisplay6_2.DoubleTapZoomSensitivity = 2.5D;
+            this.cdyDisplay6_2.Location = new System.Drawing.Point(3, 3);
+            this.cdyDisplay6_2.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
+            this.cdyDisplay6_2.MouseWheelSensitivity = 1D;
+            this.cdyDisplay6_2.Name = "cdyDisplay6_2";
+            this.cdyDisplay6_2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay6_2.OcxState")));
+            this.cdyDisplay6_2.Size = new System.Drawing.Size(448, 355);
+            this.cdyDisplay6_2.TabIndex = 9;
+            // 
+            // tabPage11
+            // 
+            this.tabPage11.Controls.Add(this.cdyDisplay6_3);
+            this.tabPage11.Location = new System.Drawing.Point(4, 22);
+            this.tabPage11.Name = "tabPage11";
+            this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage11.Size = new System.Drawing.Size(454, 361);
+            this.tabPage11.TabIndex = 2;
+            this.tabPage11.Text = "tabPage11";
+            this.tabPage11.UseVisualStyleBackColor = true;
+            // 
+            // cdyDisplay6_3
+            // 
+            this.cdyDisplay6_3.ColorMapLowerClipColor = System.Drawing.Color.Black;
+            this.cdyDisplay6_3.ColorMapLowerRoiLimit = 0D;
+            this.cdyDisplay6_3.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
+            this.cdyDisplay6_3.ColorMapUpperClipColor = System.Drawing.Color.Black;
+            this.cdyDisplay6_3.ColorMapUpperRoiLimit = 1D;
+            this.cdyDisplay6_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cdyDisplay6_3.DoubleTapZoomCycleLength = 2;
+            this.cdyDisplay6_3.DoubleTapZoomSensitivity = 2.5D;
+            this.cdyDisplay6_3.Location = new System.Drawing.Point(3, 3);
+            this.cdyDisplay6_3.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
+            this.cdyDisplay6_3.MouseWheelSensitivity = 1D;
+            this.cdyDisplay6_3.Name = "cdyDisplay6_3";
+            this.cdyDisplay6_3.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay6_3.OcxState")));
+            this.cdyDisplay6_3.Size = new System.Drawing.Size(448, 355);
+            this.cdyDisplay6_3.TabIndex = 9;
+            // 
+            // tabPage12
+            // 
+            this.tabPage12.Controls.Add(this.cdyDisplay6_4);
+            this.tabPage12.Location = new System.Drawing.Point(4, 22);
+            this.tabPage12.Name = "tabPage12";
+            this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage12.Size = new System.Drawing.Size(454, 361);
+            this.tabPage12.TabIndex = 3;
+            this.tabPage12.Text = "tabPage12";
+            this.tabPage12.UseVisualStyleBackColor = true;
+            // 
+            // cdyDisplay6_4
+            // 
+            this.cdyDisplay6_4.ColorMapLowerClipColor = System.Drawing.Color.Black;
+            this.cdyDisplay6_4.ColorMapLowerRoiLimit = 0D;
+            this.cdyDisplay6_4.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
+            this.cdyDisplay6_4.ColorMapUpperClipColor = System.Drawing.Color.Black;
+            this.cdyDisplay6_4.ColorMapUpperRoiLimit = 1D;
+            this.cdyDisplay6_4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cdyDisplay6_4.DoubleTapZoomCycleLength = 2;
+            this.cdyDisplay6_4.DoubleTapZoomSensitivity = 2.5D;
+            this.cdyDisplay6_4.Location = new System.Drawing.Point(3, 3);
+            this.cdyDisplay6_4.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
+            this.cdyDisplay6_4.MouseWheelSensitivity = 1D;
+            this.cdyDisplay6_4.Name = "cdyDisplay6_4";
+            this.cdyDisplay6_4.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay6_4.OcxState")));
+            this.cdyDisplay6_4.Size = new System.Drawing.Size(448, 355);
+            this.cdyDisplay6_4.TabIndex = 9;
+            // 
+            // tabPage13
+            // 
+            this.tabPage13.Controls.Add(this.cdyDisplay6_5);
+            this.tabPage13.Location = new System.Drawing.Point(4, 22);
+            this.tabPage13.Name = "tabPage13";
+            this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage13.Size = new System.Drawing.Size(454, 361);
+            this.tabPage13.TabIndex = 4;
+            this.tabPage13.Text = "tabPage13";
+            this.tabPage13.UseVisualStyleBackColor = true;
+            // 
+            // cdyDisplay6_5
+            // 
+            this.cdyDisplay6_5.ColorMapLowerClipColor = System.Drawing.Color.Black;
+            this.cdyDisplay6_5.ColorMapLowerRoiLimit = 0D;
+            this.cdyDisplay6_5.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
+            this.cdyDisplay6_5.ColorMapUpperClipColor = System.Drawing.Color.Black;
+            this.cdyDisplay6_5.ColorMapUpperRoiLimit = 1D;
+            this.cdyDisplay6_5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cdyDisplay6_5.DoubleTapZoomCycleLength = 2;
+            this.cdyDisplay6_5.DoubleTapZoomSensitivity = 2.5D;
+            this.cdyDisplay6_5.Location = new System.Drawing.Point(3, 3);
+            this.cdyDisplay6_5.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
+            this.cdyDisplay6_5.MouseWheelSensitivity = 1D;
+            this.cdyDisplay6_5.Name = "cdyDisplay6_5";
+            this.cdyDisplay6_5.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay6_5.OcxState")));
+            this.cdyDisplay6_5.Size = new System.Drawing.Size(448, 355);
+            this.cdyDisplay6_5.TabIndex = 9;
             // 
             // tableLayoutPanel7
             // 
@@ -2704,151 +2844,6 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // timerSensor
-            // 
-            this.timerSensor.Interval = 1;
-            // 
-            // tabcontrol
-            // 
-            this.tabcontrol.Controls.Add(this.tabPage9);
-            this.tabcontrol.Controls.Add(this.tabPage10);
-            this.tabcontrol.Controls.Add(this.tabPage11);
-            this.tabcontrol.Controls.Add(this.tabPage12);
-            this.tabcontrol.Controls.Add(this.tabPage13);
-            this.tabcontrol.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabcontrol.Location = new System.Drawing.Point(3, 61);
-            this.tabcontrol.Name = "tabcontrol";
-            this.tabcontrol.SelectedIndex = 0;
-            this.tabcontrol.Size = new System.Drawing.Size(462, 387);
-            this.tabcontrol.TabIndex = 12;
-            // 
-            // tabPage9
-            // 
-            this.tabPage9.Controls.Add(this.cdyDisplay6);
-            this.tabPage9.Location = new System.Drawing.Point(4, 22);
-            this.tabPage9.Name = "tabPage9";
-            this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage9.Size = new System.Drawing.Size(454, 361);
-            this.tabPage9.TabIndex = 0;
-            this.tabPage9.Text = "tabPage9";
-            this.tabPage9.UseVisualStyleBackColor = true;
-            // 
-            // tabPage10
-            // 
-            this.tabPage10.Controls.Add(this.cdyDisplay6_2);
-            this.tabPage10.Location = new System.Drawing.Point(4, 22);
-            this.tabPage10.Name = "tabPage10";
-            this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage10.Size = new System.Drawing.Size(454, 361);
-            this.tabPage10.TabIndex = 1;
-            this.tabPage10.Text = "tabPage10";
-            this.tabPage10.UseVisualStyleBackColor = true;
-            // 
-            // tabPage11
-            // 
-            this.tabPage11.Controls.Add(this.cdyDisplay6_3);
-            this.tabPage11.Location = new System.Drawing.Point(4, 22);
-            this.tabPage11.Name = "tabPage11";
-            this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage11.Size = new System.Drawing.Size(454, 361);
-            this.tabPage11.TabIndex = 2;
-            this.tabPage11.Text = "tabPage11";
-            this.tabPage11.UseVisualStyleBackColor = true;
-            // 
-            // tabPage12
-            // 
-            this.tabPage12.Controls.Add(this.cdyDisplay6_4);
-            this.tabPage12.Location = new System.Drawing.Point(4, 22);
-            this.tabPage12.Name = "tabPage12";
-            this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage12.Size = new System.Drawing.Size(454, 361);
-            this.tabPage12.TabIndex = 3;
-            this.tabPage12.Text = "tabPage12";
-            this.tabPage12.UseVisualStyleBackColor = true;
-            // 
-            // tabPage13
-            // 
-            this.tabPage13.Controls.Add(this.cdyDisplay6_5);
-            this.tabPage13.Location = new System.Drawing.Point(4, 22);
-            this.tabPage13.Name = "tabPage13";
-            this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage13.Size = new System.Drawing.Size(454, 361);
-            this.tabPage13.TabIndex = 4;
-            this.tabPage13.Text = "tabPage13";
-            this.tabPage13.UseVisualStyleBackColor = true;
-            // 
-            // cdyDisplay6_2
-            // 
-            this.cdyDisplay6_2.ColorMapLowerClipColor = System.Drawing.Color.Black;
-            this.cdyDisplay6_2.ColorMapLowerRoiLimit = 0D;
-            this.cdyDisplay6_2.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
-            this.cdyDisplay6_2.ColorMapUpperClipColor = System.Drawing.Color.Black;
-            this.cdyDisplay6_2.ColorMapUpperRoiLimit = 1D;
-            this.cdyDisplay6_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cdyDisplay6_2.DoubleTapZoomCycleLength = 2;
-            this.cdyDisplay6_2.DoubleTapZoomSensitivity = 2.5D;
-            this.cdyDisplay6_2.Location = new System.Drawing.Point(3, 3);
-            this.cdyDisplay6_2.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
-            this.cdyDisplay6_2.MouseWheelSensitivity = 1D;
-            this.cdyDisplay6_2.Name = "cdyDisplay6_2";
-            this.cdyDisplay6_2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay6_2.OcxState")));
-            this.cdyDisplay6_2.Size = new System.Drawing.Size(448, 355);
-            this.cdyDisplay6_2.TabIndex = 9;
-            // 
-            // cdyDisplay6_3
-            // 
-            this.cdyDisplay6_3.ColorMapLowerClipColor = System.Drawing.Color.Black;
-            this.cdyDisplay6_3.ColorMapLowerRoiLimit = 0D;
-            this.cdyDisplay6_3.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
-            this.cdyDisplay6_3.ColorMapUpperClipColor = System.Drawing.Color.Black;
-            this.cdyDisplay6_3.ColorMapUpperRoiLimit = 1D;
-            this.cdyDisplay6_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cdyDisplay6_3.DoubleTapZoomCycleLength = 2;
-            this.cdyDisplay6_3.DoubleTapZoomSensitivity = 2.5D;
-            this.cdyDisplay6_3.Location = new System.Drawing.Point(3, 3);
-            this.cdyDisplay6_3.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
-            this.cdyDisplay6_3.MouseWheelSensitivity = 1D;
-            this.cdyDisplay6_3.Name = "cdyDisplay6_3";
-            this.cdyDisplay6_3.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay6_3.OcxState")));
-            this.cdyDisplay6_3.Size = new System.Drawing.Size(448, 355);
-            this.cdyDisplay6_3.TabIndex = 9;
-            // 
-            // cdyDisplay6_4
-            // 
-            this.cdyDisplay6_4.ColorMapLowerClipColor = System.Drawing.Color.Black;
-            this.cdyDisplay6_4.ColorMapLowerRoiLimit = 0D;
-            this.cdyDisplay6_4.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
-            this.cdyDisplay6_4.ColorMapUpperClipColor = System.Drawing.Color.Black;
-            this.cdyDisplay6_4.ColorMapUpperRoiLimit = 1D;
-            this.cdyDisplay6_4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cdyDisplay6_4.DoubleTapZoomCycleLength = 2;
-            this.cdyDisplay6_4.DoubleTapZoomSensitivity = 2.5D;
-            this.cdyDisplay6_4.Location = new System.Drawing.Point(3, 3);
-            this.cdyDisplay6_4.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
-            this.cdyDisplay6_4.MouseWheelSensitivity = 1D;
-            this.cdyDisplay6_4.Name = "cdyDisplay6_4";
-            this.cdyDisplay6_4.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay6_4.OcxState")));
-            this.cdyDisplay6_4.Size = new System.Drawing.Size(448, 355);
-            this.cdyDisplay6_4.TabIndex = 9;
-            // 
-            // cdyDisplay6_5
-            // 
-            this.cdyDisplay6_5.ColorMapLowerClipColor = System.Drawing.Color.Black;
-            this.cdyDisplay6_5.ColorMapLowerRoiLimit = 0D;
-            this.cdyDisplay6_5.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
-            this.cdyDisplay6_5.ColorMapUpperClipColor = System.Drawing.Color.Black;
-            this.cdyDisplay6_5.ColorMapUpperRoiLimit = 1D;
-            this.cdyDisplay6_5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cdyDisplay6_5.DoubleTapZoomCycleLength = 2;
-            this.cdyDisplay6_5.DoubleTapZoomSensitivity = 2.5D;
-            this.cdyDisplay6_5.Location = new System.Drawing.Point(3, 3);
-            this.cdyDisplay6_5.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
-            this.cdyDisplay6_5.MouseWheelSensitivity = 1D;
-            this.cdyDisplay6_5.Name = "cdyDisplay6_5";
-            this.cdyDisplay6_5.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay6_5.OcxState")));
-            this.cdyDisplay6_5.Size = new System.Drawing.Size(448, 355);
-            this.cdyDisplay6_5.TabIndex = 9;
-            // 
             // Frm_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -2897,7 +2892,17 @@
             this.tableLayoutPanel9.ResumeLayout(false);
             this.tableLayoutPanel12.ResumeLayout(false);
             this.tableLayoutPanel12.PerformLayout();
+            this.tabcontrol.ResumeLayout(false);
+            this.tabPage9.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay6)).EndInit();
+            this.tabPage10.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay6_2)).EndInit();
+            this.tabPage11.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay6_3)).EndInit();
+            this.tabPage12.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay6_4)).EndInit();
+            this.tabPage13.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay6_5)).EndInit();
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel11.ResumeLayout(false);
             this.tableLayoutPanel11.PerformLayout();
@@ -2933,16 +2938,6 @@
             this.tableLayoutPanel16.ResumeLayout(false);
             this.tableLayoutPanel16.PerformLayout();
             this.tableLayoutPanel31.ResumeLayout(false);
-            this.tabcontrol.ResumeLayout(false);
-            this.tabPage9.ResumeLayout(false);
-            this.tabPage10.ResumeLayout(false);
-            this.tabPage11.ResumeLayout(false);
-            this.tabPage12.ResumeLayout(false);
-            this.tabPage13.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay6_2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay6_3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay6_4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay6_5)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -3103,7 +3098,6 @@
         private System.Windows.Forms.CheckBox btn_OUTPUT1;
         private System.Windows.Forms.CheckBox btn_OUTPUT10;
         private System.Windows.Forms.CheckBox btn_OUTPUT11;
-        public System.Windows.Forms.Timer timerSensor;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage7;
         private System.Windows.Forms.TabPage tabPage8;

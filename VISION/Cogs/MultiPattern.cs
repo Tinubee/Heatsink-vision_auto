@@ -343,6 +343,8 @@ namespace VISION.Cogs
         }
         public int HighestResultToolNumber()
         {
+            if (Tool.Results.PMAlignResults.Count == 0) return 0;
+
             double[] Result = new double[Tool.Results.PMAlignResults.Count];
             int HighestResultToolNumber = 0;
             if (Tool.Results == null)

@@ -97,6 +97,9 @@ namespace VISION
         Label[] TOTAL_Label;
         Label[] NGRATE_Label;
 
+
+        // Trigger
+        private Boolean IO_DoWork = false;
         //PLC 신호 관련 변수들
         // is selected OCX
 
@@ -930,10 +933,6 @@ namespace VISION
         {
             this.IO_DoWork = false;
 
-            if (timerSensor.Enabled)
-            {
-                timerSensor.Stop();
-            }
             if (bk_IO.IsBusy == true)
             {
                 bk_IO.CancelAsync();
@@ -957,6 +956,7 @@ namespace VISION
             btn_Model.Enabled = false;
             btn_SystemSetup.Enabled = false;
             btn_Stop.Enabled = true;
+            this.IO_DoWork = true;
             CognexModelLoad();
 
             // 주석처리함
@@ -2188,6 +2188,7 @@ namespace VISION
             btn_Model.Enabled = true;
             btn_SystemSetup.Enabled = true;
             btn_Status.Enabled = true;
+            this.IO_DoWork = false;
         }
 
         private void btn_Model_Click(object sender, EventArgs e)
@@ -2356,13 +2357,11 @@ namespace VISION
             }
         }
 
-        // Trigger
-        private Boolean IO_DoWork = false;
+ 
         //private DateTime IO_RunTime = DateTime.Now;
         //private Int32 IO_CheckCount = 0;
         private void ReadInputSignal()
         {
-            this.IO_DoWork = true;
             log.AddLogMessage(LogType.Infomation,0, "IO Read Started!"); ;
             while (IO_DoWork)
             {
