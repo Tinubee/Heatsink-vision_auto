@@ -109,6 +109,11 @@ namespace VISION
    
         public double[,] MultiPatternResultData = new double[6, 30];
         public int allCameraCount;
+
+        public bool[] scratchError = new bool[2]; //동시에 촬영 진행으로 인해, 앞 뒤 불량유형 나누어 놓았음.
+        public bool[] noScratchError = new bool[2];
+
+        public bool[] firstInspection = new bool[2]; //처음 시작할때 (2번째 결과값에 안넣어주기 위해 )
     }
     public struct CamSets
     {

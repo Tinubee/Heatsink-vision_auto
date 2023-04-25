@@ -173,10 +173,6 @@ namespace VISION
             {
                 myProcesses[0].Kill();
             }
-
-
-            // Trig Start
-            new Thread(ReadInputSignal).Start();
         }
         private void CamSet()
         {
@@ -250,9 +246,9 @@ namespace VISION
                                 //SelectMessage();
                             }
                             else
-                               // checkInterrupt.Checked = false;
+                                // checkInterrupt.Checked = false;
 
-                            CAXD.AxdiInterruptEdgeGetWord(0, 0, (uint)AXT_DIO_EDGE.UP_EDGE, ref uDataHigh);
+                                CAXD.AxdiInterruptEdgeGetWord(0, 0, (uint)AXT_DIO_EDGE.UP_EDGE, ref uDataHigh);
                             CAXD.AxdiInterruptEdgeGetWord(0, 1, (uint)AXT_DIO_EDGE.UP_EDGE, ref uDataLow);
                             //if (uDataHigh == 0xFFFF && uDataLow == 0xFFFF)
                             //    checkRigingEdge.Checked = true;
@@ -279,7 +275,7 @@ namespace VISION
                     case AXT_MODULE.AXT_SIO_RDO32:
                     case AXT_MODULE.AXT_SIO_DO32T_P:
                     case AXT_MODULE.AXT_SIO_RDO32RTEX:
-                       
+
                         //++
                         // Read outputting signal in WORD
                         CAXD.AxdoReadOutportWord(1, 0, ref uDataHigh);
@@ -307,7 +303,7 @@ namespace VISION
                                 outputBtn[nIndex].BackColor = SystemColors.Control;
                                 gbool_di[nIndex] = false;
                             }
-                               
+
 
                             //if (uFlagLow == 1)
                             //    outputBtn[nIndex].BackColor = Color.Lime;
@@ -558,7 +554,7 @@ namespace VISION
 
             }
         }
-      
+
 
         private void bk_IO_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -596,6 +592,60 @@ namespace VISION
             }
         }
 
+        public void ScratchErrorInit()
+        {
+            if (frm_toolsetup == null)
+            {
+                if (Glob.firstInspection[0])
+                {
+                    Glob.scratchError[0] = false;
+                }
+                else
+                {
+                    Glob.scratchError[1] = false;
+                }
+            }
+        }
+
+        public void ScratchErrorSet()
+        {
+            if (Glob.firstInspection[0])
+            {
+                Glob.scratchError[0] = true;
+            }
+            else
+            {
+                Glob.scratchError[1] = true;
+            }
+        }
+
+        public void NoScratchErrorInit()
+        {
+            if (frm_toolsetup == null)
+            {
+                if (Glob.firstInspection[1])
+                {
+                    Glob.noScratchError[0] = false;
+                }
+                else
+                {
+                    Glob.noScratchError[1] = false;
+                }
+            }
+        }
+
+        public void NoScratchErrorSet()
+        {
+            if (Glob.firstInspection[1])
+            {
+                Glob.noScratchError[0] = true;
+            }
+            else
+            {
+                Glob.noScratchError[1] = true;
+            }
+        }
+
         public void ShotAndInspect_Cam1()
         {
             try
@@ -606,6 +656,8 @@ namespace VISION
                 TempCogDisplay[0].Image = TempCam[0].Run();
                 TempCogDisplay[0].InteractiveGraphics.Clear();
                 TempCogDisplay[0].StaticGraphics.Clear();
+
+                ScratchErrorInit();
 
                 if (TempCogDisplay[0].Image == null)
                 {
@@ -636,7 +688,10 @@ namespace VISION
                         if (Glob.NGImageSave)
                             ImageSave1("NG", 1, cdyDisplay);
                     });
+                    ScratchErrorSet();
                 }
+
+
 
                 InspectTime[0].Stop();
                 InspectFlag[0] = false;
@@ -690,8 +745,8 @@ namespace VISION
                         if (Glob.NGImageSave)
                             ImageSave2("NG", 2, TempCogDisplay[1]);
                     });
+                    ScratchErrorSet();
                     //검사 결과 NG
-
                 }
 
                 InspectTime[1].Stop();
@@ -720,7 +775,7 @@ namespace VISION
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
                 if (TempCogDisplay[funCamNumber].Image == null)
                 {
-                    log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber+1}");
+                    log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
                     return;
                 }
                 if (Inspect_Cam2(TempCogDisplay[funCamNumber]) == true) // 검사 결과
@@ -733,7 +788,7 @@ namespace VISION
                         lb_Cam3_Result.Text = "O K";
                         OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
-                            ImageSave3("OK", funCamNumber+1, TempCogDisplay[funCamNumber]);
+                            ImageSave3("OK", funCamNumber + 1, TempCogDisplay[funCamNumber]);
                     });
                 }
                 else
@@ -745,7 +800,9 @@ namespace VISION
                         lb_Cam3_Result.Text = "N G";
                         NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
-                            ImageSave3("NG", funCamNumber+1, TempCogDisplay[funCamNumber]);
+                            ImageSave3("NG", funCamNumber + 1, TempCogDisplay[funCamNumber]);
+
+                        ScratchErrorSet();
                     });
                 }
 
@@ -757,11 +814,11 @@ namespace VISION
             }
             catch (Exception ee)
             {
-                log.AddLogMessage(LogType.Error, 0, $"Camera - {funCamNumber+1} Error : {ee.Message}");
+                log.AddLogMessage(LogType.Error, 0, $"Camera - {funCamNumber + 1} Error : {ee.Message}");
             }
         }
 
-        public void ShotAndInspect_Cam4(CogDisplay cdy)
+        public void ShotAndInspect_Cam4(CogDisplay cdy, int shotNumber)
         {
             int funCamNumber = 3;
             try
@@ -769,6 +826,8 @@ namespace VISION
                 InspectTime[funCamNumber] = new Stopwatch();
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
+
+                NoScratchErrorInit();
 
                 cdy.Image = TempCam[funCamNumber].Run();
                 cdy.InteractiveGraphics.Clear();
@@ -803,10 +862,16 @@ namespace VISION
                         if (Glob.NGImageSave)
                             ImageSave4("NG", funCamNumber + 1, cdy);
                     });
+                    NoScratchErrorSet();
                 }
 
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
+
+                //if (shotNumber == 3)
+                //{
+                //    ErrorCheckAndSendPLC();
+                //}
 
                 BeginInvoke((Action)delegate { lb_Cam4_InsTime.Text = InspectTime[funCamNumber].ElapsedMilliseconds.ToString() + "msec"; });
                 Thread.Sleep(100);
@@ -817,7 +882,7 @@ namespace VISION
             }
         }
 
-        public void ShotAndInspect_Cam5(CogDisplay cdy)
+        public void ShotAndInspect_Cam5(CogDisplay cdy, int shotNumber)
         {
             int funCamNumber = 4;
             try
@@ -830,7 +895,7 @@ namespace VISION
                 cdy.InteractiveGraphics.Clear();
                 cdy.StaticGraphics.Clear();
 
-                if ( cdy.Image == null)
+                if (cdy.Image == null)
                 {
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
                     return;
@@ -859,6 +924,7 @@ namespace VISION
                         if (Glob.NGImageSave)
                             ImageSave5("NG", funCamNumber + 1, cdy);
                     });
+                    NoScratchErrorSet();
                 }
 
                 InspectTime[funCamNumber].Stop();
@@ -873,7 +939,7 @@ namespace VISION
             }
         }
 
-        public void ShotAndInspect_Cam6(CogDisplay cdy)
+        public void ShotAndInspect_Cam6(CogDisplay cdy, int shotNumber)
         {
             int funCamNumber = 5;
             try
@@ -914,7 +980,14 @@ namespace VISION
                         if (Glob.NGImageSave)
                             ImageSave6("NG", funCamNumber + 1, cdy);
                     });
+                    NoScratchErrorSet();
                 }
+
+                if (shotNumber == 3)
+                {
+                    ErrorCheckAndSendPLC();
+                }
+
 
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
@@ -928,7 +1001,53 @@ namespace VISION
             }
         }
 
-       
+        public async void ErrorCheckAndSendPLC()
+        {
+            if (Glob.firstInspection[1])
+            {
+                if (Glob.scratchError[0])
+                {
+                    SelectHighIndex(1, 1);
+                    await Task.Delay(2000);
+                    SelectHighIndex(1, 0);
+                }
+                else if (Glob.noScratchError[0])
+                {
+                    SelectHighIndex(2, 1);
+                    await Task.Delay(2000);
+                    SelectHighIndex(2, 0);
+                }
+                else
+                {
+                    SelectHighIndex(0, 1);
+                    await Task.Delay(2000);
+                    SelectHighIndex(0, 0);
+                }
+            }
+            else
+            {
+                if (Glob.scratchError[1])
+                {
+                    SelectHighIndex(1, 1);
+                    await Task.Delay(2000);
+                    SelectHighIndex(1, 0);
+                }
+                else if (Glob.noScratchError[1])
+                {
+                    SelectHighIndex(2, 1);
+                    await Task.Delay(2000);
+                    SelectHighIndex(2, 0);
+                }
+                else
+                {
+                    SelectHighIndex(0, 1);
+                    await Task.Delay(2000);
+                    SelectHighIndex(0, 0);
+                }
+            }
+        }
+
+
         private void Frm_Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.IO_DoWork = false;
@@ -945,7 +1064,7 @@ namespace VISION
             {
                 TempCam[i].Close();
             }
-            
+
         }
 
         private void btn_Status_Click(object sender, EventArgs e)
@@ -957,8 +1076,10 @@ namespace VISION
             btn_SystemSetup.Enabled = false;
             btn_Stop.Enabled = true;
             this.IO_DoWork = true;
+            new Thread(ReadInputSignal).Start();
             CognexModelLoad();
-
+            Glob.firstInspection[0] = false;
+            Glob.firstInspection[1] = false;
             // 주석처리함
             //if(timerSensor.Enabled == false)
             //{
@@ -1918,9 +2039,9 @@ namespace VISION
                     Directory.CreateDirectory(Root);
                 }
                 //if (!Directory.Exists(Root2))
-               // {
+                // {
                 //    Directory.CreateDirectory(Root2);
-               // }
+                // }
                 ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
                 ImageSave.Append(cog.Image);
                 ImageSave.Close();
@@ -1955,7 +2076,7 @@ namespace VISION
                 ImageSave.Append(cog.Image);
                 ImageSave.Close();
 
-               // cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                // cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
             }
             catch (Exception ee)
             {
@@ -1971,13 +2092,13 @@ namespace VISION
                 CogImageFileJPEG ImageSave = new Cognex.VisionPro.ImageFile.CogImageFileJPEG();
                 DateTime dt = DateTime.Now;
                 string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}";
-               // string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+                // string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
 
                 if (!Directory.Exists(Root))
                 {
                     Directory.CreateDirectory(Root);
                 }
-               // if (!Directory.Exists(Root2))
+                // if (!Directory.Exists(Root2))
                 //{
                 //    Directory.CreateDirectory(Root2);
                 //}
@@ -2001,7 +2122,7 @@ namespace VISION
                 CogImageFileJPEG ImageSave = new Cognex.VisionPro.ImageFile.CogImageFileJPEG();
                 DateTime dt = DateTime.Now;
                 string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}";
-              //  string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+                //  string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
 
                 if (!Directory.Exists(Root))
                 {
@@ -2038,9 +2159,9 @@ namespace VISION
                     Directory.CreateDirectory(Root);
                 }
                 //if (!Directory.Exists(Root2))
-               // {
+                // {
                 //    Directory.CreateDirectory(Root2);
-               // }
+                // }
                 ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
                 ImageSave.Append(cog.Image);
                 ImageSave.Close();
@@ -2068,9 +2189,9 @@ namespace VISION
                     Directory.CreateDirectory(Root);
                 }
                 //if (!Directory.Exists(Root2))
-               // {
+                // {
                 //    Directory.CreateDirectory(Root2);
-               // }
+                // }
                 ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
                 ImageSave.Append(cog.Image);
                 ImageSave.Close();
@@ -2188,6 +2309,8 @@ namespace VISION
             btn_Model.Enabled = true;
             btn_SystemSetup.Enabled = true;
             btn_Status.Enabled = true;
+            Glob.firstInspection[0] = true;
+            Glob.firstInspection[1] = true;
             this.IO_DoWork = false;
         }
 
@@ -2357,12 +2480,11 @@ namespace VISION
             }
         }
 
- 
+
         //private DateTime IO_RunTime = DateTime.Now;
         //private Int32 IO_CheckCount = 0;
         private void ReadInputSignal()
         {
-            log.AddLogMessage(LogType.Infomation,0, "IO Read Started!"); ;
             while (IO_DoWork)
             {
                 UInt32 iVal = 0;
@@ -2379,12 +2501,15 @@ namespace VISION
                     if ((DateTime.Now - this.TrigTime[i]).TotalMilliseconds < 1000) continue; // 1000ms 이내에 Trig되면 패스
                     this.TrigTime[i] = DateTime.Now;
                     gbool_di[i] = fired;
-                    //inputBtn[i].BackColor = fired ? Color.Lime : SystemColors.Control;
+                    inputBtn[i].BackColor = fired ? Color.Lime : SystemColors.Control;
                     if (!fired) continue;
+
+                    log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
 
                     switch (i)
                     {
                         case 0: //1번째 라인스캔 카메라 촬영 신호 Cam 1
+                            Glob.firstInspection[0] = Glob.firstInspection[0] ? false : true;
                             Task.Run(() => { ShotAndInspect_Cam1(); });
                             break;
                         case 1: //사이드 라인스캔 카메라 촬영신호 Cam 2 & Cam 3
@@ -2392,34 +2517,29 @@ namespace VISION
                             Task.Run(() => { ShotAndInspect_Cam3(); });
                             break;
                         case 2: //4번촬영
-                            Task.Run(() => { ShotAndInspect_Cam4(cdyDisplay4); });
+                            Glob.firstInspection[1] = Glob.firstInspection[1] ? false : true;
+                            Task.Run(() => { ShotAndInspect_Cam4(cdyDisplay4, 1); });
                             break;
                         case 3: //4번촬영
-                            Task.Run(() => { ShotAndInspect_Cam4(cdyDisplay4_2); });
+                            Task.Run(() => { ShotAndInspect_Cam4(cdyDisplay4_2, 2); });
                             break;
                         case 4: //4번촬영
-                            Task.Run(() => { ShotAndInspect_Cam4(cdyDisplay4_3); });
+                            Task.Run(() => { ShotAndInspect_Cam4(cdyDisplay4_3, 3); });
                             break;
                         case 5: //5번촬영
-                            Task.Run(() => { ShotAndInspect_Cam5(cdyDisplay5); });
+                            Task.Run(() => { ShotAndInspect_Cam5(cdyDisplay5, 1); });
                             break;
                         case 6: //5번촬영
-                            Task.Run(() => { ShotAndInspect_Cam5(cdyDisplay5_1); });
+                            Task.Run(() => { ShotAndInspect_Cam5(cdyDisplay5_1, 2); });
                             break;
-                        case 7:
-                            Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6); });
+                        case 7://6번촬영
+                            Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6, 1); });
                             break;
-                        case 8:
-                            Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6_2); });
+                        case 8://6번촬영
+                            Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6_2, 2); });
                             break;
-                        case 9:
-                            Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6_3); });
-                            break;
-                        case 10:
-                            Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6_4); });
-                            break;
-                        case 11:
-                            Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6_5); });
+                        case 9://6번촬영
+                            Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6_3, 3); });
                             break;
                     }
                 }
@@ -2435,230 +2555,16 @@ namespace VISION
                 //}
             }
 
-            Debug.WriteLine("IO Read Ended!");
+            //Debug.WriteLine("IO Read Ended!");
         }
-
-        /*
-        private void timerSensor_Tick(object sender, EventArgs e)
-        {
-            short nIndex = 0;
-            uint uDataHigh = 0;
-            uint uDataLow = 0;
-            uint uFlagHigh = 0;
-            uint uFlagLow = 0;
-            int nBoardNo = 0;
-            int nModulePos = 0;
-            uint uModuleID = 0;
-
-            CAXD.AxdInfoGetModule(0, ref nBoardNo, ref nModulePos, ref uModuleID);
-
-            switch ((AXT_MODULE)uModuleID)
-            {
-                case AXT_MODULE.AXT_SIO_DI32:
-                case AXT_MODULE.AXT_SIO_RDI32:
-                case AXT_MODULE.AXT_SIO_RSIMPLEIOMLII:
-                case AXT_MODULE.AXT_SIO_RDO16AMLII:
-                case AXT_MODULE.AXT_SIO_RDO16BMLII:
-                case AXT_MODULE.AXT_SIO_DI32_P:
-                case AXT_MODULE.AXT_SIO_RDI32RTEX:
-                    //++
-                    // Read inputting signal in WORD
-                    for (int i = 0; i < 12; i++)
-                    {
-                        re_gbool_di[i] = gbool_di[i];
-                    }
-
-                    CAXD.AxdiReadInportWord(0, 0, ref uDataHigh);
-                    CAXD.AxdiReadInportWord(0, 1, ref uDataLow);
-
-                    for (nIndex = 0; nIndex < 12; nIndex++)
-                    {
-                        // Verify the last bit value of data read
-                        uFlagHigh = uDataHigh & 0x0001;
-                        uFlagLow = uDataLow & 0x0001;
-
-                        // Shift rightward by bit by bit
-                        uDataHigh = uDataHigh >> 1;
-                        uDataLow = uDataLow >> 1;
-
-                        // Updat bit value in control
-                        if (uFlagHigh == 1)
-                        {
-                            gbool_di[nIndex] = true;
-                            inputBtn[nIndex].BackColor = Color.Lime;
-                        }
-                        else
-                        {
-                            gbool_di[nIndex] = false;
-                            inputBtn[nIndex].BackColor = SystemColors.Control;
-                        }
-                    }
-
-                    for (int i = 0; i < 12; i++)
-                    {
-                        if (gbool_di[i] != re_gbool_di[i] && gbool_di[i] == true)
-                        {
-                            log.AddLogMessage(LogType.Infomation, 0, $"Signal Number : {i.ToString()}");
-                            switch (i)
-                            {
-                                case 0: //1번째 라인스캔 카메라 촬영 신호 Cam 1
-                                    cdyDisplay.Image = null;
-                                    cdyDisplay.InteractiveGraphics.Clear();
-                                    cdyDisplay.StaticGraphics.Clear();
-
-                                    snap1 = new Thread(new ThreadStart(ShotAndInspect_Cam1));
-                                    snap1.Priority = ThreadPriority.Highest;
-                                    snap1.Start();
-                                    break;
-                                case 1: //사이드 라인스캔 카메라 촬영신호 Cam 2 & Cam 3
-                                    cdyDisplay2.Image = null;
-                                    cdyDisplay2.InteractiveGraphics.Clear();
-                                    cdyDisplay2.StaticGraphics.Clear();
-
-                                    snap2 = new Thread(new ThreadStart(ShotAndInspect_Cam2));
-                                    snap2.Priority = ThreadPriority.Highest;
-                                    snap2.Start();
-
-                                    cdyDisplay3.Image = null;
-                                    cdyDisplay3.InteractiveGraphics.Clear();
-                                    cdyDisplay3.StaticGraphics.Clear();
-
-                                    snap3 = new Thread(new ThreadStart(ShotAndInspect_Cam3));
-                                    snap3.Priority = ThreadPriority.Highest;
-                                    snap3.Start();
-                                    break;
-                                case 2: //4번촬영
-                                    cdyDisplay4.Image = null;
-                                    cdyDisplay4.InteractiveGraphics.Clear();
-                                    cdyDisplay4.StaticGraphics.Clear();
-
-                                    snap4_1 = new Thread(() => ShotAndInspect_Cam4(cdyDisplay4));
-                                    snap4_1.Priority = ThreadPriority.Highest;
-                                    snap4_1.Start();
-                                    break;
-                                case 3: //5번촬영
-                                    cdyDisplay4_2.Image = null;
-                                    cdyDisplay4_2.InteractiveGraphics.Clear();
-                                    cdyDisplay4_2.StaticGraphics.Clear();
-
-                                    snap4_2 = new Thread(() => ShotAndInspect_Cam4(cdyDisplay4_2));
-                                    snap4_2.Priority = ThreadPriority.Highest;
-                                    snap4_2.Start();
-                                    break;
-                                case 4: //4번촬영
-                                    cdyDisplay4_3.Image = null;
-                                    cdyDisplay4_3.InteractiveGraphics.Clear();
-                                    cdyDisplay4_3.StaticGraphics.Clear();
-
-                                    snap4_3 = new Thread(() => ShotAndInspect_Cam4(cdyDisplay4_3));
-                                    snap4_3.Priority = ThreadPriority.Highest;
-                                    snap4_3.Start();
-                                    break;
-                                case 5: //5번촬영
-                                    cdyDisplay5.Image = null;
-                                    cdyDisplay5.InteractiveGraphics.Clear();
-                                    cdyDisplay5.StaticGraphics.Clear();
-
-                                    snap5_1 = new Thread(() => ShotAndInspect_Cam5(cdyDisplay5));
-                                    snap5_1.Priority = ThreadPriority.Highest;
-                                    snap5_1.Start();
-                                    break;
-                                case 6: //4번촬영
-                                    cdyDisplay5_1.Image = null;
-                                    cdyDisplay5_1.InteractiveGraphics.Clear();
-                                    cdyDisplay5_1.StaticGraphics.Clear();
-
-                                    snap5_2 = new Thread(() => ShotAndInspect_Cam5(cdyDisplay5_1));
-                                    snap5_2.Priority = ThreadPriority.Highest;
-                                    snap5_2.Start();
-                                    break;
-                                case 7:
-                                    cdyDisplay6.Image = null;
-                                    cdyDisplay6.InteractiveGraphics.Clear();
-                                    cdyDisplay6.StaticGraphics.Clear();
-
-                                    snap6 = new Thread(new ThreadStart(ShotAndInspect_Cam6));
-                                    snap6.Priority = ThreadPriority.Highest;
-                                    snap6.Start();
-                                    break;
-                                case 8:
-                                    cdyDisplay6.Image = null;
-                                    cdyDisplay6.InteractiveGraphics.Clear();
-                                    cdyDisplay6.StaticGraphics.Clear();
-
-                                    snap6 = new Thread(new ThreadStart(ShotAndInspect_Cam6));
-                                    snap6.Priority = ThreadPriority.Highest;
-                                    snap6.Start();
-                                    break;
-
-                                case 9:
-                                    cdyDisplay6.Image = null;
-                                    cdyDisplay6.InteractiveGraphics.Clear();
-                                    cdyDisplay6.StaticGraphics.Clear();
-
-                                    snap6 = new Thread(new ThreadStart(ShotAndInspect_Cam6));
-                                    snap6.Priority = ThreadPriority.Highest;
-                                    snap6.Start();
-                                    break;
-                                case 10:
-                                    cdyDisplay6.Image = null;
-                                    cdyDisplay6.InteractiveGraphics.Clear();
-                                    cdyDisplay6.StaticGraphics.Clear();
-
-                                    snap6 = new Thread(new ThreadStart(ShotAndInspect_Cam6));
-                                    snap6.Priority = ThreadPriority.Highest;
-                                    snap6.Start();
-                                    break;
-                                case 11:
-                                    cdyDisplay6.Image = null;
-                                    cdyDisplay6.InteractiveGraphics.Clear();
-                                    cdyDisplay6.StaticGraphics.Clear();
-
-                                    snap6 = new Thread(new ThreadStart(ShotAndInspect_Cam6));
-                                    snap6.Priority = ThreadPriority.Highest;
-                                    snap6.Start();
-                                    break;
-                            }
-                        }
-                    }
-                    break;
-
-                case AXT_MODULE.AXT_SIO_DB32P:
-                case AXT_MODULE.AXT_SIO_DB32T:
-                case AXT_MODULE.AXT_SIO_RDB32T:
-                case AXT_MODULE.AXT_SIO_RDB32RTEX:
-                case AXT_MODULE.AXT_SIO_RDB96MLII:
-                case AXT_MODULE.AXT_SIO_RDB128MLII:
-                    //++
-                    // Read inputting signal in WORD
-                    log.AddLogMessage(LogType.Infomation, 0, "axt sio rdb12ml11");
-                    CAXD.AxdiReadInportWord(0, 0, ref uDataHigh);
-
-                    for (nIndex = 0; nIndex < 12; nIndex++)
-                    {
-                        // Verify the last bit value of data read
-                        uFlagHigh = uDataHigh & 0x0001;
-
-                        // Shift rightward by bit by bit
-                        uDataHigh = uDataHigh >> 1;
-
-                        // Updat bit value in control
-                        if (uFlagHigh == 1)
-                            inputBtn[nIndex].BackColor = Color.Lime;
-                        else
-                            inputBtn[nIndex].BackColor = SystemColors.Control;
-                    }
-                    break;
-            }
-        }
-        */
-
 
         private bool SelectHighIndex(int nIndex, uint uValue)
         {
             int nModuleCount = 0;
 
             CAXD.AxdInfoGetModuleCount(ref nModuleCount);
+
+            log.AddLogMessage(LogType.Infomation, 0, $"Index : {nIndex}, Value : {uValue}");
 
             if (nModuleCount > 0)
             {
