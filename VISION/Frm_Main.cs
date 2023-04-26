@@ -165,8 +165,8 @@ namespace VISION
             LoadSetup(); //프로그램 셋팅 로드.
             timer_Setting.Start(); //타이머에서 계속해서 확인하는 것들
             CognexModelLoad();
-            //DigitalIO_Load();//IO Load
-            //SelectModule();
+            DigitalIO_Load();//IO Load
+            SelectModule();
             log.AddLogMessage(LogType.Infomation, 0, "Vision Program Start");
             Process[] myProcesses = Process.GetProcessesByName("LoadingForm_KHM");
             if (myProcesses.LongLength > 0)
@@ -552,43 +552,6 @@ namespace VISION
                     NGRATE_Label[i].Text = NG_Rate[i].ToString("F1") + "%";
                 }
 
-            }
-        }
-
-
-        private void bk_IO_DoWork(object sender, DoWorkEventArgs e)
-        {
-            while (true)
-            {
-
-                //IO CHECK - DISPLAY 표시 부분
-
-                //case 0:
-                //    snap1 = new Thread(new ThreadStart(ShotAndInspect_Cam1));
-                //    snap1.Priority = ThreadPriority.Highest;
-                //    snap1.Start();
-                //    break;
-                //case 13:
-                //    Process.Start($"{Glob.MODELCHANGEFROM}");
-                //    for (int k = 0; k < camcount; k++)
-                //    {
-                //        if (Glob.RunnModel.Loadmodel("K12E DIMPLE", Glob.MODELROOT, k) == true)
-                //        {
-                //            if (k == camcount - 1)
-                //            {
-                //                lb_CurruntModelName.Text = Glob.RunnModel.Modelname();
-                //                Glob.CurruntModelName = Glob.RunnModel.Modelname();
-                //                CamSet();
-                //                Process[] myProcesses = Process.GetProcessesByName("ModelChange_KHM");
-                //                if (myProcesses.LongLength > 0)
-                //                {
-                //                    myProcesses[0].Kill();
-                //                }
-                //                log.AddLogMessage(LogType.Infomation, 0, "모델 전환 성공");
-                //            }
-                //        }
-                //    }
-                //    break;
             }
         }
 
@@ -1052,10 +1015,6 @@ namespace VISION
         {
             this.IO_DoWork = false;
 
-            if (bk_IO.IsBusy == true)
-            {
-                bk_IO.CancelAsync();
-            }
             if (LightStats == true)
             {
                 LightOFF();
@@ -1080,11 +1039,6 @@ namespace VISION
             CognexModelLoad();
             Glob.firstInspection[0] = false;
             Glob.firstInspection[1] = false;
-            // 주석처리함
-            //if(timerSensor.Enabled == false)
-            //{
-            //    timerSensor.Enabled = true;
-            //}
         }
         public void CognexModelLoad()
         {
