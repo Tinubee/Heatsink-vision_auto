@@ -670,7 +670,7 @@
             this.tabPage8.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage8.Size = new System.Drawing.Size(520, 455);
+            this.tabPage8.Size = new System.Drawing.Size(522, 454);
             this.tabPage8.TabIndex = 1;
             this.tabPage8.Text = "tabPage8";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -691,7 +691,7 @@
             this.cdyDisplay5_1.MouseWheelSensitivity = 1D;
             this.cdyDisplay5_1.Name = "cdyDisplay5_1";
             this.cdyDisplay5_1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay5_1.OcxState")));
-            this.cdyDisplay5_1.Size = new System.Drawing.Size(514, 447);
+            this.cdyDisplay5_1.Size = new System.Drawing.Size(516, 446);
             this.cdyDisplay5_1.TabIndex = 9;
             // 
             // tableLayoutPanel8
@@ -1003,7 +1003,7 @@
             this.tabPage10.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage10.Name = "tabPage10";
             this.tabPage10.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage10.Size = new System.Drawing.Size(520, 455);
+            this.tabPage10.Size = new System.Drawing.Size(522, 454);
             this.tabPage10.TabIndex = 1;
             this.tabPage10.Text = "tabPage10";
             this.tabPage10.UseVisualStyleBackColor = true;
@@ -1024,7 +1024,7 @@
             this.cdyDisplay6_2.MouseWheelSensitivity = 1D;
             this.cdyDisplay6_2.Name = "cdyDisplay6_2";
             this.cdyDisplay6_2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay6_2.OcxState")));
-            this.cdyDisplay6_2.Size = new System.Drawing.Size(514, 447);
+            this.cdyDisplay6_2.Size = new System.Drawing.Size(516, 446);
             this.cdyDisplay6_2.TabIndex = 9;
             // 
             // tabPage11
@@ -1034,7 +1034,7 @@
             this.tabPage11.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage11.Name = "tabPage11";
             this.tabPage11.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage11.Size = new System.Drawing.Size(520, 455);
+            this.tabPage11.Size = new System.Drawing.Size(522, 454);
             this.tabPage11.TabIndex = 2;
             this.tabPage11.Text = "tabPage11";
             this.tabPage11.UseVisualStyleBackColor = true;
@@ -1055,7 +1055,7 @@
             this.cdyDisplay6_3.MouseWheelSensitivity = 1D;
             this.cdyDisplay6_3.Name = "cdyDisplay6_3";
             this.cdyDisplay6_3.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay6_3.OcxState")));
-            this.cdyDisplay6_3.Size = new System.Drawing.Size(514, 447);
+            this.cdyDisplay6_3.Size = new System.Drawing.Size(516, 446);
             this.cdyDisplay6_3.TabIndex = 9;
             // 
             // tableLayoutPanel7
@@ -1181,7 +1181,7 @@
             this.tabPage4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage4.Size = new System.Drawing.Size(515, 455);
+            this.tabPage4.Size = new System.Drawing.Size(515, 454);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "tabPage4";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1202,7 +1202,7 @@
             this.cdyDisplay4_2.MouseWheelSensitivity = 1D;
             this.cdyDisplay4_2.Name = "cdyDisplay4_2";
             this.cdyDisplay4_2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay4_2.OcxState")));
-            this.cdyDisplay4_2.Size = new System.Drawing.Size(509, 447);
+            this.cdyDisplay4_2.Size = new System.Drawing.Size(509, 446);
             this.cdyDisplay4_2.TabIndex = 9;
             // 
             // tabPage6
@@ -1212,7 +1212,7 @@
             this.tabPage6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage6.Size = new System.Drawing.Size(515, 455);
+            this.tabPage6.Size = new System.Drawing.Size(515, 454);
             this.tabPage6.TabIndex = 2;
             this.tabPage6.Text = "tabPage6";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -1233,7 +1233,7 @@
             this.cdyDisplay4_3.MouseWheelSensitivity = 1D;
             this.cdyDisplay4_3.Name = "cdyDisplay4_3";
             this.cdyDisplay4_3.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay4_3.OcxState")));
-            this.cdyDisplay4_3.Size = new System.Drawing.Size(509, 447);
+            this.cdyDisplay4_3.Size = new System.Drawing.Size(509, 446);
             this.cdyDisplay4_3.TabIndex = 9;
             // 
             // tableLayoutPanel4
@@ -2856,6 +2856,7 @@
             this.button1.TabIndex = 28;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Frm_Main
