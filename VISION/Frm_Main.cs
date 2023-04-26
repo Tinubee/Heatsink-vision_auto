@@ -165,8 +165,8 @@ namespace VISION
             LoadSetup(); //프로그램 셋팅 로드.
             timer_Setting.Start(); //타이머에서 계속해서 확인하는 것들
             CognexModelLoad();
-            DigitalIO_Load();//IO Load
-            SelectModule();
+            //DigitalIO_Load();//IO Load
+            //SelectModule();
             log.AddLogMessage(LogType.Infomation, 0, "Vision Program Start");
             Process[] myProcesses = Process.GetProcessesByName("LoadingForm_KHM");
             if (myProcesses.LongLength > 0)

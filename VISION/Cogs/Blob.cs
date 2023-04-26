@@ -883,16 +883,24 @@ namespace VISION.Cogs
         }
         public int SpaceName()
         {
-            int Toolnumber;
-            string spacename = Tool.Region.SelectedSpaceName;
-            if (spacename == "@" || spacename == ".")
+            try
+            {
+                int Toolnumber;
+                string spacename = Tool.Region.SelectedSpaceName;
+                if (spacename == "@" || spacename == ".")
+                {
+                    return 0;
+                }
+                string[] SplitSpacename = spacename.Split('-');
+                Toolnumber = Convert.ToInt32(SplitSpacename[1]);
+
+                return Toolnumber;
+            }
+            catch(Exception ee)
             {
                 return 0;
             }
-            string[] SplitSpacename = spacename.Split('-');
-            Toolnumber = Convert.ToInt32(SplitSpacename[1]);
-
-            return Toolnumber;
+      
         }
         public ResultPoints[] ResultAllPoint()
         {
