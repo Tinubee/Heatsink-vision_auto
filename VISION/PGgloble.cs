@@ -47,7 +47,7 @@ namespace VISION
         public readonly string CONFIGFILE = Application.StartupPath + "\\config.ini";
         public readonly string SETTING = Application.StartupPath + "\\setting.ini"; //setting값 저장
 
-        public readonly string PROGRAM_VERSION = "2.0.1"; //Program Version
+        public readonly string PROGRAM_VERSION = "1.0.0"; //Program Version
         #region "버전 관리 및 업데이트 내용"
         //1.0.0 - 현장투입 후 완성된 최종버전(주요기능 및 프로그램 구성 완료) - 날짜 / 이름
         //2.0.1 - 프로그램 로딩창, 저장창, 모델변경창 새로 추가.

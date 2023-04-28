@@ -278,6 +278,7 @@ namespace VISION.Cogs
         {
             try
             {
+                if (Tool.Results == null) return 0;
                 return Tool.Results.PMAlignResults.Count;
             }
             catch

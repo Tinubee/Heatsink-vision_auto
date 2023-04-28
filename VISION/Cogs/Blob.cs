@@ -348,6 +348,7 @@ namespace VISION.Cogs
         public int PointNumber()
         {
             Cognex.VisionPro.CogPolygon Region = (Cognex.VisionPro.CogPolygon)this.Tool.Region;
+            if (Region == null) return 0;
             return Region.NumVertices;
         }
         /// <summary>
@@ -886,6 +887,7 @@ namespace VISION.Cogs
             try
             {
                 int Toolnumber;
+                if (Tool.Region == null) return 0;
                 string spacename = Tool.Region.SelectedSpaceName;
                 if (spacename == "@" || spacename == ".")
                 {
