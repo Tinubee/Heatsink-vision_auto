@@ -43,6 +43,7 @@ namespace VISION.Cogs
 
         private MultiPMAlign[,] MultiPattern = new MultiPMAlign[Program.CameraList.Count(), MULTIPATTERNMAX];
         private bool[,] MultiPatternEnable = new bool[Program.CameraList.Count(), MULTIPATTERNMAX];
+        private int[,] MultiPatternOrderNumber = new int[Program.CameraList.Count(), MULTIPATTERNMAX];
 
         private Circle[,] Circles = new Circle[Program.CameraList.Count(), CIRCLETOOLMAX];
         private bool[,] CircleEnable = new bool[Program.CameraList.Count(), CIRCLETOOLMAX];
@@ -68,7 +69,7 @@ namespace VISION.Cogs
             int DistanceMax = DISTANCEMAX - 1;
             int CalipersMax = CALIPERMAX - 1;
 
-            for (int lop = 0; lop < Glob.allCameraCount; lop++)
+            for (int lop = 0; lop < 6; lop++) //Glob.allCameraCount 에서 6으로 임시 변경.
             {
                 Camera[lop] = new Camera(lop);
             }
@@ -181,6 +182,11 @@ namespace VISION.Cogs
             {
                 MultiPattern[cam, lop].LoadTool(path);
                 MultiPatternEnable[cam, lop] = Modelcfg.ReadData("MULTI PATTERN - " + lop.ToString(), "Enable") == "1" ? true : false;
+                if (Modelcfg.ReadData("MULTI PATTERN - " + lop.ToString(), "Order") == "")
+                {
+                    Modelcfg.WriteData("MULTI PATTERN - " + lop.ToString(), "Order", "1");
+                }
+                MultiPatternOrderNumber[cam, lop] = Convert.ToInt16(Modelcfg.ReadData("MULTI PATTERN - " + lop.ToString(), "Order"));
             }
             for (int lop = 0; lop <= BlobMax; lop++)
             {
@@ -280,6 +286,7 @@ namespace VISION.Cogs
                 {
                     Modelcfg.WriteData("MULTI PATTERN - " + lop.ToString(), "Enable", "0");
                 }
+                Modelcfg.WriteData("MULTI PATTERN - " + lop.ToString(), "Order", MultiPatternOrderNumber[cam, lop].ToString());
             }
 
             for (int lop = 0; lop <= BlobMax; lop++)
@@ -383,6 +390,17 @@ namespace VISION.Cogs
         {
             MultiPatternEnable = multipatternenable;
         }
+
+        public int[,] MultiPatternOrderNumbers()
+        {
+            return MultiPatternOrderNumber;
+        }
+
+        public void MultiPatternOrderNumbers(int[,] multipatternordernumber)
+        {
+            MultiPatternOrderNumber = multipatternordernumber;
+        }
+
         public Distance[,] Distancess()
         {
             return Distances;
@@ -569,7 +587,7 @@ namespace VISION.Cogs
 
                 for (int lop = 0; lop <= MultiPatternMax; lop++)
                 {
-                    if (MultiPatternEnable[CamNumber, lop] == true)
+                    if (MultiPatternEnable[CamNumber, lop] == true && MultiPatternOrderNumber[CamNumber, lop] == Glob.InspectOrder)
                     {
                         MultiPattern[CamNumber, lop].Run(Image);
                         ResultString[lop] = "OK";
@@ -582,7 +600,7 @@ namespace VISION.Cogs
                 //검사 툴 결과 확인.
                 for (int lop = 0; lop <= MultiPatternMax; lop++)
                 {
-                    if (MultiPatternEnable[CamNumber, lop] == true)
+                    if (MultiPatternEnable[CamNumber, lop] == true && MultiPatternOrderNumber[CamNumber, lop] == Glob.InspectOrder)
                     {
                         MultiPattern[CamNumber, lop].ResultDisplay(Display, Collection, MultiPattern[CamNumber, lop].HighestResultToolNumber(), lop);
                         //SCORE 표시.

@@ -44,6 +44,7 @@ namespace VISION
         private Cogs.Distance[,] TempDistance;
         private Cogs.Caliper[,] TempCaliper;
 
+
         private bool[,] TempBlobEnable;
         private bool[,] TempLineEnable;
         private bool[,] TempCircleEnable;
@@ -53,6 +54,8 @@ namespace VISION
 
         private int[,] TempBlobOKCount;
         private int[,] TempBlobFixPatternNumber;
+        private int[,] TempMultiOrderNumber;
+
         private string[,] TempDistance_Tool1_Number;
         private string[,] TempDistance_Tool2_Number;
 
@@ -89,6 +92,7 @@ namespace VISION
             TempCircleEnable = TempModel.CircleEnables();
             TempMulti = TempModel.MultiPatterns();
             TempMultiEnable = TempModel.MultiPatternEnables();
+            TempMultiOrderNumber = TempModel.MultiPatternOrderNumbers();
             TempDistance = TempModel.Distancess();
             TempDistanceEnable = TempModel.DistanceEnables();
             TempDistance_Tool1_Number = TempModel.Distance_UseTool1_Numbers();
@@ -143,6 +147,7 @@ namespace VISION
         {
             FormLoad = true;
             Glob.CamNumber = 0;
+            Glob.InspectOrder = 1;
             LoadSetup();
             //CameraSet(); //카메라 Exposure 및 Gain Set Up - 20201215 김형민 ( Main 쪽 Load 할때도 적용 해야되는지 확인하기.)
             UpdateCamStats();
@@ -363,15 +368,15 @@ namespace VISION
                     lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
                     break;
                 case 3:
-                    lb_Tool_InspectResult.Text = Main.Inspect_Cam3(cdyDisplay) ? "O K" : "N G";
+                    lb_Tool_InspectResult.Text = Main.Inspect_Cam3(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
                     lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
                     break;
                 case 4:
-                    lb_Tool_InspectResult.Text = Main.Inspect_Cam4(cdyDisplay) ? "O K" : "N G";
+                    lb_Tool_InspectResult.Text = Main.Inspect_Cam4(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
                     lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
                     break;
                 case 5:
-                    lb_Tool_InspectResult.Text = Main.Inspect_Cam5(cdyDisplay) ? "O K" : "N G";
+                    lb_Tool_InspectResult.Text = Main.Inspect_Cam5(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
                     lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
                     break;
             }
@@ -819,6 +824,7 @@ namespace VISION
             num_TrainImageNumber.Maximum = TempMulti[Glob.CamNumber, Toolnumber].PatternCount() - 1;
             num_TrainImageNumber.Minimum = 0;
             MultiPatternEnableChange(Toolnumber);
+            MultiPatternOrderChange(Toolnumber);
             Dataset = false;
         }
         private void MultiPatternEnableChange(int toolnumber)
@@ -1269,6 +1275,25 @@ namespace VISION
         private void btn_OpenCamSetfile_Click(object sender, EventArgs e)
         {
             TempCam[Glob.CamNumber].ToolSetup();
+        }
+
+        private void num_InspectOrder_ValueChanged(object sender, EventArgs e)
+        {
+            if (Dataset == false)
+            {
+                TempMultiOrderNumber[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value] = Convert.ToInt32(num_InspectOrder.Value);
+                MultiPatternOrderChange((int)num_MultiPatternToolNumber.Value);
+            }
+        }
+
+        private void MultiPatternOrderChange(int toolnumber)
+        {
+            num_InspectOrder.Value = TempMultiOrderNumber[Glob.CamNumber, toolnumber];
+        }
+
+        private void num_GlobOrderNumber_ValueChanged(object sender, EventArgs e)
+        {
+            Glob.InspectOrder = (int)num_GlobOrderNumber.Value;
         }
     }
 }

@@ -62,6 +62,7 @@ namespace VISION
 
         private int[,] TempBlobOKCount;//블롭툴 설정갯수
         private int[,] TempBlobFixPatternNumber;
+        private int[,] TempMultiOrderNumber;
 
         private double[,] TempDistance_CalibrationValue;
         private double[,] TempDistance_LowValue;
@@ -449,15 +450,14 @@ namespace VISION
                     }
                     else
                     {
-                        MessageBox.Show("Module not exist.");
-
+                        log.AddLogMessage(LogType.Error, 0, "Module not exist.");
                         return false;
                     }
                 }
             }
             else
             {
-                MessageBox.Show("Open Error!");
+                log.AddLogMessage(LogType.Error, 0, "Open Error!");
             }
 
             return true;
@@ -480,7 +480,7 @@ namespace VISION
                 string LastModel = CFGFILE.ReadData("LASTMODEL", "NAME"); //마지막 사용모델 확인.
                 //확인 필요. - LastModel Name 변수에 들어오는 String값 확인하기.
                 INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{LastModel}\\CamSet.ini");
-                for (int i = 0; i < Glob.allCameraCount; i++)
+                for (int i = 0; i < camcount; i++)
                 {
                     Glob.RunnModel.Loadmodel(LastModel, Glob.MODELROOT, i); //VISION TOOL LOAD
                 }
@@ -801,7 +801,7 @@ namespace VISION
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
                     return;
                 }
-                if (Inspect_Cam3(cdy) == true) // 검사 결과
+                if (Inspect_Cam3(cdy, shotNumber) == true) // 검사 결과
                 {
                     //검사 결과 OK
                     BeginInvoke((Action)delegate
@@ -863,7 +863,7 @@ namespace VISION
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
                     return;
                 }
-                if (Inspect_Cam4(cdy) == true) // 검사 결과
+                if (Inspect_Cam4(cdy, shotNumber) == true) // 검사 결과
                 {
                     //검사 결과 OK
                     BeginInvoke((Action)delegate
@@ -919,7 +919,7 @@ namespace VISION
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
                     return;
                 }
-                if (Inspect_Cam5(cdy) == true) // 검사 결과
+                if (Inspect_Cam5(cdy, shotNumber) == true) // 검사 결과
                 {
                     //검사 결과 OK
                     BeginInvoke((Action)delegate
@@ -1054,6 +1054,7 @@ namespace VISION
             TempCircleEnable = TempModel.CircleEnables();
             TempMulti = TempModel.MultiPatterns();
             TempMultiEnable = TempModel.MultiPatternEnables();
+            TempMultiOrderNumber = TempModel.MultiPatternOrderNumbers();
             TempDistance = TempModel.Distancess();
             TempDistanceEnable = TempModel.DistanceEnables();
             TempDistance_CalibrationValue = TempModel.Distance_CalibrationValues();
@@ -1558,7 +1559,7 @@ namespace VISION
         #endregion
 
         #region Inpection CAM3 
-        public bool Inspect_Cam3(CogDisplay cog)
+        public bool Inspect_Cam3(CogDisplay cog, int shotNumber)
         {
             int CameraNumber = 3;
             Glob.PatternResult[CameraNumber] = true;
@@ -1573,7 +1574,7 @@ namespace VISION
 
             //CognexModelLoad();
             string[] temp = new string[30];
-            if (TempMulti[CameraNumber, 0].Run((CogImage8Grey)cog.Image))
+            if (TempMulti[CameraNumber, shotNumber - 1].Run((CogImage8Grey)cog.Image))
             {
                 Fiximage = TempModel.FixtureImage((CogImage8Grey)cog.Image, TempMulti[CameraNumber, 0].ResultPoint(TempMulti[CameraNumber, 0].HighestResultToolNumber()), TempMulti[CameraNumber, 0].ToolName(), CameraNumber, out FimageSpace, TempMulti[CameraNumber, 0].HighestResultToolNumber());
             }
@@ -1582,7 +1583,7 @@ namespace VISION
             {
                 for (int lop = 0; lop < 30; lop++)
                 {
-                    if (TempMultiEnable[CameraNumber, lop] == true)
+                    if (TempMultiEnable[CameraNumber, lop] == true && TempMultiOrderNumber[CameraNumber, lop] == shotNumber)
                     {
                         if (TempMulti[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
                         {
@@ -1697,7 +1698,7 @@ namespace VISION
         #endregion 
 
         #region Inpection CAM4 
-        public bool Inspect_Cam4(CogDisplay cog)
+        public bool Inspect_Cam4(CogDisplay cog, int shotNumber)
         {
             int CameraNumber = 4;
             Glob.PatternResult[CameraNumber] = true;
@@ -1717,7 +1718,7 @@ namespace VISION
             {
                 for (int lop = 0; lop < 30; lop++)
                 {
-                    if (TempMultiEnable[CameraNumber, lop] == true)
+                    if (TempMultiEnable[CameraNumber, lop] == true && TempMultiOrderNumber[CameraNumber, lop] == shotNumber)
                     {
                         if (TempMulti[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
                         {
@@ -1777,7 +1778,7 @@ namespace VISION
         #endregion
 
         #region Inpection CAM5 
-        public bool Inspect_Cam5(CogDisplay cog)
+        public bool Inspect_Cam5(CogDisplay cog, int shotNumber)
         {
             int CameraNumber = 5;
             Glob.PatternResult[CameraNumber] = true;
@@ -1800,7 +1801,7 @@ namespace VISION
             {
                 for (int lop = 0; lop < 30; lop++)
                 {
-                    if (TempMultiEnable[CameraNumber, lop] == true)
+                    if (TempMultiEnable[CameraNumber, lop] == true && TempMultiOrderNumber[CameraNumber, lop] == shotNumber)
                     {
                         if (TempMulti[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
                         {
@@ -1941,7 +1942,7 @@ namespace VISION
                 }
                 for (int i = 0; i < 30; i++)
                 {
-                    if (TempMultiEnable[camnumber, i] == true)
+                    if (TempMultiEnable[camnumber, i] == true && TempMultiOrderNumber[camnumber,i] == Glob.InspectOrder)
                     {
                         if (TempMulti[camnumber, i].ResultPoint(TempMulti[camnumber, i].HighestResultToolNumber()) != null)
                         {
@@ -2329,11 +2330,6 @@ namespace VISION
             }
         }
 
-        private void Frm_Main_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void btn_Log_Click(object sender, EventArgs e)
         {
             int jobNo = Convert.ToInt16((sender as Button).Tag);
@@ -2346,13 +2342,6 @@ namespace VISION
         {
             frm_analyzeresult = new Frm_AnalyzeResult(this);
             frm_analyzeresult.Show();
-        }
-
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            cdyDisplay.Image = TempCam[2].Run();
-            //TempCam.Run();
         }
 
         public void SnapShot(int camNumber, CogDisplay cdy)
