@@ -20,3 +20,4 @@ Vision Library : Cognex Vision Pro
 - 이미지 자동삭제 추가 [ ]
 - 검사 결과 수량 Main 화면으로 이동 [ ✅ ]
 - cogDisplay 화면 추가 및 Tab Control 추가 [ ✅ ]
+- CAM4~CAM6 검사부 셋팅 트리거 신호 갯수대로 나누기 [ ]
