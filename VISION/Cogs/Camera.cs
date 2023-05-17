@@ -1,4 +1,5 @@
 ﻿using Cognex.VisionPro;
+using Cognex.VisionPro.ImageProcessing;
 using Cognex.VisionPro.QuickBuild;
 using Cognex.VisionPro.ToolGroup;
 using System;
@@ -13,6 +14,7 @@ namespace VISION.Cogs
     {
         private CogJob job = new CogJob();
         private CogAcqFifoTool camTool = new CogAcqFifoTool();
+
         public Camera(int Toolnumber = 0)
         {
             camTool = new CogAcqFifoTool();

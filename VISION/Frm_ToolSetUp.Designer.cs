@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_ToolSetUp));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.lb_CurruntModelName = new System.Windows.Forms.Label();
             this.btn_Exit = new System.Windows.Forms.Button();
@@ -177,6 +177,10 @@
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
             this.label45 = new System.Windows.Forms.Label();
             this.num_GlobOrderNumber = new System.Windows.Forms.NumericUpDown();
+            this.button2 = new System.Windows.Forms.Button();
+            this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cb_ngokchange = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).BeginInit();
             this.tableLayoutPanel23.SuspendLayout();
@@ -235,6 +239,7 @@
             this.tab_Menu.SuspendLayout();
             this.tableLayoutPanel13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_GlobOrderNumber)).BeginInit();
+            this.tableLayoutPanel14.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel2
@@ -623,40 +628,40 @@
             // 
             this.dgv_ToolSetUp.AllowUserToAddRows = false;
             this.dgv_ToolSetUp.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_ToolSetUp.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_ToolSetUp.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.dgv_ToolSetUp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_ToolSetUp.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colname,
             this.coldata,
             this.Column1,
             this.Column2});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_ToolSetUp.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_ToolSetUp.DefaultCellStyle = dataGridViewCellStyle11;
             this.dgv_ToolSetUp.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.dgv_ToolSetUp.Location = new System.Drawing.Point(1127, 324);
+            this.dgv_ToolSetUp.Location = new System.Drawing.Point(1127, 368);
             this.dgv_ToolSetUp.Margin = new System.Windows.Forms.Padding(0);
             this.dgv_ToolSetUp.MultiSelect = false;
             this.dgv_ToolSetUp.Name = "dgv_ToolSetUp";
             this.dgv_ToolSetUp.ReadOnly = true;
             this.dgv_ToolSetUp.RowHeadersWidth = 10;
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            this.dgv_ToolSetUp.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle12.ForeColor = System.Drawing.Color.Black;
+            this.dgv_ToolSetUp.RowsDefaultCellStyle = dataGridViewCellStyle12;
             this.dgv_ToolSetUp.RowTemplate.Height = 23;
             this.dgv_ToolSetUp.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgv_ToolSetUp.Size = new System.Drawing.Size(302, 752);
+            this.dgv_ToolSetUp.Size = new System.Drawing.Size(302, 708);
             this.dgv_ToolSetUp.TabIndex = 23;
             // 
             // colname
@@ -1259,6 +1264,7 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel14, 0, 8);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel27, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.BLOBINSPECTION, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel6, 0, 1);
@@ -1739,6 +1745,7 @@
             this.tableLayoutPanel31.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.249997F));
             this.tableLayoutPanel31.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.249997F));
             this.tableLayoutPanel31.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.249997F));
+            this.tableLayoutPanel31.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel31.Size = new System.Drawing.Size(481, 937);
             this.tableLayoutPanel31.TabIndex = 2;
             // 
@@ -2175,8 +2182,8 @@
             this.tableLayoutPanel4.Controls.Add(this.label2, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.num_Exposure, 1, 0);
             this.tableLayoutPanel4.Controls.Add(this.num_Gain, 1, 1);
-            this.tableLayoutPanel4.Controls.Add(this.label3, 0, 4);
             this.tableLayoutPanel4.Controls.Add(this.btn_OpenCamSetfile, 0, 3);
+            this.tableLayoutPanel4.Controls.Add(this.label3, 0, 8);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
@@ -2278,7 +2285,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label3.Location = new System.Drawing.Point(4, 185);
+            this.label3.Location = new System.Drawing.Point(4, 369);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(0, 32);
             this.label3.TabIndex = 2;
@@ -2363,12 +2370,68 @@
             0});
             this.num_GlobOrderNumber.ValueChanged += new System.EventHandler(this.num_GlobOrderNumber_ValueChanged);
             // 
+            // button2
+            // 
+            this.button2.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button2.Location = new System.Drawing.Point(1128, 326);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(301, 39);
+            this.button2.TabIndex = 29;
+            this.button2.Text = "제외영역 설정";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // tableLayoutPanel14
+            // 
+            this.tableLayoutPanel14.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel14.ColumnCount = 2;
+            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel14.Controls.Add(this.label4, 0, 0);
+            this.tableLayoutPanel14.Controls.Add(this.cb_ngokchange, 1, 0);
+            this.tableLayoutPanel14.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel14.Location = new System.Drawing.Point(4, 468);
+            this.tableLayoutPanel14.Name = "tableLayoutPanel14";
+            this.tableLayoutPanel14.RowCount = 1;
+            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel14.Size = new System.Drawing.Size(467, 51);
+            this.tableLayoutPanel14.TabIndex = 26;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(4, 1);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(226, 49);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "역검사";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // cb_ngokchange
+            // 
+            this.cb_ngokchange.AutoSize = true;
+            this.cb_ngokchange.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cb_ngokchange.Font = new System.Drawing.Font("맑은 고딕", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.cb_ngokchange.ForeColor = System.Drawing.Color.Red;
+            this.cb_ngokchange.Location = new System.Drawing.Point(237, 4);
+            this.cb_ngokchange.Name = "cb_ngokchange";
+            this.cb_ngokchange.Size = new System.Drawing.Size(226, 43);
+            this.cb_ngokchange.TabIndex = 1;
+            this.cb_ngokchange.Text = "UNUSED";
+            this.cb_ngokchange.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.cb_ngokchange.UseVisualStyleBackColor = true;
+            this.cb_ngokchange.CheckedChanged += new System.EventHandler(this.cb_ngokchange_CheckedChanged);
+            // 
             // Frm_ToolSetUp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(1920, 1080);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.tableLayoutPanel13);
             this.Controls.Add(this.dgv_ToolSetUp);
             this.Controls.Add(this.tableLayoutPanel29);
@@ -2477,6 +2540,8 @@
             this.tableLayoutPanel13.ResumeLayout(false);
             this.tableLayoutPanel13.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_GlobOrderNumber)).EndInit();
+            this.tableLayoutPanel14.ResumeLayout(false);
+            this.tableLayoutPanel14.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2626,5 +2691,9 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel13;
         public System.Windows.Forms.Label label45;
         private System.Windows.Forms.NumericUpDown num_GlobOrderNumber;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel14;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox cb_ngokchange;
     }
 }

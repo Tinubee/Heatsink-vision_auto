@@ -38,6 +38,7 @@ namespace VISION.Cogs
 
         private Blob[,] Blobs = new Blob[Program.CameraList.Count(), BLOBTOOLMAX];
         private bool[,] BlobEnable = new bool[Program.CameraList.Count(), BLOBTOOLMAX];
+        private bool[,] BlobNGOKChange = new bool[Program.CameraList.Count(), BLOBTOOLMAX];
         private int[,] BlobOKCount = new int[Program.CameraList.Count(), BLOBTOOLMAX];
         private int[,] BlobFixPatternNumber = new int[Program.CameraList.Count(), BLOBTOOLMAX];
 
@@ -192,10 +193,14 @@ namespace VISION.Cogs
             {
                 Blobs[cam, lop].Loadtool(path);
                 BlobEnable[cam, lop] = Modelcfg.ReadData("BLOB - " + lop.ToString(), "Enable") == "1" ? true : false;
+                if (Modelcfg.ReadData("BLOB - " + lop.ToString(), "NGOKChange") == "")
+                    Modelcfg.WriteData("BLOB - " + lop.ToString(), "NGOKChange", "0");
                 if (Modelcfg.ReadData("BLOB - " + lop.ToString(), "OKCount") == "")
                     Modelcfg.WriteData("BLOB - " + lop.ToString(), "OKCount", BlobOKCount[cam, lop].ToString());
                 if (Modelcfg.ReadData("BLOB - " + lop.ToString(), "BlobFixPatternNumber") == "")
                     Modelcfg.WriteData("BLOB - " + lop.ToString(), "BlobFixPatternNumber", lop.ToString());
+
+                BlobNGOKChange[cam, lop] = Modelcfg.ReadData("BLOB - " + lop.ToString(), "NGOKChange") == "1" ? true : false;
                 BlobOKCount[cam, lop] = Convert.ToInt32(Modelcfg.ReadData("BLOB - " + lop.ToString(), "OKCount"));
                 BlobFixPatternNumber[cam, lop] = Convert.ToInt32(Modelcfg.ReadData("BLOB - " + lop.ToString(), "BlobFixPatternNumber"));
             }
@@ -299,6 +304,14 @@ namespace VISION.Cogs
                 else
                 {
                     Modelcfg.WriteData("BLOB - " + lop.ToString(), "Enable", "0");
+                }
+                if (BlobNGOKChange[cam, lop] == true)
+                {
+                    Modelcfg.WriteData("BLOB - " + lop.ToString(), "NGOKChange", "1");
+                }
+                else
+                {
+                    Modelcfg.WriteData("BLOB - " + lop.ToString(), "NGOKChange", "0");
                 }
                 Modelcfg.WriteData("BLOB - " + lop.ToString(), "OKCount", BlobOKCount[cam, lop].ToString());
                 Modelcfg.WriteData("BLOB - " + lop.ToString(), "BlobFixPatternNumber", BlobFixPatternNumber[cam, lop].ToString());
@@ -504,6 +517,17 @@ namespace VISION.Cogs
             BlobEnable = blobenable;
         }
 
+        public bool[,] BlobNGOKChanges()
+        {
+            return BlobNGOKChange;
+        }
+
+        public void BlobNGOKChanges(bool[,] blobngokchange)
+        {
+            BlobNGOKChange = blobngokchange;
+        }
+
+
         public int[,] BlobOKCounts()
         {
             return BlobOKCount;
@@ -651,14 +675,30 @@ namespace VISION.Cogs
                         {
                             if (Blobs[CamNumber, lop].ResultBlobCount() != BlobOKCount[CamNumber, lop]) // - 검사결과 NG
                             {
-                                //Blob영역 표시 
-                                Result = false;
-                                Blobs[CamNumber, lop].ResultAllBlobDisplayPLT(Collection, false);
-                                ResultString[lop] = "NG";
+                                if (BlobNGOKChange[CamNumber, lop])
+                                {
+                                    Blobs[CamNumber, lop].ResultAllBlobDisplayPLT(Collection, true);
+                                }
+                                else
+                                {
+                                    Result = false;
+                                    Blobs[CamNumber, lop].ResultAllBlobDisplayPLT(Collection, false);
+                                    ResultString[lop] = "NG";
+                                }
                             }
                             else // - 검사결과 OK
                             {
-                                Blobs[CamNumber, lop].ResultAllBlobDisplayPLT(Collection, true);
+                                if (BlobNGOKChange[CamNumber, lop])
+                                {
+                                    Result = false;
+                                    Blobs[CamNumber, lop].ResultAllBlobDisplayPLT(Collection, false);
+                                    ResultString[lop] = "NG";
+                                }
+                                else
+                                {
+                                    Blobs[CamNumber, lop].ResultAllBlobDisplayPLT(Collection, true);
+                                }
+                                   
                             }
                         }
                     }

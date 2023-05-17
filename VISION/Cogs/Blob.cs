@@ -189,6 +189,11 @@ namespace VISION.Cogs
                 return false;
             }
 
+            if(Tool.Region.GetType() != typeof(CogPolygon))
+            {
+                return false;
+            }
+
             Cognex.VisionPro.CogPolygon Region = (Cognex.VisionPro.CogPolygon)this.Tool.Region;
             Region.Selected = false;
 

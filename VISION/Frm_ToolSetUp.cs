@@ -52,6 +52,7 @@ namespace VISION
         private bool[,] TempDistanceEnable;
         private bool[,] TempCaliperEnable;
 
+        private bool[,] TempBlobNGOKChange;
         private int[,] TempBlobOKCount;
         private int[,] TempBlobFixPatternNumber;
         private int[,] TempMultiOrderNumber;
@@ -84,6 +85,7 @@ namespace VISION
             TempModel = Glob.RunnModel;
             TempBlobs = TempModel.Blob();
             TempBlobEnable = TempModel.BlobEnables();
+            TempBlobNGOKChange = TempModel.BlobNGOKChanges();
             TempBlobOKCount = TempModel.BlobOKCounts();
             TempBlobFixPatternNumber = TempModel.BlobFixPatternNumbers();
             TempLines = TempModel.Line();
@@ -139,7 +141,7 @@ namespace VISION
             ChangeMultiPatternToolNumber();
             ChangeDistanceToolNumber();
             lb_CurruntModelName.Text = Glob.RunnModel.Modelname(); //현재사용중인 모델명 체크
-           
+
             Dataset = false;
         }
 
@@ -241,7 +243,7 @@ namespace VISION
                 }
                 for (int i = 0; i < Program.CameraList.Count(); i++)
                 {
-                   
+
                 }
                 Main.LightOFF();
                 GC.Collect();
@@ -262,6 +264,12 @@ namespace VISION
         {
             cb_BlobToolUsed.Text = cb_BlobToolUsed.Checked == true ? "USE" : "UNUSED";
             cb_BlobToolUsed.ForeColor = cb_BlobToolUsed.Checked == true ? Color.Lime : Color.Red;
+        }
+
+        private void BlobNGOKChangeChange(int toolnumber)
+        {
+            cb_ngokchange.Text = cb_ngokchange.Checked == true ? "USE" : "UNUSED";
+            cb_ngokchange.ForeColor = cb_ngokchange.Checked == true ? Color.Lime : Color.Red;
         }
 
         public void Pattern_Train()
@@ -306,6 +314,7 @@ namespace VISION
             Glob.RunnModel.Line(TempLines); //라인툴저장
             Glob.RunnModel.LineEnables(TempLineEnable); //라인툴사용여부
             Glob.RunnModel.Blob(TempBlobs); //블롭툴저장
+            Glob.RunnModel.BlobNGOKChanges(TempBlobNGOKChange);
             Glob.RunnModel.BlobEnables(TempBlobEnable); //블롭툴사용여부
             Glob.RunnModel.BlobOKCounts(TempBlobOKCount); //블롭카운트
             Glob.RunnModel.BlobFixPatternNumbers(TempBlobFixPatternNumber);
@@ -343,7 +352,10 @@ namespace VISION
             num_BlobMaxCout.Value = TempBlobOKCount[Glob.CamNumber, Toolnumber];
 
             cb_BlobToolUsed.Checked = TempBlobEnable[Glob.CamNumber, Toolnumber];
+            cb_ngokchange.Checked = TempBlobNGOKChange[Glob.CamNumber, Toolnumber];
+
             BlobEnableChange(Toolnumber);
+            BlobNGOKChangeChange(Toolnumber);
             Dataset = false;
         }
         private void btn_ToolRun_Click(object sender, EventArgs e)
@@ -393,7 +405,7 @@ namespace VISION
                 cdyDisplay.Image = null;
                 cdyDisplay.InteractiveGraphics.Clear();
                 cdyDisplay.StaticGraphics.Clear();
-                Main.SnapShot(Glob.CamNumber,cdyDisplay);
+                Main.SnapShot(Glob.CamNumber, cdyDisplay);
             }
             catch (Exception ee)
             {
@@ -414,7 +426,7 @@ namespace VISION
                 TempCam[Glob.CamNumber].StartLive();
                 while (true)
                 {
-                    if(liveflag== false) break; 
+                    if (liveflag == false) break;
                     CogImage8Grey image = TempCam[Glob.CamNumber].Run();
                     cdyDisplay.Image = image;
                     Application.DoEvents();
@@ -426,10 +438,10 @@ namespace VISION
                 return;
             }
         }
-       
+
         private void num_Exposure_ValueChanged(object sender, EventArgs e)
         {
-           TempCam[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
+            TempCam[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
         }
 
         private void btn_Livestop_Click(object sender, EventArgs e)
@@ -444,7 +456,7 @@ namespace VISION
                 num_Exposure.Enabled = false;
                 num_Gain.Enabled = false;
                 btn_Exit.Enabled = true;
-               
+
             }
             catch (Exception ee)
             {
@@ -719,7 +731,7 @@ namespace VISION
         private void UpdateCameraSet()
         {
             try
-            
+
             {
                 INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{Glob.RunnModel.Modelname()}\\CamSet.ini");
                 //카메라 및 조명 setting값 ini파일에 저장. - 카메라별로
@@ -1294,6 +1306,36 @@ namespace VISION
         private void num_GlobOrderNumber_ValueChanged(object sender, EventArgs e)
         {
             Glob.InspectOrder = (int)num_GlobOrderNumber.Value;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form Window = new Form();
+            CogMaskCreatorEditV2 Edit = new CogMaskCreatorEditV2();
+
+            CogMaskCreatorTool maskTool = new CogMaskCreatorTool();
+            string maskToolRoot = Glob.MODELROOT + $"\\{Glob.CurruntModelName}\\Cam{Glob.CamNumber}\\mask.vpp";
+            maskTool = (CogMaskCreatorTool)CogSerializer.LoadObjectFromFile(maskToolRoot);
+
+            maskTool.InputImage = (CogImage8Grey)cdyDisplay.Image;
+
+            Edit.Dock = DockStyle.Fill; // 화면 채움
+            Edit.Subject = maskTool; // 에디트에 툴 정보 입력.
+            Window.Controls.Add(Edit); // 폼에 에디트 추가.
+
+            Window.Width = 800;
+            Window.Height = 600;
+
+            Window.ShowDialog(); // 폼 실행
+        }
+
+        private void cb_ngokchange_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Dataset == false)
+            {
+                TempBlobNGOKChange[Glob.CamNumber, (int)num_BlobToolNum.Value] = cb_ngokchange.Checked;
+                BlobNGOKChangeChange((int)num_BlobToolNum.Value);
+            }
         }
     }
 }

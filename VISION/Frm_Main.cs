@@ -52,6 +52,7 @@ namespace VISION
 
         private bool[,] TempLineEnable; //라인툴 사용여부
         private bool[,] TempBlobEnable;//블롭툴 사용여부
+        private bool[,] TempBlobNGOKChange;
         private bool[,] TempCircleEnable; //써클툴 사용여부
         private bool[,] TempMultiEnable;
         private bool[,] TempDistanceEnable;
@@ -1056,6 +1057,7 @@ namespace VISION
             TempBlobs = TempModel.Blob();
             TempBlobEnable = TempModel.BlobEnables();
             TempBlobOKCount = TempModel.BlobOKCounts();
+            TempBlobNGOKChange = TempModel.BlobNGOKChanges();
             TempBlobFixPatternNumber = TempModel.BlobFixPatternNumbers();
             TempCircles = TempModel.Circle();
             TempCircleEnable = TempModel.CircleEnables();
