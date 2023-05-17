@@ -115,6 +115,8 @@ namespace VISION
 
         public bool[] firstInspection = new bool[2]; //처음 시작할때 (2번째 결과값에 안넣어주기 위해 )
         public int InspectOrder;
+
+        public bool statsOK = false;
     }
     public struct CamSets
     {

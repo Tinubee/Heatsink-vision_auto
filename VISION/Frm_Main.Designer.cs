@@ -198,6 +198,9 @@
             this.btn_Log = new System.Windows.Forms.Button();
             this.btn_Count = new System.Windows.Forms.Button();
             this.tableLayoutPanel31 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel32 = new System.Windows.Forms.TableLayoutPanel();
+            this.label10 = new System.Windows.Forms.Label();
+            this.cb_ResultOK = new System.Windows.Forms.CheckBox();
             this.tlpUnder.SuspendLayout();
             this.tlpTopSide.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -250,6 +253,7 @@
             this.tableLayoutPanel17.SuspendLayout();
             this.tableLayoutPanel16.SuspendLayout();
             this.tableLayoutPanel31.SuspendLayout();
+            this.tableLayoutPanel32.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpUnder
@@ -2771,12 +2775,56 @@
             this.tableLayoutPanel31.Size = new System.Drawing.Size(489, 60);
             this.tableLayoutPanel31.TabIndex = 27;
             // 
+            // tableLayoutPanel32
+            // 
+            this.tableLayoutPanel32.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel32.ColumnCount = 2;
+            this.tableLayoutPanel32.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel32.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel32.Controls.Add(this.label10, 0, 0);
+            this.tableLayoutPanel32.Controls.Add(this.cb_ResultOK, 1, 0);
+            this.tableLayoutPanel32.Location = new System.Drawing.Point(1428, 318);
+            this.tableLayoutPanel32.Name = "tableLayoutPanel32";
+            this.tableLayoutPanel32.RowCount = 1;
+            this.tableLayoutPanel32.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel32.Size = new System.Drawing.Size(473, 51);
+            this.tableLayoutPanel32.TabIndex = 29;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label10.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label10.ForeColor = System.Drawing.Color.White;
+            this.label10.Location = new System.Drawing.Point(4, 1);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(229, 49);
+            this.label10.TabIndex = 0;
+            this.label10.Text = "상시 OK";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // cb_ResultOK
+            // 
+            this.cb_ResultOK.AutoSize = true;
+            this.cb_ResultOK.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cb_ResultOK.Font = new System.Drawing.Font("맑은 고딕", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.cb_ResultOK.ForeColor = System.Drawing.Color.Red;
+            this.cb_ResultOK.Location = new System.Drawing.Point(240, 4);
+            this.cb_ResultOK.Name = "cb_ResultOK";
+            this.cb_ResultOK.Size = new System.Drawing.Size(229, 43);
+            this.cb_ResultOK.TabIndex = 1;
+            this.cb_ResultOK.Text = "UNUSED";
+            this.cb_ResultOK.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.cb_ResultOK.UseVisualStyleBackColor = true;
+            this.cb_ResultOK.CheckedChanged += new System.EventHandler(this.cb_ResultOK_CheckedChanged);
+            // 
             // Frm_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(1920, 1080);
+            this.Controls.Add(this.tableLayoutPanel32);
             this.Controls.Add(this.tableLayoutPanel31);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tlpTopSide);
@@ -2859,6 +2907,8 @@
             this.tableLayoutPanel16.ResumeLayout(false);
             this.tableLayoutPanel16.PerformLayout();
             this.tableLayoutPanel31.ResumeLayout(false);
+            this.tableLayoutPanel32.ResumeLayout(false);
+            this.tableLayoutPanel32.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -3033,6 +3083,9 @@
         internal Cognex.VisionPro.Display.CogDisplay cdyDisplay6_2;
         private System.Windows.Forms.TabPage tabPage11;
         internal Cognex.VisionPro.Display.CogDisplay cdyDisplay6_3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel32;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.CheckBox cb_ResultOK;
     }
 }
 

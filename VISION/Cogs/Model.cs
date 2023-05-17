@@ -573,7 +573,7 @@ namespace VISION.Cogs
             Distance_HighValue = distance_highvalue;
         }
 
-        public bool MultiPattern_Inspection(ref Cognex.VisionPro.Display.CogDisplay Display, CogImage8Grey Image, ref string[] ResultString, int CamNumber, CogGraphicCollection Collection)
+        public bool MultiPattern_Inspection(ref Cognex.VisionPro.Display.CogDisplay Display, CogImage8Grey Image, ref string[] ResultString, int CamNumber, CogGraphicCollection Collection, int shotNumber)
         {
             try
             {
@@ -587,7 +587,7 @@ namespace VISION.Cogs
 
                 for (int lop = 0; lop <= MultiPatternMax; lop++)
                 {
-                    if (MultiPatternEnable[CamNumber, lop] == true && MultiPatternOrderNumber[CamNumber, lop] == Glob.InspectOrder)
+                    if (MultiPatternEnable[CamNumber, lop] == true && (MultiPatternOrderNumber[CamNumber, lop] == Glob.InspectOrder || MultiPatternOrderNumber[CamNumber, lop] == shotNumber))
                     {
                         MultiPattern[CamNumber, lop].Run(Image);
                         ResultString[lop] = "OK";
@@ -600,7 +600,7 @@ namespace VISION.Cogs
                 //검사 툴 결과 확인.
                 for (int lop = 0; lop <= MultiPatternMax; lop++)
                 {
-                    if (MultiPatternEnable[CamNumber, lop] == true && MultiPatternOrderNumber[CamNumber, lop] == Glob.InspectOrder)
+                    if (MultiPatternEnable[CamNumber, lop] == true && (MultiPatternOrderNumber[CamNumber, lop] == Glob.InspectOrder || MultiPatternOrderNumber[CamNumber, lop] == shotNumber))
                     {
                         MultiPattern[CamNumber, lop].ResultDisplay(Display, Collection, MultiPattern[CamNumber, lop].HighestResultToolNumber(), lop);
                         //SCORE 표시.
@@ -620,7 +620,7 @@ namespace VISION.Cogs
                 return false;
             }
         }
-        public bool Blob_Inspection(ref Cognex.VisionPro.Display.CogDisplay Display, CogImage8Grey Image, ref string[] ResultString, int CamNumber, CogGraphicCollection Collection)
+        public bool Blob_Inspection(ref Cognex.VisionPro.Display.CogDisplay Display, CogImage8Grey Image, ref string[] ResultString, int CamNumber, CogGraphicCollection Collection,int shotNumber)
         {
             try
             {
@@ -630,7 +630,9 @@ namespace VISION.Cogs
                 // 검사 툴 작동
                 for (int lop = 0; lop <= BlobMax; lop++)
                 {
-                    if (BlobEnable[CamNumber, lop] == true)
+                    int patternIndex = BlobFixPatternNumber[CamNumber, lop];
+                    //pattern 4 
+                    if (BlobEnable[CamNumber, lop] == true && (MultiPatternOrderNumber[CamNumber, patternIndex] == Glob.InspectOrder || MultiPatternOrderNumber[CamNumber, patternIndex] == shotNumber))
                     {
                         Blobs[CamNumber, lop].Run(Image);
                         ResultString[lop] = "OK";
@@ -642,18 +644,22 @@ namespace VISION.Cogs
                 }
                 for (int lop = 0; lop <= BlobMax; lop++)
                 {
-                    if (BlobEnable[CamNumber, lop] == true)
+                    int patternIndex = BlobFixPatternNumber[CamNumber, lop];
+                    if (MultiPatternOrderNumber[CamNumber, patternIndex] == Glob.InspectOrder || MultiPatternOrderNumber[CamNumber, patternIndex] == shotNumber)
                     {
-                        if (Blobs[CamNumber, lop].ResultBlobCount() != BlobOKCount[CamNumber, lop]) // - 검사결과 NG
+                        if (BlobEnable[CamNumber, lop] == true)
                         {
-                            //Blob영역 표시 
-                            Result = false;
-                            Blobs[CamNumber, lop].ResultAllBlobDisplayPLT(Collection, false);
-                            ResultString[lop] = "NG";
-                        }
-                        else // - 검사결과 OK
-                        {
-                            Blobs[CamNumber, lop].ResultAllBlobDisplayPLT(Collection, true);
+                            if (Blobs[CamNumber, lop].ResultBlobCount() != BlobOKCount[CamNumber, lop]) // - 검사결과 NG
+                            {
+                                //Blob영역 표시 
+                                Result = false;
+                                Blobs[CamNumber, lop].ResultAllBlobDisplayPLT(Collection, false);
+                                ResultString[lop] = "NG";
+                            }
+                            else // - 검사결과 OK
+                            {
+                                Blobs[CamNumber, lop].ResultAllBlobDisplayPLT(Collection, true);
+                            }
                         }
                     }
                 }
@@ -844,7 +850,7 @@ namespace VISION.Cogs
                 return false;
             }
         }
-        public CogImage8Grey FixtureImage(CogImage8Grey OriImage, CogTransform2DLinear Fixtured, string SetName, int Camnumber, out string ImageSpacename, int HighPatternNumber)
+        public CogImage8Grey FixtureImage(CogImage8Grey OriImage, CogTransform2DLinear Fixtured, string SetName, int Camnumber, out string ImageSpacename, int HighPatternNumber,int FixIndexNumber)
         {
             Cognex.VisionPro.CalibFix.CogFixtureTool Fixture = new Cognex.VisionPro.CalibFix.CogFixtureTool();
 
@@ -853,9 +859,9 @@ namespace VISION.Cogs
             Fixture.RunParams.UnfixturedFromFixturedTransform = Fixtured;
             Fixture.RunParams.FixturedSpaceNameDuplicateHandling = Cognex.VisionPro.CalibFix.CogFixturedSpaceNameDuplicateHandlingConstants.Compatibility;
             //***************추가***************//
-            Fixtured.TranslationX = MultiPattern[Camnumber, 0].TransX(HighPatternNumber);
-            Fixtured.TranslationY = MultiPattern[Camnumber, 0].TransY(HighPatternNumber);
-            Fixtured.Rotation = MultiPattern[Camnumber, 0].TransRotation(HighPatternNumber);
+            Fixtured.TranslationX = MultiPattern[Camnumber, FixIndexNumber].TransX(HighPatternNumber);
+            Fixtured.TranslationY = MultiPattern[Camnumber, FixIndexNumber].TransY(HighPatternNumber);
+            Fixtured.Rotation = MultiPattern[Camnumber, FixIndexNumber].TransRotation(HighPatternNumber);
 
             Fixture.Run();
             ImageSpacename = Fixture.OutputImage.SelectedSpaceName;

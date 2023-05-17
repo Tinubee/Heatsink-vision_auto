@@ -140,7 +140,6 @@ namespace VISION.Cogs
         {
             if (this.InputImage(Image) == true)
             {
-                Cognex.VisionPro.CogLineSegment Region;
                 Cognex.VisionPro.CogGraphicCollection cogRegion_Collection;
                 Cognex.VisionPro.ICogRecord cogRect_FindRecord;
                 Tool.CurrentRecordEnable = Cognex.VisionPro.Caliper.CogFindCircleCurrentRecordConstants.All;

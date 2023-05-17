@@ -268,7 +268,7 @@ namespace VISION
         {
             if (TempMulti[Glob.CamNumber, 0].Run((CogImage8Grey)cdyDisplay.Image) == true)
             {
-                Fiximage = TempModel.FixtureImage((CogImage8Grey)cdyDisplay.Image, TempMulti[Glob.CamNumber, 0].ResultPoint(TempMulti[Glob.CamNumber, 0].HighestResultToolNumber()), TempMulti[Glob.CamNumber, 0].ToolName(), Glob.CamNumber, out FimageSpace, TempMulti[Glob.CamNumber, 0].HighestResultToolNumber());
+                Fiximage = TempModel.FixtureImage((CogImage8Grey)cdyDisplay.Image, TempMulti[Glob.CamNumber, 0].ResultPoint(TempMulti[Glob.CamNumber, 0].HighestResultToolNumber()), TempMulti[Glob.CamNumber, 0].ToolName(), Glob.CamNumber, out FimageSpace, TempMulti[Glob.CamNumber, 0].HighestResultToolNumber(), Glob.InspectOrder);
                 //cdyDisplay.Image = Fiximage;
             }
         }
@@ -356,15 +356,15 @@ namespace VISION
             switch (Glob.CamNumber) //CAM 별 INSPECT 함수 나눠놈 - 20200205 김형민.
             {
                 case 0:
-                    lb_Tool_InspectResult.Text = Main.Inspect_Cam0(cdyDisplay) ? "O K" : "N G";
+                    lb_Tool_InspectResult.Text = Main.Inspect_Cam0(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
                     lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
                     break;
                 case 1:
-                    lb_Tool_InspectResult.Text = Main.Inspect_Cam1(cdyDisplay) ? "O K" : "N G";
+                    lb_Tool_InspectResult.Text = Main.Inspect_Cam1(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
                     lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
                     break;
                 case 2:
-                    lb_Tool_InspectResult.Text = Main.Inspect_Cam2(cdyDisplay) ? "O K" : "N G";
+                    lb_Tool_InspectResult.Text = Main.Inspect_Cam2(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
                     lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
                     break;
                 case 3:

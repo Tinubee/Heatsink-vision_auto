@@ -202,7 +202,9 @@ namespace VISION.Cogs
         public void SearchArea(ref Cognex.VisionPro.Display.CogDisplay display, Cognex.VisionPro.CogImage8Grey Image, int CameraNumber, int ToolNumber)
         {
             Cognex.VisionPro.CogRectangleAffine SearchRegion = new Cognex.VisionPro.CogRectangleAffine();
+            
             SearchRegion = (Cognex.VisionPro.CogRectangleAffine)Tool.SearchRegion;
+            if (SearchRegion == null) return;
             SearchRegion.LineWidthInScreenPixels = 5;
             SearchRegion.LineStyle = Cognex.VisionPro.CogGraphicLineStyleConstants.Solid;
             SearchRegion.Color = Cognex.VisionPro.CogColorConstants.Green;
@@ -265,7 +267,7 @@ namespace VISION.Cogs
         }
         public double ResultScore(int i)
         {
-            if (Tool.Results.PMAlignResults.Count < 1)
+            if (Tool.Results == null || Tool.Results.PMAlignResults.Count < 1)
             {
                 return 0;
             }
@@ -344,27 +346,36 @@ namespace VISION.Cogs
         }
         public int HighestResultToolNumber()
         {
-            if (Tool.Results.PMAlignResults.Count == 0) return 0;
+            try
+            {
+                if (Tool.Results == null) return 0;
 
-            double[] Result = new double[Tool.Results.PMAlignResults.Count];
-            int HighestResultToolNumber = 0;
-            if (Tool.Results == null)
-            {
-                return -1;
-            }
-            for (int i = 0; i < Result.Count(); i++)
-            {
-                Result[i] = Tool.Results.PMAlignResults[i].Score;
-            }
-
-            for (int i = 0; i < Result.Count() - 1; i++)
-            {
-                if (Result[HighestResultToolNumber] < Result[i])
+                double[] Result = new double[Tool.Results.PMAlignResults.Count];
+                int HighestResultToolNumber = 0;
+                if (Tool.Results == null)
                 {
-                    HighestResultToolNumber = i;
+                    return -1;
                 }
+                for (int i = 0; i < Result.Count(); i++)
+                {
+                    Result[i] = Tool.Results.PMAlignResults[i].Score;
+                }
+
+                for (int i = 0; i < Result.Count() - 1; i++)
+                {
+                    if (Result[HighestResultToolNumber] < Result[i])
+                    {
+                        HighestResultToolNumber = i;
+                    }
+                }
+                return HighestResultToolNumber;
+
             }
-            return HighestResultToolNumber;
+            catch
+            {
+                return 0;
+            }
+           
         }
         public void ResultDisplay(ref Cognex.VisionPro.Display.CogDisplay display, int PatternNumber)
         {
@@ -389,12 +400,8 @@ namespace VISION.Cogs
             CogCreateGraphicLabelTool lb_Score = new CogCreateGraphicLabelTool();
             lb_Score.InputImage = display.Image;
             lb_Score.SourceSelector = CogCreateGraphicLabelSourceSelectorConstants.InputDouble;
-            if (Tool.Results == null)
-            {
 
-            }
-
-            if (Tool.Results.PMAlignResults.Count < 1)
+            if (Tool.Results == null || Tool.Results.PMAlignResults.Count < 1)
             {
                 Cognex.VisionPro.CogRectangleAffine NG = (Cognex.VisionPro.CogRectangleAffine)Tool.SearchRegion;
                 NG.LineStyle = Cognex.VisionPro.CogGraphicLineStyleConstants.Solid;

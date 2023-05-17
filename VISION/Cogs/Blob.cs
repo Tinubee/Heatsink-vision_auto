@@ -898,7 +898,7 @@ namespace VISION.Cogs
 
                 return Toolnumber;
             }
-            catch(Exception ee)
+            catch
             {
                 return 0;
             }

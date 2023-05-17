@@ -141,7 +141,7 @@ namespace VISION.Cogs
                 Collection.Add(segment);
                 display.StaticGraphics.AddList(Collection, "");
             }
-            catch (Exception ee)
+            catch
             {
                 return;
             }
@@ -157,8 +157,7 @@ namespace VISION.Cogs
                 else
                     return Tool.Distance;
             }
-            catch(Exception ee)
-            {
+            catch{
                 return 0;
             }
         
