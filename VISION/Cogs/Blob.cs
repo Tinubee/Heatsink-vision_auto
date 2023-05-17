@@ -316,6 +316,11 @@ namespace VISION.Cogs
                 this.NewTool();
             }
 
+            if(this.Tool.Region.GetType() != typeof(CogPolygon))
+            {
+                return;
+            }
+     
             CogPolygon area = (CogPolygon)Tool.Region; //영역설정 CogRectangleAffine에서 CogPolygon으로 변경함 - 191230
             area.Interactive = true;
             area.GraphicDOFEnable = CogPolygonDOFConstants.All;
