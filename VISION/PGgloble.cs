@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cognex.VisionPro.ImageProcessing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -117,6 +118,10 @@ namespace VISION
         public int InspectOrder;
 
         public bool statsOK = false;
+
+        //마스크 툴 관련
+        public CogMaskCreatorTool[] curruntMaskTool = new CogMaskCreatorTool[6];
+        public string curruntMaskToolPath;
     }
     public struct CamSets
     {

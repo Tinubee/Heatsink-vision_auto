@@ -643,7 +643,7 @@ namespace VISION
                     {
                         ScratchErrorSet();
                     }
-                    
+
                 }
 
 
@@ -827,7 +827,7 @@ namespace VISION
                     {
                         NoScratchErrorSet();
                     }
-                        
+
                 }
 
                 InspectTime[funCamNumber].Stop();
@@ -1072,6 +1072,21 @@ namespace VISION
             TempCaliper = TempModel.Calipes();
             TempCaliperEnable = TempModel.CaliperEnables();
             TempCam = TempModel.Cam();
+
+            for (int i = 0; i < Glob.curruntMaskTool.Length - 1; i++)
+            {
+                string maskToolRoot = Glob.MODELROOT + $"\\{Glob.RunnModel.Modelname()}\\Cam{i}\\mask.vpp";
+                if (File.Exists(maskToolRoot) == false)
+                {
+                    //Create MaskTool
+                    CogMaskCreatorTool maskTool = new CogMaskCreatorTool();
+                    Glob.curruntMaskTool[Glob.CamNumber] = maskTool;
+                    CogSerializer.SaveObjectToFile(Glob.curruntMaskTool[Glob.CamNumber], maskToolRoot);
+                }
+
+                Glob.curruntMaskTool[i] = (CogMaskCreatorTool)CogSerializer.LoadObjectFromFile(maskToolRoot);
+            }
+            
         }
 
         public void DisplayLabelShow(CogGraphicCollection Collection, CogDisplay cog, int X, int Y, string Text)

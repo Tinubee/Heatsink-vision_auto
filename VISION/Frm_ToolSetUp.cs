@@ -1312,21 +1312,37 @@ namespace VISION
         {
             Form Window = new Form();
             CogMaskCreatorEditV2 Edit = new CogMaskCreatorEditV2();
-
             CogMaskCreatorTool maskTool = new CogMaskCreatorTool();
             string maskToolRoot = Glob.MODELROOT + $"\\{Glob.CurruntModelName}\\Cam{Glob.CamNumber}\\mask.vpp";
-            maskTool = (CogMaskCreatorTool)CogSerializer.LoadObjectFromFile(maskToolRoot);
 
-            maskTool.InputImage = (CogImage8Grey)cdyDisplay.Image;
+            if (File.Exists(maskToolRoot) == false)
+            {
+                //Create MaskTool
+                Glob.curruntMaskTool[Glob.CamNumber] = maskTool;
+                CogSerializer.SaveObjectToFile(Glob.curruntMaskTool[Glob.CamNumber], maskToolRoot);
+            }
+
+            //maskTool = (CogMaskCreatorTool)CogSerializer.LoadObjectFromFile(maskToolRoot);
+
+            Glob.curruntMaskToolPath = maskToolRoot;
+
+            Glob.curruntMaskTool[Glob.CamNumber].InputImage = (CogImage8Grey)cdyDisplay.Image;
 
             Edit.Dock = DockStyle.Fill; // 화면 채움
-            Edit.Subject = maskTool; // 에디트에 툴 정보 입력.
+            Edit.Subject = Glob.curruntMaskTool[Glob.CamNumber]; // 에디트에 툴 정보 입력.
             Window.Controls.Add(Edit); // 폼에 에디트 추가.
 
             Window.Width = 800;
             Window.Height = 600;
 
+            Window.FormClosed += Window_FormClosed;
+
             Window.ShowDialog(); // 폼 실행
+        }
+
+        private void Window_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            CogSerializer.SaveObjectToFile(Glob.curruntMaskTool[Glob.CamNumber], Glob.curruntMaskToolPath);
         }
 
         private void cb_ngokchange_CheckedChanged(object sender, EventArgs e)
