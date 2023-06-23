@@ -201,6 +201,7 @@
             this.tableLayoutPanel32 = new System.Windows.Forms.TableLayoutPanel();
             this.label10 = new System.Windows.Forms.Label();
             this.cb_ResultOK = new System.Windows.Forms.CheckBox();
+            this.lb_iocheck = new System.Windows.Forms.Label();
             this.tlpUnder.SuspendLayout();
             this.tlpTopSide.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -2818,12 +2819,23 @@
             this.cb_ResultOK.UseVisualStyleBackColor = true;
             this.cb_ResultOK.CheckedChanged += new System.EventHandler(this.cb_ResultOK_CheckedChanged);
             // 
+            // lb_iocheck
+            // 
+            this.lb_iocheck.AutoSize = true;
+            this.lb_iocheck.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lb_iocheck.Location = new System.Drawing.Point(1487, 142);
+            this.lb_iocheck.Name = "lb_iocheck";
+            this.lb_iocheck.Size = new System.Drawing.Size(72, 19);
+            this.lb_iocheck.TabIndex = 30;
+            this.lb_iocheck.Text = "label18";
+            // 
             // Frm_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(1920, 1080);
+            this.Controls.Add(this.lb_iocheck);
             this.Controls.Add(this.tableLayoutPanel32);
             this.Controls.Add(this.tableLayoutPanel31);
             this.Controls.Add(this.tableLayoutPanel2);
@@ -2910,6 +2922,7 @@
             this.tableLayoutPanel32.ResumeLayout(false);
             this.tableLayoutPanel32.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -3086,6 +3099,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel32;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.CheckBox cb_ResultOK;
+        private System.Windows.Forms.Label lb_iocheck;
     }
 }
 

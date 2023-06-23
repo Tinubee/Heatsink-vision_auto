@@ -177,6 +177,16 @@ namespace VISION.Cogs
             return true;
         }
 
+        public bool MaskAreaSet(Cognex.VisionPro.CogImage8Grey maskArea)
+        {
+            if (maskArea == null) return false;
+
+            //검사 제외영역 셋팅.
+            this.Tool.RunParams.InputImageMask = maskArea;
+
+            return true;
+        }
+
         /// <summary>
         /// 툴 동작. 검사를 수행함.
         /// </summary>
@@ -211,11 +221,6 @@ namespace VISION.Cogs
                 return false;
             }
 
-            //if (Singleblob == true) {
-            //    if (Tool.Results.GetBlobs().Count > 1) {
-            //        return false;
-            //    }
-            //}
             return true;
         }
 

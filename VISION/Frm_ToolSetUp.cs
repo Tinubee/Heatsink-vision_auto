@@ -43,8 +43,7 @@ namespace VISION
         private Cogs.MultiPMAlign[,] TempMulti;
         private Cogs.Distance[,] TempDistance;
         private Cogs.Caliper[,] TempCaliper;
-
-
+        
         private bool[,] TempBlobEnable;
         private bool[,] TempLineEnable;
         private bool[,] TempCircleEnable;
@@ -65,6 +64,7 @@ namespace VISION
         private double[,] TempDistance_HighValue;
 
         private Cogs.Camera[] TempCam;
+        private Cogs.Mask[] TempMask;
 
         private bool Dataset = false;
         public bool liveflag = false;
@@ -105,6 +105,7 @@ namespace VISION
             TempCaliper = TempModel.Calipes();
             TempCaliperEnable = TempModel.CaliperEnables();
             TempCam = TempModel.Cam();
+            TempMask = TempModel.MaskTool();
 
             string[] Polarty = { "White to Black", "Black to  White", "Don't Care" };
             string[] Blob = { "White Blob", "Black Blob" };
@@ -280,6 +281,16 @@ namespace VISION
                 //cdyDisplay.Image = Fiximage;
             }
         }
+
+        public void Mask_Train(int toolnumber)
+        {
+            if (TempMulti[Glob.CamNumber, toolnumber].Run((CogImage8Grey)cdyDisplay.Image) == true)
+            {
+                Fiximage = TempModel.Mask_FixtureImage1((CogImage8Grey)cdyDisplay.Image, TempMulti[Glob.CamNumber, toolnumber].ResultPoint(TempMulti[Glob.CamNumber, toolnumber].HighestResultToolNumber()), TempMulti[Glob.CamNumber, toolnumber].ToolName(), Glob.CamNumber, toolnumber, out FimageSpace, TempMulti[Glob.CamNumber, toolnumber].HighestResultToolNumber());
+                //cdyDisplay.Image = Fiximage;
+            }
+        }
+
         public void Bolb_Train(int toolnumber)
         {
             if (TempMulti[Glob.CamNumber, toolnumber].Run((CogImage8Grey)cdyDisplay.Image) == true)
@@ -325,6 +336,7 @@ namespace VISION
             Glob.RunnModel.Distance_UseTool1_Numbers(TempDistance_Tool1_Number);
             Glob.RunnModel.Distance_UseTool2_Numbers(TempDistance_Tool2_Number);
             Glob.RunnModel.Cams(TempCam);
+            Glob.RunnModel.MaskTools(TempMask);
 
             Glob.RunnModel.SaveModel(Glob.MODELROOT + "\\" + Glob.RunnModel.Modelname() + "\\" + $"Cam{Glob.CamNumber}", Glob.CamNumber); //모델명
             CamSet.WriteData($"Camera{Glob.CamNumber}", "Exposure", num_Exposure.Value.ToString()); //카메라 노출값
@@ -524,8 +536,13 @@ namespace VISION
             ImageClear();
             Bolb_Train((int)num_BlobToolNum.Value);
             CogGraphicCollection Collection = new CogGraphicCollection();
+
+            TempMask[Glob.CamNumber].Run((CogImage8Grey)cdyDisplay.Image); //MaskTool Run
+
+            TempBlobs[Glob.CamNumber, (int)num_BlobToolNum.Value].MaskAreaSet(TempMask[Glob.CamNumber].MaskArea()); //검사 제외영역 입력.
+
             TempBlobs[Glob.CamNumber, (int)num_BlobToolNum.Value].Run((CogImage8Grey)cdyDisplay.Image);
-            if (TempBlobs[Glob.CamNumber, (int)num_BlobToolNum.Value].ResultBlobCount() != TempBlobOKCount[Glob.CamNumber, (int)num_BlobToolNum.Value])
+            if (TempBlobs[Glob.CamNumber, (int)num_BlobToolNum.Value].ResultBlobCount() != TempBlobOKCount[Glob.CamNumber, (int)num_BlobToolNum.Value]) //BlobTool 실행.
             {
                 TempBlobs[Glob.CamNumber, (int)num_BlobToolNum.Value].ResultAllBlobDisplayPLT(Collection, false);
             }
@@ -1310,39 +1327,12 @@ namespace VISION
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Form Window = new Form();
-            CogMaskCreatorEditV2 Edit = new CogMaskCreatorEditV2();
-            CogMaskCreatorTool maskTool = new CogMaskCreatorTool();
-            string maskToolRoot = Glob.MODELROOT + $"\\{Glob.CurruntModelName}\\Cam{Glob.CamNumber}\\mask.vpp";
+            if (TempMask[Glob.CamNumber].InputImage((CogImage8Grey)cdyDisplay.Image) == false) return;
 
-            if (File.Exists(maskToolRoot) == false)
-            {
-                //Create MaskTool
-                Glob.curruntMaskTool[Glob.CamNumber] = maskTool;
-                CogSerializer.SaveObjectToFile(Glob.curruntMaskTool[Glob.CamNumber], maskToolRoot);
-            }
+            Mask_Train(0);
+            TempMask[Glob.CamNumber].Area_Affine_Main1(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, cb_MultiPatternName.SelectedIndex.ToString());
 
-            //maskTool = (CogMaskCreatorTool)CogSerializer.LoadObjectFromFile(maskToolRoot);
-
-            Glob.curruntMaskToolPath = maskToolRoot;
-
-            Glob.curruntMaskTool[Glob.CamNumber].InputImage = (CogImage8Grey)cdyDisplay.Image;
-
-            Edit.Dock = DockStyle.Fill; // 화면 채움
-            Edit.Subject = Glob.curruntMaskTool[Glob.CamNumber]; // 에디트에 툴 정보 입력.
-            Window.Controls.Add(Edit); // 폼에 에디트 추가.
-
-            Window.Width = 800;
-            Window.Height = 600;
-
-            Window.FormClosed += Window_FormClosed;
-
-            Window.ShowDialog(); // 폼 실행
-        }
-
-        private void Window_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            CogSerializer.SaveObjectToFile(Glob.curruntMaskTool[Glob.CamNumber], Glob.curruntMaskToolPath);
+            TempMask[Glob.CamNumber].ToolSetup();
         }
 
         private void cb_ngokchange_CheckedChanged(object sender, EventArgs e)

@@ -4,6 +4,7 @@ using Cognex.VisionPro.QuickBuild;
 using Cognex.VisionPro.ToolGroup;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace VISION.Cogs
 
         public CogImage8Grey Run()
         {
+            Debug.WriteLine("6번카메라촬영 시작.");
             this.camTool.Run();
             CogImage8Grey Image = (CogImage8Grey)camTool.OutputImage;
             return Image;

@@ -459,6 +459,7 @@
     <Compile Include="Cogs\Circle.cs" />
     <Compile Include="Cogs\Distance.cs" />
     <Compile Include="Cogs\Line.cs" />
+    <Compile Include="Cogs\Mask.cs" />
     <Compile Include="Cogs\Model.cs" />
     <Compile Include="Cogs\MultiPattern.cs" />
     <Compile Include="Frm_AnalyzeResult.cs">

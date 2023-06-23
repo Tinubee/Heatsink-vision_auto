@@ -3,6 +3,7 @@ using Cognex.VisionPro.Dimensioning;
 using Cognex.VisionPro.ToolGroup;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
@@ -32,6 +33,7 @@ namespace VISION.Cogs
         //Program.CameraList = CamList.LoadCamInfo();
 
         private Camera[] Camera = new Camera[Program.CameraList.Count()];
+        private Mask[] Masks = new Mask[Program.CameraList.Count()];
 
         private Line[,] Lines = new Line[Program.CameraList.Count(), LINETOOLMAX];
         private bool[,] LineEnable = new bool[Program.CameraList.Count(), LINETOOLMAX];
@@ -63,6 +65,7 @@ namespace VISION.Cogs
 
         public Model()
         { // 초기화
+            Debug.WriteLine("Cognex Model 초기화 시작");
             int CircleMax = CIRCLETOOLMAX - 1;
             int BlobMax = BLOBTOOLMAX - 1;
             int LineMax = LINETOOLMAX - 1;
@@ -73,6 +76,10 @@ namespace VISION.Cogs
             for (int lop = 0; lop < 6; lop++) //Glob.allCameraCount 에서 6으로 임시 변경.
             {
                 Camera[lop] = new Camera(lop);
+                Debug.WriteLine($"Camera{lop + 1} 초기화 완료.");
+
+                Masks[lop] = new Mask(lop);
+                Debug.WriteLine($"Mask{lop + 1} 초기화 완료.");
             }
 
 
@@ -174,10 +181,8 @@ namespace VISION.Cogs
             int MultiPatternMax = MULTIPATTERNMAX - 1;
             int DistanceMax = DISTANCEMAX - 1;
 
-
-            
             Camera[cam].Loadtool(path + $"\\cam - {cam.ToString()}.vpp");
-  
+            Masks[cam].Loadtool(path + $"\\Mask - {cam.ToString()}.vpp");
 
             for (int lop = 0; lop <= MultiPatternMax; lop++)
             {
@@ -279,6 +284,7 @@ namespace VISION.Cogs
             int CalipersMax = CALIPERMAX - 1;
 
             Camera[cam].SaveTool(path , $"cam - {cam.ToString()}.vpp");
+            Masks[cam].SaveTool(path, $"Mask - {cam.ToString()}.vpp");
 
             for (int lop = 0; lop <= MultiPatternMax; lop++)
             {
@@ -452,6 +458,16 @@ namespace VISION.Cogs
         public Line[,] Line()
         {
             return Lines;
+        }
+
+        public Mask[] MaskTool()
+        {
+            return Masks;
+        }
+
+        public void MaskTools(Mask[] masktools)
+        {
+            Masks = masktools;
         }
 
         public Camera[] Cam()
@@ -1030,6 +1046,24 @@ namespace VISION.Cogs
         }
 
         public CogImage8Grey LINE_FixtureImage(CogImage8Grey OriImage, CogTransform2DLinear Fixtured, string SetName, int Camnumber, int toolnumber, out string ImageSpacename, int HighPatternNumber)
+        {
+            Cognex.VisionPro.CalibFix.CogFixtureTool Fixture = new Cognex.VisionPro.CalibFix.CogFixtureTool();
+
+            Fixture.InputImage = OriImage;
+            Fixture.RunParams.FixturedSpaceName = SetName;
+            Fixture.RunParams.UnfixturedFromFixturedTransform = Fixtured;
+            Fixture.RunParams.FixturedSpaceNameDuplicateHandling = Cognex.VisionPro.CalibFix.CogFixturedSpaceNameDuplicateHandlingConstants.Compatibility;
+            //***************추가***************//
+            Fixtured.TranslationX = MultiPattern[Camnumber, toolnumber].TransX(HighPatternNumber);
+            Fixtured.TranslationY = MultiPattern[Camnumber, toolnumber].TransY(HighPatternNumber);
+            Fixtured.Rotation = MultiPattern[Camnumber, toolnumber].TransRotation(HighPatternNumber);
+
+            Fixture.Run();
+            ImageSpacename = Fixture.OutputImage.SelectedSpaceName;
+            return (CogImage8Grey)Fixture.OutputImage;
+        }
+
+        public CogImage8Grey Mask_FixtureImage1(CogImage8Grey OriImage, CogTransform2DLinear Fixtured, string SetName, int Camnumber, int toolnumber, out string ImageSpacename, int HighPatternNumber)
         {
             Cognex.VisionPro.CalibFix.CogFixtureTool Fixture = new Cognex.VisionPro.CalibFix.CogFixtureTool();
 
