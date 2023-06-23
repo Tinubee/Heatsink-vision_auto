@@ -26,6 +26,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using System.Net.Sockets;
 using System.Collections;
 using Microsoft.VisualBasic.Logging;
+using DevExpress.Utils.Design;
 
 namespace VISION
 {
@@ -40,18 +41,18 @@ namespace VISION
         private CogImage8Grey Fiximage; //PMAlign툴의 결과이미지(픽스쳐이미지)
         private string FimageSpace; //PMAlign툴 SpaceName(보정하기위해)
 
-        private Cogs.Camera[] TempCam;
-        private Cogs.Mask[] TempMask;
+        private Camera[] TempCam;
+        private Mask[] TempMask;
 
         private CogDisplay[] TempCogDisplay;
 
-        private Cogs.Model TempModel; //모델
-        private Cogs.Blob[,] TempBlobs; //블롭툴
-        private Cogs.Line[,] TempLines; //라인툴
-        private Cogs.Circle[,] TempCircles; //써클툴
-        private Cogs.MultiPMAlign[,] TempMulti;
-        private Cogs.Distance[,] TempDistance;
-        private Cogs.Caliper[,] TempCaliper;
+        private Model TempModel; //모델
+        private Blob[,] TempBlobs; //블롭툴
+        private Line[,] TempLines; //라인툴
+        private Circle[,] TempCircles; //써클툴
+        private MultiPMAlign[,] TempMulti;
+        private Distance[,] TempDistance;
+        private Caliper[,] TempCaliper;
 
 
         private bool[,] TempLineEnable; //라인툴 사용여부
@@ -93,17 +94,10 @@ namespace VISION
 
         // Trigger
         private Boolean IO_DoWork = false;
-        //PLC 신호 관련 변수들
-        // is selected OCX
 
         private string[] IOModel = new string[2];
         private Button[] inputBtn;
         private System.Windows.Forms.CheckBox[] outputBtn;
-        //private CheckBox[] checkHigh = new CheckBox[16];
-        //private CheckBox[] checkLow = new CheckBox[16];
-        private uint hInterrupt = 0;
-        private Thread EventThread = null;
-        private bool bThread = false;
 
         public readonly static uint INFINITE = 0xFFFFFFFF;
         public readonly static uint STATUS_WAIT_0 = 0x00000000;
@@ -125,16 +119,12 @@ namespace VISION
             Process.Start($"{Glob.LOADINGFROM}");
             Debug.WriteLine("프로그램 시작");
             InitializeComponent();
-
-            // 주석처리함
-            //this.timerSensor.Tick += this.timerSensor_Tick;
-
             ColumnHeader h = new ColumnHeader();
             StandFirst(); //처음 실행되어야 하는부분. - 이거 왜했지.. 이유는 모르겠다 일단 냅두자 필요없을꺼같기도함. - 20200121 김형민
             Debug.WriteLine("StartFirst 완료.");
             CamSet();
             Debug.WriteLine("CamSet완료.");
-            Glob.RunnModel = new Cogs.Model(); //코그넥스 모델 확인.
+            Glob.RunnModel = new Model(); //코그넥스 모델 확인.
             Debug.WriteLine("Cognex 모델 확인 완료.");
 
             // 최종 트리거 시간 초기화
@@ -167,7 +157,7 @@ namespace VISION
             timer_Setting.Start(); //타이머에서 계속해서 확인하는 것들
 
             Debug.WriteLine("코그넥스 모델 로드");
-            CognexModelLoad();
+            CognexModelLoad(); //코그넥스 모델 로드.
 
             Debug.WriteLine("PLC IO READ LOAD");
             DigitalIO_Load();//IO Load
@@ -176,7 +166,7 @@ namespace VISION
             SelectModule();
 
             log.AddLogMessage(LogType.Infomation, 0, "Vision Program Start");
-            Process[] myProcesses = Process.GetProcessesByName("LoadingForm_KHM");
+            Process[] myProcesses = Process.GetProcessesByName("LoadingForm_KHM"); //로딩폼 죽이기.
             if (myProcesses.LongLength > 0)
             {
                 myProcesses[0].Kill();
@@ -489,6 +479,7 @@ namespace VISION
                 INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{LastModel}\\CamSet.ini");
                 for (int i = 0; i < camcount; i++)
                 {
+                    Glob.FlipImageTool[i] = (CogIPOneImageTool)CogSerializer.LoadObjectFromFile(Glob.MODELROOT + $"\\{LastModel}\\Cam{i}\\FlipImage.vpp");
                     Glob.RunnModel.Loadmodel(LastModel, Glob.MODELROOT, i); //VISION TOOL LOAD
                 }
 
@@ -545,8 +536,6 @@ namespace VISION
             lb_Time.Text = dt.ToString("yyyy년 MM월 dd일 HH:mm:ss"); //현재날짜
             lb_CurruntModelName.Text = Glob.RunnModel.Modelname(); //현재사용중인 모델명 체크
             Glob.CurruntModelName = Glob.RunnModel.Modelname();
-
-            lb_iocheck.Text = this.IO_DoWork.ToString();
 
             for (int i = 0; i < camcount; i++)
             {
@@ -683,21 +672,25 @@ namespace VISION
 
         public void ShotAndInspect_Cam2(int shotNumber)
         {
+            int funCamNumber = 1;
             try
             {
-                InspectTime[1] = new Stopwatch();
-                InspectTime[1].Reset();
-                InspectTime[1].Start();
+                InspectTime[funCamNumber] = new Stopwatch();
+                InspectTime[funCamNumber].Reset();
+                InspectTime[funCamNumber].Start();
 
-                TempCogDisplay[1].Image = TempCam[1].Run();
-                TempCogDisplay[1].InteractiveGraphics.Clear();
-                TempCogDisplay[1].StaticGraphics.Clear();
-                if (TempCogDisplay[1].Image == null)
+                Glob.FlipImageTool[funCamNumber].InputImage = TempCam[funCamNumber].Run();
+                Glob.FlipImageTool[funCamNumber].Run();
+
+                TempCogDisplay[funCamNumber].Image = Glob.FlipImageTool[funCamNumber].OutputImage;
+                TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
+                TempCogDisplay[funCamNumber].StaticGraphics.Clear();
+                if (TempCogDisplay[funCamNumber].Image == null)
                 {
                     log.AddLogMessage(LogType.Error, 0, "이미지 획들을 하지 못하였습니다. CAM - 2");
                     return;
                 }
-                if (Inspect_Cam1(TempCogDisplay[1], shotNumber) == true) // 검사 결과
+                if (Inspect_Cam1(TempCogDisplay[funCamNumber], shotNumber) == true) // 검사 결과
                 {
                     //검사 결과 OK
                     BeginInvoke((Action)delegate
@@ -707,7 +700,7 @@ namespace VISION
                         lb_Cam2_Result.Text = "O K";
                         OK_Count[1]++;
                         if (Glob.OKImageSave)
-                            ImageSave2("OK", 2, TempCogDisplay[1]);
+                            ImageSave2("OK", 2, TempCogDisplay[funCamNumber]);
                     });
                 }
                 else
@@ -719,7 +712,7 @@ namespace VISION
                         lb_Cam2_Result.Text = "N G";
                         NG_Count[1]++;
                         if (Glob.NGImageSave)
-                            ImageSave2("NG", 2, TempCogDisplay[1]);
+                            ImageSave2("NG", 2, TempCogDisplay[funCamNumber]);
                     });
                     if (!Glob.statsOK)
                     {
@@ -748,8 +741,10 @@ namespace VISION
                 InspectTime[funCamNumber] = new Stopwatch();
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
+                Glob.FlipImageTool[funCamNumber].InputImage = TempCam[funCamNumber].Run();
+                Glob.FlipImageTool[funCamNumber].Run();
 
-                TempCogDisplay[funCamNumber].Image = TempCam[funCamNumber].Run();
+                TempCogDisplay[funCamNumber].Image = Glob.FlipImageTool[funCamNumber].OutputImage;
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
                 if (TempCogDisplay[funCamNumber].Image == null)
@@ -937,7 +932,10 @@ namespace VISION
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
 
-                cdy.Image = TempCam[funCamNumber].Run();
+                Glob.FlipImageTool[funCamNumber].InputImage = TempCam[funCamNumber].Run();
+                Glob.FlipImageTool[funCamNumber].Run();
+
+                cdy.Image = Glob.FlipImageTool[funCamNumber].OutputImage;
                 cdy.InteractiveGraphics.Clear();
                 cdy.StaticGraphics.Clear();
                 if (cdy.Image == null)
@@ -1050,7 +1048,7 @@ namespace VISION
             {
                 LightOFF();
             }
-            for (int i = 0; i < Glob.allCameraCount; i++)
+            for (int i = 0; i < TempCam.Count(); i++)
             {
                 TempCam[i].Close();
                 TempMask[i].Close();
@@ -1066,6 +1064,7 @@ namespace VISION
             btn_Model.Enabled = false;
             btn_SystemSetup.Enabled = false;
             btn_Stop.Enabled = true;
+            tlpUnder.Visible = false;
             this.IO_DoWork = true;
             new Thread(ReadInputSignal).Start();
             CognexModelLoad();
@@ -1097,6 +1096,7 @@ namespace VISION
             TempCaliperEnable = TempModel.CaliperEnables();
             TempCam = TempModel.Cam();
             TempMask = TempModel.MaskTool();
+          
 
             //for (int i = 0; i < Glob.curruntMaskTool.Length - 1; i++)
             //{
@@ -2421,6 +2421,7 @@ namespace VISION
             btn_Status.Enabled = true;
             Glob.firstInspection[0] = true;
             Glob.firstInspection[1] = true;
+            tlpUnder.Visible = true;
             this.IO_DoWork = false;
         }
 
@@ -2503,7 +2504,18 @@ namespace VISION
         {
             try
             {
-                cdy.Image = TempCam[camNumber].Run();
+                if(camNumber == 1 || camNumber ==2 || camNumber == 5)
+                {
+                    Glob.FlipImageTool[camNumber].InputImage = TempCam[camNumber].Run();
+                    Glob.FlipImageTool[camNumber].Run();
+
+                    cdy.Image = Glob.FlipImageTool[camNumber].OutputImage;
+                }
+                else
+                {
+                    cdy.Image = TempCam[camNumber].Run();
+                }
+              
             }
             catch (Exception ex)
             {
@@ -2659,17 +2671,17 @@ namespace VISION
                                 }
                                 break;
                             case 7://6번촬영
-                                Debug.WriteLine("6-1 트리거 신호 들어옴");
+                                Debug.WriteLine("6 트리거 신호 들어옴");
                                 Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6, 1); });
                                 break;
-                            case 8://6번촬영
-                                Debug.WriteLine("6-2 트리거 신호 들어옴");
-                                Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6_2, 2); });
-                                break;
-                            case 9://6번촬영
-                                Debug.WriteLine("6-3 트리거 신호 들어옴");
-                                Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6_3, 3); });
-                                break;
+                            //case 8://6번촬영
+                            //    Debug.WriteLine("6-2 트리거 신호 들어옴");
+                            //    Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6, 2); });
+                            //    break;
+                            //case 9://6번촬영
+                            //    Debug.WriteLine("6-3 트리거 신호 들어옴");
+                            //    Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6_3, 3); });
+                            //    break;
                         }
                     }
 
@@ -2735,6 +2747,55 @@ namespace VISION
             Glob.statsOK = cb_ResultOK.Checked;
             cb_ResultOK.Text = cb_ResultOK.Checked == true ? "USE" : "UNUSED";
             cb_ResultOK.ForeColor = cb_ResultOK.Checked == true ? Color.Lime : Color.Red;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string ImageType;
+            OpenFileDialog ofd = new OpenFileDialog();
+            CogImage8Grey Monoimage = new CogImage8Grey();
+            ofd.Multiselect = false;
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                //Glob.ImageFilePath = ofd.FileName.Substring(0, ofd.FileName.Length - ofd.SafeFileName.Length);
+                Glob.ImageFilePath = ofd.FileName;
+                string type = Path.GetExtension(ofd.FileName);
+                string[] ImageFileName = ofd.FileNames;
+                if (type == ".bmp")
+                {
+                    CogImageFileBMP Imageopen = new CogImageFileBMP();
+                    Imageopen.Open(ofd.FileName, CogImageFileModeConstants.Read);
+                    Imageopen.Close();
+                }
+                else
+                {
+                    CogImageFileTool curimage = new CogImageFileTool();
+                    curimage.Operator.Open(ofd.FileName, CogImageFileModeConstants.Read);
+                    curimage.Run();
+                    ImageType = curimage.OutputImage.GetType().ToString();
+                    if (ImageType.Contains("CogImage24PlanarColor"))
+                    {
+                        CogImageConvertTool imageconvert = new CogImageConvertTool();
+                        imageconvert.InputImage = curimage.OutputImage;
+                        imageconvert.RunParams.RunMode = CogImageConvertRunModeConstants.Plane2;
+                        imageconvert.Run();
+
+                        Glob.FlipImageTool[5].InputImage = curimage.OutputImage;
+                        Glob.FlipImageTool[5].Run();
+
+                        cdyDisplay6.Image = Glob.FlipImageTool[5].OutputImage;
+                    }
+                    else
+                    {
+                        Glob.FlipImageTool[5].InputImage = curimage.OutputImage;
+                        Glob.FlipImageTool[5].Run();
+                        cdyDisplay6.Image = (CogImage8Grey)Glob.FlipImageTool[5].OutputImage;//JPG 파일
+                    }
+                    //cdyDisplay.Image = (CogImage8Grey)curimage.OutputImage;
+                    cdyDisplay6.Fit();
+                    GC.Collect();
+                }
+            }
         }
     }
 }

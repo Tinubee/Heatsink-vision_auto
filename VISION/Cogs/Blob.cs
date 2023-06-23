@@ -108,14 +108,7 @@ namespace VISION.Cogs
 
             if (System.IO.Directory.Exists(Savepath) == false)
             {
-                //if (this.Tool.Name == "Blob - 0" || this.Tool.Name == "Blob - 19")
-                //{
-                //    NewTool0();
-                //}
-                //else
-                //{
                 NewTool();
-                //}
                 return true;
             }
 
@@ -123,14 +116,7 @@ namespace VISION.Cogs
 
             if (System.IO.File.Exists(Savepath) == false)
             {
-                //if (this.Tool.Name == "Blob - 0" || this.Tool.Name == "Blob - 19")
-                //{
-                //    NewTool0();
-                //}
-                //else
-                //{
                 NewTool();
-                // }
                 return false;
             }
 

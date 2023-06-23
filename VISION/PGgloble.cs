@@ -63,6 +63,7 @@ namespace VISION
 
         // 시스템
         public Cogs.Model RunnModel = null;
+        public CogIPOneImageTool[] FlipImageTool = new CogIPOneImageTool[6];
 
         public string CurruntModelName;
         public string ImageSaveRoot; // 이미지 저장 경로

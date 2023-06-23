@@ -27,12 +27,6 @@ namespace VISION.Cogs
             Tool = new CogMaskCreatorTool();
             Tool.Name = "Mask - " + Toolnumber.ToString();
         }
-
-        private bool NewTool()
-        { // 툴의 가장 초기 상태 셋업
-            return true;
-        }
-
         /// <summary>
         /// 파일에서 툴을 불러 옴. 파일이 있는 폴더의 경로만 제공 하면 됨.
         /// </summary>
@@ -40,6 +34,10 @@ namespace VISION.Cogs
         /// <returns></returns>
         public bool Loadtool(string path)
         {
+            if (System.IO.File.Exists(path) == false)
+            {
+                CogSerializer.SaveObjectToFile(this.Tool, path);
+            }
             Tool = (CogMaskCreatorTool)CogSerializer.LoadObjectFromFile(path);
             CogToolGroup group = new CogToolGroup();
             job.VisionTool = group;

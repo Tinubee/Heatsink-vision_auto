@@ -21,8 +21,13 @@ namespace VISION.Cogs
             camTool = new CogAcqFifoTool();
             camTool.Name = "cam - " + Toolnumber.ToString();
         }
+     
         public bool Loadtool(string path)
         {
+            if (System.IO.File.Exists(path) == false)
+            {
+                CogSerializer.SaveObjectToFile(this.camTool, path);
+            }
             camTool = (CogAcqFifoTool)CogSerializer.LoadObjectFromFile(path);
             CogToolGroup group = new CogToolGroup();
             job.VisionTool = group;
@@ -40,7 +45,7 @@ namespace VISION.Cogs
 
         public void SetBrightness(double value)
         {
-            if(this.camTool.Operator.OwnedBrightnessParams != null)
+            if(this.camTool.Operator != null)
             {
                 this.camTool.Operator.OwnedBrightnessParams.Brightness = value;
             }
@@ -72,6 +77,7 @@ namespace VISION.Cogs
 
         public void SetExposure(double value)
         {
+            if(this.camTool.Operator == null) return;
             this.camTool.Operator.OwnedExposureParams.Exposure= value;
         }
 

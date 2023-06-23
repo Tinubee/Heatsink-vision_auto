@@ -28,10 +28,6 @@ namespace VISION
         double[] gainvalue;
         double[] exposurevalue;
 
-        //Main 쪽 camcount 변수 형식 변경. -> 선언하고 ToolSetUp Open시 다시 할당해준다.
-        //double[] gainvalue = new double[Frm_Main.camcount]; 
-        //double[] exposurevalue = new double[Frm_Main.camcount];
-        private CogImage24PlanarColor Oriimage = new CogImage24PlanarColor();
         private CogImage8Grey Monoimage = new CogImage8Grey();
         private CogImage8Grey Fiximage;
         private string FimageSpace;
@@ -112,8 +108,6 @@ namespace VISION
             string[] Direction = { "Inward", "Outward" };
             string[] AreaShape = { "CogCircle", "CogEllipse", "CogRectangleAffine", "CogCircularAnnulusSection" };
             cb_BlobPolarty.Items.AddRange(Blob);
-            //cb_LinePolarty.Items.AddRange(Polarty);
-            //cb_LineDirection.Items.AddRange(Direction);
             for (int i = 0; i < 30; i++)
             {
                 cb_MultiPatternName.Items.Add(TempMulti[Glob.CamNumber, i].ToolName());
@@ -131,14 +125,10 @@ namespace VISION
                 Num2_DimensionTool.Items.Add(TempCaliper[Glob.CamNumber, i].ToolName());
             }
             num_BlobToolNum.Value = 0;
-            //num_LineToolNum.Value = 1;
-            //num_CircleToolNumber.Value = 1;
             num_MultiPatternToolNumber.Value = 0;
             num_DimensionToolNum.Value = 1;
 
             ChangeBlobToolNumber();
-            //LineChangeToolNumber();
-            //CircleChangeToolNumber();
             ChangeMultiPatternToolNumber();
             ChangeDistanceToolNumber();
             lb_CurruntModelName.Text = Glob.RunnModel.Modelname(); //현재사용중인 모델명 체크
@@ -152,11 +142,9 @@ namespace VISION
             Glob.CamNumber = 0;
             Glob.InspectOrder = 1;
             LoadSetup();
-            //CameraSet(); //카메라 Exposure 및 Gain Set Up - 20201215 김형민 ( Main 쪽 Load 할때도 적용 해야되는지 확인하기.)
             UpdateCamStats();
             dgv_ToolSetUp.DoubleBuffered(true);
             DGVUpadte();
-            //CalibrationDataLoad();
         }
 
         private void DGVUpadte()
@@ -287,7 +275,6 @@ namespace VISION
             if (TempMulti[Glob.CamNumber, toolnumber].Run((CogImage8Grey)cdyDisplay.Image) == true)
             {
                 Fiximage = TempModel.Mask_FixtureImage1((CogImage8Grey)cdyDisplay.Image, TempMulti[Glob.CamNumber, toolnumber].ResultPoint(TempMulti[Glob.CamNumber, toolnumber].HighestResultToolNumber()), TempMulti[Glob.CamNumber, toolnumber].ToolName(), Glob.CamNumber, toolnumber, out FimageSpace, TempMulti[Glob.CamNumber, toolnumber].HighestResultToolNumber());
-                //cdyDisplay.Image = Fiximage;
             }
         }
 
@@ -296,7 +283,6 @@ namespace VISION
             if (TempMulti[Glob.CamNumber, toolnumber].Run((CogImage8Grey)cdyDisplay.Image) == true)
             {
                 Fiximage = TempModel.Blob_FixtureImage((CogImage8Grey)cdyDisplay.Image, TempMulti[Glob.CamNumber, toolnumber].ResultPoint(TempMulti[Glob.CamNumber, toolnumber].HighestResultToolNumber()), TempMulti[Glob.CamNumber, toolnumber].ToolName(), Glob.CamNumber, toolnumber, out FimageSpace, TempMulti[Glob.CamNumber, toolnumber].HighestResultToolNumber());
-                //cdyDisplay.Image = Fiximage;
             }
         }
         public void Line_Train(int toolnumber)
@@ -304,7 +290,6 @@ namespace VISION
             if (TempMulti[Glob.CamNumber, toolnumber].Run((CogImage8Grey)cdyDisplay.Image) == true)
             {
                 Fiximage = TempModel.LINE_FixtureImage((CogImage8Grey)cdyDisplay.Image, TempMulti[Glob.CamNumber, toolnumber].ResultPoint(TempMulti[Glob.CamNumber, toolnumber].HighestResultToolNumber()), TempMulti[Glob.CamNumber, toolnumber].ToolName(), Glob.CamNumber, toolnumber, out FimageSpace, TempMulti[Glob.CamNumber, toolnumber].HighestResultToolNumber());
-                //cdyDisplay.Image = Fiximage;
             }
         }
 
@@ -1325,7 +1310,7 @@ namespace VISION
             Glob.InspectOrder = (int)num_GlobOrderNumber.Value;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btn_MaskAreaSet_Click(object sender, EventArgs e)
         {
             if (TempMask[Glob.CamNumber].InputImage((CogImage8Grey)cdyDisplay.Image) == false) return;
 
