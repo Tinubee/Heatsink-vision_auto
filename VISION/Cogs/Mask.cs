@@ -84,6 +84,12 @@ namespace VISION.Cogs
             return true;
         }
 
+
+        public void Close()
+        {
+            this.job.Shutdown();
+        }
+
         /// <summary>
         /// 툴 동작. 검사를 수행함.
         /// </summary>

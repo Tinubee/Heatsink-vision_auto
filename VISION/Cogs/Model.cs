@@ -674,6 +674,8 @@ namespace VISION.Cogs
                     //pattern 4 
                     if (BlobEnable[CamNumber, lop] == true && (MultiPatternOrderNumber[CamNumber, patternIndex] == Glob.InspectOrder || MultiPatternOrderNumber[CamNumber, patternIndex] == shotNumber))
                     {
+                        Masks[CamNumber].Run(Image);
+                        Blobs[CamNumber, lop].MaskAreaSet(Masks[CamNumber].MaskArea());
                         Blobs[CamNumber, lop].Run(Image);
                         ResultString[lop] = "OK";
                     }

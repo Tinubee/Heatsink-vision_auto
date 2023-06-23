@@ -1053,6 +1053,7 @@ namespace VISION
             for (int i = 0; i < Glob.allCameraCount; i++)
             {
                 TempCam[i].Close();
+                TempMask[i].Close();
             }
 
         }
@@ -1253,8 +1254,8 @@ namespace VISION
 
         public void BlobMaskAreaSetting(CogDisplay cog, int CameraNumber, int toolnum)
         {
-            TempMask[CameraNumber].Run((CogImage8Grey)cog.Image); //MaskTool Run
-            TempBlobs[Glob.CamNumber, toolnum].MaskAreaSet(TempMask[CameraNumber].MaskArea()); //검사 제외영역 입력.
+            //TempMask[CameraNumber].Run((CogImage8Grey)cog.Image); //MaskTool Run
+            //TempBlobs[Glob.CamNumber, toolnum].MaskAreaSet(TempMask[CameraNumber].MaskArea()); //검사 제외영역 입력.
         }
 
         #region Inpection CAM0 
