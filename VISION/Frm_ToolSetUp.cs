@@ -39,7 +39,7 @@ namespace VISION
         private Cogs.MultiPMAlign[,] TempMulti;
         private Cogs.Distance[,] TempDistance;
         private Cogs.Caliper[,] TempCaliper;
-        
+
         private bool[,] TempBlobEnable;
         private bool[,] TempLineEnable;
         private bool[,] TempCircleEnable;
@@ -438,7 +438,10 @@ namespace VISION
 
         private void num_Exposure_ValueChanged(object sender, EventArgs e)
         {
-            TempCam[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
+            if(Glob.CamNumber == 3 || Glob.CamNumber == 5)
+            {
+                TempCam[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
+            }
         }
 
         private void btn_Livestop_Click(object sender, EventArgs e)
@@ -463,7 +466,10 @@ namespace VISION
 
         private void num_Gain_ValueChanged(object sender, EventArgs e)
         {
-            TempCam[Glob.CamNumber].SetBrightness((double)num_Gain.Value);
+            if (Glob.CamNumber == 3 || Glob.CamNumber == 4)
+            {
+                TempCam[Glob.CamNumber].SetBrightness((double)num_Gain.Value);
+            }
         }
 
         private void btn_ImageSave_Click(object sender, EventArgs e)
@@ -742,10 +748,11 @@ namespace VISION
                 num_Exposure.Value = Convert.ToDecimal(CamSet.ReadData($"Camera{Glob.CamNumber}", "Exposure"));
                 num_Gain.Value = Convert.ToDecimal(CamSet.ReadData($"Camera{Glob.CamNumber}", "Gain"));
 
-                TempCam[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
-                TempCam[Glob.CamNumber].SetBrightness((double)num_Gain.Value);
-                //num_Exposure.Value = Convert.ToDecimal(TempCam[Glob.CamNumber].GetExposure());
-                //num_Gain.Value = Convert.ToDecimal(TempCam[Glob.CamNumber].GetBrightness());
+                if (Glob.CamNumber == 3 || Glob.CamNumber == 4)
+                {
+                    TempCam[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
+                    TempCam[Glob.CamNumber].SetBrightness((double)num_Gain.Value);
+                }
 
                 FormLoad = false;
             }

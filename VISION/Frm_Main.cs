@@ -26,7 +26,6 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using System.Net.Sockets;
 using System.Collections;
 using Microsoft.VisualBasic.Logging;
-using DevExpress.Utils.Design;
 
 namespace VISION
 {
@@ -83,7 +82,7 @@ namespace VISION
         public double[] TOTAL_Count = new double[6]; //총개수
         public double[] NG_Rate = new double[6]; //총개수
 
-        public bool[] InspectFlag = new bool[6]; //검사 플래그.
+        public bool[] InspectFlag = new bool[6]; //검사 플래그
         public int camcount = 6;
 
         Label[] OK_Label;
@@ -107,6 +106,8 @@ namespace VISION
         public bool[] gbool_di = new bool[12];
         public bool[] re_gbool_di = new bool[12];
 
+        public SerialPort serialPort;
+
         [DllImport("kernel32", EntryPoint = "WaitForSingleObject", SetLastError = true, CharSet = CharSet.Unicode)]
         private static extern uint WaitForSingleObject(uint hHandle, uint dwMilliseconds);
 
@@ -120,12 +121,18 @@ namespace VISION
             Debug.WriteLine("프로그램 시작");
             InitializeComponent();
             ColumnHeader h = new ColumnHeader();
+
+            Debug.WriteLine("GeniCamInit");
+            GeniCamInit();
+
             StandFirst(); //처음 실행되어야 하는부분. - 이거 왜했지.. 이유는 모르겠다 일단 냅두자 필요없을꺼같기도함. - 20200121 김형민
             Debug.WriteLine("StartFirst 완료.");
             CamSet();
             Debug.WriteLine("CamSet완료.");
             Glob.RunnModel = new Model(); //코그넥스 모델 확인.
             Debug.WriteLine("Cognex 모델 확인 완료.");
+
+            Glob.G_MainForm = this;
 
             // 최종 트리거 시간 초기화
             for (Int32 i = 0; i < this.TrigTime.Length; i++)
@@ -165,6 +172,8 @@ namespace VISION
             Debug.WriteLine("PLC IO SET MODULE");
             SelectModule();
 
+            Debug.WriteLine($"현재모델 이름 : {Glob.CurruntModelName}");
+
             log.AddLogMessage(LogType.Infomation, 0, "Vision Program Start");
             Process[] myProcesses = Process.GetProcessesByName("LoadingForm_KHM"); //로딩폼 죽이기.
             if (myProcesses.LongLength > 0)
@@ -172,11 +181,37 @@ namespace VISION
                 myProcesses[0].Kill();
             }
         }
+
+        public void GeniCamInit()
+        {
+           
+            //string[] ports = SerialPort.GetPortNames();
+            //serialPort = new SerialPort(ports.FirstOrDefault(item => item == "COM1"), 9600);
+            //try
+            //{
+            //    serialPort.Open();
+            //    Console.WriteLine("Serial port opened. Press any key to exit.");
+
+            //    //string input = $"I=42";
+            //    //serialPort.WriteLine(input);
+
+            //    serialPort.Close();
+
+            //}
+            //catch (Exception ee)
+            //{
+            //    Debug.WriteLine(ee.Message);
+            //}
+        }
+
         private void CamSet()
         {
             try
             {
                 CogFrameGrabberGigEs frameGrabbers = new CogFrameGrabberGigEs();
+                CogAcqFifoTool fifoTool = new CogAcqFifoTool();
+
+                Debug.WriteLine(frameGrabbers.Count);
                 Glob.allCameraCount = frameGrabbers.Count + 3;
                 log.AddLogMessage(LogType.Program, 0, $"확인 된 카메라 개수 : {Glob.allCameraCount}");
             }
@@ -475,6 +510,7 @@ namespace VISION
 
                 INIControl setting = new INIControl(Glob.SETTING);
                 string LastModel = CFGFILE.ReadData("LASTMODEL", "NAME"); //마지막 사용모델 확인.
+                Glob.CurruntModelName = LastModel;
                 //확인 필요. - LastModel Name 변수에 들어오는 String값 확인하기.
                 INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{LastModel}\\CamSet.ini");
                 for (int i = 0; i < camcount; i++)
@@ -614,6 +650,14 @@ namespace VISION
                 InspectTime[0] = new Stopwatch();
                 InspectTime[0].Reset();
                 InspectTime[0].Start();
+
+                //Glob.FlipImageTool[0].InputImage = TempCam[0].Run();
+                //Glob.FlipImageTool[0].Run();
+
+                //TempCogDisplay[0].Image = Glob.FlipImageTool[0].OutputImage;
+                //TempCogDisplay[0].InteractiveGraphics.Clear();
+                //TempCogDisplay[0].StaticGraphics.Clear();
+
                 TempCogDisplay[0].Image = TempCam[0].Run();
                 TempCogDisplay[0].InteractiveGraphics.Clear();
                 TempCogDisplay[0].StaticGraphics.Clear();
@@ -938,6 +982,18 @@ namespace VISION
                 cdy.Image = Glob.FlipImageTool[funCamNumber].OutputImage;
                 cdy.InteractiveGraphics.Clear();
                 cdy.StaticGraphics.Clear();
+
+                //TempCogDisplay[5].Image = TempCam[5].Run();
+                //TempCogDisplay[5].InteractiveGraphics.Clear();
+                //TempCogDisplay[5].StaticGraphics.Clear();
+
+                //Glob.FlipImageTool[funCamNumber].InputImage = TempCam[funCamNumber].Run();
+                //Glob.FlipImageTool[funCamNumber].Run();
+
+                //cdy.Image = TempCam[5].Run();
+                //cdy.InteractiveGraphics.Clear();
+                //cdy.StaticGraphics.Clear();
+
                 if (cdy.Image == null)
                 {
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
@@ -1096,7 +1152,7 @@ namespace VISION
             TempCaliperEnable = TempModel.CaliperEnables();
             TempCam = TempModel.Cam();
             TempMask = TempModel.MaskTool();
-          
+
 
             //for (int i = 0; i < Glob.curruntMaskTool.Length - 1; i++)
             //{
@@ -2504,7 +2560,7 @@ namespace VISION
         {
             try
             {
-                if(camNumber == 1 || camNumber ==2 || camNumber == 5)
+                if (camNumber == 1 || camNumber == 2 || camNumber == 5)
                 {
                     Glob.FlipImageTool[camNumber].InputImage = TempCam[camNumber].Run();
                     Glob.FlipImageTool[camNumber].Run();
@@ -2515,7 +2571,7 @@ namespace VISION
                 {
                     cdy.Image = TempCam[camNumber].Run();
                 }
-              
+
             }
             catch (Exception ex)
             {
@@ -2624,17 +2680,19 @@ namespace VISION
                         inputBtn[i].BackColor = fired ? Color.Lime : SystemColors.Control;
                         if (!fired) continue;
 
-                        log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                         Debug.WriteLine($"PLC 신호 : {i}");
+
                         switch (i)
                         {
                             case 0: //1번째 라인스캔 카메라 촬영 신호 Cam 1
+                                log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                 Glob.firstInspection[0] = Glob.firstInspection[0] ? false : true;
                                 Task.Run(() => { ShotAndInspect_Cam1(1); });
                                 break;
                             case 1: //사이드 라인스캔 카메라 촬영신호 Cam 2 & Cam 3
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
+                                    log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                     Task.Run(() => { ShotAndInspect_Cam2(1); });
                                     Task.Run(() => { ShotAndInspect_Cam3(1); });
                                 }
@@ -2643,45 +2701,50 @@ namespace VISION
                                 Glob.firstInspection[1] = Glob.firstInspection[1] ? false : true;
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
+                                    log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                     Task.Run(() => { ShotAndInspect_Cam4(cdyDisplay4, 1); });
                                 }
                                 break;
                             case 3: //4번촬영
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
+                                    log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                     Task.Run(() => { ShotAndInspect_Cam4(cdyDisplay4_2, 2); });
                                 }
                                 break;
                             case 4: //4번촬영
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
+                                    log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                     Task.Run(() => { ShotAndInspect_Cam4(cdyDisplay4_3, 3); });
                                 }
                                 break;
                             case 5: //5번촬영
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
+                                    log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                     Task.Run(() => { ShotAndInspect_Cam5(cdyDisplay5, 1); });
                                 }
                                 break;
                             case 6: //5번촬영
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
+                                    log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                     Task.Run(() => { ShotAndInspect_Cam5(cdyDisplay5_1, 2); });
                                 }
                                 break;
                             case 7://6번촬영
-                                Debug.WriteLine("6 트리거 신호 들어옴");
+                                log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                 Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6, 1); });
                                 break;
-                            //case 8://6번촬영
-                            //    Debug.WriteLine("6-2 트리거 신호 들어옴");
-                            //    Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6, 2); });
-                            //    break;
-                            //case 9://6번촬영
-                            //    Debug.WriteLine("6-3 트리거 신호 들어옴");
-                            //    Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6_3, 3); });
-                            //    break;
+                                //case 8://6번촬영
+                                //    Debug.WriteLine("6-2 트리거 신호 들어옴");
+                                //    Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6, 2); });
+                                //    break;
+                                //case 9://6번촬영
+                                //    Debug.WriteLine("6-3 트리거 신호 들어옴");
+                                //    Task.Run(() => { ShotAndInspect_Cam6(cdyDisplay6_3, 3); });
+                                //    break;
                         }
                     }
 

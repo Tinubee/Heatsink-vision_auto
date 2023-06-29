@@ -1,4 +1,5 @@
 ﻿using Cognex.VisionPro;
+using Cognex.VisionPro.Display;
 using Cognex.VisionPro.ImageProcessing;
 using Cognex.VisionPro.QuickBuild;
 using Cognex.VisionPro.ToolGroup;
@@ -13,6 +14,7 @@ namespace VISION.Cogs
 {
     public class Camera
     {
+        private PGgloble Glob = PGgloble.getInstance;
         private CogJob job = new CogJob();
         private CogAcqFifoTool camTool = new CogAcqFifoTool();
 
@@ -21,7 +23,7 @@ namespace VISION.Cogs
             camTool = new CogAcqFifoTool();
             camTool.Name = "cam - " + Toolnumber.ToString();
         }
-     
+
         public bool Loadtool(string path)
         {
             if (System.IO.File.Exists(path) == false)
@@ -37,19 +39,19 @@ namespace VISION.Cogs
 
         public CogImage8Grey Run()
         {
-            Debug.WriteLine("6번카메라촬영 시작.");
-            this.camTool.Run();
-            CogImage8Grey Image = (CogImage8Grey)camTool.OutputImage;
+            Debug.WriteLine($"{this.camTool.Name} 출 파일 실행.");
+            this.camTool.Run(); //Tool실행.
+            CogImage8Grey Image = (CogImage8Grey)camTool.OutputImage; //Tool 출력이미지.
             return Image;
         }
 
         public void SetBrightness(double value)
         {
-            if(this.camTool.Operator != null)
-            {
-                this.camTool.Operator.OwnedBrightnessParams.Brightness = value;
-            }
-           
+            if (camTool.Operator == null) return;
+
+            if (this.camTool.Operator.OwnedBrightnessParams == null) return;
+
+            this.camTool.Operator.OwnedBrightnessParams.Brightness = value;
         }
         public bool SaveTool(string path, string camName)
         {
@@ -70,15 +72,15 @@ namespace VISION.Cogs
 
         public double GetBrightness()
         {
-            if(this.camTool.Operator.OwnedBrightnessParams== null) return 0;
+            if (this.camTool.Operator.OwnedBrightnessParams == null) return 0;
 
             return this.camTool.Operator.OwnedBrightnessParams.Brightness;
         }
 
         public void SetExposure(double value)
         {
-            if(this.camTool.Operator == null) return;
-            this.camTool.Operator.OwnedExposureParams.Exposure= value;
+            if (this.camTool.Operator == null) return;
+            this.camTool.Operator.OwnedExposureParams.Exposure = value;
         }
 
         public double GetExposure()

@@ -176,6 +176,8 @@
             this.num_Gain = new System.Windows.Forms.NumericUpDown();
             this.btn_OpenCamSetfile = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.cb_flipImage = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.tab_Menu = new System.Windows.Forms.TabControl();
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
             this.label45 = new System.Windows.Forms.Label();
@@ -2228,6 +2230,8 @@
             this.tableLayoutPanel4.Controls.Add(this.num_Gain, 1, 1);
             this.tableLayoutPanel4.Controls.Add(this.btn_OpenCamSetfile, 0, 3);
             this.tableLayoutPanel4.Controls.Add(this.label3, 0, 8);
+            this.tableLayoutPanel4.Controls.Add(this.cb_flipImage, 1, 2);
+            this.tableLayoutPanel4.Controls.Add(this.label6, 0, 2);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
@@ -2345,6 +2349,34 @@
             this.label3.Size = new System.Drawing.Size(0, 32);
             this.label3.TabIndex = 2;
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // cb_flipImage
+            // 
+            this.cb_flipImage.AutoSize = true;
+            this.cb_flipImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cb_flipImage.Font = new System.Drawing.Font("맑은 고딕", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.cb_flipImage.ForeColor = System.Drawing.Color.Red;
+            this.cb_flipImage.Location = new System.Drawing.Point(193, 96);
+            this.cb_flipImage.Name = "cb_flipImage";
+            this.cb_flipImage.Size = new System.Drawing.Size(278, 39);
+            this.cb_flipImage.TabIndex = 14;
+            this.cb_flipImage.Text = "UNUSED";
+            this.cb_flipImage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.cb_flipImage.UseVisualStyleBackColor = true;
+            this.cb_flipImage.Visible = false;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label6.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label6.Location = new System.Drawing.Point(4, 93);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(182, 45);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "이미지회전";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label6.Visible = false;
             // 
             // tab_Menu
             // 
@@ -2695,5 +2727,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel14;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox cb_ngokchange;
+        private System.Windows.Forms.CheckBox cb_flipImage;
+        private System.Windows.Forms.Label label6;
     }
 }
