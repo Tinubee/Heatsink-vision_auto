@@ -40,6 +40,7 @@
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.num_LightNumber = new System.Windows.Forms.NumericUpDown();
             this.Btn_LightOnOff = new System.Windows.Forms.Button();
+            this.btn_ToolSetUp = new System.Windows.Forms.Button();
             this.tlpTopSide = new System.Windows.Forms.TableLayoutPanel();
             this.lb_CurruntModelName = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -149,9 +150,7 @@
             this.LightControl3 = new System.IO.Ports.SerialPort(this.components);
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.MainPanel = new System.Windows.Forms.Panel();
-            this.btn_ToolSetUp = new System.Windows.Forms.Button();
-            this.heatSinkMainDisplay1 = new VISION.UI.HeatSinkMainDisplay();
-            this.heatSinkMainDisplay2 = new VISION.UI.HeatSinkMainDisplay();
+            this.LightControl4 = new System.IO.Ports.SerialPort(this.components);
             this.tlpUnder.SuspendLayout();
             this.tableLayoutPanel32.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -172,7 +171,6 @@
             this.tableLayoutPanel17.SuspendLayout();
             this.tableLayoutPanel16.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            this.MainPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpUnder
@@ -369,6 +367,22 @@
             this.Btn_LightOnOff.UseVisualStyleBackColor = true;
             this.Btn_LightOnOff.Click += new System.EventHandler(this.Btn_LightOnOff_Click);
             // 
+            // btn_ToolSetUp
+            // 
+            this.btn_ToolSetUp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_ToolSetUp.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn_ToolSetUp.Image = global::VISION.Properties.Resources.Setup;
+            this.btn_ToolSetUp.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btn_ToolSetUp.Location = new System.Drawing.Point(940, 4);
+            this.btn_ToolSetUp.Name = "btn_ToolSetUp";
+            this.btn_ToolSetUp.Size = new System.Drawing.Size(133, 81);
+            this.btn_ToolSetUp.TabIndex = 56;
+            this.btn_ToolSetUp.Tag = "Front";
+            this.btn_ToolSetUp.Text = "Tool Setting";
+            this.btn_ToolSetUp.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btn_ToolSetUp.UseVisualStyleBackColor = true;
+            this.btn_ToolSetUp.Click += new System.EventHandler(this.btn_ToolSetUp_Click);
+            // 
             // tlpTopSide
             // 
             this.tlpTopSide.ColumnCount = 7;
@@ -515,6 +529,11 @@
             // timer_Setting
             // 
             this.timer_Setting.Tick += new System.EventHandler(this.timer_Setting_Tick);
+            // 
+            // LightControl1
+            // 
+            this.LightControl1.BaudRate = 19200;
+            this.LightControl1.PortName = "COM6";
             // 
             // tabPage2
             // 
@@ -1934,11 +1953,13 @@
             // 
             // LightControl2
             // 
-            this.LightControl2.PortName = "COM5";
+            this.LightControl2.BaudRate = 19200;
+            this.LightControl2.PortName = "COM7";
             // 
             // LightControl3
             // 
-            this.LightControl3.PortName = "COM6";
+            this.LightControl3.BaudRate = 19200;
+            this.LightControl3.PortName = "COM8";
             // 
             // tableLayoutPanel2
             // 
@@ -1957,45 +1978,15 @@
             // 
             // MainPanel
             // 
-            this.MainPanel.Controls.Add(this.heatSinkMainDisplay2);
-            this.MainPanel.Controls.Add(this.heatSinkMainDisplay1);
             this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainPanel.Location = new System.Drawing.Point(3, 3);
             this.MainPanel.Name = "MainPanel";
             this.MainPanel.Size = new System.Drawing.Size(1626, 908);
             this.MainPanel.TabIndex = 34;
             // 
-            // btn_ToolSetUp
+            // LightControl4
             // 
-            this.btn_ToolSetUp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_ToolSetUp.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_ToolSetUp.Image = global::VISION.Properties.Resources.Setup;
-            this.btn_ToolSetUp.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_ToolSetUp.Location = new System.Drawing.Point(940, 4);
-            this.btn_ToolSetUp.Name = "btn_ToolSetUp";
-            this.btn_ToolSetUp.Size = new System.Drawing.Size(133, 81);
-            this.btn_ToolSetUp.TabIndex = 56;
-            this.btn_ToolSetUp.Tag = "Front";
-            this.btn_ToolSetUp.Text = "Tool Setting";
-            this.btn_ToolSetUp.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btn_ToolSetUp.UseVisualStyleBackColor = true;
-            this.btn_ToolSetUp.Click += new System.EventHandler(this.btn_ToolSetUp_Click);
-            // 
-            // heatSinkMainDisplay1
-            // 
-            this.heatSinkMainDisplay1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.heatSinkMainDisplay1.Location = new System.Drawing.Point(0, 0);
-            this.heatSinkMainDisplay1.Name = "heatSinkMainDisplay1";
-            this.heatSinkMainDisplay1.Size = new System.Drawing.Size(1626, 908);
-            this.heatSinkMainDisplay1.TabIndex = 0;
-            // 
-            // heatSinkMainDisplay2
-            // 
-            this.heatSinkMainDisplay2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.heatSinkMainDisplay2.Location = new System.Drawing.Point(0, 0);
-            this.heatSinkMainDisplay2.Name = "heatSinkMainDisplay2";
-            this.heatSinkMainDisplay2.Size = new System.Drawing.Size(1626, 908);
-            this.heatSinkMainDisplay2.TabIndex = 1;
+            this.LightControl4.PortName = "COM9";
             // 
             // Frm_Main
             // 
@@ -2046,7 +2037,6 @@
             this.tableLayoutPanel16.ResumeLayout(false);
             this.tableLayoutPanel16.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
-            this.MainPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2170,12 +2160,11 @@
         public System.IO.Ports.SerialPort LightControl3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Panel MainPanel;
-        private UI.HeatSinkMainDisplay heatSinkMainDisplay1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.NumericUpDown num_LightNumber;
         private System.Windows.Forms.Button Btn_LightOnOff;
         private System.Windows.Forms.Button btn_ToolSetUp;
-        private UI.HeatSinkMainDisplay heatSinkMainDisplay2;
+        public System.IO.Ports.SerialPort LightControl4;
     }
 }
 

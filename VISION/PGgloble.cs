@@ -77,11 +77,12 @@ namespace VISION
 
         // Light controller
         public int LightControlNumber;
-        public string[] PortName = new string[3]; // 포트 번호
-        public string[] Parity = new string[3]; // 패리티 비트
-        public string[] StopBits = new string[3]; // 스톱비트
-        public string[] DataBit = new string[3]; // 데이터 비트
-        public string[] BaudRate = new string[3]; // 보오 레이트
+        public string[] PortName = new string[4]; // 포트 번호
+        public string[] Parity = new string[4]; // 패리티 비트
+        public string[] StopBits = new string[4]; // 스톱비트
+        public string[] DataBit = new string[4]; // 데이터 비트
+        public string[] BaudRate = new string[4]; // 보오 레이트
+        public int[,] LightChAndValue = new int[4, 2]; //조명컨트롤러 채널(컨트롤번호, 채널번호) 조명값
         //public string PortName; // 포트 번호
         //public string Parity; // 패리티 비트
         //public string StopBits; // 스톱비트
@@ -89,8 +90,8 @@ namespace VISION
         //public string BaudRate; // 보오 레이트
 
         public bool InspectUsed; //검사 사용
-        public string LightCH1; //조명컨트롤러 채널1
-        public string LightCH2; //조명컨트롤러 채널2
+        //public string LightCH1; //조명컨트롤러 채널1
+        //public string LightCH2; //조명컨트롤러 채널2
 
         public string ImageFilePath; //이미지파일경로.
 

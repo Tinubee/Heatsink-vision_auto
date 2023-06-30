@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VISION.Properties;
 
 namespace VISION
 {
@@ -72,8 +73,13 @@ namespace VISION
 
             tb_CurruntModel.Text = Glob.RunnModel.Modelname();
             NowModel = Glob.RunnModel.Modelname();
-            //카메라 설정값 넣어주기 작업추가해야됨
 
+            INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{NowModel}\\CamSet.ini");
+            for (int i = 0; i < Glob.PortName.Count(); i++)
+            {
+                Glob.LightChAndValue[i, 0] = Convert.ToInt32(CamSet.ReadData($"LightControl{i}", "CH1"));
+                Glob.LightChAndValue[i, 1] = Convert.ToInt32(CamSet.ReadData($"LightControl{i}", "CH2"));
+            }
         }
 
         private void Frm_Model_Load(object sender, EventArgs e)

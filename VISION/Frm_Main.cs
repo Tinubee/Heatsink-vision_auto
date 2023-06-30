@@ -27,6 +27,7 @@ using System.Net.Sockets;
 using System.Collections;
 using Microsoft.VisualBasic.Logging;
 using Microsoft.VisualBasic.Devices;
+using VISION.UI;
 
 namespace VISION
 {
@@ -44,7 +45,9 @@ namespace VISION
         private Camera[] TempCam;
         private Mask[] TempMask;
 
-        private CogDisplay[] TempCogDisplay;
+
+        public HeatSinkMainDisplay HeatSinkMainDisplay = new HeatSinkMainDisplay();
+        public CogDisplay[] TempCogDisplay;
 
         private Model TempModel; //모델
         private Blob[,] TempBlobs; //블롭툴
@@ -122,7 +125,7 @@ namespace VISION
             Debug.WriteLine("프로그램 시작");
             InitializeComponent();
             ColumnHeader h = new ColumnHeader();
-            LightControl = new SerialPort[3] { LightControl1, LightControl2, LightControl3 };
+            LightControl = new SerialPort[4] { LightControl1, LightControl2, LightControl3, LightControl4 };
             Debug.WriteLine("GeniCamInit");
             GeniCamInit();
 
@@ -165,7 +168,7 @@ namespace VISION
             timer_Setting.Start(); //타이머에서 계속해서 확인하는 것들
 
             Debug.WriteLine("조명 컨트롤 연결 시작.");
-            //Initialize_LightControl(); //조명컨틀로 초기화
+            Initialize_LightControl(); //조명컨틀로 초기화
 
             Debug.WriteLine("코그넥스 모델 로드");
             CognexModelLoad(); //코그넥스 모델 로드.
@@ -204,6 +207,15 @@ namespace VISION
                     LightControl[i].StopBits = StopBits.One;
                     LightControl[i].PortName = Glob.PortName[i];
                     LightControl[i].Open();
+                    if (i == 3)
+                    {
+                        LCP24_150DC(LightControl[i], "0", "0000");
+                    }
+                    else
+                    {
+                        LCP_100DC(LightControl[i], "1", "f", "0000");
+                        LCP_100DC(LightControl[i], "2", "f", "0000");
+                    }
                 }
             }
             catch (Exception ee)
@@ -212,9 +224,43 @@ namespace VISION
             }
         }
 
+        //LCP-100DC 모델 포트, 채널번호, 종류(o-출력on,f-출력off,d-data전송),데이터값(4자리 10진수 0~100)
+        public void LCP_100DC(SerialPort control, string channel, string dataType, string lightValue)
+        {
+            string STX = $"{Convert.ToChar(2)}";
+            string ETX = $"{Convert.ToChar(3)}";
+
+            string sandCmd = $"{STX}{channel}{dataType}{lightValue}{ETX}";
+
+            control.WriteLine(sandCmd);
+        }
+
+        //LCP-100DC 모델 포트, 채널번호,데이터값(4자리숫자 0~1023)
+        public void LCP24_150DC(SerialPort control, string channel, string lightValue)
+        {
+            string STX = $"{Convert.ToChar(2)}";
+            string ETX = $"{Convert.ToChar(3)}";
+
+            string sandCmd = $"{STX}{channel}w{lightValue}{ETX}";
+
+            control.WriteLine(sandCmd);
+        }
+
         private void Btn_LightOnOff_Click(object sender, EventArgs e)
         {
-            LightControlSendCommand(LightControl[Glob.LightControlNumber], "f000");
+            //Port 1 , ch1 - 라인카메라 왼쪽. -2
+            //Port 1 , ch2 - 라인카메라 오른쪽. -2
+            //Port 2 , ch1 - top1 조명.  - 1
+            //Port 3, ch1 - AreaCam 왼쪽. -3
+            //Port 3, ch2 - AreaCam 오른쪽. -3
+            //LightControlSendCommand(LightControl[Glob.LightControlNumber], "1f0000");
+
+            // 0000 ~ 1023
+            //Port 4 , ch0 - 백라이트 값: 0792 - 4
+            //LightControlSendCommand(LightControl[Glob.LightControlNumber], "2w0000");
+
+            //백라이트 77% - 2개모델 고정.
+            //탑조명 heat 탑조명 10% ,옆면 10%, 에어리어 99% //shield  탑조명 99%, 옆면 0%, 에어리어 0%
         }
 
         public void LightControlSendCommand(SerialPort control, string command)
@@ -223,6 +269,9 @@ namespace VISION
             //LightOff = $"{(Int32)정보.채널}o0000"
             string STX = $"{Convert.ToChar(2)}";
             string ETX = $"{Convert.ToChar(3)}";
+
+            string sandCmd = $"{STX}{command}{ETX}";
+            Debug.WriteLine(sandCmd);
 
             control.WriteLine($"{STX}{command}{ETX}");
         }
@@ -548,7 +597,9 @@ namespace VISION
                 NG_Label = new Label[6] { lb_CAM1_NG, lb_CAM2_NG, lb_CAM3_NG, lb_CAM4_NG, lb_CAM5_NG, lb_CAM6_NG };
                 TOTAL_Label = new Label[6] { lb_CAM1_TOTAL, lb_CAM2_TOTAL, lb_CAM3_TOTAL, lb_CAM4_TOTAL, lb_CAM5_TOTAL, lb_CAM6_TOTAL };
                 NGRATE_Label = new Label[6] { lb_CAM1_NGRATE, lb_CAM2_NGRATE, lb_CAM3_NGRATE, lb_CAM4_NGRATE, lb_CAM5_NGRATE, lb_CAM6_NGRATE };
-                TempCogDisplay = new CogDisplay[6] { heatSinkMainDisplay1.cdyDisplay, heatSinkMainDisplay1.cdyDisplay2, heatSinkMainDisplay1.cdyDisplay3, heatSinkMainDisplay1.cdyDisplay4, heatSinkMainDisplay1.cdyDisplay5, heatSinkMainDisplay1.cdyDisplay6 };
+                MainPanel.Controls.Add(HeatSinkMainDisplay);
+                HeatSinkMainDisplay.Dock = DockStyle.Fill;
+                TempCogDisplay = new CogDisplay[6] { HeatSinkMainDisplay.cdyDisplay, HeatSinkMainDisplay.cdyDisplay2, HeatSinkMainDisplay.cdyDisplay3, HeatSinkMainDisplay.cdyDisplay4, HeatSinkMainDisplay.cdyDisplay5, HeatSinkMainDisplay.cdyDisplay6 };
 
                 INIControl Modellist = new INIControl(Glob.MODELLIST); ;
                 INIControl CFGFILE = new INIControl(Glob.CONFIGFILE); ;
@@ -576,11 +627,13 @@ namespace VISION
                     Glob.StopBits[i] = setting.ReadData("COMMUNICATION", $"Stop bits{i}");
                     Glob.DataBit[i] = setting.ReadData("COMMUNICATION", $"Data Bits{i}");
                     Glob.BaudRate[i] = setting.ReadData("COMMUNICATION", $"Baud Rate{i}");
+                    Glob.LightChAndValue[i, 0] = Convert.ToInt32(CamSet.ReadData($"LightControl{i}", "CH1"));
+                    Glob.LightChAndValue[i, 1] = Convert.ToInt32(CamSet.ReadData($"LightControl{i}", "CH2"));
                 }
 
                 //****************************조명 채널****************************//
-                Glob.LightCH1 = setting.ReadData("LightControl", "CH1");
-                Glob.LightCH2 = setting.ReadData("LightControl", "CH1");
+                //Glob.LightCH1 = setting.ReadData("LightControl", "CH1");
+                //Glob.LightCH2 = setting.ReadData("LightControl", "CH1");
 
                 //****************************검사 사용유무****************************//
                 Glob.InspectUsed = setting.ReadData("SYSTEM", "Inspect Used Check", true) == "1" ? true : false;
@@ -711,6 +764,9 @@ namespace VISION
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
 
+                //조명꺼주기
+                LCP_100DC(LightControl[1], "1", "f", "0000");
+
                 ScratchErrorInit();
 
                 if (TempCogDisplay[0].Image == null)
@@ -724,8 +780,8 @@ namespace VISION
                     BeginInvoke((Action)delegate
                     {
                         //DgvResult(dgv_Line1, 0, 1); //-추가된함수
-                        heatSinkMainDisplay1.lb_Cam1_Result.BackColor = Color.Lime;
-                        heatSinkMainDisplay1.lb_Cam1_Result.Text = "O K";
+                        HeatSinkMainDisplay.lb_Cam1_Result.BackColor = Color.Lime;
+                        HeatSinkMainDisplay.lb_Cam1_Result.Text = "O K";
                         OK_Count[0]++;
                         if (Glob.OKImageSave)
                             ImageSave1("OK", 1, TempCogDisplay[funCamNumber]);
@@ -736,8 +792,8 @@ namespace VISION
                     BeginInvoke((Action)delegate
                     {
                         //DgvResult(dgv_Line1, 0, 1); //-추가된함수
-                        heatSinkMainDisplay1.lb_Cam1_Result.BackColor = Color.Red;
-                        heatSinkMainDisplay1.lb_Cam1_Result.Text = "N G";
+                        HeatSinkMainDisplay.lb_Cam1_Result.BackColor = Color.Red;
+                        HeatSinkMainDisplay.lb_Cam1_Result.Text = "N G";
                         NG_Count[0]++;
                         if (Glob.NGImageSave)
                             ImageSave1("NG", 1, TempCogDisplay[funCamNumber]);
@@ -754,7 +810,7 @@ namespace VISION
                 InspectTime[0].Stop();
                 InspectFlag[0] = false;
 
-                BeginInvoke((Action)delegate { heatSinkMainDisplay1.lb_Cam1_InsTime.Text = InspectTime[0].ElapsedMilliseconds.ToString() + "msec"; });
+                BeginInvoke((Action)delegate { HeatSinkMainDisplay.lb_Cam1_InsTime.Text = InspectTime[0].ElapsedMilliseconds.ToString() + "msec"; });
                 Thread.Sleep(100);
             }
             catch (Exception ee)
@@ -778,6 +834,10 @@ namespace VISION
                 TempCogDisplay[funCamNumber].Image = Glob.FlipImageTool[funCamNumber].OutputImage;
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
+
+                LCP_100DC(LightControl[0], "1", "f", "0000");
+
+
                 if (TempCogDisplay[funCamNumber].Image == null)
                 {
                     log.AddLogMessage(LogType.Error, 0, "이미지 획들을 하지 못하였습니다. CAM - 2");
@@ -789,8 +849,8 @@ namespace VISION
                     BeginInvoke((Action)delegate
                     {
                         //DgvResult(dgv_Line1, 0, 1); //-추가된함수
-                        heatSinkMainDisplay1.lb_Cam2_Result.BackColor = Color.Lime;
-                        heatSinkMainDisplay1.lb_Cam2_Result.Text = "O K";
+                        HeatSinkMainDisplay.lb_Cam2_Result.BackColor = Color.Lime;
+                        HeatSinkMainDisplay.lb_Cam2_Result.Text = "O K";
                         OK_Count[1]++;
                         if (Glob.OKImageSave)
                             ImageSave2("OK", 2, TempCogDisplay[funCamNumber]);
@@ -801,8 +861,8 @@ namespace VISION
                     BeginInvoke((Action)delegate
                     {
                         //DgvResult(dgv_Line1, 0, 1); //-추가된함수
-                        heatSinkMainDisplay1.lb_Cam2_Result.BackColor = Color.Red;
-                        heatSinkMainDisplay1.lb_Cam2_Result.Text = "N G";
+                        HeatSinkMainDisplay.lb_Cam2_Result.BackColor = Color.Red;
+                        HeatSinkMainDisplay.lb_Cam2_Result.Text = "N G";
                         NG_Count[1]++;
                         if (Glob.NGImageSave)
                             ImageSave2("NG", 2, TempCogDisplay[funCamNumber]);
@@ -817,7 +877,7 @@ namespace VISION
                 InspectTime[1].Stop();
                 InspectFlag[1] = false;
 
-                BeginInvoke((Action)delegate { heatSinkMainDisplay1.lb_Cam2_InsTime.Text = InspectTime[1].ElapsedMilliseconds.ToString() + "msec"; });
+                BeginInvoke((Action)delegate { HeatSinkMainDisplay.lb_Cam2_InsTime.Text = InspectTime[1].ElapsedMilliseconds.ToString() + "msec"; });
                 Thread.Sleep(100);
             }
             catch (Exception ee)
@@ -840,6 +900,9 @@ namespace VISION
                 TempCogDisplay[funCamNumber].Image = Glob.FlipImageTool[funCamNumber].OutputImage;
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
+
+                LCP_100DC(LightControl[0], "2", "f", "0000");
+
                 if (TempCogDisplay[funCamNumber].Image == null)
                 {
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
@@ -851,8 +914,8 @@ namespace VISION
                     BeginInvoke((Action)delegate
                     {
                         //DgvResult(dgv_Line1, 0, 1); //-추가된함수
-                        heatSinkMainDisplay1.lb_Cam3_Result.BackColor = Color.Lime;
-                        heatSinkMainDisplay1.lb_Cam3_Result.Text = "O K";
+                        HeatSinkMainDisplay.lb_Cam3_Result.BackColor = Color.Lime;
+                        HeatSinkMainDisplay.lb_Cam3_Result.Text = "O K";
                         OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
                             ImageSave3("OK", funCamNumber + 1, TempCogDisplay[funCamNumber]);
@@ -863,8 +926,8 @@ namespace VISION
                     BeginInvoke((Action)delegate
                     {
                         //DgvResult(dgv_Line1, 0, 1); //-추가된함수
-                        heatSinkMainDisplay1.lb_Cam3_Result.BackColor = Color.Red;
-                        heatSinkMainDisplay1.lb_Cam3_Result.Text = "N G";
+                        HeatSinkMainDisplay.lb_Cam3_Result.BackColor = Color.Red;
+                        HeatSinkMainDisplay.lb_Cam3_Result.Text = "N G";
                         NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
                             ImageSave3("NG", funCamNumber + 1, TempCogDisplay[funCamNumber]);
@@ -879,7 +942,7 @@ namespace VISION
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
 
-                BeginInvoke((Action)delegate { heatSinkMainDisplay1.lb_Cam3_InsTime.Text = InspectTime[funCamNumber].ElapsedMilliseconds.ToString() + "msec"; });
+                BeginInvoke((Action)delegate { HeatSinkMainDisplay.lb_Cam3_InsTime.Text = InspectTime[funCamNumber].ElapsedMilliseconds.ToString() + "msec"; });
                 Thread.Sleep(100);
             }
             catch (Exception ee)
@@ -914,8 +977,8 @@ namespace VISION
                     BeginInvoke((Action)delegate
                     {
                         //DgvResult(dgv_Line1, 0, 1); //-추가된함수
-                        heatSinkMainDisplay1.lb_Cam4_Result.BackColor = Color.Lime;
-                        heatSinkMainDisplay1.lb_Cam4_Result.Text = "O K";
+                        HeatSinkMainDisplay.lb_Cam4_Result.BackColor = Color.Lime;
+                        HeatSinkMainDisplay.lb_Cam4_Result.Text = "O K";
                         OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
                             ImageSave4("OK", funCamNumber + 1, cdy, shotNumber);
@@ -926,8 +989,8 @@ namespace VISION
                     BeginInvoke((Action)delegate
                     {
                         //DgvResult(dgv_Line1, 0, 1); //-추가된함수
-                        heatSinkMainDisplay1.lb_Cam4_Result.BackColor = Color.Red;
-                        heatSinkMainDisplay1.lb_Cam4_Result.Text = "N G";
+                        HeatSinkMainDisplay.lb_Cam4_Result.BackColor = Color.Red;
+                        HeatSinkMainDisplay.lb_Cam4_Result.Text = "N G";
                         NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
                             ImageSave4("NG", funCamNumber + 1, cdy, shotNumber);
@@ -942,12 +1005,13 @@ namespace VISION
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
 
-                //if (shotNumber == 3)
-                //{
-                //    ErrorCheckAndSendPLC();
-                //}
+                if (shotNumber == 3)
+                {
+                    LCP_100DC(LightControl[2], "1", "f", "0000");
+                    LCP_100DC(LightControl[2], "2", "f", "0000");
+                }
 
-                BeginInvoke((Action)delegate { heatSinkMainDisplay1.lb_Cam4_InsTime.Text = InspectTime[funCamNumber].ElapsedMilliseconds.ToString() + "msec"; });
+                BeginInvoke((Action)delegate { HeatSinkMainDisplay.lb_Cam4_InsTime.Text = InspectTime[funCamNumber].ElapsedMilliseconds.ToString() + "msec"; });
                 Thread.Sleep(100);
             }
             catch (Exception ee)
@@ -980,8 +1044,8 @@ namespace VISION
                     BeginInvoke((Action)delegate
                     {
                         //DgvResult(dgv_Line1, 0, 1); //-추가된함수
-                        heatSinkMainDisplay1.lb_Cam5_Result.BackColor = Color.Lime;
-                        heatSinkMainDisplay1.lb_Cam5_Result.Text = "O K";
+                        HeatSinkMainDisplay.lb_Cam5_Result.BackColor = Color.Lime;
+                        HeatSinkMainDisplay.lb_Cam5_Result.Text = "O K";
                         OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
                             ImageSave5("OK", funCamNumber + 1, cdy, shotNumber);
@@ -992,8 +1056,8 @@ namespace VISION
                     BeginInvoke((Action)delegate
                     {
                         //DgvResult(dgv_Line1, 0, 1); //-추가된함수
-                        heatSinkMainDisplay1.lb_Cam5_Result.BackColor = Color.Red;
-                        heatSinkMainDisplay1.lb_Cam5_Result.Text = "N G";
+                        HeatSinkMainDisplay.lb_Cam5_Result.BackColor = Color.Red;
+                        HeatSinkMainDisplay.lb_Cam5_Result.Text = "N G";
                         NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
                             ImageSave5("NG", funCamNumber + 1, cdy, shotNumber);
@@ -1007,7 +1071,7 @@ namespace VISION
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
 
-                BeginInvoke((Action)delegate { heatSinkMainDisplay1.lb_Cam5_InsTime.Text = InspectTime[funCamNumber].ElapsedMilliseconds.ToString() + "msec"; });
+                BeginInvoke((Action)delegate { HeatSinkMainDisplay.lb_Cam5_InsTime.Text = InspectTime[funCamNumber].ElapsedMilliseconds.ToString() + "msec"; });
                 Thread.Sleep(100);
             }
             catch (Exception ee)
@@ -1032,6 +1096,8 @@ namespace VISION
                 cdy.InteractiveGraphics.Clear();
                 cdy.StaticGraphics.Clear();
 
+                LCP24_150DC(LightControl[3], "0", "0000");
+
                 //TempCogDisplay[5].Image = TempCam[5].Run();
                 //TempCogDisplay[5].InteractiveGraphics.Clear();
                 //TempCogDisplay[5].StaticGraphics.Clear();
@@ -1055,8 +1121,8 @@ namespace VISION
                     BeginInvoke((Action)delegate
                     {
                         //DgvResult(dgv_Line1, 0, 1); //-추가된함수
-                        heatSinkMainDisplay1.lb_Cam6_Result.BackColor = Color.Lime;
-                        heatSinkMainDisplay1.lb_Cam6_Result.Text = "O K";
+                        HeatSinkMainDisplay.lb_Cam6_Result.BackColor = Color.Lime;
+                        HeatSinkMainDisplay.lb_Cam6_Result.Text = "O K";
                         OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
                             ImageSave6("OK", funCamNumber + 1, cdy, shotNumber);
@@ -1067,8 +1133,8 @@ namespace VISION
                     BeginInvoke((Action)delegate
                     {
                         //DgvResult(dgv_Line1, 0, 1); //-추가된함수
-                        heatSinkMainDisplay1.lb_Cam6_Result.BackColor = Color.Red;
-                        heatSinkMainDisplay1.lb_Cam6_Result.Text = "N G";
+                        HeatSinkMainDisplay.lb_Cam6_Result.BackColor = Color.Red;
+                        HeatSinkMainDisplay.lb_Cam6_Result.Text = "N G";
                         NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
                             ImageSave6("NG", funCamNumber + 1, cdy, shotNumber);
@@ -1089,7 +1155,7 @@ namespace VISION
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
 
-                BeginInvoke((Action)delegate { heatSinkMainDisplay1.lb_Cam6_InsTime.Text = InspectTime[funCamNumber].ElapsedMilliseconds.ToString() + "msec"; });
+                BeginInvoke((Action)delegate { HeatSinkMainDisplay.lb_Cam6_InsTime.Text = InspectTime[funCamNumber].ElapsedMilliseconds.ToString() + "msec"; });
                 Thread.Sleep(100);
             }
             catch (Exception ee)
@@ -1175,6 +1241,19 @@ namespace VISION
             CognexModelLoad();
             Glob.firstInspection[0] = false;
             Glob.firstInspection[1] = false;
+            //전체 조명 꺼주기.
+            for (int lop = 0; lop < LightControl.Count(); lop++)
+            {
+                if (lop == 3)
+                {
+                    LCP24_150DC(LightControl[lop], "0", "0000");
+                }
+                else
+                {
+                    LCP_100DC(LightControl[lop], "1", "f", "0000");
+                    LCP_100DC(LightControl[lop], "2", "f", "0000");
+                }
+            }
         }
         public void CognexModelLoad()
         {
@@ -2632,7 +2711,7 @@ namespace VISION
         {
             try
             {
-                heatSinkMainDisplay1.cdyDisplay.Image = TempCam[0].Run();
+                HeatSinkMainDisplay.cdyDisplay.Image = TempCam[0].Run();
             }
             catch (Exception ex)
             {
@@ -2643,7 +2722,7 @@ namespace VISION
         {
             try
             {
-                heatSinkMainDisplay1.cdyDisplay2.Image = TempCam[1].Run();
+                HeatSinkMainDisplay.cdyDisplay2.Image = TempCam[1].Run();
             }
             catch (Exception ex)
             {
@@ -2654,7 +2733,7 @@ namespace VISION
         {
             try
             {
-                heatSinkMainDisplay1.cdyDisplay3.Image = TempCam[2].Run();
+                HeatSinkMainDisplay.cdyDisplay3.Image = TempCam[2].Run();
             }
             catch (Exception ex)
             {
@@ -2665,7 +2744,7 @@ namespace VISION
         {
             try
             {
-                heatSinkMainDisplay1.cdyDisplay4.Image = TempCam[3].Run();
+                HeatSinkMainDisplay.cdyDisplay4.Image = TempCam[3].Run();
             }
             catch (Exception ex)
             {
@@ -2676,7 +2755,7 @@ namespace VISION
         {
             try
             {
-                heatSinkMainDisplay1.cdyDisplay5.Image = TempCam[4].Run();
+                HeatSinkMainDisplay.cdyDisplay5.Image = TempCam[4].Run();
             }
             catch (Exception ex)
             {
@@ -2687,7 +2766,7 @@ namespace VISION
         {
             try
             {
-                heatSinkMainDisplay1.cdyDisplay6.Image = TempCam[5].Run();
+                HeatSinkMainDisplay.cdyDisplay6.Image = TempCam[5].Run();
             }
             catch (Exception ex)
             {
@@ -2734,13 +2813,21 @@ namespace VISION
                         switch (i)
                         {
                             case 0: //1번째 라인스캔 카메라 촬영 신호 Cam 1
+                                    //top1 조명켜주기.
+                                LCP_100DC(LightControl[1], "1", "o", "0000");
+                                LCP_100DC(LightControl[1], "1", "d", Glob.LightChAndValue[1, 0].ToString("D4"));
                                 log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                 Glob.firstInspection[0] = Glob.firstInspection[0] ? false : true;
                                 Task.Run(() => { ShotAndInspect_Cam1(1); });
                                 break;
                             case 1: //사이드 라인스캔 카메라 촬영신호 Cam 2 & Cam 3
+                                    //옆면 조명
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
+                                    LCP_100DC(LightControl[0], "1", "o", "0000");
+                                    LCP_100DC(LightControl[0], "2", "o", "0000");
+                                    LCP_100DC(LightControl[0], "1", "d", Glob.LightChAndValue[0, 0].ToString("D4"));
+                                    LCP_100DC(LightControl[0], "2", "d", Glob.LightChAndValue[0, 1].ToString("D4"));
                                     log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                     Task.Run(() => { ShotAndInspect_Cam2(1); });
                                     Task.Run(() => { ShotAndInspect_Cam3(1); });
@@ -2750,41 +2837,49 @@ namespace VISION
                                 Glob.firstInspection[1] = Glob.firstInspection[1] ? false : true;
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
+                                    LCP_100DC(LightControl[2], "1", "o", "0000");
+                                    LCP_100DC(LightControl[2], "2", "o", "0000");
+                                    LCP_100DC(LightControl[2], "1", "d", Glob.LightChAndValue[2, 0].ToString("D4"));
+                                    LCP_100DC(LightControl[2], "2", "d", Glob.LightChAndValue[2, 1].ToString("D4"));
                                     log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
-                                    Task.Run(() => { ShotAndInspect_Cam4(heatSinkMainDisplay1.cdyDisplay4, 1); });
+                                    Task.Run(() => { ShotAndInspect_Cam4(HeatSinkMainDisplay.cdyDisplay4, 1); });
                                 }
                                 break;
                             case 3: //4번촬영
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
                                     log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
-                                    Task.Run(() => { ShotAndInspect_Cam4(heatSinkMainDisplay1.cdyDisplay4_2, 2); });
+                                    Task.Run(() => { ShotAndInspect_Cam4(HeatSinkMainDisplay.cdyDisplay4_2, 2); });
                                 }
                                 break;
                             case 4: //4번촬영
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
                                     log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
-                                    Task.Run(() => { ShotAndInspect_Cam4(heatSinkMainDisplay1.cdyDisplay4_3, 3); });
+                                    Task.Run(() => { ShotAndInspect_Cam4(HeatSinkMainDisplay.cdyDisplay4_3, 3); });
                                 }
                                 break;
                             case 5: //5번촬영
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
                                     log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
-                                    Task.Run(() => { ShotAndInspect_Cam5(heatSinkMainDisplay1.cdyDisplay5, 1); });
+                                    Task.Run(() => { ShotAndInspect_Cam5(HeatSinkMainDisplay.cdyDisplay5, 1); });
                                 }
                                 break;
                             case 6: //5번촬영
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
                                     log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
-                                    Task.Run(() => { ShotAndInspect_Cam5(heatSinkMainDisplay1.cdyDisplay5_1, 2); });
+                                    Task.Run(() => { ShotAndInspect_Cam5(HeatSinkMainDisplay.cdyDisplay5_1, 2); });
                                 }
                                 break;
                             case 7://6번촬영
+                                   //백라이트 조명.
+                                   //LCP24_150DC(LightControl[3], "0", Glob.LightChAndValue[3, 0].ToString());
+                                Debug.WriteLine($"BackLight조명값 : {Glob.LightChAndValue[3, 0].ToString("D4")}");
+                                LCP24_150DC(LightControl[3], "0", Glob.LightChAndValue[3, 0].ToString("D4"));
                                 log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
-                                Task.Run(() => { ShotAndInspect_Cam6(heatSinkMainDisplay1.cdyDisplay6, 1); });
+                                Task.Run(() => { ShotAndInspect_Cam6(HeatSinkMainDisplay.cdyDisplay6, 1); });
                                 break;
                         }
                     }
@@ -2887,16 +2982,16 @@ namespace VISION
                         Glob.FlipImageTool[5].InputImage = curimage.OutputImage;
                         Glob.FlipImageTool[5].Run();
 
-                        heatSinkMainDisplay1.cdyDisplay6.Image = Glob.FlipImageTool[5].OutputImage;
+                        HeatSinkMainDisplay.cdyDisplay6.Image = Glob.FlipImageTool[5].OutputImage;
                     }
                     else
                     {
                         Glob.FlipImageTool[5].InputImage = curimage.OutputImage;
                         Glob.FlipImageTool[5].Run();
-                        heatSinkMainDisplay1.cdyDisplay6.Image = (CogImage8Grey)Glob.FlipImageTool[5].OutputImage;//JPG 파일
+                        HeatSinkMainDisplay.cdyDisplay6.Image = (CogImage8Grey)Glob.FlipImageTool[5].OutputImage;//JPG 파일
                     }
                     //cdyDisplay.Image = (CogImage8Grey)curimage.OutputImage;
-                    heatSinkMainDisplay1.cdyDisplay6.Fit();
+                    HeatSinkMainDisplay.cdyDisplay6.Fit();
                     GC.Collect();
                 }
             }

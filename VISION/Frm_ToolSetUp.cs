@@ -164,6 +164,7 @@ namespace VISION
                 INIControl CalibrationValue = new INIControl($"{Glob.MODELROOT}\\{Glob.RunnModel.Modelname()}\\CalibrationValue.ini");
                 num_Exposure.Value = Convert.ToDecimal(CamSet.ReadData($"Camera{Glob.CamNumber}", "Exposure"));
                 num_Gain.Value = Convert.ToDecimal(CamSet.ReadData($"Camera{Glob.CamNumber}", "Gain"));
+                num_LightControlNumber.Value = 0;
 
                 for (int i = 0; i < Main.camcount; i++)
                 {
@@ -326,8 +327,15 @@ namespace VISION
             Glob.RunnModel.SaveModel(Glob.MODELROOT + "\\" + Glob.RunnModel.Modelname() + "\\" + $"Cam{Glob.CamNumber}", Glob.CamNumber); //모델명
             CamSet.WriteData($"Camera{Glob.CamNumber}", "Exposure", num_Exposure.Value.ToString()); //카메라 노출값
             CamSet.WriteData($"Camera{Glob.CamNumber}", "Gain", num_Gain.Value.ToString()); //카메라 Gain값
-            CamSet.WriteData($"LightControl_Cam{Glob.CamNumber}", "CH1", Glob.LightCH1); //카메라별 조명값 1
-            CamSet.WriteData($"LightControl_Cam{Glob.CamNumber}", "CH2", Glob.LightCH2); //카메라별 조명값 2
+            //CamSet.WriteData($"LightControl_Cam{Glob.CamNumber}", "CH1", Glob.LightCH1); //카메라별 조명값 1
+            //CamSet.WriteData($"LightControl_Cam{Glob.CamNumber}", "CH2", Glob.LightCH2); //카메라별 조명값 2
+
+            for (int lop = 0; lop < Main.LightControl.Count(); lop++)
+            {
+                CamSet.WriteData($"LightControl{lop}", "CH1", Glob.LightChAndValue[lop, 0].ToString("D4"));
+                CamSet.WriteData($"LightControl{lop}", "CH2", Glob.LightChAndValue[lop, 1].ToString("D4"));
+            }
+
             Process[] myProcesses = Process.GetProcessesByName("SaveForm_KHM");
             if (myProcesses.LongLength > 0)
             {
@@ -438,7 +446,7 @@ namespace VISION
 
         private void num_Exposure_ValueChanged(object sender, EventArgs e)
         {
-            if(Glob.CamNumber == 3 || Glob.CamNumber == 5)
+            if (Glob.CamNumber == 3 || Glob.CamNumber == 5)
             {
                 TempCam[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
             }
@@ -1333,6 +1341,61 @@ namespace VISION
             {
                 TempBlobNGOKChange[Glob.CamNumber, (int)num_BlobToolNum.Value] = cb_ngokchange.Checked;
                 BlobNGOKChangeChange((int)num_BlobToolNum.Value);
+            }
+        }
+
+        private void num_LightControlNumber_ValueChanged(object sender, EventArgs e)
+        {
+            Dataset = true;
+            Glob.LightControlNumber = (int)num_LightControlNumber.Value;
+            num_LightCH1.Maximum = Glob.LightControlNumber == 3 ? 1023 : 100;
+            num_LightCH2.Maximum = Glob.LightControlNumber == 3 ? 1023 : 100;
+            Dataset = false;
+
+            num_LightCH1.Value = Convert.ToDecimal(Glob.LightChAndValue[Glob.LightControlNumber, 0]);
+            num_LightCH2.Value = Convert.ToDecimal(Glob.LightChAndValue[Glob.LightControlNumber, 1]);
+  
+        }
+
+        private void num_LightCH1_ValueChanged(object sender, EventArgs e)
+        {
+            //LCP_100DC는 채널번호 1부터시작.
+            //LCP24_150DC는 채널번호 0부터시작.
+            if (Dataset == true) return;
+
+            Glob.LightChAndValue[Glob.LightControlNumber, 0] = (int)num_LightCH1.Value;
+            if (Main.LightControl[Glob.LightControlNumber].IsOpen == false)
+            {
+                return;
+            }
+            if (Glob.LightControlNumber == 3)
+            {
+                Main.LCP24_150DC(Main.LightControl[Glob.LightControlNumber], "0", Glob.LightChAndValue[Glob.LightControlNumber, 0].ToString("D4"));
+            }
+            else
+            {
+                Main.LCP_100DC(Main.LightControl[Glob.LightControlNumber], "1", "d", Glob.LightChAndValue[Glob.LightControlNumber, 0].ToString("D4"));
+            }
+        }
+
+        private void num_LightCH2_ValueChanged(object sender, EventArgs e)
+        {
+            //LCP_100DC는 채널번호 1부터시작.
+            //LCP24_150DC는 채널번호 0부터시작.
+            if (Dataset == true) return;
+
+            Glob.LightChAndValue[Glob.LightControlNumber, 1] = (int)num_LightCH2.Value;
+            if (Main.LightControl[Glob.LightControlNumber].IsOpen == false)
+            {
+                return;
+            }
+            if (Glob.LightControlNumber == 3)
+            {
+                Main.LCP24_150DC(Main.LightControl[Glob.LightControlNumber], "1", Glob.LightChAndValue[Glob.LightControlNumber, 1].ToString("D4"));
+            }
+            else
+            {
+                Main.LCP_100DC(Main.LightControl[Glob.LightControlNumber], "2", "d", Glob.LightChAndValue[Glob.LightControlNumber, 1].ToString("D4"));
             }
         }
     }
