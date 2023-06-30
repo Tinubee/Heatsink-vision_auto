@@ -95,6 +95,7 @@ namespace VISION.Cogs
 
         public void Close()
         {
+            //this.camTool.Dispose();
             this.job.Shutdown();
         }
 

@@ -765,7 +765,7 @@ namespace VISION
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
 
                 //조명꺼주기
-                LCP_100DC(LightControl[1], "1", "f", "0000");
+                //LCP_100DC(LightControl[1], "1", "f", "0000");
 
                 ScratchErrorInit();
 
@@ -835,7 +835,7 @@ namespace VISION
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
 
-                LCP_100DC(LightControl[0], "1", "f", "0000");
+                //LCP_100DC(LightControl[0], "1", "f", "0000");
 
 
                 if (TempCogDisplay[funCamNumber].Image == null)
@@ -901,7 +901,7 @@ namespace VISION
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
 
-                LCP_100DC(LightControl[0], "2", "f", "0000");
+                //LCP_100DC(LightControl[0], "2", "f", "0000");
 
                 if (TempCogDisplay[funCamNumber].Image == null)
                 {
@@ -1007,8 +1007,8 @@ namespace VISION
 
                 if (shotNumber == 3)
                 {
-                    LCP_100DC(LightControl[2], "1", "f", "0000");
-                    LCP_100DC(LightControl[2], "2", "f", "0000");
+                    //LCP_100DC(LightControl[2], "1", "f", "0000");
+                    //LCP_100DC(LightControl[2], "2", "f", "0000");
                 }
 
                 BeginInvoke((Action)delegate { HeatSinkMainDisplay.lb_Cam4_InsTime.Text = InspectTime[funCamNumber].ElapsedMilliseconds.ToString() + "msec"; });
@@ -2814,8 +2814,7 @@ namespace VISION
                         {
                             case 0: //1번째 라인스캔 카메라 촬영 신호 Cam 1
                                     //top1 조명켜주기.
-                                LCP_100DC(LightControl[1], "1", "o", "0000");
-                                LCP_100DC(LightControl[1], "1", "d", Glob.LightChAndValue[1, 0].ToString("D4"));
+                               
                                 log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                 Glob.firstInspection[0] = Glob.firstInspection[0] ? false : true;
                                 Task.Run(() => { ShotAndInspect_Cam1(1); });
@@ -2824,10 +2823,7 @@ namespace VISION
                                     //옆면 조명
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
-                                    LCP_100DC(LightControl[0], "1", "o", "0000");
-                                    LCP_100DC(LightControl[0], "2", "o", "0000");
-                                    LCP_100DC(LightControl[0], "1", "d", Glob.LightChAndValue[0, 0].ToString("D4"));
-                                    LCP_100DC(LightControl[0], "2", "d", Glob.LightChAndValue[0, 1].ToString("D4"));
+                                   
                                     log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                     Task.Run(() => { ShotAndInspect_Cam2(1); });
                                     Task.Run(() => { ShotAndInspect_Cam3(1); });
@@ -2837,10 +2833,7 @@ namespace VISION
                                 Glob.firstInspection[1] = Glob.firstInspection[1] ? false : true;
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
-                                    LCP_100DC(LightControl[2], "1", "o", "0000");
-                                    LCP_100DC(LightControl[2], "2", "o", "0000");
-                                    LCP_100DC(LightControl[2], "1", "d", Glob.LightChAndValue[2, 0].ToString("D4"));
-                                    LCP_100DC(LightControl[2], "2", "d", Glob.LightChAndValue[2, 1].ToString("D4"));
+                                   
                                     log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                     Task.Run(() => { ShotAndInspect_Cam4(HeatSinkMainDisplay.cdyDisplay4, 1); });
                                 }
@@ -2876,10 +2869,38 @@ namespace VISION
                             case 7://6번촬영
                                    //백라이트 조명.
                                    //LCP24_150DC(LightControl[3], "0", Glob.LightChAndValue[3, 0].ToString());
-                                Debug.WriteLine($"BackLight조명값 : {Glob.LightChAndValue[3, 0].ToString("D4")}");
-                                LCP24_150DC(LightControl[3], "0", Glob.LightChAndValue[3, 0].ToString("D4"));
+                                
                                 log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                 Task.Run(() => { ShotAndInspect_Cam6(HeatSinkMainDisplay.cdyDisplay6, 1); });
+                                break;
+                            case 8:
+                                //조명 켜주기.
+                                for (int lop = 0; lop < LightControl.Count(); lop++)
+                                {
+                                    if(lop == 3)
+                                    {
+                                        LCP24_150DC(LightControl[lop], "0", Glob.LightChAndValue[lop, 0].ToString("D4"));
+                                    }
+                                    else
+                                    {
+                                        LCP_100DC(LightControl[lop], "1", "o", "0000");
+                                        LCP_100DC(LightControl[lop], "2", "o", "0000");
+                                        LCP_100DC(LightControl[lop], "1", "d", Glob.LightChAndValue[lop, 0].ToString("D4"));
+                                        LCP_100DC(LightControl[lop], "2", "d", Glob.LightChAndValue[lop, 1].ToString("D4"));
+                                    }
+                                }
+
+                                //LCP_100DC(LightControl[1], "1", "o", "0000");
+                                //LCP_100DC(LightControl[1], "1", "d", Glob.LightChAndValue[1, 0].ToString("D4"));
+                                //LCP_100DC(LightControl[0], "1", "o", "0000");
+                                //LCP_100DC(LightControl[0], "2", "o", "0000");
+                                //LCP_100DC(LightControl[0], "1", "d", Glob.LightChAndValue[0, 0].ToString("D4"));
+                                //LCP_100DC(LightControl[0], "2", "d", Glob.LightChAndValue[0, 1].ToString("D4"));
+                                //LCP_100DC(LightControl[2], "1", "o", "0000");
+                                //LCP_100DC(LightControl[2], "2", "o", "0000");
+                                //LCP_100DC(LightControl[2], "1", "d", Glob.LightChAndValue[2, 0].ToString("D4"));
+                                //LCP_100DC(LightControl[2], "2", "d", Glob.LightChAndValue[2, 1].ToString("D4"));
+                                //LCP24_150DC(LightControl[3], "0", Glob.LightChAndValue[3, 0].ToString("D4"));
                                 break;
                         }
                     }

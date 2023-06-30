@@ -55,6 +55,7 @@
             this.LightControl1 = new System.IO.Ports.SerialPort(this.components);
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_INPUT11 = new System.Windows.Forms.Button();
             this.btn_OUTPUT8 = new System.Windows.Forms.CheckBox();
             this.btn_OUTPUT9 = new System.Windows.Forms.CheckBox();
             this.btn_OUTPUT6 = new System.Windows.Forms.CheckBox();
@@ -67,7 +68,6 @@
             this.btn_OUTPUT1 = new System.Windows.Forms.CheckBox();
             this.btn_OUTPUT10 = new System.Windows.Forms.CheckBox();
             this.btn_OUTPUT11 = new System.Windows.Forms.CheckBox();
-            this.btn_INPUT11 = new System.Windows.Forms.Button();
             this.btn_INPUT7 = new System.Windows.Forms.Button();
             this.btn_INPUT6 = new System.Windows.Forms.Button();
             this.btn_INPUT5 = new System.Windows.Forms.Button();
@@ -552,6 +552,7 @@
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Controls.Add(this.btn_INPUT11, 0, 12);
             this.tableLayoutPanel3.Controls.Add(this.btn_OUTPUT8, 1, 9);
             this.tableLayoutPanel3.Controls.Add(this.btn_OUTPUT9, 1, 10);
             this.tableLayoutPanel3.Controls.Add(this.btn_OUTPUT6, 1, 7);
@@ -564,7 +565,6 @@
             this.tableLayoutPanel3.Controls.Add(this.btn_OUTPUT1, 1, 2);
             this.tableLayoutPanel3.Controls.Add(this.btn_OUTPUT10, 1, 11);
             this.tableLayoutPanel3.Controls.Add(this.btn_OUTPUT11, 1, 12);
-            this.tableLayoutPanel3.Controls.Add(this.btn_INPUT11, 0, 12);
             this.tableLayoutPanel3.Controls.Add(this.btn_INPUT7, 0, 8);
             this.tableLayoutPanel3.Controls.Add(this.btn_INPUT6, 0, 7);
             this.tableLayoutPanel3.Controls.Add(this.btn_INPUT5, 0, 6);
@@ -596,8 +596,20 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.691777F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.691777F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(268, 876);
             this.tableLayoutPanel3.TabIndex = 2;
+            // 
+            // btn_INPUT11
+            // 
+            this.btn_INPUT11.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn_INPUT11.Location = new System.Drawing.Point(3, 807);
+            this.btn_INPUT11.Name = "btn_INPUT11";
+            this.btn_INPUT11.Size = new System.Drawing.Size(128, 61);
+            this.btn_INPUT11.TabIndex = 47;
+            this.btn_INPUT11.Tag = "7";
+            this.btn_INPUT11.Text = "INPUT11";
+            this.btn_INPUT11.UseVisualStyleBackColor = true;
             // 
             // btn_OUTPUT8
             // 
@@ -803,17 +815,6 @@
             this.btn_OUTPUT11.UseVisualStyleBackColor = true;
             this.btn_OUTPUT11.CheckedChanged += new System.EventHandler(this.btn_OUTPUT0_CheckedChanged);
             // 
-            // btn_INPUT11
-            // 
-            this.btn_INPUT11.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_INPUT11.Location = new System.Drawing.Point(3, 807);
-            this.btn_INPUT11.Name = "btn_INPUT11";
-            this.btn_INPUT11.Size = new System.Drawing.Size(81, 34);
-            this.btn_INPUT11.TabIndex = 33;
-            this.btn_INPUT11.Tag = "11";
-            this.btn_INPUT11.Text = "Cam 6 Trigger";
-            this.btn_INPUT11.UseVisualStyleBackColor = true;
-            // 
             // btn_INPUT7
             // 
             this.btn_INPUT7.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -943,10 +944,10 @@
             this.btn_INPUT8.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btn_INPUT8.Location = new System.Drawing.Point(3, 606);
             this.btn_INPUT8.Name = "btn_INPUT8";
-            this.btn_INPUT8.Size = new System.Drawing.Size(81, 34);
-            this.btn_INPUT8.TabIndex = 27;
-            this.btn_INPUT8.Tag = "8";
-            this.btn_INPUT8.Text = "Cam 6 Trigger";
+            this.btn_INPUT8.Size = new System.Drawing.Size(128, 61);
+            this.btn_INPUT8.TabIndex = 44;
+            this.btn_INPUT8.Tag = "7";
+            this.btn_INPUT8.Text = "INPUT8";
             this.btn_INPUT8.UseVisualStyleBackColor = true;
             // 
             // btn_INPUT9
@@ -954,10 +955,10 @@
             this.btn_INPUT9.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btn_INPUT9.Location = new System.Drawing.Point(3, 673);
             this.btn_INPUT9.Name = "btn_INPUT9";
-            this.btn_INPUT9.Size = new System.Drawing.Size(81, 34);
-            this.btn_INPUT9.TabIndex = 28;
-            this.btn_INPUT9.Tag = "9";
-            this.btn_INPUT9.Text = "Cam 6 Trigger";
+            this.btn_INPUT9.Size = new System.Drawing.Size(128, 61);
+            this.btn_INPUT9.TabIndex = 45;
+            this.btn_INPUT9.Tag = "7";
+            this.btn_INPUT9.Text = "INPUT9";
             this.btn_INPUT9.UseVisualStyleBackColor = true;
             // 
             // btn_INPUT10
@@ -965,10 +966,10 @@
             this.btn_INPUT10.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btn_INPUT10.Location = new System.Drawing.Point(3, 740);
             this.btn_INPUT10.Name = "btn_INPUT10";
-            this.btn_INPUT10.Size = new System.Drawing.Size(81, 34);
-            this.btn_INPUT10.TabIndex = 29;
-            this.btn_INPUT10.Tag = "10";
-            this.btn_INPUT10.Text = "Cam 6 Trigger";
+            this.btn_INPUT10.Size = new System.Drawing.Size(128, 61);
+            this.btn_INPUT10.TabIndex = 46;
+            this.btn_INPUT10.Tag = "7";
+            this.btn_INPUT10.Text = "INPUT10";
             this.btn_INPUT10.UseVisualStyleBackColor = true;
             // 
             // tabPage1
@@ -2136,11 +2137,7 @@
         public System.Windows.Forms.Button btn_INPUT2;
         public System.Windows.Forms.Button btn_INPUT1;
         public System.Windows.Forms.Button btn_INPUT0;
-        public System.Windows.Forms.Button btn_INPUT11;
         public System.Windows.Forms.Button btn_INPUT7;
-        public System.Windows.Forms.Button btn_INPUT8;
-        public System.Windows.Forms.Button btn_INPUT9;
-        public System.Windows.Forms.Button btn_INPUT10;
         private System.Windows.Forms.CheckBox btn_OUTPUT8;
         private System.Windows.Forms.CheckBox btn_OUTPUT9;
         private System.Windows.Forms.CheckBox btn_OUTPUT6;
@@ -2165,6 +2162,10 @@
         private System.Windows.Forms.Button Btn_LightOnOff;
         private System.Windows.Forms.Button btn_ToolSetUp;
         public System.IO.Ports.SerialPort LightControl4;
+        public System.Windows.Forms.Button btn_INPUT11;
+        public System.Windows.Forms.Button btn_INPUT8;
+        public System.Windows.Forms.Button btn_INPUT9;
+        public System.Windows.Forms.Button btn_INPUT10;
     }
 }
 

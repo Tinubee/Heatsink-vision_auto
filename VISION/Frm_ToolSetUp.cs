@@ -1398,5 +1398,21 @@ namespace VISION
                 Main.LCP_100DC(Main.LightControl[Glob.LightControlNumber], "2", "d", Glob.LightChAndValue[Glob.LightControlNumber, 1].ToString("D4"));
             }
         }
+
+        private void btn_CamReload_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < TempCam.Count(); i++)
+            {
+                TempCam[i].Close();
+                TempMask[i].Close();
+            }
+
+            for (int i = 0; i < 6; i++)
+            {
+                Glob.FlipImageTool[i] = (CogIPOneImageTool)CogSerializer.LoadObjectFromFile(Glob.MODELROOT + $"\\{Glob.RunnModel.Modelname()}\\Cam{i}\\FlipImage.vpp");
+                Glob.RunnModel.Loadmodel(Glob.RunnModel.Modelname(), Glob.MODELROOT, i); //VISION TOOL LOAD
+            }
+
+        }
     }
 }
