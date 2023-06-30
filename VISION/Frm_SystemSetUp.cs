@@ -63,11 +63,11 @@ namespace VISION
             tb_ImageSaveRoot.Text = Unit.ImageSaveRoot;
             tb_DataSaveRoot.Text = Unit.DataSaveRoot;
 
-            cb_PortNumber.SelectedItem = Unit.PortName;
-            cb_ParityCheck.SelectedItem = Unit.Parity;
-            cb_Stopbit.SelectedItem = Unit.StopBits;
-            cb_BaudRate.SelectedItem = Unit.BaudRate;
-            cb_Databit.SelectedItem = Unit.DataBit;
+            cb_PortNumber.SelectedItem = Unit.PortName[Unit.LightControlNumber];
+            cb_ParityCheck.SelectedItem = Unit.Parity[Unit.LightControlNumber];
+            cb_Stopbit.SelectedItem = Unit.StopBits[Unit.LightControlNumber];
+            cb_BaudRate.SelectedItem = Unit.BaudRate[Unit.LightControlNumber];
+            cb_Databit.SelectedItem = Unit.DataBit[Unit.LightControlNumber];
 
             Unit.InspectUsed = setting.ReadData("SYSTEM", "Inspect Used Check", true) == "1" ? true : false;
             Unit.OKImageSave = setting.ReadData("SYSTEM", "OK IMAGE SAVE", true) == "1" ? true : false;
@@ -86,11 +86,12 @@ namespace VISION
             Unit.ImageSaveRoot = tb_ImageSaveRoot.Text;
             Unit.DataSaveRoot = tb_DataSaveRoot.Text;
 
-            //Unit.PortName = cb_PortNumber.SelectedItem.ToString();
-            //Unit.Parity = cb_ParityCheck.SelectedItem.ToString();
-            //Unit.StopBits = cb_Stopbit.SelectedItem.ToString();
-            //Unit.BaudRate = cb_BaudRate.SelectedItem.ToString();
-            //Unit.DataBit = cb_Databit.SelectedItem.ToString();
+            if (cb_PortNumber.SelectedItem != null)
+                Unit.PortName[Unit.LightControlNumber] = cb_PortNumber.SelectedItem.ToString();
+            Unit.Parity[Unit.LightControlNumber] = cb_ParityCheck.SelectedItem.ToString();
+            Unit.StopBits[Unit.LightControlNumber] = cb_Stopbit.SelectedItem.ToString();
+            Unit.BaudRate[Unit.LightControlNumber] = cb_BaudRate.SelectedItem.ToString();
+            Unit.DataBit[Unit.LightControlNumber] = cb_Databit.SelectedItem.ToString();
 
             Unit.InspectUsed = cb_Used.Checked;
 
@@ -98,11 +99,16 @@ namespace VISION
             Writer.WriteData("SYSTEM", "Data Save Root", Unit.DataSaveRoot);
             Writer.WriteData("SYSTEM", "Image Save Day", Unit.ImageSaveDay.ToString());
 
-            Writer.WriteData("COMMUNICATION", "Port number", Unit.PortName);
-            Writer.WriteData("COMMUNICATION", "Parity Check", Unit.Parity);
-            Writer.WriteData("COMMUNICATION", "Stop bits", Unit.StopBits);
-            Writer.WriteData("COMMUNICATION", "Data Bits", Unit.DataBit);
-            Writer.WriteData("COMMUNICATION", "Baud Rate", Unit.BaudRate);
+            Writer.WriteData("COMMUNICATION", $"Port number{Unit.LightControlNumber}", Unit.PortName[Unit.LightControlNumber]);
+            Writer.WriteData("COMMUNICATION", $"Parity Check{Unit.LightControlNumber}", Unit.Parity[Unit.LightControlNumber]);
+            Writer.WriteData("COMMUNICATION", $"Stop bits{Unit.LightControlNumber}", Unit.StopBits[Unit.LightControlNumber]);
+            Writer.WriteData("COMMUNICATION", $"Data Bits{Unit.LightControlNumber}", Unit.DataBit[Unit.LightControlNumber]);
+            Writer.WriteData("COMMUNICATION", $"Baud Rate{Unit.LightControlNumber}", Unit.BaudRate[Unit.LightControlNumber]);
+            //Writer.WriteData("COMMUNICATION", "Port number", Unit.PortName);
+            //Writer.WriteData("COMMUNICATION", "Parity Check", Unit.Parity);
+            //Writer.WriteData("COMMUNICATION", "Stop bits", Unit.StopBits);
+            //Writer.WriteData("COMMUNICATION", "Data Bits", Unit.DataBit);
+            //Writer.WriteData("COMMUNICATION", "Baud Rate", Unit.BaudRate);
 
             if (Unit.InspectUsed)
             {
@@ -175,6 +181,46 @@ namespace VISION
         private void num_ImageSaveDay_ValueChanged(object sender, EventArgs e)
         {
             Unit.ImageSaveDay = (int)num_ImageSaveDay.Value;
+        }
+
+        private void num_LightNumber_ValueChanged(object sender, EventArgs e)
+        {
+            Unit.LightControlNumber = (int)num_LightNumber.Value;
+            LightControlChange(Unit.LightControlNumber);
+        }
+
+        public void LightControlChange(int LightNumber)
+        {
+            cb_PortNumber.SelectedItem = Unit.PortName[Unit.LightControlNumber];
+            cb_ParityCheck.SelectedItem = Unit.Parity[Unit.LightControlNumber];
+            cb_Stopbit.SelectedItem = Unit.StopBits[Unit.LightControlNumber];
+            cb_BaudRate.SelectedItem = Unit.BaudRate[Unit.LightControlNumber];
+            cb_Databit.SelectedItem = Unit.DataBit[Unit.LightControlNumber];
+        }
+
+        private void cb_PortNumber_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Unit.PortName[Unit.LightControlNumber] = cb_PortNumber.SelectedItem.ToString();
+        }
+
+        private void cb_ParityCheck_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Unit.Parity[Unit.LightControlNumber] = cb_ParityCheck.SelectedItem.ToString();
+        }
+
+        private void cb_Stopbit_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Unit.StopBits[Unit.LightControlNumber] = cb_Stopbit.SelectedItem.ToString();
+        }
+
+        private void cb_BaudRate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Unit.BaudRate[Unit.LightControlNumber] = cb_BaudRate.SelectedItem.ToString();
+        }
+
+        private void cb_Databit_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Unit.DataBit[Unit.LightControlNumber] = cb_Databit.SelectedItem.ToString();
         }
     }
 }

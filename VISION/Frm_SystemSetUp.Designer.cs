@@ -69,6 +69,8 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.btn_Save = new System.Windows.Forms.Button();
             this.btn_Exit = new System.Windows.Forms.Button();
+            this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
+            this.num_LightNumber = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
@@ -84,6 +86,8 @@
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_LightNumber)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -107,9 +111,9 @@
             this.tableLayoutPanel5.ColumnCount = 2;
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel10, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.label4, 1, 0);
             this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel6, 1, 1);
-            this.tableLayoutPanel5.Controls.Add(this.label11, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel11, 0, 1);
             this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel12, 0, 2);
             this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel14, 0, 4);
@@ -202,7 +206,7 @@
             this.label11.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label11.Location = new System.Drawing.Point(4, 1);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(450, 48);
+            this.label11.Size = new System.Drawing.Size(351, 40);
             this.label11.TabIndex = 11;
             this.label11.Text = "Light Control Setting";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -220,6 +224,7 @@
             this.tableLayoutPanel11.Name = "tableLayoutPanel11";
             this.tableLayoutPanel11.RowCount = 1;
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel11.Size = new System.Drawing.Size(450, 42);
             this.tableLayoutPanel11.TabIndex = 10;
             // 
@@ -244,6 +249,7 @@
             this.cb_PortNumber.Name = "cb_PortNumber";
             this.cb_PortNumber.Size = new System.Drawing.Size(285, 36);
             this.cb_PortNumber.TabIndex = 1;
+            this.cb_PortNumber.SelectedIndexChanged += new System.EventHandler(this.cb_PortNumber_SelectedIndexChanged);
             // 
             // tableLayoutPanel12
             // 
@@ -282,6 +288,7 @@
             this.cb_ParityCheck.Name = "cb_ParityCheck";
             this.cb_ParityCheck.Size = new System.Drawing.Size(285, 36);
             this.cb_ParityCheck.TabIndex = 1;
+            this.cb_ParityCheck.SelectedIndexChanged += new System.EventHandler(this.cb_ParityCheck_SelectedIndexChanged);
             // 
             // tableLayoutPanel14
             // 
@@ -320,6 +327,7 @@
             this.cb_BaudRate.Name = "cb_BaudRate";
             this.cb_BaudRate.Size = new System.Drawing.Size(285, 36);
             this.cb_BaudRate.TabIndex = 1;
+            this.cb_BaudRate.SelectedIndexChanged += new System.EventHandler(this.cb_BaudRate_SelectedIndexChanged);
             // 
             // tableLayoutPanel13
             // 
@@ -358,6 +366,7 @@
             this.cb_Stopbit.Name = "cb_Stopbit";
             this.cb_Stopbit.Size = new System.Drawing.Size(285, 36);
             this.cb_Stopbit.TabIndex = 1;
+            this.cb_Stopbit.SelectedIndexChanged += new System.EventHandler(this.cb_Stopbit_SelectedIndexChanged);
             // 
             // tableLayoutPanel15
             // 
@@ -396,6 +405,7 @@
             this.cb_Databit.Name = "cb_Databit";
             this.cb_Databit.Size = new System.Drawing.Size(285, 36);
             this.cb_Databit.TabIndex = 1;
+            this.cb_Databit.SelectedIndexChanged += new System.EventHandler(this.cb_Databit_SelectedIndexChanged);
             // 
             // tableLayoutPanel3
             // 
@@ -457,6 +467,7 @@
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
             this.tableLayoutPanel9.RowCount = 1;
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel9.Size = new System.Drawing.Size(451, 42);
             this.tableLayoutPanel9.TabIndex = 20;
             // 
@@ -674,6 +685,37 @@
             this.btn_Exit.UseVisualStyleBackColor = true;
             this.btn_Exit.Click += new System.EventHandler(this.btn_Exit_Click);
             // 
+            // tableLayoutPanel10
+            // 
+            this.tableLayoutPanel10.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel10.ColumnCount = 2;
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel10.Controls.Add(this.num_LightNumber, 1, 0);
+            this.tableLayoutPanel10.Controls.Add(this.label11, 0, 0);
+            this.tableLayoutPanel10.Location = new System.Drawing.Point(4, 4);
+            this.tableLayoutPanel10.Name = "tableLayoutPanel10";
+            this.tableLayoutPanel10.RowCount = 1;
+            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(450, 42);
+            this.tableLayoutPanel10.TabIndex = 21;
+            // 
+            // num_LightNumber
+            // 
+            this.num_LightNumber.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.num_LightNumber.Font = new System.Drawing.Font("Consolas", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.num_LightNumber.Location = new System.Drawing.Point(362, 4);
+            this.num_LightNumber.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.num_LightNumber.Name = "num_LightNumber";
+            this.num_LightNumber.Size = new System.Drawing.Size(84, 36);
+            this.num_LightNumber.TabIndex = 22;
+            this.num_LightNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_LightNumber.ValueChanged += new System.EventHandler(this.num_LightNumber_ValueChanged);
+            // 
             // Frm_SystemSetUp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -712,6 +754,9 @@
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel10.ResumeLayout(false);
+            this.tableLayoutPanel10.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_LightNumber)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -759,5 +804,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown num_ImageSaveDay;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
+        private System.Windows.Forms.NumericUpDown num_LightNumber;
     }
 }

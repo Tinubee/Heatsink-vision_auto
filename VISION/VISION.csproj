@@ -524,6 +524,18 @@
     <Compile Include="PGgloble.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\HeatSinkMainDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\HeatSinkMainDisplay.Designer.cs">
+      <DependentUpon>HeatSinkMainDisplay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ShieldMainDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ShieldMainDisplay.Designer.cs">
+      <DependentUpon>ShieldMainDisplay.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Frm_AnalyzeResult.resx">
       <DependentUpon>Frm_AnalyzeResult.cs</DependentUpon>
     </EmbeddedResource>
@@ -561,6 +573,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UI\HeatSinkMainDisplay.resx">
+      <DependentUpon>HeatSinkMainDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ShieldMainDisplay.resx">
+      <DependentUpon>ShieldMainDisplay.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\DataSources\CamList.datasource" />
     <None Include="Properties\DataSources\Current_CamList.datasource" />
     <None Include="Properties\Settings.settings">

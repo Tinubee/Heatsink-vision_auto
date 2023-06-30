@@ -76,11 +76,17 @@ namespace VISION
         public CamSets CameraOption; //카메라 옵션 클래스
 
         // Light controller
-        public string PortName; // 포트 번호
-        public string Parity; // 패리티 비트
-        public string StopBits; // 스톱비트
-        public string DataBit; // 데이터 비트
-        public string BaudRate; // 보오 레이트
+        public int LightControlNumber;
+        public string[] PortName = new string[3]; // 포트 번호
+        public string[] Parity = new string[3]; // 패리티 비트
+        public string[] StopBits = new string[3]; // 스톱비트
+        public string[] DataBit = new string[3]; // 데이터 비트
+        public string[] BaudRate = new string[3]; // 보오 레이트
+        //public string PortName; // 포트 번호
+        //public string Parity; // 패리티 비트
+        //public string StopBits; // 스톱비트
+        //public string DataBit; // 데이터 비트
+        //public string BaudRate; // 보오 레이트
 
         public bool InspectUsed; //검사 사용
         public string LightCH1; //조명컨트롤러 채널1
