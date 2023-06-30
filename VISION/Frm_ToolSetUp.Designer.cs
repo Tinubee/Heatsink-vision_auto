@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_ToolSetUp));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.lb_CurruntModelName = new System.Windows.Forms.Label();
             this.btn_Exit = new System.Windows.Forms.Button();
@@ -175,21 +175,21 @@
             this.num_Exposure = new System.Windows.Forms.NumericUpDown();
             this.num_Gain = new System.Windows.Forms.NumericUpDown();
             this.btn_OpenCamSetfile = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
             this.cb_flipImage = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.tab_Menu = new System.Windows.Forms.TabControl();
-            this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
-            this.label45 = new System.Windows.Forms.Label();
-            this.num_GlobOrderNumber = new System.Windows.Forms.NumericUpDown();
-            this.btn_MaskAreaSet = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
-            this.num_LightControlNumber = new System.Windows.Forms.NumericUpDown();
             this.label41 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.num_LightCH1 = new System.Windows.Forms.NumericUpDown();
             this.num_LightCH2 = new System.Windows.Forms.NumericUpDown();
+            this.num_LightControlNumber = new System.Windows.Forms.NumericUpDown();
+            this.tab_Menu = new System.Windows.Forms.TabControl();
+            this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
+            this.label45 = new System.Windows.Forms.Label();
+            this.num_GlobOrderNumber = new System.Windows.Forms.NumericUpDown();
+            this.btn_MaskAreaSet = new System.Windows.Forms.Button();
             this.btn_CamReload = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).BeginInit();
@@ -247,12 +247,12 @@
             this.tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_Exposure)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Gain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_LightCH1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_LightCH2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_LightControlNumber)).BeginInit();
             this.tab_Menu.SuspendLayout();
             this.tableLayoutPanel13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_GlobOrderNumber)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_LightControlNumber)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_LightCH1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_LightCH2)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel2
@@ -641,28 +641,28 @@
             // 
             this.dgv_ToolSetUp.AllowUserToAddRows = false;
             this.dgv_ToolSetUp.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_ToolSetUp.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_ToolSetUp.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.dgv_ToolSetUp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_ToolSetUp.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colname,
             this.coldata,
             this.Column1,
             this.Column2});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_ToolSetUp.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_ToolSetUp.DefaultCellStyle = dataGridViewCellStyle11;
             this.dgv_ToolSetUp.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgv_ToolSetUp.Location = new System.Drawing.Point(1127, 368);
             this.dgv_ToolSetUp.Margin = new System.Windows.Forms.Padding(0);
@@ -670,8 +670,8 @@
             this.dgv_ToolSetUp.Name = "dgv_ToolSetUp";
             this.dgv_ToolSetUp.ReadOnly = true;
             this.dgv_ToolSetUp.RowHeadersWidth = 10;
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
-            this.dgv_ToolSetUp.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle12.ForeColor = System.Drawing.Color.Black;
+            this.dgv_ToolSetUp.RowsDefaultCellStyle = dataGridViewCellStyle12;
             this.dgv_ToolSetUp.RowTemplate.Height = 23;
             this.dgv_ToolSetUp.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgv_ToolSetUp.Size = new System.Drawing.Size(302, 708);
@@ -2362,16 +2362,6 @@
             this.btn_OpenCamSetfile.UseVisualStyleBackColor = true;
             this.btn_OpenCamSetfile.Click += new System.EventHandler(this.btn_OpenCamSetfile_Click);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label3.Location = new System.Drawing.Point(4, 856);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(0, 32);
-            this.label3.TabIndex = 2;
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // cb_flipImage
             // 
             this.cb_flipImage.AutoSize = true;
@@ -2399,6 +2389,106 @@
             this.label6.Text = "이미지회전";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label6.Visible = false;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label3.Location = new System.Drawing.Point(4, 856);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(0, 32);
+            this.label3.TabIndex = 2;
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.label22.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label22.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label22.Location = new System.Drawing.Point(4, 361);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(182, 44);
+            this.label22.TabIndex = 57;
+            this.label22.Text = "조명컨트롤러 번호";
+            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label41
+            // 
+            this.label41.AutoSize = true;
+            this.label41.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.label41.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label41.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label41.Location = new System.Drawing.Point(193, 406);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(278, 44);
+            this.label41.TabIndex = 60;
+            this.label41.Text = "조명값";
+            this.label41.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.label31.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label31.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label31.Location = new System.Drawing.Point(4, 451);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(182, 44);
+            this.label31.TabIndex = 61;
+            this.label31.Text = "1번 조명";
+            this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label11.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label11.Location = new System.Drawing.Point(4, 496);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(182, 44);
+            this.label11.TabIndex = 63;
+            this.label11.Text = "2번 조명";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // num_LightCH1
+            // 
+            this.num_LightCH1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.num_LightCH1.Font = new System.Drawing.Font("Consolas", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.num_LightCH1.Location = new System.Drawing.Point(193, 454);
+            this.num_LightCH1.Name = "num_LightCH1";
+            this.num_LightCH1.Size = new System.Drawing.Size(278, 41);
+            this.num_LightCH1.TabIndex = 65;
+            this.num_LightCH1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_LightCH1.ValueChanged += new System.EventHandler(this.num_LightCH1_ValueChanged);
+            // 
+            // num_LightCH2
+            // 
+            this.num_LightCH2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.num_LightCH2.Font = new System.Drawing.Font("Consolas", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.num_LightCH2.Location = new System.Drawing.Point(193, 499);
+            this.num_LightCH2.Name = "num_LightCH2";
+            this.num_LightCH2.Size = new System.Drawing.Size(278, 41);
+            this.num_LightCH2.TabIndex = 66;
+            this.num_LightCH2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_LightCH2.ValueChanged += new System.EventHandler(this.num_LightCH2_ValueChanged);
+            // 
+            // num_LightControlNumber
+            // 
+            this.num_LightControlNumber.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.num_LightControlNumber.Font = new System.Drawing.Font("Consolas", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.num_LightControlNumber.Location = new System.Drawing.Point(193, 364);
+            this.num_LightControlNumber.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.num_LightControlNumber.Name = "num_LightControlNumber";
+            this.num_LightControlNumber.Size = new System.Drawing.Size(278, 41);
+            this.num_LightControlNumber.TabIndex = 59;
+            this.num_LightControlNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.num_LightControlNumber.ValueChanged += new System.EventHandler(this.num_LightControlNumber_ValueChanged);
             // 
             // tab_Menu
             // 
@@ -2478,96 +2568,6 @@
             this.btn_MaskAreaSet.Text = "검사제외영역 설정";
             this.btn_MaskAreaSet.UseVisualStyleBackColor = true;
             this.btn_MaskAreaSet.Click += new System.EventHandler(this.btn_MaskAreaSet_Click);
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.label22.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label22.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label22.Location = new System.Drawing.Point(4, 361);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(182, 44);
-            this.label22.TabIndex = 57;
-            this.label22.Text = "조명컨트롤러 번호";
-            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // num_LightControlNumber
-            // 
-            this.num_LightControlNumber.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.num_LightControlNumber.Font = new System.Drawing.Font("Consolas", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.num_LightControlNumber.Location = new System.Drawing.Point(193, 364);
-            this.num_LightControlNumber.Maximum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.num_LightControlNumber.Name = "num_LightControlNumber";
-            this.num_LightControlNumber.Size = new System.Drawing.Size(278, 41);
-            this.num_LightControlNumber.TabIndex = 59;
-            this.num_LightControlNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.num_LightControlNumber.ValueChanged += new System.EventHandler(this.num_LightControlNumber_ValueChanged);
-            // 
-            // label41
-            // 
-            this.label41.AutoSize = true;
-            this.label41.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.label41.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label41.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label41.Location = new System.Drawing.Point(193, 406);
-            this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(278, 44);
-            this.label41.TabIndex = 60;
-            this.label41.Text = "조명값";
-            this.label41.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.label31.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label31.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label31.Location = new System.Drawing.Point(4, 451);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(182, 44);
-            this.label31.TabIndex = 61;
-            this.label31.Text = "1번 조명";
-            this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label11.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label11.Location = new System.Drawing.Point(4, 496);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(182, 44);
-            this.label11.TabIndex = 63;
-            this.label11.Text = "2번 조명";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // num_LightCH1
-            // 
-            this.num_LightCH1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.num_LightCH1.Font = new System.Drawing.Font("Consolas", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.num_LightCH1.Location = new System.Drawing.Point(193, 454);
-            this.num_LightCH1.Name = "num_LightCH1";
-            this.num_LightCH1.Size = new System.Drawing.Size(278, 41);
-            this.num_LightCH1.TabIndex = 65;
-            this.num_LightCH1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.num_LightCH1.ValueChanged += new System.EventHandler(this.num_LightCH1_ValueChanged);
-            // 
-            // num_LightCH2
-            // 
-            this.num_LightCH2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.num_LightCH2.Font = new System.Drawing.Font("Consolas", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.num_LightCH2.Location = new System.Drawing.Point(193, 499);
-            this.num_LightCH2.Name = "num_LightCH2";
-            this.num_LightCH2.Size = new System.Drawing.Size(278, 41);
-            this.num_LightCH2.TabIndex = 66;
-            this.num_LightCH2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.num_LightCH2.ValueChanged += new System.EventHandler(this.num_LightCH2_ValueChanged);
             // 
             // btn_CamReload
             // 
@@ -2695,13 +2695,13 @@
             this.tableLayoutPanel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_Exposure)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Gain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_LightCH1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_LightCH2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_LightControlNumber)).EndInit();
             this.tab_Menu.ResumeLayout(false);
             this.tableLayoutPanel13.ResumeLayout(false);
             this.tableLayoutPanel13.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_GlobOrderNumber)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_LightControlNumber)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_LightCH1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_LightCH2)).EndInit();
             this.ResumeLayout(false);
 
         }

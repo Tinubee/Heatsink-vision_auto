@@ -164,8 +164,11 @@ namespace VISION
                 INIControl CalibrationValue = new INIControl($"{Glob.MODELROOT}\\{Glob.RunnModel.Modelname()}\\CalibrationValue.ini");
                 num_Exposure.Value = Convert.ToDecimal(CamSet.ReadData($"Camera{Glob.CamNumber}", "Exposure"));
                 num_Gain.Value = Convert.ToDecimal(CamSet.ReadData($"Camera{Glob.CamNumber}", "Gain"));
+                Dataset = true;
                 num_LightControlNumber.Value = 0;
-
+                num_LightCH1.Value = Glob.LightChAndValue[0, 0];
+                num_LightCH2.Value = Glob.LightChAndValue[0, 1];
+                Dataset = false;
                 for (int i = 0; i < Main.camcount; i++)
                 {
                     gainvalue[i] = Convert.ToDouble(CamSet.ReadData($"Camera{i}", "Exposure"));
@@ -1354,7 +1357,7 @@ namespace VISION
 
             num_LightCH1.Value = Convert.ToDecimal(Glob.LightChAndValue[Glob.LightControlNumber, 0]);
             num_LightCH2.Value = Convert.ToDecimal(Glob.LightChAndValue[Glob.LightControlNumber, 1]);
-  
+
         }
 
         private void num_LightCH1_ValueChanged(object sender, EventArgs e)
@@ -1413,6 +1416,13 @@ namespace VISION
                 Glob.RunnModel.Loadmodel(Glob.RunnModel.Modelname(), Glob.MODELROOT, i); //VISION TOOL LOAD
             }
 
+        }
+        private void ChangeLightControlor()
+        {
+            Dataset = true;
+
+
+            Dataset = false;
         }
     }
 }

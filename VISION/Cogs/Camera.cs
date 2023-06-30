@@ -96,6 +96,7 @@ namespace VISION.Cogs
         public void Close()
         {
             //this.camTool.Dispose();
+            //this.camTool.Operator.FrameGrabber.Disconnect(false);
             this.job.Shutdown();
         }
 
