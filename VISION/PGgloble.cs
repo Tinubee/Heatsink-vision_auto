@@ -114,6 +114,9 @@ namespace VISION
         public bool[] CaliperResult = new bool[6];
         public bool[] MeasureResult = new bool[6];
 
+        public bool[] BlobResult4 = new bool[3];
+        public bool[] BlobResult5 = new bool[2];
+
         public double StandPoint_X;
         public double StandPoint_Y;
    
@@ -131,6 +134,9 @@ namespace VISION
         //마스크 툴 관련
         public CogMaskCreatorTool[] curruntMaskTool = new CogMaskCreatorTool[6];
         public string curruntMaskToolPath;
+
+        public bool[] Inspect4= new bool[3];
+        public bool[] Inspect5 = new bool[2];
     }
     public struct CamSets
     {

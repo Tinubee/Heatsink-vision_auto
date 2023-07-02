@@ -179,6 +179,8 @@ namespace VISION
             Debug.WriteLine("PLC IO SET MODULE");
             SelectModule();
 
+            AllCameraOneShot();
+
             Debug.WriteLine($"현재모델 이름 : {Glob.CurruntModelName}");
 
             log.AddLogMessage(LogType.Infomation, 0, "Vision Program Start");
@@ -854,7 +856,7 @@ namespace VISION
                         HeatSinkMainDisplay.lb_Cam2_Result.Text = "O K";
                         OK_Count[1]++;
                         if (Glob.OKImageSave)
-                            ImageSave2("OK", 2, TempCogDisplay[funCamNumber]);
+                            ImageSave2("OK", 2, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage);
                     });
                 }
                 else
@@ -866,7 +868,7 @@ namespace VISION
                         HeatSinkMainDisplay.lb_Cam2_Result.Text = "N G";
                         NG_Count[1]++;
                         if (Glob.NGImageSave)
-                            ImageSave2("NG", 2, TempCogDisplay[funCamNumber]);
+                            ImageSave2("NG", 2, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage);
                     });
                     if (!Glob.statsOK)
                     {
@@ -921,7 +923,7 @@ namespace VISION
                         HeatSinkMainDisplay.lb_Cam3_Result.Text = "O K";
                         OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
-                            ImageSave3("OK", funCamNumber + 1, TempCogDisplay[funCamNumber]);
+                            ImageSave3("OK", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage);
                     });
                 }
                 else
@@ -933,7 +935,7 @@ namespace VISION
                         HeatSinkMainDisplay.lb_Cam3_Result.Text = "N G";
                         NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
-                            ImageSave3("NG", funCamNumber + 1, TempCogDisplay[funCamNumber]);
+                            ImageSave3("NG", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage);
 
                         if (!Glob.statsOK)
                         {
@@ -976,25 +978,20 @@ namespace VISION
                 }
                 if (Inspect_Cam3(cdy, shotNumber) == true) // 검사 결과
                 {
+                    Glob.Inspect4[shotNumber - 1] = true;
                     //검사 결과 OK
                     BeginInvoke((Action)delegate
                     {
-                        //DgvResult(dgv_Line1, 0, 1); //-추가된함수
-                        HeatSinkMainDisplay.lb_Cam4_Result.BackColor = Color.Lime;
-                        HeatSinkMainDisplay.lb_Cam4_Result.Text = "O K";
-                        OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
                             ImageSave4("OK", funCamNumber + 1, cdy, shotNumber);
                     });
                 }
                 else
                 {
+                    Glob.Inspect4[shotNumber - 1] = false;
+
                     BeginInvoke((Action)delegate
                     {
-                        //DgvResult(dgv_Line1, 0, 1); //-추가된함수
-                        HeatSinkMainDisplay.lb_Cam4_Result.BackColor = Color.Red;
-                        HeatSinkMainDisplay.lb_Cam4_Result.Text = "N G";
-                        NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
                             ImageSave4("NG", funCamNumber + 1, cdy, shotNumber);
                     });
@@ -1007,9 +1004,33 @@ namespace VISION
 
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
-
+                Debug.WriteLine($"inspect 4 shotnumber : {shotNumber}");
                 if (shotNumber == 3)
                 {
+                    if (Glob.Inspect4[0] == false || Glob.Inspect4[1] == false || Glob.Inspect4[2] == false)
+                    {
+                        BeginInvoke((Action)delegate
+                        {
+                            //DgvResult(dgv_Line1, 0, 1); //-추가된함수
+                            HeatSinkMainDisplay.lb_Cam4_Result.BackColor = Color.Red;
+                            HeatSinkMainDisplay.lb_Cam4_Result.Text = "N G";
+                            NG_Count[funCamNumber]++;
+                            if (Glob.NGImageSave)
+                                ImageSave4("NG", funCamNumber + 1, cdy, shotNumber);
+                        });
+                    }
+                    else
+                    {
+                        BeginInvoke((Action)delegate
+                        {
+                            //DgvResult(dgv_Line1, 0, 1); //-추가된함수
+                            HeatSinkMainDisplay.lb_Cam4_Result.BackColor = Color.Lime;
+                            HeatSinkMainDisplay.lb_Cam4_Result.Text = "O K";
+                            OK_Count[funCamNumber]++;
+                            if (Glob.OKImageSave)
+                                ImageSave4("OK", funCamNumber + 1, cdy, shotNumber);
+                        });
+                    }
                     LCP_100DC(LightControl[2], "1", "f", "0000");
                     LCP_100DC(LightControl[2], "2", "f", "0000");
                 }
@@ -1041,33 +1062,61 @@ namespace VISION
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
                     return;
                 }
+                if(shotNumber == 2)
+                {
+                    Debug.WriteLine("inspection 5 shotnumber 2");
+                }
                 if (Inspect_Cam4(cdy, shotNumber) == true) // 검사 결과
                 {
+                    Glob.Inspect5[shotNumber - 1] = true;
                     //검사 결과 OK
                     BeginInvoke((Action)delegate
                     {
-                        //DgvResult(dgv_Line1, 0, 1); //-추가된함수
-                        HeatSinkMainDisplay.lb_Cam5_Result.BackColor = Color.Lime;
-                        HeatSinkMainDisplay.lb_Cam5_Result.Text = "O K";
-                        OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
                             ImageSave5("OK", funCamNumber + 1, cdy, shotNumber);
                     });
                 }
                 else
                 {
+                    Glob.Inspect5[shotNumber - 1] = false;
                     BeginInvoke((Action)delegate
                     {
-                        //DgvResult(dgv_Line1, 0, 1); //-추가된함수
-                        HeatSinkMainDisplay.lb_Cam5_Result.BackColor = Color.Red;
-                        HeatSinkMainDisplay.lb_Cam5_Result.Text = "N G";
-                        NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
                             ImageSave5("NG", funCamNumber + 1, cdy, shotNumber);
                     });
                     if (!Glob.statsOK)
                     {
                         NoScratchErrorSet();
+                    }
+                }
+                Debug.WriteLine($"inspect 5 shotnumber : {shotNumber}");
+
+                if (shotNumber == 2)
+                {
+                    if (Glob.Inspect5[0] == false || Glob.Inspect5[1] == false)
+                    {
+                        BeginInvoke((Action)delegate
+                        {
+                            //DgvResult(dgv_Line1, 0, 1); //-추가된함수
+                            HeatSinkMainDisplay.lb_Cam5_Result.BackColor = Color.Red;
+                            HeatSinkMainDisplay.lb_Cam5_Result.Text = "N G";
+                            NG_Count[funCamNumber]++;
+                            if (Glob.NGImageSave)
+                                ImageSave5("NG", funCamNumber + 1, cdy, shotNumber);
+                        });
+                    }
+                    else
+                    {
+                        BeginInvoke((Action)delegate
+                        {
+                            //DgvResult(dgv_Line1, 0, 1); //-추가된함수
+                            HeatSinkMainDisplay.lb_Cam5_Result.BackColor = Color.Lime;
+                            HeatSinkMainDisplay.lb_Cam5_Result.Text = "O K";
+                            OK_Count[funCamNumber]++;
+                            if (Glob.OKImageSave)
+                                ImageSave5("OK", funCamNumber + 1, cdy, shotNumber);
+                        });
+
                     }
                 }
 
@@ -1128,7 +1177,7 @@ namespace VISION
                         HeatSinkMainDisplay.lb_Cam6_Result.Text = "O K";
                         OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
-                            ImageSave6("OK", funCamNumber + 1, cdy, shotNumber);
+                            ImageSave6("OK", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, shotNumber);
                     });
                 }
                 else
@@ -1140,7 +1189,7 @@ namespace VISION
                         HeatSinkMainDisplay.lb_Cam6_Result.Text = "N G";
                         NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
-                            ImageSave6("NG", funCamNumber + 1, cdy, shotNumber);
+                            ImageSave6("NG", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, shotNumber);
                     });
                     if (!Glob.statsOK)
                     {
@@ -1242,6 +1291,7 @@ namespace VISION
             this.IO_DoWork = true;
             new Thread(ReadInputSignal).Start();
             CognexModelLoad();
+            //AllCameraOneShot();
             Glob.firstInspection[0] = false;
             Glob.firstInspection[1] = false;
             //전체 조명 꺼주기.
@@ -1945,6 +1995,7 @@ namespace VISION
                 //BLOB 검사 FAIL
                 InspectResult[CameraNumber] = false;
                 Glob.BlobResult[CameraNumber] = false;
+                Glob.BlobResult[shotNumber - 1] = false;
             }
             if (TempModel.Dimension_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection))
             {
@@ -1998,7 +2049,7 @@ namespace VISION
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, "PATTERN OK"); }
             else { DisplayLabelShow(Collection2, cog, 600, 100, "PATTERN NG"); };
 
-            if (Glob.BlobResult[CameraNumber]) { DisplayLabelShow(Collection3, cog, 600, 170, "BLOB OK"); }
+            if (Glob.BlobResult[CameraNumber] && Glob.BlobResult[shotNumber]) { DisplayLabelShow(Collection3, cog, 600, 170, "BLOB OK"); }
             else { DisplayLabelShow(Collection3, cog, 600, 170, "BLOB NG"); };
 
             for (int i = 0; i < Collection.Count; i++)
@@ -2082,6 +2133,7 @@ namespace VISION
                 //BLOB 검사 FAIL
                 InspectResult[CameraNumber] = false;
                 Glob.BlobResult[CameraNumber] = false;
+                Glob.BlobResult5[shotNumber - 1] = false;
             }
 
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, "PATTERN OK"); }
@@ -2351,7 +2403,7 @@ namespace VISION
                 //cm.info(ee.Message);
             }
         }
-        public void ImageSave2(string Result, int CamNumber, CogDisplay cog)
+        public void ImageSave2(string Result, int CamNumber, CogImage8Grey image)
         {
             //NG 이미지와 OK 이미지 구별이 필요할 것 같음 - 따로 요청이 없어서 구별해놓진 않음
             try
@@ -2370,7 +2422,7 @@ namespace VISION
                 //    Directory.CreateDirectory(Root2);
                 //}
                 ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
-                ImageSave.Append(cog.Image);
+                ImageSave.Append(image);
                 ImageSave.Close();
 
                 // cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
@@ -2381,7 +2433,7 @@ namespace VISION
                 //cm.info(ee.Message);
             }
         }
-        public void ImageSave3(string Result, int CamNumber, CogDisplay cog)
+        public void ImageSave3(string Result, int CamNumber, CogImage8Grey image)
         {
             //NG 이미지와 OK 이미지 구별이 필요할 것 같음 - 따로 요청이 없어서 구별해놓진 않음
             try
@@ -2400,7 +2452,7 @@ namespace VISION
                 //    Directory.CreateDirectory(Root2);
                 //}
                 ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
-                ImageSave.Append(cog.Image);
+                ImageSave.Append(image);
                 ImageSave.Close();
 
                 //cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
@@ -2471,7 +2523,7 @@ namespace VISION
                 //cm.info(ee.Message);
             }
         }
-        public void ImageSave6(string Result, int CamNumber, CogDisplay cog, int shotNumber)
+        public void ImageSave6(string Result, int CamNumber, CogImage8Grey image, int shotNumber)
         {
             //NG 이미지와 OK 이미지 구별이 필요할 것 같음 - 따로 요청이 없어서 구별해놓진 않음
             try
@@ -2490,7 +2542,7 @@ namespace VISION
                 //    Directory.CreateDirectory(Root2);
                 // }
                 ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
-                ImageSave.Append(cog.Image);
+                ImageSave.Append(image);
                 ImageSave.Close();
 
                 //cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
@@ -2817,7 +2869,7 @@ namespace VISION
                         {
                             case 0: //1번째 라인스캔 카메라 촬영 신호 Cam 1
                                     //top1 조명켜주기.
-                               
+
                                 log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                 Glob.firstInspection[0] = Glob.firstInspection[0] ? false : true;
                                 Task.Run(() => { ShotAndInspect_Cam1(1); });
@@ -2826,7 +2878,7 @@ namespace VISION
                                     //옆면 조명
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
-                                   
+
                                     log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                     Task.Run(() => { ShotAndInspect_Cam2(1); });
                                     Task.Run(() => { ShotAndInspect_Cam3(1); });
@@ -2836,7 +2888,7 @@ namespace VISION
                                 Glob.firstInspection[1] = Glob.firstInspection[1] ? false : true;
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
-                                   
+
                                     log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                     Task.Run(() => { ShotAndInspect_Cam4(HeatSinkMainDisplay.cdyDisplay4, 1); });
                                 }
@@ -2872,7 +2924,7 @@ namespace VISION
                             case 7://6번촬영
                                    //백라이트 조명.
                                    //LCP24_150DC(LightControl[3], "0", Glob.LightChAndValue[3, 0].ToString());
-                                
+
                                 log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                 Task.Run(() => { ShotAndInspect_Cam6(HeatSinkMainDisplay.cdyDisplay6, 1); });
                                 break;
@@ -2880,7 +2932,7 @@ namespace VISION
                                 //조명 켜주기.
                                 for (int lop = 0; lop < LightControl.Count(); lop++)
                                 {
-                                    if(lop == 3)
+                                    if (lop == 3)
                                     {
                                         LCP24_150DC(LightControl[lop], "0", Glob.LightChAndValue[lop, 0].ToString("D4"));
                                     }
@@ -3025,6 +3077,16 @@ namespace VISION
         private void num_LightNumber_ValueChanged(object sender, EventArgs e)
         {
             Glob.LightControlNumber = (int)num_LightNumber.Value;
+        }
+
+        private void AllCameraOneShot()
+        {
+            SnapShot1();
+            SnapShot2();
+            SnapShot3();
+            SnapShot4();
+            SnapShot5();
+            SnapShot6();
         }
     }
 }

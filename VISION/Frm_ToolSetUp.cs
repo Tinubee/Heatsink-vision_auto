@@ -585,6 +585,7 @@ namespace VISION
                 curimage.Operator.Open(ImageName, CogImageFileModeConstants.Read);
                 curimage.Run();
                 ImageType = curimage.OutputImage.GetType().ToString();
+                //CogIPOneImageTool FlipImageTool = (CogIPOneImageTool)CogSerializer.LoadObjectFromFile(Glob.MODELROOT + $"\\FlipImage2.vpp");
                 if (ImageType.Contains("CogImage24PlanarColor"))
                 {
                     CogImageConvertTool imageconvert = new CogImageConvertTool();
