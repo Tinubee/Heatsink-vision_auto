@@ -126,9 +126,7 @@ namespace VISION
             InitializeComponent();
             ColumnHeader h = new ColumnHeader();
             LightControl = new SerialPort[4] { LightControl1, LightControl2, LightControl3, LightControl4 };
-            Debug.WriteLine("GeniCamInit");
-            GeniCamInit();
-
+          
             StandFirst(); //처음 실행되어야 하는부분. - 이거 왜했지.. 이유는 모르겠다 일단 냅두자 필요없을꺼같기도함. - 20200121 김형민
             Debug.WriteLine("StartFirst 완료.");
             CamSet();
@@ -278,28 +276,6 @@ namespace VISION
             control.WriteLine($"{STX}{command}{ETX}");
         }
 
-        public void GeniCamInit()
-        {
-
-            //string[] ports = SerialPort.GetPortNames();
-            //serialPort = new SerialPort(ports.FirstOrDefault(item => item == "COM1"), 9600);
-            //try
-            //{
-            //    serialPort.Open();
-            //    Console.WriteLine("Serial port opened. Press any key to exit.");
-
-            //    //string input = $"I=42";
-            //    //serialPort.WriteLine(input);
-
-            //    serialPort.Close();
-
-            //}
-            //catch (Exception ee)
-            //{
-            //    Debug.WriteLine(ee.Message);
-            //}
-        }
-
         private void CamSet()
         {
             try
@@ -352,51 +328,22 @@ namespace VISION
 
                         if (((AXT_MODULE)uModuleID) == AXT_MODULE.AXT_SIO_RDI32)
                         {
-                            //checkInterrupt.Checked = false;
-                            //radioCallback.Enabled = false;
-                            //radioMessage.Enabled = false;
-                            //radioEvent.Enabled = false;
-                            //checkRigingEdge.Checked = false;
-                            //checkFallingEdge.Checked = false;
                         }
                         else
                         {
-                            //checkInterrupt.Checked = true;
-                            //radioCallback.Enabled = true;
-                            //radioMessage.Enabled = true;
-                            //radioEvent.Enabled = true;
-                            //checkRigingEdge.Checked = true;
-                            //checkFallingEdge.Checked = true;
-
                             CAXD.AxdiInterruptGetModuleEnable(0, ref uUse);
                             if (uUse == (uint)AXT_USE.ENABLE)
                             {
-                                //checkInterrupt.Checked = true;
                                 //SelectMessage();
                             }
                             else
-                                // checkInterrupt.Checked = false;
-
                                 CAXD.AxdiInterruptEdgeGetWord(0, 0, (uint)AXT_DIO_EDGE.UP_EDGE, ref uDataHigh);
+                            
                             CAXD.AxdiInterruptEdgeGetWord(0, 1, (uint)AXT_DIO_EDGE.UP_EDGE, ref uDataLow);
-                            //if (uDataHigh == 0xFFFF && uDataLow == 0xFFFF)
-                            //    checkRigingEdge.Checked = true;
-                            //else
-                            //    checkRigingEdge.Checked = false;
 
                             CAXD.AxdiInterruptEdgeGetWord(0, 0, (uint)AXT_DIO_EDGE.DOWN_EDGE, ref uDataHigh);
                             CAXD.AxdiInterruptEdgeGetWord(0, 1, (uint)AXT_DIO_EDGE.DOWN_EDGE, ref uDataLow);
-                            //if (uDataHigh == 0xFFFF && uDataLow == 0xFFFF)
-                            //    checkFallingEdge.Checked = true;
-                            //else
-                            //    checkFallingEdge.Checked = false;
                         }
-
-                        //for (nIndex = 0; nIndex < 16; nIndex++)
-                        //{
-                        //    checkHigh[nIndex].Text = String.Format("{0:D2}", nIndex);
-                        //    checkLow[nIndex].Text = String.Format("{0:D2}", nIndex + 16);
-                        //}
                         break;
 
                     case AXT_MODULE.AXT_SIO_DO32P:
@@ -404,9 +351,7 @@ namespace VISION
                     case AXT_MODULE.AXT_SIO_RDO32:
                     case AXT_MODULE.AXT_SIO_DO32T_P:
                     case AXT_MODULE.AXT_SIO_RDO32RTEX:
-
                         //++
-                        // Read outputting signal in WORD
                         CAXD.AxdoReadOutportWord(1, 0, ref uDataHigh);
                         CAXD.AxdoReadOutportWord(1, 1, ref uDataLow);
 
@@ -432,15 +377,6 @@ namespace VISION
                                 outputBtn[nIndex].BackColor = SystemColors.Control;
                                 gbool_di[nIndex] = false;
                             }
-
-
-                            //if (uFlagLow == 1)
-                            //    outputBtn[nIndex].BackColor = Color.Lime;
-                            //else
-                            //    outputBtn[nIndex].BackColor = SystemColors.Control;
-
-                            //outputBtn[nIndex].Text = String.Format("{0:D2}", nIndex);
-                            //outputBtn[nIndex].Text = String.Format("{0:D2}", nIndex + 16);
                         }
                         break;
 
@@ -450,35 +386,9 @@ namespace VISION
                     case AXT_MODULE.AXT_SIO_RDB32T:
                     case AXT_MODULE.AXT_SIO_RDB32RTEX:
                     case AXT_MODULE.AXT_SIO_RDB96MLII:
-                        //groupHigh.Text = "INPUT  0bit ~ 15Bit";
-                        //groupLow.Text = "OUTPUT  0bit ~ 15Bit";
-
-                        //// Only Digital Input was used
-                        //checkInterrupt.Enabled = true;
-                        //checkRigingEdge.Enabled = true;
-                        //checkFallingEdge.Enabled = true;
-
                         CAXD.AxdiInterruptGetModuleEnable(0, ref uUse);
-                        //if (uUse == (uint)AXT_USE.ENABLE)
-                        //{
-                        //    checkInterrupt.Checked = true;
-                        //    SelectMessage();
-                        //}
-                        //else
-                        //    checkInterrupt.Checked = false;
-
                         CAXD.AxdiInterruptEdgeGetWord(0, 0, (uint)AXT_DIO_EDGE.UP_EDGE, ref uDataHigh);
-                        //if (uDataHigh == 0xFFFF)
-                        //    checkRigingEdge.Checked = true;
-                        //else
-                        //    checkRigingEdge.Checked = false;
-
                         CAXD.AxdiInterruptEdgeGetWord(0, 0, (uint)AXT_DIO_EDGE.DOWN_EDGE, ref uDataHigh);
-                        //if (uDataHigh == 0xFFFF)
-                        //    checkFallingEdge.Checked = true;
-                        //else
-                        //    checkFallingEdge.Checked = false;
-
                         //++
                         // Read outputting signal in WORD
                         CAXD.AxdoReadOutportWord(0, 0, ref uDataLow);
@@ -496,9 +406,6 @@ namespace VISION
                                 inputBtn[nIndex].BackColor = Color.Lime;
                             else
                                 inputBtn[nIndex].BackColor = SystemColors.Control;
-
-                            //checkHigh[nIndex].Text = String.Format("{0:D2}", nIndex);
-                            //checkLow[nIndex].Text = String.Format("{0:D2}", nIndex);
                         }
                         break;
                 }
@@ -514,9 +421,7 @@ namespace VISION
 
             if (OpenDevice())
             {
-                //radioMessage.Checked = true;
-                //timerSensor.Enabled = true;
-                //frmDigitalIO = this;
+                
             }
             CheckForIllegalCrossThreadCalls = false;
         }
@@ -569,11 +474,8 @@ namespace VISION
                                         case AXT_MODULE.AXT_SIO_RDB32T: strData = String.Format("[{0:D2}:{1:D2}] SIO-RDB32T", nBoardNo, i); break;
                                     }
                                     IOModel.Append(strData);
-                                    //comboModule.Items.Add(strData);
                                 }
                             }
-
-                            //comboModule.SelectedIndex = 0;
                         }
                     }
                     else
@@ -755,13 +657,6 @@ namespace VISION
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
 
-                //Glob.FlipImageTool[0].InputImage = TempCam[0].Run();
-                //Glob.FlipImageTool[0].Run();
-
-                //TempCogDisplay[0].Image = Glob.FlipImageTool[0].OutputImage;
-                //TempCogDisplay[0].InteractiveGraphics.Clear();
-                //TempCogDisplay[0].StaticGraphics.Clear();
-
                 TempCogDisplay[funCamNumber].Image = TempCam[0].Run();
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
@@ -806,8 +701,6 @@ namespace VISION
                     }
 
                 }
-
-
 
                 InspectTime[0].Stop();
                 InspectFlag[0] = false;
@@ -1150,17 +1043,6 @@ namespace VISION
 
                 LCP24_150DC(LightControl[3], "0", "0000");
 
-                //TempCogDisplay[5].Image = TempCam[5].Run();
-                //TempCogDisplay[5].InteractiveGraphics.Clear();
-                //TempCogDisplay[5].StaticGraphics.Clear();
-
-                //Glob.FlipImageTool[funCamNumber].InputImage = TempCam[funCamNumber].Run();
-                //Glob.FlipImageTool[funCamNumber].Run();
-
-                //cdy.Image = TempCam[5].Run();
-                //cdy.InteractiveGraphics.Clear();
-                //cdy.StaticGraphics.Clear();
-
                 if (cdy.Image == null)
                 {
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
@@ -1333,22 +1215,6 @@ namespace VISION
             TempCaliperEnable = TempModel.CaliperEnables();
             TempCam = TempModel.Cam();
             TempMask = TempModel.MaskTool();
-
-
-            //for (int i = 0; i < Glob.curruntMaskTool.Length - 1; i++)
-            //{
-            //    string maskToolRoot = Glob.MODELROOT + $"\\{Glob.RunnModel.Modelname()}\\Cam{i}\\mask.vpp";
-            //    if (File.Exists(maskToolRoot) == false)
-            //    {
-            //        //Create MaskTool
-            //        CogMaskCreatorTool maskTool = new CogMaskCreatorTool();
-            //        Glob.curruntMaskTool[Glob.CamNumber] = maskTool;
-            //        CogSerializer.SaveObjectToFile(Glob.curruntMaskTool[Glob.CamNumber], maskToolRoot);
-            //    }
-
-            //    Glob.curruntMaskTool[i] = (CogMaskCreatorTool)CogSerializer.LoadObjectFromFile(maskToolRoot);
-            //}
-
         }
 
         public void DisplayLabelShow(CogGraphicCollection Collection, CogDisplay cog, int X, int Y, string Text)
@@ -1368,7 +1234,6 @@ namespace VISION
             if (TempMulti[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
             {
                 Fiximage = TempModel.Mask_FixtureImage1((CogImage8Grey)cdy.Image, TempMulti[CameraNumber, toolnumber].ResultPoint(TempMulti[CameraNumber, toolnumber].HighestResultToolNumber()), TempMulti[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, TempMulti[CameraNumber, toolnumber].HighestResultToolNumber());
-                //cdyDisplay.Image = Fiximage;
             }
         }
 
@@ -1377,7 +1242,6 @@ namespace VISION
             if (TempMulti[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
             {
                 Fiximage = TempModel.Blob_FixtureImage1((CogImage8Grey)cdy.Image, TempMulti[CameraNumber, toolnumber].ResultPoint(TempMulti[CameraNumber, toolnumber].HighestResultToolNumber()), TempMulti[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, TempMulti[CameraNumber, toolnumber].HighestResultToolNumber());
-                //cdyDisplay.Image = Fiximage;
             }
         }
         public void Bolb_Train2(CogDisplay cdy, int CameraNumber, int toolnumber)
@@ -1385,7 +1249,6 @@ namespace VISION
             if (TempMulti[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
             {
                 Fiximage = TempModel.Blob_FixtureImage2((CogImage8Grey)cdy.Image, TempMulti[CameraNumber, toolnumber].ResultPoint(TempMulti[CameraNumber, toolnumber].HighestResultToolNumber()), TempMulti[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, TempMulti[CameraNumber, toolnumber].HighestResultToolNumber());
-                //cdyDisplay.Image = Fiximage;
             }
         }
         public void Bolb_Train3(CogDisplay cdy, int CameraNumber, int toolnumber)
@@ -1393,7 +1256,6 @@ namespace VISION
             if (TempMulti[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
             {
                 Fiximage = TempModel.Blob_FixtureImage3((CogImage8Grey)cdy.Image, TempMulti[CameraNumber, toolnumber].ResultPoint(TempMulti[CameraNumber, toolnumber].HighestResultToolNumber()), TempMulti[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, TempMulti[CameraNumber, toolnumber].HighestResultToolNumber());
-                //cdyDisplay.Image = Fiximage;
             }
         }
         public void Bolb_Train4(CogDisplay cdy, int CameraNumber, int toolnumber)
@@ -1401,7 +1263,6 @@ namespace VISION
             if (TempMulti[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
             {
                 Fiximage = TempModel.Blob_FixtureImage4((CogImage8Grey)cdy.Image, TempMulti[CameraNumber, toolnumber].ResultPoint(TempMulti[CameraNumber, toolnumber].HighestResultToolNumber()), TempMulti[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, TempMulti[CameraNumber, toolnumber].HighestResultToolNumber());
-                //cdyDisplay.Image = Fiximage;
             }
         }
         public void Bolb_Train5(CogDisplay cdy, int CameraNumber, int toolnumber)
@@ -1409,7 +1270,6 @@ namespace VISION
             if (TempMulti[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
             {
                 Fiximage = TempModel.Blob_FixtureImage5((CogImage8Grey)cdy.Image, TempMulti[CameraNumber, toolnumber].ResultPoint(TempMulti[CameraNumber, toolnumber].HighestResultToolNumber()), TempMulti[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, TempMulti[CameraNumber, toolnumber].HighestResultToolNumber());
-                //cdyDisplay.Image = Fiximage;
             }
         }
 
@@ -1418,7 +1278,6 @@ namespace VISION
             if (TempMulti[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
             {
                 Fiximage = TempModel.Blob_FixtureImage6((CogImage8Grey)cdy.Image, TempMulti[CameraNumber, toolnumber].ResultPoint(TempMulti[CameraNumber, toolnumber].HighestResultToolNumber()), TempMulti[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, TempMulti[CameraNumber, toolnumber].HighestResultToolNumber());
-                //cdyDisplay.Image = Fiximage;
             }
         }
 
@@ -2868,14 +2727,11 @@ namespace VISION
                         switch (i)
                         {
                             case 0: //1번째 라인스캔 카메라 촬영 신호 Cam 1
-                                    //top1 조명켜주기.
-
                                 log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                 Glob.firstInspection[0] = Glob.firstInspection[0] ? false : true;
                                 Task.Run(() => { ShotAndInspect_Cam1(1); });
                                 break;
                             case 1: //사이드 라인스캔 카메라 촬영신호 Cam 2 & Cam 3
-                                    //옆면 조명
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
 
@@ -2922,9 +2778,6 @@ namespace VISION
                                 }
                                 break;
                             case 7://6번촬영
-                                   //백라이트 조명.
-                                   //LCP24_150DC(LightControl[3], "0", Glob.LightChAndValue[3, 0].ToString());
-
                                 log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                 Task.Run(() => { ShotAndInspect_Cam6(HeatSinkMainDisplay.cdyDisplay6, 1); });
                                 break;
@@ -2945,31 +2798,11 @@ namespace VISION
                                         LCP_100DC(LightControl[lop], "2", "d", Glob.LightChAndValue[lop, 1].ToString("D4"));
                                     }
                                 }
-
-                                //LCP_100DC(LightControl[1], "1", "o", "0000");
-                                //LCP_100DC(LightControl[1], "1", "d", Glob.LightChAndValue[1, 0].ToString("D4"));
-                                //LCP_100DC(LightControl[0], "1", "o", "0000");
-                                //LCP_100DC(LightControl[0], "2", "o", "0000");
-                                //LCP_100DC(LightControl[0], "1", "d", Glob.LightChAndValue[0, 0].ToString("D4"));
-                                //LCP_100DC(LightControl[0], "2", "d", Glob.LightChAndValue[0, 1].ToString("D4"));
-                                //LCP_100DC(LightControl[2], "1", "o", "0000");
-                                //LCP_100DC(LightControl[2], "2", "o", "0000");
-                                //LCP_100DC(LightControl[2], "1", "d", Glob.LightChAndValue[2, 0].ToString("D4"));
-                                //LCP_100DC(LightControl[2], "2", "d", Glob.LightChAndValue[2, 1].ToString("D4"));
-                                //LCP24_150DC(LightControl[3], "0", Glob.LightChAndValue[3, 0].ToString("D4"));
                                 break;
                         }
                     }
 
                     Thread.Sleep(1);
-
-                    //IO_CheckCount++;
-                    //if (IO_CheckCount >= 1000)
-                    //{
-                    //    Debug.WriteLine($"시간={(DateTime.Now - IO_RunTime).TotalMilliseconds}, 횟수={IO_CheckCount}");
-                    //    IO_CheckCount = 0;
-                    //    IO_RunTime = DateTime.Now;
-                    //}
                 }
 
                 Debug.WriteLine("IO Read Ended!");
