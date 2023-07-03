@@ -853,9 +853,9 @@ namespace VISION
             }
         }
 
-        public void 최종결과표시(bool result)
+        public void 최종결과표시(bool result, int type)
         {
-            HeatSinkMainDisplay.lb_최종결과.Text = result ? "OK" : "NG";
+            HeatSinkMainDisplay.lb_최종결과.Text = result ? "OK" : $"NG-{type}";
             HeatSinkMainDisplay.lb_최종결과.ForeColor = result ? Color.Lime : Color.Red;
         }
 
@@ -1330,7 +1330,7 @@ namespace VISION
                 if (Glob.scratchError[1])
                 {
                     //Debug.WriteLine($"Glob.scratchError[0] : {Glob.scratchError[0]}");
-                    최종결과표시(false);
+                    최종결과표시(false, 1);
                     SelectHighIndex(1, 1);
                     await Task.Delay(2000);
                     SelectHighIndex(1, 0);
@@ -1339,7 +1339,7 @@ namespace VISION
                 else if (Glob.noScratchError[0])
                 {
                     //Debug.WriteLine($"Glob.noScratchError[0] : {Glob.noScratchError[0]}");
-                    최종결과표시(false);
+                    최종결과표시(false, 2);
                     SelectHighIndex(2, 1);
                     await Task.Delay(2000);
                     SelectHighIndex(2, 0);
@@ -1348,7 +1348,7 @@ namespace VISION
                 else
                 {
                     Debug.WriteLine("검사결과 OK");
-                    최종결과표시(true);
+                    최종결과표시(true, 0);
                     SelectHighIndex(0, 1);
                     await Task.Delay(2000);
                     SelectHighIndex(0, 0);
@@ -1360,7 +1360,7 @@ namespace VISION
                 Debug.WriteLine($"Glob.noScratchError[1] : {Glob.noScratchError[1]}");
                 if (Glob.scratchError[0])
                 {
-                    최종결과표시(false);
+                    최종결과표시(false, 1);
                     SelectHighIndex(1, 1);
                     await Task.Delay(2000);
                     SelectHighIndex(1, 0);
@@ -1368,7 +1368,7 @@ namespace VISION
                 }
                 else if (Glob.noScratchError[1])
                 {
-                    최종결과표시(false);
+                    최종결과표시(false, 2);
                     SelectHighIndex(2, 1);
                     await Task.Delay(2000);
                     SelectHighIndex(2, 0);
@@ -1376,7 +1376,7 @@ namespace VISION
                 }
                 else
                 {
-                    최종결과표시(true);
+                    최종결과표시(true, 0);
                     Debug.WriteLine("검사결과 OK");
                     SelectHighIndex(0, 1);
                     await Task.Delay(2000);
