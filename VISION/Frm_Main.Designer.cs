@@ -602,10 +602,11 @@
             // 
             // btn_INPUT11
             // 
+            this.btn_INPUT11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_INPUT11.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btn_INPUT11.Location = new System.Drawing.Point(3, 807);
             this.btn_INPUT11.Name = "btn_INPUT11";
-            this.btn_INPUT11.Size = new System.Drawing.Size(128, 61);
+            this.btn_INPUT11.Size = new System.Drawing.Size(128, 66);
             this.btn_INPUT11.TabIndex = 47;
             this.btn_INPUT11.Tag = "7";
             this.btn_INPUT11.Text = "INPUT11";
@@ -941,6 +942,7 @@
             // 
             // btn_INPUT8
             // 
+            this.btn_INPUT8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_INPUT8.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btn_INPUT8.Location = new System.Drawing.Point(3, 606);
             this.btn_INPUT8.Name = "btn_INPUT8";
@@ -952,6 +954,7 @@
             // 
             // btn_INPUT9
             // 
+            this.btn_INPUT9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_INPUT9.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btn_INPUT9.Location = new System.Drawing.Point(3, 673);
             this.btn_INPUT9.Name = "btn_INPUT9";
@@ -963,6 +966,7 @@
             // 
             // btn_INPUT10
             // 
+            this.btn_INPUT10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_INPUT10.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btn_INPUT10.Location = new System.Drawing.Point(3, 740);
             this.btn_INPUT10.Name = "btn_INPUT10";
@@ -990,7 +994,7 @@
             this.logControl1.Color_NormalText = System.Drawing.Color.White;
             this.logControl1.Color_WarningText = System.Drawing.Color.Yellow;
             this.logControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.logControl1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.logControl1.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.logControl1.Location = new System.Drawing.Point(0, 0);
             this.logControl1.Margin = new System.Windows.Forms.Padding(0);
             this.logControl1.Name = "logControl1";
@@ -1095,7 +1099,7 @@
             // 
             this.label59.AutoSize = true;
             this.label59.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label59.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label59.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label59.ForeColor = System.Drawing.Color.Yellow;
             this.label59.Location = new System.Drawing.Point(4, 106);
             this.label59.Name = "label59";
@@ -1121,7 +1125,7 @@
             // 
             this.label61.AutoSize = true;
             this.label61.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label61.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label61.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label61.ForeColor = System.Drawing.Color.White;
             this.label61.Location = new System.Drawing.Point(4, 71);
             this.label61.Name = "label61";
@@ -1147,7 +1151,7 @@
             // 
             this.label63.AutoSize = true;
             this.label63.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label63.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label63.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label63.ForeColor = System.Drawing.Color.Red;
             this.label63.Location = new System.Drawing.Point(4, 36);
             this.label63.Name = "label63";
@@ -1173,7 +1177,7 @@
             // 
             this.label65.AutoSize = true;
             this.label65.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label65.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label65.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label65.ForeColor = System.Drawing.Color.Lime;
             this.label65.Location = new System.Drawing.Point(4, 1);
             this.label65.Name = "label65";
@@ -1226,7 +1230,7 @@
             this.label51.AutoSize = true;
             this.label51.BackColor = System.Drawing.Color.Black;
             this.label51.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label51.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label51.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label51.ForeColor = System.Drawing.Color.Yellow;
             this.label51.Location = new System.Drawing.Point(4, 103);
             this.label51.Name = "label51";
@@ -1254,7 +1258,7 @@
             this.label53.AutoSize = true;
             this.label53.BackColor = System.Drawing.Color.Black;
             this.label53.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label53.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label53.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label53.ForeColor = System.Drawing.Color.White;
             this.label53.Location = new System.Drawing.Point(4, 69);
             this.label53.Name = "label53";
@@ -1282,7 +1286,7 @@
             this.label55.AutoSize = true;
             this.label55.BackColor = System.Drawing.Color.Black;
             this.label55.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label55.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label55.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label55.ForeColor = System.Drawing.Color.Red;
             this.label55.Location = new System.Drawing.Point(4, 35);
             this.label55.Name = "label55";
@@ -1310,7 +1314,7 @@
             this.label57.AutoSize = true;
             this.label57.BackColor = System.Drawing.Color.Black;
             this.label57.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label57.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label57.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label57.ForeColor = System.Drawing.Color.Lime;
             this.label57.Location = new System.Drawing.Point(4, 1);
             this.label57.Name = "label57";
@@ -1363,7 +1367,7 @@
             this.label43.AutoSize = true;
             this.label43.BackColor = System.Drawing.Color.Black;
             this.label43.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label43.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label43.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label43.ForeColor = System.Drawing.Color.Yellow;
             this.label43.Location = new System.Drawing.Point(4, 103);
             this.label43.Name = "label43";
@@ -1391,7 +1395,7 @@
             this.label45.AutoSize = true;
             this.label45.BackColor = System.Drawing.Color.Black;
             this.label45.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label45.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label45.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label45.ForeColor = System.Drawing.Color.White;
             this.label45.Location = new System.Drawing.Point(4, 69);
             this.label45.Name = "label45";
@@ -1419,7 +1423,7 @@
             this.label47.AutoSize = true;
             this.label47.BackColor = System.Drawing.Color.Black;
             this.label47.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label47.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label47.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label47.ForeColor = System.Drawing.Color.Red;
             this.label47.Location = new System.Drawing.Point(4, 35);
             this.label47.Name = "label47";
@@ -1447,7 +1451,7 @@
             this.label49.AutoSize = true;
             this.label49.BackColor = System.Drawing.Color.Black;
             this.label49.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label49.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label49.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label49.ForeColor = System.Drawing.Color.Lime;
             this.label49.Location = new System.Drawing.Point(4, 1);
             this.label49.Name = "label49";
@@ -1500,7 +1504,7 @@
             this.label35.AutoSize = true;
             this.label35.BackColor = System.Drawing.Color.Black;
             this.label35.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label35.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label35.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label35.ForeColor = System.Drawing.Color.Yellow;
             this.label35.Location = new System.Drawing.Point(4, 103);
             this.label35.Name = "label35";
@@ -1528,7 +1532,7 @@
             this.label37.AutoSize = true;
             this.label37.BackColor = System.Drawing.Color.Black;
             this.label37.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label37.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label37.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label37.ForeColor = System.Drawing.Color.White;
             this.label37.Location = new System.Drawing.Point(4, 69);
             this.label37.Name = "label37";
@@ -1556,7 +1560,7 @@
             this.label39.AutoSize = true;
             this.label39.BackColor = System.Drawing.Color.Black;
             this.label39.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label39.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label39.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label39.ForeColor = System.Drawing.Color.Red;
             this.label39.Location = new System.Drawing.Point(4, 35);
             this.label39.Name = "label39";
@@ -1584,7 +1588,7 @@
             this.label41.AutoSize = true;
             this.label41.BackColor = System.Drawing.Color.Black;
             this.label41.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label41.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label41.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label41.ForeColor = System.Drawing.Color.Lime;
             this.label41.Location = new System.Drawing.Point(4, 1);
             this.label41.Name = "label41";
@@ -1637,7 +1641,7 @@
             this.label27.AutoSize = true;
             this.label27.BackColor = System.Drawing.Color.Black;
             this.label27.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label27.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label27.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label27.ForeColor = System.Drawing.Color.Yellow;
             this.label27.Location = new System.Drawing.Point(4, 103);
             this.label27.Name = "label27";
@@ -1665,7 +1669,7 @@
             this.label29.AutoSize = true;
             this.label29.BackColor = System.Drawing.Color.Black;
             this.label29.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label29.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label29.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label29.ForeColor = System.Drawing.Color.White;
             this.label29.Location = new System.Drawing.Point(4, 69);
             this.label29.Name = "label29";
@@ -1693,7 +1697,7 @@
             this.label31.AutoSize = true;
             this.label31.BackColor = System.Drawing.Color.Black;
             this.label31.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label31.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label31.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label31.ForeColor = System.Drawing.Color.Red;
             this.label31.Location = new System.Drawing.Point(4, 35);
             this.label31.Name = "label31";
@@ -1721,7 +1725,7 @@
             this.label33.AutoSize = true;
             this.label33.BackColor = System.Drawing.Color.Black;
             this.label33.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label33.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label33.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label33.ForeColor = System.Drawing.Color.Lime;
             this.label33.Location = new System.Drawing.Point(4, 1);
             this.label33.Name = "label33";
@@ -1775,7 +1779,7 @@
             this.label24.AutoSize = true;
             this.label24.BackColor = System.Drawing.Color.Black;
             this.label24.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label24.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label24.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label24.ForeColor = System.Drawing.Color.Yellow;
             this.label24.Location = new System.Drawing.Point(4, 103);
             this.label24.Name = "label24";
@@ -1803,7 +1807,7 @@
             this.label22.AutoSize = true;
             this.label22.BackColor = System.Drawing.Color.Black;
             this.label22.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label22.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label22.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label22.ForeColor = System.Drawing.Color.White;
             this.label22.Location = new System.Drawing.Point(4, 69);
             this.label22.Name = "label22";
@@ -1831,7 +1835,7 @@
             this.label20.AutoSize = true;
             this.label20.BackColor = System.Drawing.Color.Black;
             this.label20.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label20.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label20.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label20.ForeColor = System.Drawing.Color.Red;
             this.label20.Location = new System.Drawing.Point(4, 35);
             this.label20.Name = "label20";
@@ -1859,7 +1863,7 @@
             this.label17.AutoSize = true;
             this.label17.BackColor = System.Drawing.Color.Black;
             this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label17.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label17.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label17.ForeColor = System.Drawing.Color.Lime;
             this.label17.Location = new System.Drawing.Point(4, 1);
             this.label17.Name = "label17";
@@ -1873,7 +1877,7 @@
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Black;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label5.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(4, 1);
             this.label5.Name = "label5";
@@ -1887,7 +1891,7 @@
             this.label6.AutoSize = true;
             this.label6.BackColor = System.Drawing.Color.Black;
             this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label6.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(4, 146);
             this.label6.Name = "label6";
@@ -1901,7 +1905,7 @@
             this.label8.AutoSize = true;
             this.label8.BackColor = System.Drawing.Color.Black;
             this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label8.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label8.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label8.ForeColor = System.Drawing.Color.White;
             this.label8.Location = new System.Drawing.Point(4, 291);
             this.label8.Name = "label8";
@@ -1915,7 +1919,7 @@
             this.label12.AutoSize = true;
             this.label12.BackColor = System.Drawing.Color.Black;
             this.label12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label12.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label12.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label12.ForeColor = System.Drawing.Color.White;
             this.label12.Location = new System.Drawing.Point(4, 436);
             this.label12.Name = "label12";
@@ -1929,7 +1933,7 @@
             this.label14.AutoSize = true;
             this.label14.BackColor = System.Drawing.Color.Black;
             this.label14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label14.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label14.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label14.ForeColor = System.Drawing.Color.White;
             this.label14.Location = new System.Drawing.Point(4, 581);
             this.label14.Name = "label14";
@@ -1943,7 +1947,7 @@
             this.label16.AutoSize = true;
             this.label16.BackColor = System.Drawing.Color.Black;
             this.label16.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label16.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label16.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label16.ForeColor = System.Drawing.Color.White;
             this.label16.Location = new System.Drawing.Point(4, 726);
             this.label16.Name = "label16";
