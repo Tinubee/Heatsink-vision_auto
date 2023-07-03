@@ -801,10 +801,12 @@ namespace VISION
             {
                 if (Glob.firstInspection[0])
                 {
+                    Debug.WriteLine("스크레치 에러 초기화 1");
                     Glob.scratchError[0] = false;
                 }
                 else
                 {
+                    Debug.WriteLine("스크레치 에러 초기화 2");
                     Glob.scratchError[1] = false;
                 }
             }
@@ -814,10 +816,12 @@ namespace VISION
         {
             if (Glob.firstInspection[0])
             {
+                Debug.WriteLine("Glob.scratchError[0] : true");
                 Glob.scratchError[0] = true;
             }
             else
             {
+                Debug.WriteLine("Glob.scratchError[1] : true");
                 Glob.scratchError[1] = true;
             }
         }
@@ -849,6 +853,12 @@ namespace VISION
             }
         }
 
+        public void 최종결과표시(bool result)
+        {
+            HeatSinkMainDisplay.lb_최종결과.Text = result ? "OK" : "NG";
+            HeatSinkMainDisplay.lb_최종결과.ForeColor = result ? Color.Lime : Color.Red;
+        }
+
         public void ShotAndInspect_Cam1(int shotNumber)
         {
             try
@@ -874,6 +884,7 @@ namespace VISION
                 }
                 if (Inspect_Cam0(TempCogDisplay[0], shotNumber) == true) // 검사 결과
                 {
+                    Debug.WriteLine("CAM1 검사결과 OK");
                     //검사 결과 OK
                     BeginInvoke((Action)delegate
                     {
@@ -887,6 +898,7 @@ namespace VISION
                 }
                 else
                 {
+                    Debug.WriteLine("CAM1 검사결과 NG");
                     BeginInvoke((Action)delegate
                     {
                         //DgvResult(dgv_Line1, 0, 1); //-추가된함수
@@ -898,6 +910,7 @@ namespace VISION
                     });
                     if (!Glob.statsOK)
                     {
+                        Debug.WriteLine("cam1 스크레치 에러 set");
                         ScratchErrorSet();
                     }
 
@@ -966,6 +979,7 @@ namespace VISION
                     });
                     if (!Glob.statsOK)
                     {
+                        Debug.WriteLine("cam2 스크레치 에러 set");
                         ScratchErrorSet();
                     }
                     //검사 결과 NG
@@ -1033,6 +1047,7 @@ namespace VISION
 
                         if (!Glob.statsOK)
                         {
+                            Debug.WriteLine("cam3 스크레치 에러 set");
                             ScratchErrorSet();
                         }
                     });
@@ -1235,6 +1250,12 @@ namespace VISION
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
 
+                if ((Glob.CurruntModelName == "shield"))
+                {
+                    Debug.WriteLine("shield 일때 에러 초기화");
+                    NoScratchErrorInit();
+                }
+
                 Glob.FlipImageTool[funCamNumber].InputImage = TempCam[funCamNumber].Run();
                 Glob.FlipImageTool[funCamNumber].Run();
 
@@ -1276,13 +1297,14 @@ namespace VISION
                     });
                     if (!Glob.statsOK)
                     {
+                        Debug.WriteLine("형상 및 블롭에러");
                         NoScratchErrorSet();
                     }
                 }
 
-                if (shotNumber == 3)
+                if (shotNumber == 1)
                 {
-                    Debug.WriteLine("에러체크");
+                    Debug.WriteLine("에러체크 후 PLC전송");
                     ErrorCheckAndSendPLC();
                 }
 
@@ -1303,20 +1325,30 @@ namespace VISION
         {
             if (Glob.firstInspection[1])
             {
-                if (Glob.scratchError[0])
+                Debug.WriteLine($"Glob.scratchError[0] : {Glob.scratchError[0]}");
+                Debug.WriteLine($"Glob.noScratchError[0] : {Glob.noScratchError[0]}");
+                if (Glob.scratchError[1])
                 {
+                    //Debug.WriteLine($"Glob.scratchError[0] : {Glob.scratchError[0]}");
+                    최종결과표시(false);
                     SelectHighIndex(1, 1);
                     await Task.Delay(2000);
                     SelectHighIndex(1, 0);
+                    return;
                 }
                 else if (Glob.noScratchError[0])
                 {
+                    //Debug.WriteLine($"Glob.noScratchError[0] : {Glob.noScratchError[0]}");
+                    최종결과표시(false);
                     SelectHighIndex(2, 1);
                     await Task.Delay(2000);
                     SelectHighIndex(2, 0);
+                    return;
                 }
                 else
                 {
+                    Debug.WriteLine("검사결과 OK");
+                    최종결과표시(true);
                     SelectHighIndex(0, 1);
                     await Task.Delay(2000);
                     SelectHighIndex(0, 0);
@@ -1324,20 +1356,28 @@ namespace VISION
             }
             else
             {
-                if (Glob.scratchError[1])
+                Debug.WriteLine($"Glob.scratchError[1] : {Glob.scratchError[1]}");
+                Debug.WriteLine($"Glob.noScratchError[1] : {Glob.noScratchError[1]}");
+                if (Glob.scratchError[0])
                 {
+                    최종결과표시(false);
                     SelectHighIndex(1, 1);
                     await Task.Delay(2000);
                     SelectHighIndex(1, 0);
+                    return;
                 }
                 else if (Glob.noScratchError[1])
                 {
+                    최종결과표시(false);
                     SelectHighIndex(2, 1);
                     await Task.Delay(2000);
                     SelectHighIndex(2, 0);
+                    return;
                 }
                 else
                 {
+                    최종결과표시(true);
+                    Debug.WriteLine("검사결과 OK");
                     SelectHighIndex(0, 1);
                     await Task.Delay(2000);
                     SelectHighIndex(0, 0);
@@ -1589,9 +1629,11 @@ namespace VISION
                         }
                     }
                 }
+                Debug.WriteLine("CAM 1 Pattern OK");
             }
             else
             {
+                Debug.WriteLine("CAM 1 Pattern NG");
                 InspectResult[CameraNumber] = false;
                 Glob.PatternResult[CameraNumber] = false;
             }
@@ -1609,62 +1651,14 @@ namespace VISION
             //******************************Blob Tool Run******************************//
             if (TempModel.Blob_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber))
             {
-
+                Debug.WriteLine("CAM 1 Blob OK");
             }
             else
             {
                 //BLOB 검사 FAIL
+                Debug.WriteLine("CAM 1 Blob NG");
                 InspectResult[CameraNumber] = false;
                 Glob.BlobResult[CameraNumber] = false;
-            }
-
-            if (TempModel.Dimension_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection))
-            {
-                CogCreateGraphicLabelTool[] Point_Label = new CogCreateGraphicLabelTool[10];
-                CogCreateGraphicLabelTool[] Label = new CogCreateGraphicLabelTool[10];
-
-                for (int lop = 1; lop < TempDistance.Length / Program.CameraList.Count(); lop++)
-                {
-                    if (TempDistanceEnable[CameraNumber, lop])
-                    {
-                        double ResultValue = 0;
-                        ResultValue = TempDistance[CameraNumber, lop].DistanceValue(lop) * TempDistance_CalibrationValue[CameraNumber, lop];
-
-                        Point_Label[lop] = new CogCreateGraphicLabelTool();
-                        Point_Label[lop].InputImage = cog.Image;
-                        Point_Label[lop].InputGraphicLabel.X = TempDistance[CameraNumber, lop].GetX(lop);
-                        Point_Label[lop].InputGraphicLabel.Y = TempDistance[CameraNumber, lop].GetY(lop);
-                        Point_Label[lop].InputGraphicLabel.Text = ResultValue.ToString("F3");
-
-                        Label[lop] = new CogCreateGraphicLabelTool();
-                        Label[lop].InputImage = cog.Image;
-                        Label[lop].InputGraphicLabel.X = 600;
-                        Label[lop].InputGraphicLabel.Y = 170 + (80 * lop);
-                        Label[lop].InputGraphicLabel.Text = $"{TempDistance[CameraNumber, lop].ToolName(lop)} : {ResultValue.ToString("F3")}";
-                        Label[lop].Run();
-                        Collection4.Add(Label[lop].GetOutputGraphicLabel());
-
-                        if (TempDistance_LowValue[CameraNumber, lop] <= ResultValue && TempDistance_HighValue[CameraNumber, lop] >= ResultValue)
-                        {
-                            Point_Label[lop].OutputColor = CogColorConstants.Green;
-                            Collection4[lop - 1].Color = CogColorConstants.Green;
-                        }
-                        else
-                        {
-                            Point_Label[lop].OutputColor = CogColorConstants.Red;
-                            Collection4[lop - 1].Color = CogColorConstants.Red;
-                            InspectResult[CameraNumber] = false;
-                            Glob.MeasureResult[CameraNumber] = false;
-                        }
-
-                        Point_Label[lop].Run();
-                        cog.StaticGraphics.Add(Point_Label[lop].GetOutputGraphicLabel(), "");
-                    }
-                }
-            }
-            else
-            {
-                InspectResult[CameraNumber] = false;
             }
 
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, "PATTERN OK"); }
