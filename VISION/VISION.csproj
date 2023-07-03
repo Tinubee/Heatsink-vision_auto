@@ -457,6 +457,7 @@
     <Compile Include="AXHS.cs" />
     <Compile Include="AXL.cs" />
     <Compile Include="Class_Common.cs" />
+    <Compile Include="clseremc.cs" />
     <Compile Include="Cogs\Blob.cs" />
     <Compile Include="Cogs\Caliper.cs" />
     <Compile Include="Cogs\Camera.cs" />

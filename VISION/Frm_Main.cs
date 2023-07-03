@@ -28,6 +28,9 @@ using System.Collections;
 using Microsoft.VisualBasic.Logging;
 using Microsoft.VisualBasic.Devices;
 using VISION.UI;
+using Euresys.clseremc;
+using Microsoft.Win32;
+using System.ComponentModel.Design;
 
 namespace VISION
 {
@@ -94,6 +97,29 @@ namespace VISION
         Label[] TOTAL_Label;
         Label[] NGRATE_Label;
 
+        //유레시스 보드 시리얼포트 연결 관련.
+        // Handle to the serial port
+        IntPtr serialRef = System.IntPtr.Zero;
+        // Index of the serial port
+        UInt32 serialIndex = 0;
+        // Number of serial ports
+        UInt32 numPorts = 0;
+
+        Tuple<UInt32, String>[] CL_BAUDRATES =
+       {
+            Tuple.Create(CL.BAUDRATE_9600, "9600"),
+            Tuple.Create(CL.BAUDRATE_19200, "19200"),
+            Tuple.Create(CL.BAUDRATE_38400, "38400"),
+            Tuple.Create(CL.BAUDRATE_57600, "57600"),
+            Tuple.Create(CL.BAUDRATE_115200, "115200"),
+            Tuple.Create(CL.BAUDRATE_230400, "230400"),
+            Tuple.Create(CL.BAUDRATE_460800, "460800"),
+            Tuple.Create(CL.BAUDRATE_921600, "921600"),
+        };
+        //연결 가능한 포트.
+        List<string> availablePort = new List<string>();
+        List<string> baudRates = new List<string>();
+
 
         // Trigger
         private Boolean IO_DoWork = false;
@@ -126,8 +152,7 @@ namespace VISION
             InitializeComponent();
             ColumnHeader h = new ColumnHeader();
             LightControl = new SerialPort[4] { LightControl1, LightControl2, LightControl3, LightControl4 };
-          
-            StandFirst(); //처음 실행되어야 하는부분. - 이거 왜했지.. 이유는 모르겠다 일단 냅두자 필요없을꺼같기도함. - 20200121 김형민
+            StandFirst();
             Debug.WriteLine("StartFirst 완료.");
             CamSet();
             Debug.WriteLine("CamSet완료.");
@@ -168,6 +193,13 @@ namespace VISION
             Debug.WriteLine("조명 컨트롤 연결 시작.");
             Initialize_LightControl(); //조명컨틀로 초기화
 
+            //GeniCam 설정
+            Debug.WriteLine("GeniCam 초기화.");
+            Initialize_GeniCam();
+
+            //Camfile 셋팅.
+            Set_GeniCam(Glob.CurruntModelName);
+
             Debug.WriteLine("코그넥스 모델 로드");
             CognexModelLoad(); //코그넥스 모델 로드.
 
@@ -186,6 +218,175 @@ namespace VISION
             if (myProcesses.LongLength > 0)
             {
                 myProcesses[0].Kill();
+            }
+        }
+
+        public string readBuffer(IntPtr serial)
+        {
+            try
+            {
+                // Retrieve the number of bytes in the read buffer
+                UInt32 numBytes;
+                CL.GetNumBytesAvail(serial, out numBytes);
+
+                if (numBytes == 0)
+                {
+                    return "<NO DATA>";
+                }
+                else
+                {
+                    // Retrieve the data in the read buffer
+                    IntPtr receivedData = Marshal.AllocHGlobal((int)numBytes + 1);
+                    CL.SerialRead(serialRef, receivedData, out numBytes, 5000);
+                    String data = Marshal.PtrToStringAnsi(receivedData, (int)numBytes - 1);
+                    Marshal.FreeHGlobal(receivedData);
+                    return data;
+                }
+            }
+            catch (Euresys.clSerialException error)
+            {
+                return error.Message;
+            }
+        }
+
+        public void sendCommandToBoard(string cmd)
+        {
+            try
+            {
+                // Write the command to the port
+                cmd += Convert.ToChar(13);
+                UInt32 numBytes = (UInt32)cmd.Length;
+                CL.SerialWrite(serialRef, cmd, out numBytes, 5000);
+            }
+            catch (Euresys.clSerialException error)
+            {
+                Debug.WriteLine(error.Message);
+                return;
+            }
+        }
+
+        public void Set_GeniCam(string modelName)
+        {
+            //DualBase #0 Port A & B
+            try
+            {
+                for (int lop = 0; lop < availablePort.Count(); lop++)
+                {
+                    //open serial port
+                    CL.SerialInit((UInt32)lop, out serialRef);
+                    Debug.WriteLine($"out serial : {serialRef}");
+
+                    UInt32 supportedBaudRates;
+                    CL.GetSupportedBaudRates(serialRef, out supportedBaudRates);
+
+                    foreach (var clBaudRate in CL_BAUDRATES)
+                    {
+                        if ((supportedBaudRates & clBaudRate.Item1) != 0)
+                        {
+                            baudRates.Add(clBaudRate.Item2);
+                        }
+                    }
+
+
+                    String selectedBaudRate = "9600";
+                    UInt32 baudRate = 0;
+                    foreach (var clBaudRate in CL_BAUDRATES)
+                    {
+                        if (selectedBaudRate == clBaudRate.Item2)
+                        {
+                            baudRate = clBaudRate.Item1;
+                        }
+                    }
+
+
+                    CL.SetBaudRate(serialRef, baudRate);
+                    Debug.WriteLine($"{serialRef} set baudrate");
+
+
+                    //sendCommand
+                    Debug.WriteLine($"GeniCamSet Model : {modelName}");
+                    string setExposureCommand = modelName == "shield" ? "I=38" : "I=76";
+                    Debug.WriteLine($"command : {setExposureCommand}");
+
+
+                    sendCommandToBoard("");
+                    string first = readBuffer(serialRef);
+                    Debug.WriteLine($"read first buffer : {first}");
+
+                    sendCommandToBoard(setExposureCommand);
+                    string second = readBuffer(serialRef);
+                    Debug.WriteLine($"read second buffer : {second}");
+
+                    //close port
+                    CL.SerialClose(serialRef);
+                }
+
+            }
+            catch (Euresys.clSerialException error)
+            {
+                Debug.WriteLine(error.Message);
+                log.AddLogMessage(LogType.Error, 0, error.Message);
+            }
+        }
+
+        public void Initialize_GeniCam()
+        {
+            // Add path to clseremc in DLL search path
+            using (RegistryKey registryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\\cameralink"))
+            {
+                CL.SetDllDirectory((string)registryKey.GetValue("CLSERIALPATH"));
+            }
+
+            // Retrieve the number of serial ports
+            try
+            {
+                CL.GetNumSerialPorts(out numPorts);
+            }
+            catch (Euresys.clSerialException error)
+            {
+                Debug.WriteLine($"Error : {error.Message}");
+            }
+            catch (System.Exception error)
+            {
+                Debug.WriteLine($"Error : {error.Message}");
+                return;
+            }
+
+            // Retrieve the identifier of each port           
+            String portIdentifier = "";
+            for (UInt32 i = 0; i < numPorts; i++)
+            {
+                UInt32 bufferSize = 0;
+                try
+                {
+                    // Retrieve the buffer size
+                    CL.GetSerialPortIdentifier(i, System.IntPtr.Zero, out bufferSize);
+                }
+                catch (Euresys.clSerialException error)
+                {
+                    if (error.Status != CL.ERR_BUFFER_TOO_SMALL)
+                    {
+                        MessageBox.Show(error.Message, "GrablinkSerialCommunication error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        continue;
+                    }
+                }
+                IntPtr textPort = Marshal.AllocHGlobal((int)bufferSize + 1);
+                try
+                {
+                    // Retrieve the port identifier
+                    CL.GetSerialPortIdentifier(i, textPort, out bufferSize);
+                    portIdentifier = Marshal.PtrToStringAnsi(textPort);
+                    //if(portIdentifier.Contains("DualBase#0"))
+                    //{
+                    availablePort.Add(portIdentifier);
+                    //}
+                    //availablePorts.Items.Add(portIdentifier);
+                }
+                catch (Euresys.clSerialException error)
+                {
+                    MessageBox.Show(error.Message, "GrablinkSerialCommunication error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                Marshal.FreeHGlobal(textPort);
             }
         }
 
@@ -338,7 +539,7 @@ namespace VISION
                             }
                             else
                                 CAXD.AxdiInterruptEdgeGetWord(0, 0, (uint)AXT_DIO_EDGE.UP_EDGE, ref uDataHigh);
-                            
+
                             CAXD.AxdiInterruptEdgeGetWord(0, 1, (uint)AXT_DIO_EDGE.UP_EDGE, ref uDataLow);
 
                             CAXD.AxdiInterruptEdgeGetWord(0, 0, (uint)AXT_DIO_EDGE.DOWN_EDGE, ref uDataHigh);
@@ -421,7 +622,7 @@ namespace VISION
 
             if (OpenDevice())
             {
-                
+
             }
             CheckForIllegalCrossThreadCalls = false;
         }
@@ -955,7 +1156,7 @@ namespace VISION
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
                     return;
                 }
-                if(shotNumber == 2)
+                if (shotNumber == 2)
                 {
                     Debug.WriteLine("inspection 5 shotnumber 2");
                 }

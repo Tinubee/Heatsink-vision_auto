@@ -53,6 +53,9 @@ namespace VISION
                 return;
             }
             Process.Start($"{Glob.MODELCHANGEFROM}");
+
+            Main.Set_GeniCam(SelectedModel);
+
             for (int i = 0; i < Main.camcount; i++)
             {
                 if (Glob.RunnModel.Loadmodel(SelectedModel, Glob.MODELROOT, i) == true)
@@ -80,6 +83,7 @@ namespace VISION
                 Glob.LightChAndValue[i, 0] = Convert.ToInt32(CamSet.ReadData($"LightControl{i}", "CH1"));
                 Glob.LightChAndValue[i, 1] = Convert.ToInt32(CamSet.ReadData($"LightControl{i}", "CH2"));
             }
+
         }
 
         private void Frm_Model_Load(object sender, EventArgs e)
