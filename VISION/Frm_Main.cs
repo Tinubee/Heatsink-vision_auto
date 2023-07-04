@@ -24,7 +24,6 @@ using Euresys.clseremc;
 using Microsoft.Win32;
 using System.Drawing.Imaging;
 using Microsoft.VisualBasic.Logging;
-using DevExpress.Utils.Html.Internal;
 
 namespace VISION
 {
