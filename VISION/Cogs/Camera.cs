@@ -39,7 +39,6 @@ namespace VISION.Cogs
 
         public CogImage8Grey Run()
         {
-            Debug.WriteLine($"{this.camTool.Name} 출 파일 실행.");
             this.camTool.Run(); //Tool실행.
             CogImage8Grey Image = (CogImage8Grey)camTool.OutputImage; //Tool 출력이미지.
             return Image;

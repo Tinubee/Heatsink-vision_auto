@@ -23,9 +23,6 @@ namespace VISION
             }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Frm_Loading frm_loading = new Frm_Loading();
-            //frm_loading.Show();
-            //frm_loading.Refresh();
             Frm_Main fm = new Frm_Main();
             Application.Run(fm);
         }

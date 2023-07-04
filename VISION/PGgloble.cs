@@ -83,21 +83,12 @@ namespace VISION
         public string[] DataBit = new string[4]; // 데이터 비트
         public string[] BaudRate = new string[4]; // 보오 레이트
         public int[,] LightChAndValue = new int[4, 2]; //조명컨트롤러 채널(컨트롤번호, 채널번호) 조명값
-        //public string PortName; // 포트 번호
-        //public string Parity; // 패리티 비트
-        //public string StopBits; // 스톱비트
-        //public string DataBit; // 데이터 비트
-        //public string BaudRate; // 보오 레이트
-
         public bool InspectUsed; //검사 사용
-        //public string LightCH1; //조명컨트롤러 채널1
-        //public string LightCH2; //조명컨트롤러 채널2
-
         public string ImageFilePath; //이미지파일경로.
 
         public int CamNumber; //사용카메라번호
 
-        public int RegionAreaInfo; //패턴툴 영역 정보. - 패턴툴에서 영역을 가져오는게 있을껀데.. 못찾겠어서 임시로 만들어놨다.
+        public int RegionAreaInfo; //패턴툴 영역 정보.
         public int Line1_OK;
         public int Line1_NG;
         public int Line2_OK;

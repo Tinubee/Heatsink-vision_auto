@@ -65,7 +65,6 @@ namespace VISION.Cogs
 
         public Model()
         { // 초기화
-            Debug.WriteLine("Cognex Model 초기화 시작");
             int CircleMax = CIRCLETOOLMAX - 1;
             int BlobMax = BLOBTOOLMAX - 1;
             int LineMax = LINETOOLMAX - 1;
@@ -76,10 +75,7 @@ namespace VISION.Cogs
             for (int lop = 0; lop < 6; lop++) //Glob.allCameraCount 에서 6으로 임시 변경.
             {
                 Camera[lop] = new Camera(lop);
-                Debug.WriteLine($"Camera{lop + 1} 초기화 완료.");
-
                 Masks[lop] = new Mask(lop);
-                Debug.WriteLine($"Mask{lop + 1} 초기화 완료.");
             }
 
 

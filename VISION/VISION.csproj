@@ -417,6 +417,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files\Cognex\VisionPro\ReferencedAssemblies\Cognex.VisionPro.ToolGroup.Controls.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Data.Desktop.v22.2, Version=22.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Data.v22.2, Version=22.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Drawing.v22.2, Version=22.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Printing.v22.2.Core, Version=22.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Utils.v22.2, Version=22.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="KittenLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\x64\Debug\KittenLib.dll</HintPath>
@@ -531,6 +536,24 @@
     <Compile Include="UI\HeatSinkMainDisplay.Designer.cs">
       <DependentUpon>HeatSinkMainDisplay.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ResultCount\AllResultCount.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ResultCount\AllResultCount.Designer.cs">
+      <DependentUpon>AllResultCount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ResultCount\EachCamResult.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ResultCount\EachCamResult.Designer.cs">
+      <DependentUpon>EachCamResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ResultCount\ResultCountDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ResultCount\ResultCountDisplay.Designer.cs">
+      <DependentUpon>ResultCountDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ShieldMainDisplay.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -577,9 +600,21 @@
     <EmbeddedResource Include="UI\HeatSinkMainDisplay.resx">
       <DependentUpon>HeatSinkMainDisplay.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\ResultCount\AllResultCount.resx">
+      <DependentUpon>AllResultCount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ResultCount\EachCamResult.resx">
+      <DependentUpon>EachCamResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ResultCount\ResultCountDisplay.resx">
+      <DependentUpon>ResultCountDisplay.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ShieldMainDisplay.resx">
       <DependentUpon>ShieldMainDisplay.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="Properties\DataSources\CamList.datasource" />
     <None Include="Properties\DataSources\Current_CamList.datasource" />
     <None Include="Properties\Settings.settings">

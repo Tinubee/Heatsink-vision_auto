@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
@@ -17,20 +14,14 @@ using System.IO.Ports;
 using Cognex.VisionPro.ImageFile;
 using Cognex.VisionPro.ImageProcessing;
 using Cognex.VisionPro.Dimensioning;
-using System.Drawing.Imaging;
 using System.Reflection;
 using KimLib;
 using Cognex.VisionPro.FGGigE;
 using VISION.Cogs;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
-using System.Net.Sockets;
 using System.Collections;
-using Microsoft.VisualBasic.Logging;
-using Microsoft.VisualBasic.Devices;
 using VISION.UI;
 using Euresys.clseremc;
 using Microsoft.Win32;
-using System.ComponentModel.Design;
 
 namespace VISION
 {
@@ -50,6 +41,7 @@ namespace VISION
 
 
         public HeatSinkMainDisplay HeatSinkMainDisplay = new HeatSinkMainDisplay();
+        private ResultCountDisplay ResultCountDisplay = new ResultCountDisplay();
         public CogDisplay[] TempCogDisplay;
 
         private Model TempModel; //모델
@@ -84,24 +76,26 @@ namespace VISION
         public bool Modelchange = false; //모델체인지
 
         public Stopwatch[] InspectTime = new Stopwatch[6]; //검사시간
-        public double[] OK_Count = new double[6]; //양품개수
-        public double[] NG_Count = new double[6]; //NG품개수
-        public double[] TOTAL_Count = new double[6]; //총개수
-        public double[] NG_Rate = new double[6]; //총개수
+        public double[] OK_Count = new double[6]; //각 카메라 별 양품개수
+        public double[] NG_Count = new double[6]; //각 카메라 별 NG품개수
+        public double[] TOTAL_Count = new double[6]; //각 카메라 별 총개수
+        public double[] NG_Rate = new double[6]; //각 카메라 별 불량률
+
+        public double AllOK_Count = 0; //종합 판정 OK 개수
+        public double AllNG_Count = 0; //종합 판정 NG 개수
+
+        public double AllNG_1_Count = 0; //종합 판정 NG1 개수
+        public double AllNG_2_Count = 0; //종합 판정 NG2 개수
+
+        public double AllTotal_Count = 0; //종합 판정 총 개수
+        public double AllNG_Rate = 0; //종합 판정 불량률
 
         public bool[] InspectFlag = new bool[6]; //검사 플래그
         public int camcount = 6;
 
-        Label[] OK_Label;
-        Label[] NG_Label;
-        Label[] TOTAL_Label;
-        Label[] NGRATE_Label;
-
         //유레시스 보드 시리얼포트 연결 관련.
         // Handle to the serial port
         IntPtr serialRef = System.IntPtr.Zero;
-        // Index of the serial port
-        UInt32 serialIndex = 0;
         // Number of serial ports
         UInt32 numPorts = 0;
 
@@ -148,17 +142,12 @@ namespace VISION
         {
             Glob = PGgloble.getInstance; //전역변수 사용
             Process.Start($"{Glob.LOADINGFROM}");
-            Debug.WriteLine("프로그램 시작");
             InitializeComponent();
             ColumnHeader h = new ColumnHeader();
             LightControl = new SerialPort[4] { LightControl1, LightControl2, LightControl3, LightControl4 };
             StandFirst();
-            Debug.WriteLine("StartFirst 완료.");
             CamSet();
-            Debug.WriteLine("CamSet완료.");
             Glob.RunnModel = new Model(); //코그넥스 모델 확인.
-            Debug.WriteLine("Cognex 모델 확인 완료.");
-
             Glob.G_MainForm = this;
 
             // 최종 트리거 시간 초기화
@@ -183,36 +172,17 @@ namespace VISION
         private void Frm_Main_Load(object sender, EventArgs e)
         {
             lb_Ver.Text = $"Ver. {Glob.PROGRAM_VERSION}";
-
-            Debug.WriteLine("프로그램 셋팅 로드");
             LoadSetup(); //프로그램 셋팅 로드.
-
-            Debug.WriteLine("타이머 시작");
             timer_Setting.Start(); //타이머에서 계속해서 확인하는 것들
-
-            Debug.WriteLine("조명 컨트롤 연결 시작.");
             Initialize_LightControl(); //조명컨틀로 초기화
-
             //GeniCam 설정
-            Debug.WriteLine("GeniCam 초기화.");
             Initialize_GeniCam();
-
             //Camfile 셋팅.
             Set_GeniCam(Glob.CurruntModelName);
-
-            Debug.WriteLine("코그넥스 모델 로드");
             CognexModelLoad(); //코그넥스 모델 로드.
-
-            Debug.WriteLine("PLC IO READ LOAD");
             DigitalIO_Load();//IO Load
-
-            Debug.WriteLine("PLC IO SET MODULE");
             SelectModule();
-
             AllCameraOneShot();
-
-            Debug.WriteLine($"현재모델 이름 : {Glob.CurruntModelName}");
-
             log.AddLogMessage(LogType.Infomation, 0, "Vision Program Start");
             Process[] myProcesses = Process.GetProcessesByName("LoadingForm_KHM"); //로딩폼 죽이기.
             if (myProcesses.LongLength > 0)
@@ -260,7 +230,7 @@ namespace VISION
             }
             catch (Euresys.clSerialException error)
             {
-                Debug.WriteLine(error.Message);
+                log.AddLogMessage(LogType.Error, 0, error.Message);
                 return;
             }
         }
@@ -274,8 +244,6 @@ namespace VISION
                 {
                     //open serial port
                     CL.SerialInit((UInt32)lop, out serialRef);
-                    Debug.WriteLine($"out serial : {serialRef}");
-
                     UInt32 supportedBaudRates;
                     CL.GetSupportedBaudRates(serialRef, out supportedBaudRates);
 
@@ -287,7 +255,6 @@ namespace VISION
                         }
                     }
 
-
                     String selectedBaudRate = "9600";
                     UInt32 baudRate = 0;
                     foreach (var clBaudRate in CL_BAUDRATES)
@@ -297,26 +264,16 @@ namespace VISION
                             baudRate = clBaudRate.Item1;
                         }
                     }
-
-
                     CL.SetBaudRate(serialRef, baudRate);
-                    Debug.WriteLine($"{serialRef} set baudrate");
-
 
                     //sendCommand
-                    Debug.WriteLine($"GeniCamSet Model : {modelName}");
                     string setExposureCommand = modelName == "shield" ? "I=38" : "I=76";
-                    Debug.WriteLine($"command : {setExposureCommand}");
-
 
                     sendCommandToBoard("");
                     string first = readBuffer(serialRef);
-                    Debug.WriteLine($"read first buffer : {first}");
 
                     sendCommandToBoard(setExposureCommand);
                     string second = readBuffer(serialRef);
-                    Debug.WriteLine($"read second buffer : {second}");
-
                     //close port
                     CL.SerialClose(serialRef);
                 }
@@ -324,7 +281,6 @@ namespace VISION
             }
             catch (Euresys.clSerialException error)
             {
-                Debug.WriteLine(error.Message);
                 log.AddLogMessage(LogType.Error, 0, error.Message);
             }
         }
@@ -336,7 +292,6 @@ namespace VISION
             {
                 CL.SetDllDirectory((string)registryKey.GetValue("CLSERIALPATH"));
             }
-
             // Retrieve the number of serial ports
             try
             {
@@ -344,11 +299,11 @@ namespace VISION
             }
             catch (Euresys.clSerialException error)
             {
-                Debug.WriteLine($"Error : {error.Message}");
+                log.AddLogMessage(LogType.Error, 0, error.Message);
             }
             catch (System.Exception error)
             {
-                Debug.WriteLine($"Error : {error.Message}");
+                log.AddLogMessage(LogType.Error, 0, error.Message);
                 return;
             }
 
@@ -366,7 +321,7 @@ namespace VISION
                 {
                     if (error.Status != CL.ERR_BUFFER_TOO_SMALL)
                     {
-                        MessageBox.Show(error.Message, "GrablinkSerialCommunication error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        log.AddLogMessage(LogType.Error, 0, $"{error.Message} : GrablinkSerialCommunication error");
                         continue;
                     }
                 }
@@ -376,11 +331,7 @@ namespace VISION
                     // Retrieve the port identifier
                     CL.GetSerialPortIdentifier(i, textPort, out bufferSize);
                     portIdentifier = Marshal.PtrToStringAnsi(textPort);
-                    //if(portIdentifier.Contains("DualBase#0"))
-                    //{
                     availablePort.Add(portIdentifier);
-                    //}
-                    //availablePorts.Items.Add(portIdentifier);
                 }
                 catch (Euresys.clSerialException error)
                 {
@@ -428,53 +379,37 @@ namespace VISION
         //LCP-100DC 모델 포트, 채널번호, 종류(o-출력on,f-출력off,d-data전송),데이터값(4자리 10진수 0~100)
         public void LCP_100DC(SerialPort control, string channel, string dataType, string lightValue)
         {
-            string STX = $"{Convert.ToChar(2)}";
-            string ETX = $"{Convert.ToChar(3)}";
+            try
+            {
+                string STX = $"{Convert.ToChar(2)}";
+                string ETX = $"{Convert.ToChar(3)}";
 
-            string sandCmd = $"{STX}{channel}{dataType}{lightValue}{ETX}";
+                string sandCmd = $"{STX}{channel}{dataType}{lightValue}{ETX}";
 
-            control.WriteLine(sandCmd);
+                control.WriteLine(sandCmd);
+            }
+            catch (Exception ee)
+            {
+                log.AddLogMessage(LogType.Error, 0, ee.Message);
+            }
         }
 
         //LCP-100DC 모델 포트, 채널번호,데이터값(4자리숫자 0~1023)
         public void LCP24_150DC(SerialPort control, string channel, string lightValue)
         {
-            string STX = $"{Convert.ToChar(2)}";
-            string ETX = $"{Convert.ToChar(3)}";
+            try
+            {
+                string STX = $"{Convert.ToChar(2)}";
+                string ETX = $"{Convert.ToChar(3)}";
 
-            string sandCmd = $"{STX}{channel}w{lightValue}{ETX}";
+                string sandCmd = $"{STX}{channel}w{lightValue}{ETX}";
 
-            control.WriteLine(sandCmd);
-        }
-
-        private void Btn_LightOnOff_Click(object sender, EventArgs e)
-        {
-            //Port 1 , ch1 - 라인카메라 왼쪽. -2
-            //Port 1 , ch2 - 라인카메라 오른쪽. -2
-            //Port 2 , ch1 - top1 조명.  - 1
-            //Port 3, ch1 - AreaCam 왼쪽. -3
-            //Port 3, ch2 - AreaCam 오른쪽. -3
-            //LightControlSendCommand(LightControl[Glob.LightControlNumber], "1f0000");
-
-            // 0000 ~ 1023
-            //Port 4 , ch0 - 백라이트 값: 0792 - 4
-            //LightControlSendCommand(LightControl[Glob.LightControlNumber], "2w0000");
-
-            //백라이트 77% - 2개모델 고정.
-            //탑조명 heat 탑조명 10% ,옆면 10%, 에어리어 99% //shield  탑조명 99%, 옆면 0%, 에어리어 0%
-        }
-
-        public void LightControlSendCommand(SerialPort control, string command)
-        {
-            //LightOn = {(Int32)정보.채널}f0000
-            //LightOff = $"{(Int32)정보.채널}o0000"
-            string STX = $"{Convert.ToChar(2)}";
-            string ETX = $"{Convert.ToChar(3)}";
-
-            string sandCmd = $"{STX}{command}{ETX}";
-            Debug.WriteLine(sandCmd);
-
-            control.WriteLine($"{STX}{command}{ETX}");
+                control.WriteLine(sandCmd);
+            }
+            catch (Exception ee)
+            {
+                log.AddLogMessage(LogType.Error, 0, ee.Message);
+            }
         }
 
         private void CamSet()
@@ -484,7 +419,6 @@ namespace VISION
                 CogFrameGrabberGigEs frameGrabbers = new CogFrameGrabberGigEs();
                 CogAcqFifoTool fifoTool = new CogAcqFifoTool();
 
-                Debug.WriteLine(frameGrabbers.Count);
                 Glob.allCameraCount = frameGrabbers.Count + 3;
                 log.AddLogMessage(LogType.Program, 0, $"확인 된 카메라 개수 : {Glob.allCameraCount}");
             }
@@ -526,7 +460,6 @@ namespace VISION
                     case AXT_MODULE.AXT_SIO_RDI32RTEX:
                         //groupHigh.Text = "INPUT  0bit ~ 15Bit";
                         //groupLow.Text = "INPUT 16bit ~ 31Bit";
-
                         if (((AXT_MODULE)uModuleID) == AXT_MODULE.AXT_SIO_RDI32)
                         {
                         }
@@ -698,12 +631,10 @@ namespace VISION
         {
             try
             {
-                OK_Label = new Label[6] { lb_CAM1_OK, lb_CAM2_OK, lb_CAM3_OK, lb_CAM4_OK, lb_CAM5_OK, lb_CAM6_OK };
-                NG_Label = new Label[6] { lb_CAM1_NG, lb_CAM2_NG, lb_CAM3_NG, lb_CAM4_NG, lb_CAM5_NG, lb_CAM6_NG };
-                TOTAL_Label = new Label[6] { lb_CAM1_TOTAL, lb_CAM2_TOTAL, lb_CAM3_TOTAL, lb_CAM4_TOTAL, lb_CAM5_TOTAL, lb_CAM6_TOTAL };
-                NGRATE_Label = new Label[6] { lb_CAM1_NGRATE, lb_CAM2_NGRATE, lb_CAM3_NGRATE, lb_CAM4_NGRATE, lb_CAM5_NGRATE, lb_CAM6_NGRATE };
+                tabPage5.Controls.Add(ResultCountDisplay);
                 MainPanel.Controls.Add(HeatSinkMainDisplay);
                 HeatSinkMainDisplay.Dock = DockStyle.Fill;
+                ResultCountDisplay.Dock = DockStyle.Fill;
                 TempCogDisplay = new CogDisplay[6] { HeatSinkMainDisplay.cdyDisplay, HeatSinkMainDisplay.cdyDisplay2, HeatSinkMainDisplay.cdyDisplay3, HeatSinkMainDisplay.cdyDisplay4, HeatSinkMainDisplay.cdyDisplay5, HeatSinkMainDisplay.cdyDisplay6 };
 
                 INIControl Modellist = new INIControl(Glob.MODELLIST); ;
@@ -735,11 +666,6 @@ namespace VISION
                     Glob.LightChAndValue[i, 0] = Convert.ToInt32(CamSet.ReadData($"LightControl{i}", "CH1"));
                     Glob.LightChAndValue[i, 1] = Convert.ToInt32(CamSet.ReadData($"LightControl{i}", "CH2"));
                 }
-
-                //****************************조명 채널****************************//
-                //Glob.LightCH1 = setting.ReadData("LightControl", "CH1");
-                //Glob.LightCH2 = setting.ReadData("LightControl", "CH1");
-
                 //****************************검사 사용유무****************************//
                 Glob.InspectUsed = setting.ReadData("SYSTEM", "Inspect Used Check", true) == "1" ? true : false;
                 Glob.OKImageSave = setting.ReadData("SYSTEM", "OK IMAGE SAVE", true) == "1" ? true : false;
@@ -778,21 +704,6 @@ namespace VISION
             lb_Time.Text = dt.ToString("yyyy년 MM월 dd일 HH:mm:ss"); //현재날짜
             lb_CurruntModelName.Text = Glob.RunnModel.Modelname(); //현재사용중인 모델명 체크
             Glob.CurruntModelName = Glob.RunnModel.Modelname();
-
-            for (int i = 0; i < camcount; i++)
-            {
-                OK_Label[i].Text = OK_Count[i].ToString();
-                NG_Label[i].Text = NG_Count[i].ToString();
-                TOTAL_Count[i] = OK_Count[i] + NG_Count[i];
-                TOTAL_Label[i].Text = (OK_Count[i] + NG_Count[i]).ToString();
-
-                if (NG_Count[i] != 0)
-                {
-                    NG_Rate[i] = (NG_Count[i] / TOTAL_Count[i]) * 100;
-                    NGRATE_Label[i].Text = NG_Rate[i].ToString("F1") + "%";
-                }
-
-            }
         }
 
         public void ScratchErrorInit()
@@ -801,12 +712,10 @@ namespace VISION
             {
                 if (Glob.firstInspection[0])
                 {
-                    Debug.WriteLine("스크레치 에러 초기화 1");
                     Glob.scratchError[0] = false;
                 }
                 else
                 {
-                    Debug.WriteLine("스크레치 에러 초기화 2");
                     Glob.scratchError[1] = false;
                 }
             }
@@ -816,12 +725,10 @@ namespace VISION
         {
             if (Glob.firstInspection[0])
             {
-                Debug.WriteLine("Glob.scratchError[0] : true");
                 Glob.scratchError[0] = true;
             }
             else
             {
-                Debug.WriteLine("Glob.scratchError[1] : true");
                 Glob.scratchError[1] = true;
             }
         }
@@ -853,10 +760,38 @@ namespace VISION
             }
         }
 
-        public void 최종결과표시(bool result, int type)
+        public void 최종결과표시(bool 스크레치검사결과, bool 패턴블롭검사결과)
         {
-            HeatSinkMainDisplay.lb_최종결과.Text = result ? "OK" : $"NG-{type}";
-            HeatSinkMainDisplay.lb_최종결과.ForeColor = result ? Color.Lime : Color.Red;
+            AllTotal_Count++;
+            if (스크레치검사결과 == false && 패턴블롭검사결과 == false)
+            {
+                AllOK_Count++;
+                HeatSinkMainDisplay.lb_최종결과.Text = "1-OK / 2-OK";
+                HeatSinkMainDisplay.lb_최종결과.ForeColor = Color.Lime;
+            }
+            else if (스크레치검사결과 == true && 패턴블롭검사결과 == false)
+            {
+                AllNG_1_Count++;
+                AllNG_Count++;
+                HeatSinkMainDisplay.lb_최종결과.Text = "1-NG / 2-OK";
+                HeatSinkMainDisplay.lb_최종결과.ForeColor = Color.Red;
+            }
+            else if (스크레치검사결과 == false && 패턴블롭검사결과 == true)
+            {
+                AllNG_2_Count++;
+                AllNG_Count++;
+                HeatSinkMainDisplay.lb_최종결과.Text = "1-OK / 2-NG";
+                HeatSinkMainDisplay.lb_최종결과.ForeColor = Color.Red;
+            }
+            else
+            {
+                AllNG_2_Count++;
+                AllNG_1_Count++;
+                AllNG_Count++;
+                HeatSinkMainDisplay.lb_최종결과.Text = "1-NG / 2-NG";
+                HeatSinkMainDisplay.lb_최종결과.ForeColor = Color.Red;
+            }
+
         }
 
         public void ShotAndInspect_Cam1(int shotNumber)
@@ -884,21 +819,19 @@ namespace VISION
                 }
                 if (Inspect_Cam0(TempCogDisplay[0], shotNumber) == true) // 검사 결과
                 {
-                    Debug.WriteLine("CAM1 검사결과 OK");
                     //검사 결과 OK
                     BeginInvoke((Action)delegate
                     {
                         //DgvResult(dgv_Line1, 0, 1); //-추가된함수
                         HeatSinkMainDisplay.lb_Cam1_Result.BackColor = Color.Lime;
                         HeatSinkMainDisplay.lb_Cam1_Result.Text = "O K";
-                        OK_Count[0]++;
+                        OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
                             ImageSave1("OK", 1, TempCogDisplay[funCamNumber]);
                     });
                 }
                 else
                 {
-                    Debug.WriteLine("CAM1 검사결과 NG");
                     BeginInvoke((Action)delegate
                     {
                         //DgvResult(dgv_Line1, 0, 1); //-추가된함수
@@ -910,7 +843,6 @@ namespace VISION
                     });
                     if (!Glob.statsOK)
                     {
-                        Debug.WriteLine("cam1 스크레치 에러 set");
                         ScratchErrorSet();
                     }
 
@@ -944,9 +876,7 @@ namespace VISION
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
 
-                Debug.WriteLine("2번카메라 조명 끄기 시작");
                 LCP_100DC(LightControl[0], "1", "f", "0000");
-                Debug.WriteLine("2번카메라 조명 끄기 종료");
 
                 if (TempCogDisplay[funCamNumber].Image == null)
                 {
@@ -961,7 +891,7 @@ namespace VISION
                         //DgvResult(dgv_Line1, 0, 1); //-추가된함수
                         HeatSinkMainDisplay.lb_Cam2_Result.BackColor = Color.Lime;
                         HeatSinkMainDisplay.lb_Cam2_Result.Text = "O K";
-                        OK_Count[1]++;
+                        OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
                             ImageSave2("OK", 2, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage);
                     });
@@ -979,7 +909,6 @@ namespace VISION
                     });
                     if (!Glob.statsOK)
                     {
-                        Debug.WriteLine("cam2 스크레치 에러 set");
                         ScratchErrorSet();
                     }
                     //검사 결과 NG
@@ -1012,9 +941,7 @@ namespace VISION
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
 
-                Debug.WriteLine("3번카메라 조명 끄기 시작");
                 LCP_100DC(LightControl[0], "2", "f", "0000");
-                Debug.WriteLine("3번카메라 조명 끄기 종료");
 
                 if (TempCogDisplay[funCamNumber].Image == null)
                 {
@@ -1047,7 +974,6 @@ namespace VISION
 
                         if (!Glob.statsOK)
                         {
-                            Debug.WriteLine("cam3 스크레치 에러 set");
                             ScratchErrorSet();
                         }
                     });
@@ -1113,7 +1039,6 @@ namespace VISION
 
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
-                Debug.WriteLine($"inspect 4 shotnumber : {shotNumber}");
                 if (shotNumber == 3)
                 {
                     if (Glob.Inspect4[0] == false || Glob.Inspect4[1] == false || Glob.Inspect4[2] == false)
@@ -1171,10 +1096,7 @@ namespace VISION
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
                     return;
                 }
-                if (shotNumber == 2)
-                {
-                    Debug.WriteLine("inspection 5 shotnumber 2");
-                }
+
                 if (Inspect_Cam4(cdy, shotNumber) == true) // 검사 결과
                 {
                     Glob.Inspect5[shotNumber - 1] = true;
@@ -1198,7 +1120,6 @@ namespace VISION
                         NoScratchErrorSet();
                     }
                 }
-                Debug.WriteLine($"inspect 5 shotnumber : {shotNumber}");
 
                 if (shotNumber == 2)
                 {
@@ -1252,7 +1173,6 @@ namespace VISION
 
                 if ((Glob.CurruntModelName == "shield"))
                 {
-                    Debug.WriteLine("shield 일때 에러 초기화");
                     NoScratchErrorInit();
                 }
 
@@ -1270,7 +1190,6 @@ namespace VISION
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
                     return;
                 }
-                Debug.WriteLine("검사 시작.");
                 if (Inspect_Cam5(cdy, shotNumber) == true) // 검사 결과
                 {
                     //검사 결과 OK
@@ -1297,14 +1216,12 @@ namespace VISION
                     });
                     if (!Glob.statsOK)
                     {
-                        Debug.WriteLine("형상 및 블롭에러");
                         NoScratchErrorSet();
                     }
                 }
 
                 if (shotNumber == 1)
                 {
-                    Debug.WriteLine("에러체크 후 PLC전송");
                     ErrorCheckAndSendPLC();
                 }
 
@@ -1325,12 +1242,9 @@ namespace VISION
         {
             if (Glob.firstInspection[1])
             {
-                Debug.WriteLine($"Glob.scratchError[0] : {Glob.scratchError[0]}");
-                Debug.WriteLine($"Glob.noScratchError[0] : {Glob.noScratchError[0]}");
+                최종결과표시(Glob.scratchError[1], Glob.noScratchError[0]);
                 if (Glob.scratchError[1])
                 {
-                    //Debug.WriteLine($"Glob.scratchError[0] : {Glob.scratchError[0]}");
-                    최종결과표시(false, 1);
                     SelectHighIndex(1, 1);
                     await Task.Delay(2000);
                     SelectHighIndex(1, 0);
@@ -1338,8 +1252,6 @@ namespace VISION
                 }
                 else if (Glob.noScratchError[0])
                 {
-                    //Debug.WriteLine($"Glob.noScratchError[0] : {Glob.noScratchError[0]}");
-                    최종결과표시(false, 2);
                     SelectHighIndex(2, 1);
                     await Task.Delay(2000);
                     SelectHighIndex(2, 0);
@@ -1347,8 +1259,6 @@ namespace VISION
                 }
                 else
                 {
-                    Debug.WriteLine("검사결과 OK");
-                    최종결과표시(true, 0);
                     SelectHighIndex(0, 1);
                     await Task.Delay(2000);
                     SelectHighIndex(0, 0);
@@ -1356,11 +1266,9 @@ namespace VISION
             }
             else
             {
-                Debug.WriteLine($"Glob.scratchError[1] : {Glob.scratchError[1]}");
-                Debug.WriteLine($"Glob.noScratchError[1] : {Glob.noScratchError[1]}");
+                최종결과표시(Glob.scratchError[0], Glob.noScratchError[1]);
                 if (Glob.scratchError[0])
                 {
-                    최종결과표시(false, 1);
                     SelectHighIndex(1, 1);
                     await Task.Delay(2000);
                     SelectHighIndex(1, 0);
@@ -1368,7 +1276,6 @@ namespace VISION
                 }
                 else if (Glob.noScratchError[1])
                 {
-                    최종결과표시(false, 2);
                     SelectHighIndex(2, 1);
                     await Task.Delay(2000);
                     SelectHighIndex(2, 0);
@@ -1376,8 +1283,6 @@ namespace VISION
                 }
                 else
                 {
-                    최종결과표시(true, 0);
-                    Debug.WriteLine("검사결과 OK");
                     SelectHighIndex(0, 1);
                     await Task.Delay(2000);
                     SelectHighIndex(0, 0);
@@ -1389,7 +1294,7 @@ namespace VISION
         private void Frm_Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.IO_DoWork = false;
-
+            this.ResultCountDisplay.timer1.Dispose();
             if (LightStats == true)
             {
                 LightOFF();
@@ -1629,11 +1534,9 @@ namespace VISION
                         }
                     }
                 }
-                Debug.WriteLine("CAM 1 Pattern OK");
             }
             else
             {
-                Debug.WriteLine("CAM 1 Pattern NG");
                 InspectResult[CameraNumber] = false;
                 Glob.PatternResult[CameraNumber] = false;
             }
@@ -1651,12 +1554,11 @@ namespace VISION
             //******************************Blob Tool Run******************************//
             if (TempModel.Blob_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber))
             {
-                Debug.WriteLine("CAM 1 Blob OK");
+
             }
             else
             {
                 //BLOB 검사 FAIL
-                Debug.WriteLine("CAM 1 Blob NG");
                 InspectResult[CameraNumber] = false;
                 Glob.BlobResult[CameraNumber] = false;
             }
@@ -2230,14 +2132,12 @@ namespace VISION
 
             int FixPatternNumber = FindFirstPatternNumber6(CameraNumber, shotNumber);
             int highestResultNumber = TempMulti[CameraNumber, FixPatternNumber].HighestResultToolNumber();
-            Debug.WriteLine("Fixture Tool Start");
             if (TempMulti[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
             {
                 Fiximage = TempModel.FixtureImage((CogImage8Grey)cog.Image, TempMulti[CameraNumber, FixPatternNumber].ResultPoint(highestResultNumber), TempMulti[CameraNumber, FixPatternNumber].ToolName(), CameraNumber, out FimageSpace, highestResultNumber, FixPatternNumber);
 
             }
             //*******************************MultiPattern Tool Run******************************//
-            Debug.WriteLine("Pattern Tool Start");
             if (TempModel.MultiPattern_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber)) //검사결과가 true 일때
             {
                 for (int lop = 0; lop < 30; lop++)
@@ -2259,7 +2159,6 @@ namespace VISION
             }
 
             //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
-            Debug.WriteLine("Blob Tool Start");
             for (int toolnum = 0; toolnum < 29; toolnum++)
             {
                 if (TempBlobEnable[CameraNumber, toolnum])
@@ -2280,7 +2179,7 @@ namespace VISION
                 InspectResult[CameraNumber] = false;
                 Glob.BlobResult[CameraNumber] = false;
             }
-            Debug.WriteLine("Dimension Tool Start");
+
             if (TempModel.Dimension_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection))
             {
                 CogCreateGraphicLabelTool[] Point_Label = new CogCreateGraphicLabelTool[10];
@@ -2329,8 +2228,6 @@ namespace VISION
             {
                 InspectResult[CameraNumber] = false;
             }
-
-            Debug.WriteLine("검사끝");
 
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, "PATTERN OK"); }
             else { DisplayLabelShow(Collection2, cog, 600, 100, "PATTERN NG"); };
@@ -2892,12 +2789,10 @@ namespace VISION
             {
                 Glob.InspectOrder = 1818;
                 int check = 0;
-                Debug.WriteLine("PLC Signal Read Start");
                 while (IO_DoWork)
                 {
                     if (check == 0)
                     {
-                        Debug.WriteLine("반복문 시작.");
                         check++;
                     }
                     UInt32 iVal = 0;
@@ -2917,8 +2812,6 @@ namespace VISION
                         inputBtn[i].BackColor = fired ? Color.Lime : SystemColors.Control;
                         if (!fired) continue;
 
-                        Debug.WriteLine($"PLC 신호 : {i}");
-
                         switch (i)
                         {
                             case 0: //1번째 라인스캔 카메라 촬영 신호 Cam 1
@@ -2929,7 +2822,6 @@ namespace VISION
                             case 1: //사이드 라인스캔 카메라 촬영신호 Cam 2 & Cam 3
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
-
                                     log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
                                     Task.Run(() => { ShotAndInspect_Cam2(1); });
                                     Task.Run(() => { ShotAndInspect_Cam3(1); });
@@ -2988,7 +2880,6 @@ namespace VISION
                                     {
                                         LCP_100DC(LightControl[lop], "1", "o", "0000");
                                         LCP_100DC(LightControl[lop], "2", "o", "0000");
-                                        Debug.WriteLine($"LightControl{lop + 1} Value = {Glob.LightChAndValue[lop, 0]}");
                                         LCP_100DC(LightControl[lop], "1", "d", Glob.LightChAndValue[lop, 0].ToString("D4"));
                                         LCP_100DC(LightControl[lop], "2", "d", Glob.LightChAndValue[lop, 1].ToString("D4"));
                                     }
@@ -2999,12 +2890,10 @@ namespace VISION
 
                     Thread.Sleep(1);
                 }
-
-                Debug.WriteLine("IO Read Ended!");
             }
             catch (Exception ee)
             {
-                Debug.WriteLine($"PLC Read Error : {ee.Message}");
+                log.AddLogMessage(LogType.Error, 0, $"PLC Read Error : {ee.Message}");
             }
         }
 
@@ -3051,60 +2940,6 @@ namespace VISION
             Glob.statsOK = cb_ResultOK.Checked;
             cb_ResultOK.Text = cb_ResultOK.Checked == true ? "USE" : "UNUSED";
             cb_ResultOK.ForeColor = cb_ResultOK.Checked == true ? Color.Lime : Color.Red;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            string ImageType;
-            OpenFileDialog ofd = new OpenFileDialog();
-            CogImage8Grey Monoimage = new CogImage8Grey();
-            ofd.Multiselect = false;
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                //Glob.ImageFilePath = ofd.FileName.Substring(0, ofd.FileName.Length - ofd.SafeFileName.Length);
-                Glob.ImageFilePath = ofd.FileName;
-                string type = Path.GetExtension(ofd.FileName);
-                string[] ImageFileName = ofd.FileNames;
-                if (type == ".bmp")
-                {
-                    CogImageFileBMP Imageopen = new CogImageFileBMP();
-                    Imageopen.Open(ofd.FileName, CogImageFileModeConstants.Read);
-                    Imageopen.Close();
-                }
-                else
-                {
-                    CogImageFileTool curimage = new CogImageFileTool();
-                    curimage.Operator.Open(ofd.FileName, CogImageFileModeConstants.Read);
-                    curimage.Run();
-                    ImageType = curimage.OutputImage.GetType().ToString();
-                    if (ImageType.Contains("CogImage24PlanarColor"))
-                    {
-                        CogImageConvertTool imageconvert = new CogImageConvertTool();
-                        imageconvert.InputImage = curimage.OutputImage;
-                        imageconvert.RunParams.RunMode = CogImageConvertRunModeConstants.Plane2;
-                        imageconvert.Run();
-
-                        Glob.FlipImageTool[5].InputImage = curimage.OutputImage;
-                        Glob.FlipImageTool[5].Run();
-
-                        HeatSinkMainDisplay.cdyDisplay6.Image = Glob.FlipImageTool[5].OutputImage;
-                    }
-                    else
-                    {
-                        Glob.FlipImageTool[5].InputImage = curimage.OutputImage;
-                        Glob.FlipImageTool[5].Run();
-                        HeatSinkMainDisplay.cdyDisplay6.Image = (CogImage8Grey)Glob.FlipImageTool[5].OutputImage;//JPG 파일
-                    }
-                    //cdyDisplay.Image = (CogImage8Grey)curimage.OutputImage;
-                    HeatSinkMainDisplay.cdyDisplay6.Fit();
-                    GC.Collect();
-                }
-            }
-        }
-
-        private void num_LightNumber_ValueChanged(object sender, EventArgs e)
-        {
-            Glob.LightControlNumber = (int)num_LightNumber.Value;
         }
 
         private void AllCameraOneShot()

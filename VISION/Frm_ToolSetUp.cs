@@ -633,74 +633,6 @@ namespace VISION
             ImageList.Items.RemoveAt(ImageList.SelectedIndex);
         }
 
-        //private void num_LineToolNum_ValueChanged(object sender, EventArgs e)
-        //{
-        //    LineChangeToolNumber();
-        //}
-
-        //private void LineChangeToolNumber()
-        //{
-        //    Dataset = true;
-        //    int Toolnumber = (int)num_LineToolNum.Value;
-
-        //    cb_LinePolarty.SelectedIndex = TempLines[Glob.CamNumber, Toolnumber].Polarity();
-        //    cb_LineDirection.SelectedIndex = TempLines[Glob.CamNumber, Toolnumber].Direction();
-
-        //    cb_LineToolUsed.Checked = TempLineEnable[Glob.CamNumber, Toolnumber];
-        //    num_LineCaliperNum.Value = TempLines[Glob.CamNumber, Toolnumber].CaliperNumber();
-        //    LineEnableChange(Toolnumber);
-        //    Dataset = false;
-        //}
-
-        //private void LineEnableChange(int toolnumber)
-        //{
-        //    cb_LineToolUsed.Text = cb_LineToolUsed.Checked == true ? "USE" : "UNUSED";
-        //    cb_LineToolUsed.ForeColor = cb_LineToolUsed.Checked == true ? Color.Lime : Color.Red;
-        //}
-
-        //private void cb_LineToolUsed_CheckedChanged(object sender, EventArgs e)
-        //{
-        //    if (Dataset == false)
-        //    {
-        //        TempLineEnable[Glob.CamNumber, (int)num_LineToolNum.Value] = cb_LineToolUsed.Checked;
-        //        LineEnableChange((int)num_LineToolNum.Value);
-        //    }
-        //}
-
-        //private void cb_LinePolarty_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    if (Dataset == false)
-        //        TempLines[Glob.CamNumber, (int)num_LineToolNum.Value].Polarity(cb_LinePolarty.SelectedIndex);
-        //}
-
-        //private void num_LineCaliperNum_ValueChanged(object sender, EventArgs e)
-        //{
-        //    if (Dataset == false)
-        //        TempLines[Glob.CamNumber, (int)num_LineToolNum.Value].CaliperNumber((int)num_LineCaliperNum.Value);
-        //}
-
-        //private void cb_LineDirection_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    if (Dataset == false)
-        //        TempLines[Glob.CamNumber, (int)num_LineToolNum.Value].Direction(cb_LineDirection.SelectedIndex);
-        //}
-
-        //private void btn_LineInspectionArea_Click(object sender, EventArgs e)
-        //{
-        //    ImageClear();
-        //    Pattern_Train();
-        //    TempLines[Glob.CamNumber, (int)num_LineToolNum.Value].Area(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, TempMulti[Glob.CamNumber, 0].ToolName());
-        //}
-
-        //private void btn_LineInspection_Click(object sender, EventArgs e)
-        //{
-        //    CogGraphicCollection Collection = new CogGraphicCollection();
-        //    ImageClear();
-        //    Pattern_Train();
-        //    TempLines[Glob.CamNumber, (int)num_LineToolNum.Value].Run((CogImage8Grey)cdyDisplay.Image);
-        //    TempLines[Glob.CamNumber, (int)num_LineToolNum.Value].ResultDisplay(cdyDisplay, Collection);
-        //}
-
         private void Frm_ToolSetUp_KeyDown(object sender, KeyEventArgs e)
         {
             //************************************단축키 모음************************************//
@@ -727,12 +659,6 @@ namespace VISION
             if (e.Control && e.KeyCode == Keys.D6) //ctrl + 6 : 6번카메라 화면.
                 btn_Cam6.PerformClick();
         }
-
-        //private void LINEINSPECTION_DoubleClick(object sender, EventArgs e)
-        //{
-        //    TempLines[Glob.CamNumber, (int)num_LineToolNum.Value].InputImage((CogImage8Grey)cdyDisplay.Image);
-        //    TempLines[Glob.CamNumber, (int)num_LineToolNum.Value].ToolSetup();
-        //}
 
         private void ImageList_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1255,7 +1181,7 @@ namespace VISION
                 MessageBox.Show("이미지가 없습니다. 카메라촬영을 진행해 주시거나, 이미지파일을 불러오시기 바랍니다.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            var result = MessageBox.Show($"현재 이미지를 CAM{Glob.CamNumber + 1} Master 이미지로 저장 하시겠습니까?", " 이미지 저장 ",
+            var result = MessageBox.Show($"현재 이미지를 모델 {Glob.RunnModel.Modelname()}의 CAM{Glob.CamNumber + 1} Master 이미지로 저장 하시겠습니까?", " 이미지 저장 ",
                                        MessageBoxButtons.YesNo,
                                        MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
@@ -1417,13 +1343,6 @@ namespace VISION
                 Glob.RunnModel.Loadmodel(Glob.RunnModel.Modelname(), Glob.MODELROOT, i); //VISION TOOL LOAD
             }
 
-        }
-        private void ChangeLightControlor()
-        {
-            Dataset = true;
-
-
-            Dataset = false;
         }
     }
 }
