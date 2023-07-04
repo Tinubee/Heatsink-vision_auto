@@ -33,11 +33,10 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.btn_종합결과 = new System.Windows.Forms.Button();
             this.btn_개별카메라결과 = new System.Windows.Forms.Button();
-            this.resultPanel = new DevExpress.XtraEditors.PanelControl();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.resultPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.resultPanel)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -101,20 +100,18 @@
             this.btn_개별카메라결과.Text = "개별 결과";
             this.btn_개별카메라결과.UseVisualStyleBackColor = false;
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // resultPanel
             // 
-            this.resultPanel.Appearance.BackColor = System.Drawing.Color.DimGray;
-            this.resultPanel.Appearance.Options.UseBackColor = true;
             this.resultPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.resultPanel.Location = new System.Drawing.Point(0, 43);
             this.resultPanel.Margin = new System.Windows.Forms.Padding(0);
             this.resultPanel.Name = "resultPanel";
             this.resultPanel.Size = new System.Drawing.Size(274, 832);
             this.resultPanel.TabIndex = 1;
-            // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // ResultCountDisplay
             // 
@@ -126,7 +123,6 @@
             this.Size = new System.Drawing.Size(274, 875);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.resultPanel)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -137,7 +133,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button btn_종합결과;
         private System.Windows.Forms.Button btn_개별카메라결과;
-        private DevExpress.XtraEditors.PanelControl resultPanel;
         public System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Panel resultPanel;
     }
 }
