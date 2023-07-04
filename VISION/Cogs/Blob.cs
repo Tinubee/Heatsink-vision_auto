@@ -592,7 +592,7 @@ namespace VISION.Cogs
             ResultRegion.Color = Resultcolor;
             ResultRegion.GraphicDOFEnable = Cognex.VisionPro.CogRectangleAffineDOFConstants.None;
 
-            ResultRegion.LineWidthInScreenPixels = 5;
+            ResultRegion.LineWidthInScreenPixels = 1;
             ResultRegion.LineStyle = Cognex.VisionPro.CogGraphicLineStyleConstants.Solid;
 
             Nameing.InputImage = Tool.InputImage;
@@ -679,7 +679,7 @@ namespace VISION.Cogs
                 }
                 OKResultRegion = (CogPolygon)Tool.Region;
                 OKResultRegion.Color = CogColorConstants.Yellow;
-                OKResultRegion.LineWidthInScreenPixels = 5;
+                OKResultRegion.LineWidthInScreenPixels = 1;
                 Collection.Add(OKResultRegion);
                 return;
             }
@@ -706,7 +706,7 @@ namespace VISION.Cogs
             Result.InputCircle.Radius = 40;
             Result.OutputLineStyle = Cognex.VisionPro.CogGraphicLineStyleConstants.Dash;
             Result.OutputColor = Cognex.VisionPro.CogColorConstants.Red;
-            Result.OutputLineWidthInScreenPixels = 5;
+            Result.OutputLineWidthInScreenPixels = 1;
 
             Result.Run();
 
@@ -725,7 +725,7 @@ namespace VISION.Cogs
             Result.InputCircle.Radius = 40;
             Result.OutputLineStyle = Cognex.VisionPro.CogGraphicLineStyleConstants.Dash;
             Result.OutputColor = Cognex.VisionPro.CogColorConstants.Red;
-            Result.OutputLineWidthInScreenPixels = 5;
+            Result.OutputLineWidthInScreenPixels = 1;
 
             Result.Run();
 
