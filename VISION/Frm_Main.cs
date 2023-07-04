@@ -24,6 +24,7 @@ using Euresys.clseremc;
 using Microsoft.Win32;
 using System.Drawing.Imaging;
 using Microsoft.VisualBasic.Logging;
+using DevExpress.Utils.Html.Internal;
 
 namespace VISION
 {
@@ -47,6 +48,7 @@ namespace VISION
         private ResultCountDisplay ResultCountDisplay = new ResultCountDisplay();
 
         public CogDisplay[] TempCogDisplay;
+        public Label[] lb최종결과;
         //public List<CogDisplay> TempCogDisplay = new List<CogDisplay>();
 
         private Model TempModel; //모델
@@ -198,7 +200,7 @@ namespace VISION
 
         public void MainUIDisplaySetting(string modelName)
         {
-            if(modelName == "shield")
+            if (modelName == "shield")
             {
                 if (MainPanel.Controls.Contains(ShieldMainDisplay)) return;
 
@@ -206,6 +208,7 @@ namespace VISION
                 MainPanel.Controls.Add(ShieldMainDisplay);
                 ShieldMainDisplay.Dock = DockStyle.Fill;
                 TempCogDisplay = new CogDisplay[6] { ShieldMainDisplay.cdyDisplay, null, null, null, null, ShieldMainDisplay.cdyDisplay6 };
+                lb최종결과 = new Label[2] { ShieldMainDisplay.lb_최종결과, ShieldMainDisplay.lb_최종결과2 };
             }
             else
             {
@@ -215,6 +218,7 @@ namespace VISION
                 MainPanel.Controls.Add(HeatSinkMainDisplay);
                 HeatSinkMainDisplay.Dock = DockStyle.Fill;
                 TempCogDisplay = new CogDisplay[6] { HeatSinkMainDisplay.cdyDisplay, HeatSinkMainDisplay.cdyDisplay2, HeatSinkMainDisplay.cdyDisplay3, HeatSinkMainDisplay.cdyDisplay4, HeatSinkMainDisplay.cdyDisplay5, HeatSinkMainDisplay.cdyDisplay6 };
+                lb최종결과 = new Label[2] { HeatSinkMainDisplay.lb_최종결과, HeatSinkMainDisplay.lb_최종결과2 };
             }
         }
 
@@ -789,38 +793,21 @@ namespace VISION
             }
         }
 
-        public void 최종결과표시(bool 스크레치검사결과, bool 패턴블롭검사결과)
+        public void 최종결과표시(bool 스크레치검사결과, bool 패턴블롭검사결과, string[] res)
         {
             AllTotal_Count++;
-            if (스크레치검사결과 == false && 패턴블롭검사결과 == false)
+            for (int lop = 0; lop < lb최종결과.Count(); lop++)
             {
-                AllOK_Count++;
-                HeatSinkMainDisplay.lb_최종결과.Text = "1-OK / 2-OK";
-                HeatSinkMainDisplay.lb_최종결과.ForeColor = Color.Lime;
+                lb최종결과[lop].Text = $"{lop + 1}-{res[lop]}";
+                lb최종결과[lop].ForeColor = res[lop] == "OK" ? Color.Lime : Color.Red;
+                if(lop == 1)
+                {
+                    AllOK_Count = (!스크레치검사결과 && !패턴블롭검사결과) ? AllOK_Count++ : AllOK_Count;
+                    AllNG_1_Count = (스크레치검사결과 && !패턴블롭검사결과) ? AllNG_1_Count++ : AllNG_1_Count;
+                    AllNG_2_Count = (!스크레치검사결과 && 패턴블롭검사결과) ? AllNG_2_Count++ : AllNG_2_Count;
+                    AllNG_Count = (스크레치검사결과 || 패턴블롭검사결과) ? AllNG_Count++ : AllNG_Count;
+                }
             }
-            else if (스크레치검사결과 == true && 패턴블롭검사결과 == false)
-            {
-                AllNG_1_Count++;
-                AllNG_Count++;
-                HeatSinkMainDisplay.lb_최종결과.Text = "1-NG / 2-OK";
-                HeatSinkMainDisplay.lb_최종결과.ForeColor = Color.Red;
-            }
-            else if (스크레치검사결과 == false && 패턴블롭검사결과 == true)
-            {
-                AllNG_2_Count++;
-                AllNG_Count++;
-                HeatSinkMainDisplay.lb_최종결과.Text = "1-OK / 2-NG";
-                HeatSinkMainDisplay.lb_최종결과.ForeColor = Color.Red;
-            }
-            else
-            {
-                AllNG_2_Count++;
-                AllNG_1_Count++;
-                AllNG_Count++;
-                HeatSinkMainDisplay.lb_최종결과.Text = "1-NG / 2-NG";
-                HeatSinkMainDisplay.lb_최종결과.ForeColor = Color.Red;
-            }
-
         }
 
         public void ShotAndInspect_Cam1(int shotNumber)
@@ -1269,9 +1256,13 @@ namespace VISION
 
         public async void ErrorCheckAndSendPLC()
         {
+
             if (Glob.firstInspection[1])
             {
-                최종결과표시(Glob.scratchError[1], Glob.noScratchError[0]);
+                string[] res = new string[2];
+                res[0] = Glob.scratchError[1] ? "NG" : "OK";
+                res[1] = Glob.noScratchError[0] ? "NG" : "OK";
+                최종결과표시(Glob.scratchError[1], Glob.noScratchError[0], res);
                 if (Glob.scratchError[1])
                 {
                     SelectHighIndex(1, 1);
@@ -1295,7 +1286,11 @@ namespace VISION
             }
             else
             {
-                최종결과표시(Glob.scratchError[0], Glob.noScratchError[1]);
+                string[] res = new string[2];
+                res[0] = Glob.scratchError[0] ? "NG" : "OK";
+                res[1] = Glob.noScratchError[1] ? "NG" : "OK";
+
+                최종결과표시(Glob.scratchError[0], Glob.noScratchError[1], res);
                 if (Glob.scratchError[0])
                 {
                     SelectHighIndex(1, 1);
@@ -1338,7 +1333,6 @@ namespace VISION
 
         private void btn_Status_Click(object sender, EventArgs e)
         {
-            log.AddLogMessage(LogType.Infomation, 0, "AUTO MODE START");
             btn_Status.Enabled = false;
             btn_ToolSetUp.Enabled = false;
             btn_Model.Enabled = false;
@@ -1364,6 +1358,7 @@ namespace VISION
                     LCP_100DC(LightControl[lop], "2", "f", "0000");
                 }
             }
+            log.AddLogMessage(LogType.Infomation, 0, "AUTO MODE START");
         }
         public void CognexModelLoad()
         {
@@ -2550,6 +2545,7 @@ namespace VISION
             Glob.firstInspection[1] = true;
             tlpUnder.Visible = true;
             this.IO_DoWork = false;
+            log.AddLogMessage(LogType.Infomation, 0, "AUTO MODE STOP");
         }
 
         private void btn_Model_Click(object sender, EventArgs e)
