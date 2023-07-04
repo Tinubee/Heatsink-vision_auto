@@ -40,27 +40,33 @@ namespace VISION.UI
         public void 검사결과표시설정(object sender, EventArgs e)
         {
             검사결과표시타입 = Convert.ToInt16((sender as Button).Tag);
-            this.resultPanel.Controls.Clear();
+
             if (검사결과표시타입 == 0)
             {
-                this.resultPanel.Controls.Add(allResultCountDisplay);
+                if (resultPanel.Controls.Contains(allResultCountDisplay)) return;
+
+                resultPanel.Controls.Clear();
+                resultPanel.Controls.Add(allResultCountDisplay);
                 allResultCountDisplay.Dock = DockStyle.Fill;
                 btn_종합결과.BackColor = Color.Lime;
                 btn_개별카메라결과.BackColor = Color.DimGray;
             }
             else
             {
-                this.resultPanel.Controls.Add(eachCamResultDisplay);
+                if (resultPanel.Controls.Contains(eachCamResultDisplay)) return;
+
+                resultPanel.Controls.Clear();
+                resultPanel.Controls.Add(eachCamResultDisplay);
                 eachCamResultDisplay.Dock = DockStyle.Fill;
                 btn_종합결과.BackColor = Color.DimGray;
                 btn_개별카메라결과.BackColor = Color.Lime;
             }
-           
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if(검사결과표시타입 == 0)
+            if (검사결과표시타입 == 0)
             {
                 double okCount = Glob.G_MainForm.AllOK_Count;
                 double ngCount = Glob.G_MainForm.AllNG_Count;
@@ -73,7 +79,7 @@ namespace VISION.UI
                 allResultCountDisplay.lb_2_NG.Text = ng2Count.ToString();
                 allResultCountDisplay.lb_TOTAL.Text = totalCount.ToString();
 
-                if( ngCount != 0 )
+                if (ngCount != 0)
                 {
                     double ngRate = (ngCount / totalCount) * 100;
                     allResultCountDisplay.lb_NGRATE.Text = $"{ngRate:F1}%";

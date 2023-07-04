@@ -43,8 +43,11 @@ namespace VISION
 
 
         public HeatSinkMainDisplay HeatSinkMainDisplay = new HeatSinkMainDisplay();
+        public ShieldMainDisplay ShieldMainDisplay = new ShieldMainDisplay();
         private ResultCountDisplay ResultCountDisplay = new ResultCountDisplay();
+
         public CogDisplay[] TempCogDisplay;
+        //public List<CogDisplay> TempCogDisplay = new List<CogDisplay>();
 
         private Model TempModel; //모델
         private Blob[,] TempBlobs; //블롭툴
@@ -190,6 +193,28 @@ namespace VISION
             if (myProcesses.LongLength > 0)
             {
                 myProcesses[0].Kill();
+            }
+        }
+
+        public void MainUIDisplaySetting(string modelName)
+        {
+            if(modelName == "shield")
+            {
+                if (MainPanel.Controls.Contains(ShieldMainDisplay)) return;
+
+                MainPanel.Controls.Clear();
+                MainPanel.Controls.Add(ShieldMainDisplay);
+                ShieldMainDisplay.Dock = DockStyle.Fill;
+                TempCogDisplay = new CogDisplay[6] { ShieldMainDisplay.cdyDisplay, null, null, null, null, ShieldMainDisplay.cdyDisplay6 };
+            }
+            else
+            {
+                if (MainPanel.Controls.Contains(HeatSinkMainDisplay)) return;
+
+                MainPanel.Controls.Clear();
+                MainPanel.Controls.Add(HeatSinkMainDisplay);
+                HeatSinkMainDisplay.Dock = DockStyle.Fill;
+                TempCogDisplay = new CogDisplay[6] { HeatSinkMainDisplay.cdyDisplay, HeatSinkMainDisplay.cdyDisplay2, HeatSinkMainDisplay.cdyDisplay3, HeatSinkMainDisplay.cdyDisplay4, HeatSinkMainDisplay.cdyDisplay5, HeatSinkMainDisplay.cdyDisplay6 };
             }
         }
 
@@ -553,7 +578,7 @@ namespace VISION
         private void DigitalIO_Load()
         {
             inputBtn = new Button[12] { btn_INPUT0, btn_INPUT1, btn_INPUT2, btn_INPUT3, btn_INPUT4, btn_INPUT5, btn_INPUT6, btn_INPUT7, btn_INPUT8, btn_INPUT9, btn_INPUT10, btn_INPUT11 };
-            outputBtn = new System.Windows.Forms.CheckBox[12] { btn_OUTPUT0, btn_OUTPUT1, btn_OUTPUT2, btn_OUTPUT3, btn_OUTPUT4, btn_OUTPUT5, btn_OUTPUT6, btn_OUTPUT7, btn_OUTPUT8, btn_OUTPUT9, btn_OUTPUT10, btn_OUTPUT11 };
+            outputBtn = new CheckBox[12] { btn_OUTPUT0, btn_OUTPUT1, btn_OUTPUT2, btn_OUTPUT3, btn_OUTPUT4, btn_OUTPUT5, btn_OUTPUT6, btn_OUTPUT7, btn_OUTPUT8, btn_OUTPUT9, btn_OUTPUT10, btn_OUTPUT11 };
 
             if (OpenDevice())
             {
@@ -634,10 +659,10 @@ namespace VISION
             try
             {
                 tabPage5.Controls.Add(ResultCountDisplay);
-                MainPanel.Controls.Add(HeatSinkMainDisplay);
-                HeatSinkMainDisplay.Dock = DockStyle.Fill;
+                //MainPanel.Controls.Add(HeatSinkMainDisplay);
+                //HeatSinkMainDisplay.Dock = DockStyle.Fill;
                 ResultCountDisplay.Dock = DockStyle.Fill;
-                TempCogDisplay = new CogDisplay[6] { HeatSinkMainDisplay.cdyDisplay, HeatSinkMainDisplay.cdyDisplay2, HeatSinkMainDisplay.cdyDisplay3, HeatSinkMainDisplay.cdyDisplay4, HeatSinkMainDisplay.cdyDisplay5, HeatSinkMainDisplay.cdyDisplay6 };
+                //TempCogDisplay = new CogDisplay[6] { HeatSinkMainDisplay.cdyDisplay, HeatSinkMainDisplay.cdyDisplay2, HeatSinkMainDisplay.cdyDisplay3, HeatSinkMainDisplay.cdyDisplay4, HeatSinkMainDisplay.cdyDisplay5, HeatSinkMainDisplay.cdyDisplay6 };
 
                 INIControl Modellist = new INIControl(Glob.MODELLIST); ;
                 INIControl CFGFILE = new INIControl(Glob.CONFIGFILE); ;
@@ -646,6 +671,7 @@ namespace VISION
                 string LastModel = CFGFILE.ReadData("LASTMODEL", "NAME"); //마지막 사용모델 확인.
                 Glob.CurruntModelName = LastModel;
                 //확인 필요. - LastModel Name 변수에 들어오는 String값 확인하기.
+                MainUIDisplaySetting(Glob.CurruntModelName);
                 INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{LastModel}\\CamSet.ini");
                 for (int i = 0; i < camcount; i++)
                 {

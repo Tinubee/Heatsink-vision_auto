@@ -50,11 +50,23 @@ namespace VISION
             string r_model = tb_CurruntModel.Text;
             if (SelectedModel == "")
             {
+                MessageBox.Show("변경할 모델을 선택해 주세요.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
+            if (SelectedModel == r_model)
+            {
+                MessageBox.Show("선택한 모델은 현재 모델과 같은 모델 입니다.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (MessageBox.Show($"{SelectedModel} 모델로 변경 하시겠습니까? (현재모델 : {r_model})", "Change Model", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
+                return;
+
             Process.Start($"{Glob.MODELCHANGEFROM}");
 
             Main.Set_GeniCam(SelectedModel);
+            Main.MainUIDisplaySetting(SelectedModel);
 
             for (int i = 0; i < Main.camcount; i++)
             {
@@ -83,7 +95,6 @@ namespace VISION
                 Glob.LightChAndValue[i, 0] = Convert.ToInt32(CamSet.ReadData($"LightControl{i}", "CH1"));
                 Glob.LightChAndValue[i, 1] = Convert.ToInt32(CamSet.ReadData($"LightControl{i}", "CH2"));
             }
-
         }
 
         private void Frm_Model_Load(object sender, EventArgs e)
