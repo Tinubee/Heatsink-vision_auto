@@ -2835,7 +2835,8 @@ namespace VISION
 
             CAXD.AxdInfoGetModuleCount(ref nModuleCount);
 
-            log.AddLogMessage(LogType.Infomation, 0, $"Index : {nIndex}, Value : {uValue}");
+            string txt = uValue == 1 ? "On" : "Off";
+            log.AddLogMessage(LogType.Infomation, 0, $"PC -> PLC Output {nIndex}번 {txt}");
 
             if (nModuleCount > 0)
             {
