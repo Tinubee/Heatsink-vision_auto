@@ -67,6 +67,7 @@
             // 
             // tableLayoutPanel2
             // 
+            this.tableLayoutPanel2.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65F));
@@ -86,11 +87,12 @@
             // tb_SelectModel
             // 
             this.tb_SelectModel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tb_SelectModel.Font = new System.Drawing.Font("Consolas", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_SelectModel.Location = new System.Drawing.Point(173, 41);
+            this.tb_SelectModel.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_SelectModel.Location = new System.Drawing.Point(171, 38);
+            this.tb_SelectModel.Margin = new System.Windows.Forms.Padding(0);
             this.tb_SelectModel.Name = "tb_SelectModel";
             this.tb_SelectModel.ReadOnly = true;
-            this.tb_SelectModel.Size = new System.Drawing.Size(312, 41);
+            this.tb_SelectModel.Size = new System.Drawing.Size(316, 35);
             this.tb_SelectModel.TabIndex = 2;
             // 
             // label1
@@ -98,11 +100,12 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Black;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Location = new System.Drawing.Point(1, 1);
+            this.label1.Margin = new System.Windows.Forms.Padding(0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(164, 38);
+            this.label1.Size = new System.Drawing.Size(169, 36);
             this.label1.TabIndex = 0;
             this.label1.Text = "Current Model";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -112,11 +115,12 @@
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Lime;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label2.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(3, 38);
+            this.label2.Location = new System.Drawing.Point(1, 38);
+            this.label2.Margin = new System.Windows.Forms.Padding(0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(164, 38);
+            this.label2.Size = new System.Drawing.Size(169, 37);
             this.label2.TabIndex = 0;
             this.label2.Text = "Select Model";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -124,11 +128,12 @@
             // tb_CurruntModel
             // 
             this.tb_CurruntModel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tb_CurruntModel.Font = new System.Drawing.Font("Consolas", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_CurruntModel.Location = new System.Drawing.Point(173, 3);
+            this.tb_CurruntModel.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_CurruntModel.Location = new System.Drawing.Point(171, 1);
+            this.tb_CurruntModel.Margin = new System.Windows.Forms.Padding(0);
             this.tb_CurruntModel.Name = "tb_CurruntModel";
             this.tb_CurruntModel.ReadOnly = true;
-            this.tb_CurruntModel.Size = new System.Drawing.Size(312, 41);
+            this.tb_CurruntModel.Size = new System.Drawing.Size(316, 35);
             this.tb_CurruntModel.TabIndex = 1;
             // 
             // tableLayoutPanel3
@@ -155,13 +160,14 @@
             this.cNumber,
             this.cName});
             this.dgvModelList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvModelList.Location = new System.Drawing.Point(3, 3);
+            this.dgvModelList.Location = new System.Drawing.Point(0, 0);
+            this.dgvModelList.Margin = new System.Windows.Forms.Padding(0);
             this.dgvModelList.MultiSelect = false;
             this.dgvModelList.Name = "dgvModelList";
             this.dgvModelList.ReadOnly = true;
             this.dgvModelList.RowTemplate.Height = 23;
             this.dgvModelList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvModelList.Size = new System.Drawing.Size(335, 459);
+            this.dgvModelList.Size = new System.Drawing.Size(341, 465);
             this.dgvModelList.TabIndex = 0;
             this.dgvModelList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvModelList_CellClick);
             // 
@@ -209,9 +215,10 @@
             // 
             this.btn_LoadModel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_LoadModel.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_LoadModel.Location = new System.Drawing.Point(3, 3);
+            this.btn_LoadModel.Location = new System.Drawing.Point(0, 0);
+            this.btn_LoadModel.Margin = new System.Windows.Forms.Padding(0);
             this.btn_LoadModel.Name = "btn_LoadModel";
-            this.btn_LoadModel.Size = new System.Drawing.Size(135, 51);
+            this.btn_LoadModel.Size = new System.Drawing.Size(141, 57);
             this.btn_LoadModel.TabIndex = 0;
             this.btn_LoadModel.Text = "Change Model";
             this.btn_LoadModel.UseVisualStyleBackColor = true;
@@ -221,9 +228,10 @@
             // 
             this.btn_NewModel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_NewModel.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_NewModel.Location = new System.Drawing.Point(3, 117);
+            this.btn_NewModel.Location = new System.Drawing.Point(0, 114);
+            this.btn_NewModel.Margin = new System.Windows.Forms.Padding(0);
             this.btn_NewModel.Name = "btn_NewModel";
-            this.btn_NewModel.Size = new System.Drawing.Size(135, 51);
+            this.btn_NewModel.Size = new System.Drawing.Size(141, 57);
             this.btn_NewModel.TabIndex = 0;
             this.btn_NewModel.Text = "Create Model";
             this.btn_NewModel.UseVisualStyleBackColor = true;
@@ -233,9 +241,10 @@
             // 
             this.btn_DeleteModel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_DeleteModel.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_DeleteModel.Location = new System.Drawing.Point(3, 231);
+            this.btn_DeleteModel.Location = new System.Drawing.Point(0, 228);
+            this.btn_DeleteModel.Margin = new System.Windows.Forms.Padding(0);
             this.btn_DeleteModel.Name = "btn_DeleteModel";
-            this.btn_DeleteModel.Size = new System.Drawing.Size(135, 51);
+            this.btn_DeleteModel.Size = new System.Drawing.Size(141, 57);
             this.btn_DeleteModel.TabIndex = 0;
             this.btn_DeleteModel.Text = "Delete Model";
             this.btn_DeleteModel.UseVisualStyleBackColor = true;
@@ -245,9 +254,10 @@
             // 
             this.btn_Exit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Exit.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Exit.Location = new System.Drawing.Point(3, 402);
+            this.btn_Exit.Location = new System.Drawing.Point(0, 399);
+            this.btn_Exit.Margin = new System.Windows.Forms.Padding(0);
             this.btn_Exit.Name = "btn_Exit";
-            this.btn_Exit.Size = new System.Drawing.Size(135, 54);
+            this.btn_Exit.Size = new System.Drawing.Size(141, 60);
             this.btn_Exit.TabIndex = 0;
             this.btn_Exit.Text = "Exit";
             this.btn_Exit.UseVisualStyleBackColor = true;

@@ -71,6 +71,9 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.btn_Save = new System.Windows.Forms.Button();
             this.btn_Exit = new System.Windows.Forms.Button();
+            this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
+            this.cb_NGContainUISave = new System.Windows.Forms.CheckBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
@@ -88,6 +91,7 @@
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel16.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -125,6 +129,7 @@
             this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel4, 1, 8);
             this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel7, 1, 5);
             this.tableLayoutPanel5.Controls.Add(this.label6, 1, 4);
+            this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel16, 1, 10);
             this.tableLayoutPanel5.Location = new System.Drawing.Point(4, 88);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 15;
@@ -188,7 +193,7 @@
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(351, 40);
             this.label11.TabIndex = 11;
-            this.label11.Text = "Light Control Setting";
+            this.label11.Text = "조명 컨트롤러 설정";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label4
@@ -201,7 +206,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(451, 48);
             this.label4.TabIndex = 2;
-            this.label4.Text = "Image Save Root";
+            this.label4.Text = "이미지 저장 경로";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel6
@@ -501,6 +506,7 @@
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
             this.tableLayoutPanel9.Size = new System.Drawing.Size(451, 42);
             this.tableLayoutPanel9.TabIndex = 20;
+            this.tableLayoutPanel9.Visible = false;
             // 
             // num_ImageSaveDay
             // 
@@ -569,12 +575,12 @@
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label3.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label3.Location = new System.Drawing.Point(4, 1);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(218, 40);
             this.label3.TabIndex = 16;
-            this.label3.Text = "NG Image Save";
+            this.label3.Text = "NG 이미지 저장";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel4
@@ -615,12 +621,12 @@
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label2.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label2.Location = new System.Drawing.Point(4, 1);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(218, 40);
             this.label2.TabIndex = 16;
-            this.label2.Text = "OK Image Save";
+            this.label2.Text = "OK 이미지 저장";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel7
@@ -671,7 +677,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(451, 48);
             this.label6.TabIndex = 2;
-            this.label6.Text = "Data Save Root";
+            this.label6.Text = "데이터 저장 경로";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel2
@@ -716,6 +722,51 @@
             this.btn_Exit.UseVisualStyleBackColor = true;
             this.btn_Exit.Click += new System.EventHandler(this.btn_Exit_Click);
             // 
+            // tableLayoutPanel16
+            // 
+            this.tableLayoutPanel16.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel16.ColumnCount = 2;
+            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel16.Controls.Add(this.cb_NGContainUISave, 1, 0);
+            this.tableLayoutPanel16.Controls.Add(this.label7, 0, 0);
+            this.tableLayoutPanel16.Location = new System.Drawing.Point(461, 494);
+            this.tableLayoutPanel16.Name = "tableLayoutPanel16";
+            this.tableLayoutPanel16.RowCount = 1;
+            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel16.Size = new System.Drawing.Size(450, 42);
+            this.tableLayoutPanel16.TabIndex = 22;
+            // 
+            // cb_NGContainUISave
+            // 
+            this.cb_NGContainUISave.Appearance = System.Windows.Forms.Appearance.Button;
+            this.cb_NGContainUISave.AutoSize = true;
+            this.cb_NGContainUISave.BackColor = System.Drawing.Color.Red;
+            this.cb_NGContainUISave.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cb_NGContainUISave.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.cb_NGContainUISave.ForeColor = System.Drawing.Color.White;
+            this.cb_NGContainUISave.Location = new System.Drawing.Point(228, 4);
+            this.cb_NGContainUISave.Name = "cb_NGContainUISave";
+            this.cb_NGContainUISave.Size = new System.Drawing.Size(218, 34);
+            this.cb_NGContainUISave.TabIndex = 18;
+            this.cb_NGContainUISave.Text = "UnSave";
+            this.cb_NGContainUISave.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.cb_NGContainUISave.UseVisualStyleBackColor = false;
+            this.cb_NGContainUISave.CheckedChanged += new System.EventHandler(this.cb_NGContainUISave_CheckedChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label7.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label7.Location = new System.Drawing.Point(4, 1);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(217, 40);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "검사결과 포함 이미지 저장";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Frm_SystemSetUp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -757,6 +808,8 @@
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel16.ResumeLayout(false);
+            this.tableLayoutPanel16.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -806,5 +859,8 @@
         private System.Windows.Forms.NumericUpDown num_ImageSaveDay;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
         private System.Windows.Forms.NumericUpDown num_LightNumber;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel16;
+        private System.Windows.Forms.CheckBox cb_NGContainUISave;
+        private System.Windows.Forms.Label label7;
     }
 }

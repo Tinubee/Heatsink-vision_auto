@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
@@ -35,6 +36,9 @@ namespace VISION
 
         private void btn_Exit_Click(object sender, EventArgs e)
         {
+            if (MessageBox.Show("시스템 설정창을 종료 하시겠습니까?", "EXIT", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
+                return;
+
             this.Close();
         }
 
@@ -72,7 +76,8 @@ namespace VISION
             Unit.InspectUsed = setting.ReadData("SYSTEM", "Inspect Used Check", true) == "1" ? true : false;
             Unit.OKImageSave = setting.ReadData("SYSTEM", "OK IMAGE SAVE", true) == "1" ? true : false;
             Unit.NGImageSave = setting.ReadData("SYSTEM", "NG IMAGE SAVE", true) == "1" ? true : false;
-          
+            Unit.NGContainUIImageSave = setting.ReadData("SYSTEM", "NG CONTAIN UI IMAGE SAVE", true) == "1" ? true : false;
+
             cb_Used.Checked = Unit.InspectUsed;
             cb_OkSave.Checked = Unit.OKImageSave;
             cb_NGSave.Checked = Unit.NGImageSave;
@@ -82,16 +87,23 @@ namespace VISION
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
+            if (MessageBox.Show("시스템 설정값을 저장 하시겠습니까?", "Save", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
+                return;
+
+            Process.Start($"{Unit.SAVEFROM}");
+
             INIControl Writer = new INIControl(this.Unit.SETTING);
             Unit.ImageSaveRoot = tb_ImageSaveRoot.Text;
             Unit.DataSaveRoot = tb_DataSaveRoot.Text;
 
             if (cb_PortNumber.SelectedItem != null)
+            {
                 Unit.PortName[Unit.LightControlNumber] = cb_PortNumber.SelectedItem.ToString();
-            Unit.Parity[Unit.LightControlNumber] = cb_ParityCheck.SelectedItem.ToString();
-            Unit.StopBits[Unit.LightControlNumber] = cb_Stopbit.SelectedItem.ToString();
-            Unit.BaudRate[Unit.LightControlNumber] = cb_BaudRate.SelectedItem.ToString();
-            Unit.DataBit[Unit.LightControlNumber] = cb_Databit.SelectedItem.ToString();
+                Unit.Parity[Unit.LightControlNumber] = cb_ParityCheck.SelectedItem.ToString();
+                Unit.StopBits[Unit.LightControlNumber] = cb_Stopbit.SelectedItem.ToString();
+                Unit.BaudRate[Unit.LightControlNumber] = cb_BaudRate.SelectedItem.ToString();
+                Unit.DataBit[Unit.LightControlNumber] = cb_Databit.SelectedItem.ToString();
+            }
 
             Unit.InspectUsed = cb_Used.Checked;
 
@@ -104,11 +116,6 @@ namespace VISION
             Writer.WriteData("COMMUNICATION", $"Stop bits{Unit.LightControlNumber}", Unit.StopBits[Unit.LightControlNumber]);
             Writer.WriteData("COMMUNICATION", $"Data Bits{Unit.LightControlNumber}", Unit.DataBit[Unit.LightControlNumber]);
             Writer.WriteData("COMMUNICATION", $"Baud Rate{Unit.LightControlNumber}", Unit.BaudRate[Unit.LightControlNumber]);
-            //Writer.WriteData("COMMUNICATION", "Port number", Unit.PortName);
-            //Writer.WriteData("COMMUNICATION", "Parity Check", Unit.Parity);
-            //Writer.WriteData("COMMUNICATION", "Stop bits", Unit.StopBits);
-            //Writer.WriteData("COMMUNICATION", "Data Bits", Unit.DataBit);
-            //Writer.WriteData("COMMUNICATION", "Baud Rate", Unit.BaudRate);
 
             if (Unit.InspectUsed)
             {
@@ -134,6 +141,21 @@ namespace VISION
             {
                 Writer.WriteData("SYSTEM", "NG IMAGE SAVE", "0");
             }
+            if (cb_NGContainUISave.Checked)
+            {
+                Writer.WriteData("SYSTEM", "NG CONTAIN UI IMAGE SAVE", "1");
+            }
+            else
+            {
+                Writer.WriteData("SYSTEM", "NG CONTAIN UI IMAGE SAVE", "0");
+            }
+
+            Process[] myProcesses = Process.GetProcessesByName("SaveForm_KHM");
+            if (myProcesses.LongLength > 0)
+            {
+                myProcesses[0].Kill();
+            }
+            MessageBox.Show("저장 완료", "Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void cb_Used_CheckedChanged(object sender, EventArgs e)
@@ -221,6 +243,20 @@ namespace VISION
         private void cb_Databit_SelectedIndexChanged(object sender, EventArgs e)
         {
             Unit.DataBit[Unit.LightControlNumber] = cb_Databit.SelectedItem.ToString();
+        }
+
+        private void cb_NGContainUISave_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cb_NGContainUISave.Checked == true)
+            {
+                cb_NGContainUISave.Text = "Save";
+                cb_NGContainUISave.BackColor = Color.Lime;
+            }
+            else
+            {
+                cb_NGContainUISave.Text = "UnSave";
+                cb_NGContainUISave.BackColor = Color.Red;
+            }
         }
     }
 }

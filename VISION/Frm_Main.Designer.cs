@@ -200,6 +200,7 @@
             this.btn_Analyze.Text = "Analyze";
             this.btn_Analyze.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btn_Analyze.UseVisualStyleBackColor = true;
+            this.btn_Analyze.Visible = false;
             this.btn_Analyze.Click += new System.EventHandler(this.btn_Analyze_Click);
             // 
             // tableLayoutPanel32
@@ -377,6 +378,7 @@
             // btn_Stop
             // 
             this.btn_Stop.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_Stop.Enabled = false;
             this.btn_Stop.Image = global::VISION.Properties.Resources.Stop;
             this.btn_Stop.Location = new System.Drawing.Point(1635, 1);
             this.btn_Stop.Margin = new System.Windows.Forms.Padding(0);

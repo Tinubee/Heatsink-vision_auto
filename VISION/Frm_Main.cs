@@ -22,6 +22,8 @@ using System.Collections;
 using VISION.UI;
 using Euresys.clseremc;
 using Microsoft.Win32;
+using System.Drawing.Imaging;
+using Microsoft.VisualBasic.Logging;
 
 namespace VISION
 {
@@ -670,6 +672,7 @@ namespace VISION
                 Glob.InspectUsed = setting.ReadData("SYSTEM", "Inspect Used Check", true) == "1" ? true : false;
                 Glob.OKImageSave = setting.ReadData("SYSTEM", "OK IMAGE SAVE", true) == "1" ? true : false;
                 Glob.NGImageSave = setting.ReadData("SYSTEM", "NG IMAGE SAVE", true) == "1" ? true : false;
+                Glob.NGContainUIImageSave = setting.ReadData("SYSTEM", "NG CONTAIN UI IMAGE SAVE", true) == "1" ? true : false;
             }
             catch (Exception ee)
             {
@@ -893,7 +896,7 @@ namespace VISION
                         HeatSinkMainDisplay.lb_Cam2_Result.Text = "O K";
                         OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
-                            ImageSave2("OK", 2, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage);
+                            ImageSave2("OK", 2, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, TempCogDisplay[funCamNumber]);
                     });
                 }
                 else
@@ -905,7 +908,7 @@ namespace VISION
                         HeatSinkMainDisplay.lb_Cam2_Result.Text = "N G";
                         NG_Count[1]++;
                         if (Glob.NGImageSave)
-                            ImageSave2("NG", 2, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage);
+                            ImageSave2("NG", 2, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, TempCogDisplay[funCamNumber]);
                     });
                     if (!Glob.statsOK)
                     {
@@ -958,7 +961,7 @@ namespace VISION
                         HeatSinkMainDisplay.lb_Cam3_Result.Text = "O K";
                         OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
-                            ImageSave3("OK", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage);
+                            ImageSave3("OK", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, TempCogDisplay[funCamNumber]);
                     });
                 }
                 else
@@ -970,7 +973,7 @@ namespace VISION
                         HeatSinkMainDisplay.lb_Cam3_Result.Text = "N G";
                         NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
-                            ImageSave3("NG", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage);
+                            ImageSave3("NG", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, TempCogDisplay[funCamNumber]);
 
                         if (!Glob.statsOK)
                         {
@@ -1200,7 +1203,7 @@ namespace VISION
                         HeatSinkMainDisplay.lb_Cam6_Result.Text = "O K";
                         OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
-                            ImageSave6("OK", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, shotNumber);
+                            ImageSave6("OK", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, cdy);
                     });
                 }
                 else
@@ -1212,7 +1215,7 @@ namespace VISION
                         HeatSinkMainDisplay.lb_Cam6_Result.Text = "N G";
                         NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
-                            ImageSave6("NG", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, shotNumber);
+                            ImageSave6("NG", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, cdy);
                     });
                     if (!Glob.statsOK)
                     {
@@ -2326,280 +2329,188 @@ namespace VISION
 
         public void ImageSave1(string Result, int CamNumber, CogDisplay cog)
         {
-            //NG 이미지와 OK 이미지 구별이 필요할 것 같음 - 따로 요청이 없어서 구별해놓진 않음
             try
             {
                 CogImageFileJPEG ImageSave = new CogImageFileJPEG();
                 DateTime dt = DateTime.Now;
                 string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}";
-                //string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
 
                 if (!Directory.Exists(Root))
                 {
                     Directory.CreateDirectory(Root);
                 }
-                //if (!Directory.Exists(Root2))
-                // {
-                //    Directory.CreateDirectory(Root2);
-                // }
+
                 ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
                 ImageSave.Append(cog.Image);
                 ImageSave.Close();
 
-                //cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                if (Glob.NGContainUIImageSave)
+                {
+                    string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+                    if (!Directory.Exists(Root2))
+                    {
+                        Directory.CreateDirectory(Root2);
+                    }
+                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                }
             }
             catch (Exception ee)
             {
                 log.AddLogMessage(LogType.Error, 0, $"{ee.Message}");
-                //cm.info(ee.Message);
             }
         }
-        public void ImageSave2(string Result, int CamNumber, CogImage8Grey image)
+        public void ImageSave2(string Result, int CamNumber, CogImage8Grey image, CogDisplay cog)
         {
-            //NG 이미지와 OK 이미지 구별이 필요할 것 같음 - 따로 요청이 없어서 구별해놓진 않음
             try
             {
-                CogImageFileJPEG ImageSave = new Cognex.VisionPro.ImageFile.CogImageFileJPEG();
+                CogImageFileJPEG ImageSave = new CogImageFileJPEG();
                 DateTime dt = DateTime.Now;
                 string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}";
-                //string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
 
                 if (!Directory.Exists(Root))
                 {
                     Directory.CreateDirectory(Root);
                 }
-                //if (!Directory.Exists(Root2))
-                //{
-                //    Directory.CreateDirectory(Root2);
-                //}
                 ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
                 ImageSave.Append(image);
                 ImageSave.Close();
-
-                // cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                if (Glob.NGContainUIImageSave)
+                {
+                    string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+                    if (!Directory.Exists(Root2))
+                    {
+                        Directory.CreateDirectory(Root2);
+                    }
+                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                }
             }
             catch (Exception ee)
             {
                 log.AddLogMessage(LogType.Error, 0, $"{ee.Message}");
-                //cm.info(ee.Message);
             }
         }
-        public void ImageSave3(string Result, int CamNumber, CogImage8Grey image)
+        public void ImageSave3(string Result, int CamNumber, CogImage8Grey image, CogDisplay cog)
         {
-            //NG 이미지와 OK 이미지 구별이 필요할 것 같음 - 따로 요청이 없어서 구별해놓진 않음
             try
             {
                 CogImageFileJPEG ImageSave = new Cognex.VisionPro.ImageFile.CogImageFileJPEG();
                 DateTime dt = DateTime.Now;
                 string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}";
-                // string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
 
                 if (!Directory.Exists(Root))
                 {
                     Directory.CreateDirectory(Root);
                 }
-                // if (!Directory.Exists(Root2))
-                //{
-                //    Directory.CreateDirectory(Root2);
-                //}
                 ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
                 ImageSave.Append(image);
                 ImageSave.Close();
-
-                //cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                if (Glob.NGContainUIImageSave)
+                {
+                    string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+                    if (!Directory.Exists(Root2))
+                    {
+                        Directory.CreateDirectory(Root2);
+                    }
+                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                }
             }
             catch (Exception ee)
             {
                 log.AddLogMessage(LogType.Error, 0, $"{ee.Message}");
-                //cm.info(ee.Message);
             }
         }
         public void ImageSave4(string Result, int CamNumber, CogDisplay cog, int shotNumber)
         {
-            //NG 이미지와 OK 이미지 구별이 필요할 것 같음 - 따로 요청이 없어서 구별해놓진 않음
             try
             {
                 CogImageFileJPEG ImageSave = new Cognex.VisionPro.ImageFile.CogImageFileJPEG();
                 DateTime dt = DateTime.Now;
                 string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{shotNumber}\{Result}";
-                //  string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
 
                 if (!Directory.Exists(Root))
                 {
                     Directory.CreateDirectory(Root);
                 }
-                //if (!Directory.Exists(Root2))
-                //{
-                //    Directory.CreateDirectory(Root2);
-                //}
                 ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
                 ImageSave.Append(cog.Image);
                 ImageSave.Close();
-
-                //cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                if (Glob.NGContainUIImageSave)
+                {
+                    string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+                    if (!Directory.Exists(Root2))
+                    {
+                        Directory.CreateDirectory(Root2);
+                    }
+                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                }
             }
             catch (Exception ee)
             {
                 log.AddLogMessage(LogType.Error, 0, $"{ee.Message}");
-                //cm.info(ee.Message);
             }
         }
         public void ImageSave5(string Result, int CamNumber, CogDisplay cog, int shotNumber)
         {
-            //NG 이미지와 OK 이미지 구별이 필요할 것 같음 - 따로 요청이 없어서 구별해놓진 않음
             try
             {
                 CogImageFileJPEG ImageSave = new Cognex.VisionPro.ImageFile.CogImageFileJPEG();
                 DateTime dt = DateTime.Now;
                 string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{shotNumber}\{Result}";
-                //string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
 
                 if (!Directory.Exists(Root))
                 {
                     Directory.CreateDirectory(Root);
                 }
-                //if (!Directory.Exists(Root2))
-                // {
-                //    Directory.CreateDirectory(Root2);
-                // }
                 ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
                 ImageSave.Append(cog.Image);
                 ImageSave.Close();
-
-                //cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                if (Glob.NGContainUIImageSave)
+                {
+                    string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+                    if (!Directory.Exists(Root2))
+                    {
+                        Directory.CreateDirectory(Root2);
+                    }
+                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                }
             }
             catch (Exception ee)
             {
                 log.AddLogMessage(LogType.Error, 0, $"{ee.Message}");
-                //cm.info(ee.Message);
             }
         }
-        public void ImageSave6(string Result, int CamNumber, CogImage8Grey image, int shotNumber)
+
+        public void ImageSave6(string Result, int CamNumber, CogImage8Grey image, CogDisplay cog)
         {
-            //NG 이미지와 OK 이미지 구별이 필요할 것 같음 - 따로 요청이 없어서 구별해놓진 않음
             try
             {
-                CogImageFileJPEG ImageSave = new Cognex.VisionPro.ImageFile.CogImageFileJPEG();
+                CogImageFileJPEG ImageSave = new CogImageFileJPEG();
                 DateTime dt = DateTime.Now;
-                string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{shotNumber}\{Result}";
-                //string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+                string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}";
 
                 if (!Directory.Exists(Root))
                 {
                     Directory.CreateDirectory(Root);
                 }
-                //if (!Directory.Exists(Root2))
-                // {
-                //    Directory.CreateDirectory(Root2);
-                // }
+
                 ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
                 ImageSave.Append(image);
                 ImageSave.Close();
 
-                //cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                if (Glob.NGContainUIImageSave)
+                {
+                    string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+                    if (!Directory.Exists(Root2))
+                    {
+                        Directory.CreateDirectory(Root2);
+                    }
+                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                }
             }
             catch (Exception ee)
             {
                 log.AddLogMessage(LogType.Error, 0, $"{ee.Message}");
-                //cm.info(ee.Message);
             }
-        }
-
-        public void DataSave1(string Time, int CamNumber)
-        {
-            //DATA 저장부분 TEST 후 적용 시키기.
-            DateTime dt = DateTime.Now;
-            string Root = Glob.DataSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}";
-            StreamWriter Writer;
-            if (!Directory.Exists(Root))
-            {
-                Directory.CreateDirectory(Root);
-            }
-            Root += $@"\Data_{dt.ToString("yyyyMMdd-HH")}.csv";
-            Writer = new StreamWriter(Root, true);
-            Writer.WriteLine($"Time,{Time}");
-            //Writer.WriteLine($"Time,{dt.ToString("yyyyMMdd_HH mm ss")},CAM1,Point2.4,{Glob.CAM_Point1Value[0]},{Glob.CAM_Point2Value[0]},Point3.3,{Glob.CAM_Point3Value[0]},CAM3,Point2.4,{Glob.CAM_Point1Value[2]},{Glob.CAM_Point2Value[2]},Point3.3,{Glob.CAM_Point3Value[2]}");
-            Writer.Close();
-        }
-        public void DataSave2(string Time, int CamNumber)
-        {
-            //DATA 저장부분 TEST 후 적용 시키기.
-            DateTime dt = DateTime.Now;
-            string Root = Glob.DataSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}";
-            StreamWriter Writer;
-            if (!Directory.Exists(Root))
-            {
-                Directory.CreateDirectory(Root);
-            }
-            Root += $@"\Data_{dt.ToString("yyyyMMdd-HH")}.csv";
-            Writer = new StreamWriter(Root, true);
-            Writer.WriteLine($"Time,{Time}");
-            //Writer.WriteLine($"Time,{dt.ToString("yyyyMMdd_HH mm ss")},CAM1,Point2.4,{Glob.CAM_Point1Value[0]},{Glob.CAM_Point2Value[0]},Point3.3,{Glob.CAM_Point3Value[0]},CAM3,Point2.4,{Glob.CAM_Point1Value[2]},{Glob.CAM_Point2Value[2]},Point3.3,{Glob.CAM_Point3Value[2]}");
-            Writer.Close();
-        }
-        public void DataSave3(string Time, int CamNumber)
-        {
-            //DATA 저장부분 TEST 후 적용 시키기.
-            DateTime dt = DateTime.Now;
-            string Root = Glob.DataSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}";
-            StreamWriter Writer;
-            if (!Directory.Exists(Root))
-            {
-                Directory.CreateDirectory(Root);
-            }
-            Root += $@"\Data_{dt.ToString("yyyyMMdd-HH")}.csv";
-            Writer = new StreamWriter(Root, true);
-            Writer.WriteLine($"Time,{Time}");
-            //Writer.WriteLine($"Time,{dt.ToString("yyyyMMdd_HH mm ss")},CAM1,Point2.4,{Glob.CAM_Point1Value[0]},{Glob.CAM_Point2Value[0]},Point3.3,{Glob.CAM_Point3Value[0]},CAM3,Point2.4,{Glob.CAM_Point1Value[2]},{Glob.CAM_Point2Value[2]},Point3.3,{Glob.CAM_Point3Value[2]}");
-            Writer.Close();
-        }
-        public void DataSave4(string Time, int CamNumber)
-        {
-            //DATA 저장부분 TEST 후 적용 시키기.
-            DateTime dt = DateTime.Now;
-            string Root = Glob.DataSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}";
-            StreamWriter Writer;
-            if (!Directory.Exists(Root))
-            {
-                Directory.CreateDirectory(Root);
-            }
-            Root += $@"\Data_{dt.ToString("yyyyMMdd-HH")}.csv";
-            Writer = new StreamWriter(Root, true);
-            Writer.WriteLine($"Time,{Time}");
-            //Writer.WriteLine($"Time,{dt.ToString("yyyyMMdd_HH mm ss")},CAM1,Point2.4,{Glob.CAM_Point1Value[0]},{Glob.CAM_Point2Value[0]},Point3.3,{Glob.CAM_Point3Value[0]},CAM3,Point2.4,{Glob.CAM_Point1Value[2]},{Glob.CAM_Point2Value[2]},Point3.3,{Glob.CAM_Point3Value[2]}");
-            Writer.Close();
-        }
-        public void DataSave5(string Time, int CamNumber)
-        {
-            //DATA 저장부분 TEST 후 적용 시키기.
-            DateTime dt = DateTime.Now;
-            string Root = Glob.DataSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}";
-            StreamWriter Writer;
-            if (!Directory.Exists(Root))
-            {
-                Directory.CreateDirectory(Root);
-            }
-            Root += $@"\Data_{dt.ToString("yyyyMMdd-HH")}.csv";
-            Writer = new StreamWriter(Root, true);
-            Writer.WriteLine($"Time,{Time}");
-            //Writer.WriteLine($"Time,{dt.ToString("yyyyMMdd_HH mm ss")},CAM1,Point2.4,{Glob.CAM_Point1Value[0]},{Glob.CAM_Point2Value[0]},Point3.3,{Glob.CAM_Point3Value[0]},CAM3,Point2.4,{Glob.CAM_Point1Value[2]},{Glob.CAM_Point2Value[2]},Point3.3,{Glob.CAM_Point3Value[2]}");
-            Writer.Close();
-        }
-        public void DataSave6(string Time, int CamNumber)
-        {
-            //DATA 저장부분 TEST 후 적용 시키기.
-            DateTime dt = DateTime.Now;
-            string Root = Glob.DataSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}";
-            StreamWriter Writer;
-            if (!Directory.Exists(Root))
-            {
-                Directory.CreateDirectory(Root);
-            }
-            Root += $@"\Data_{dt.ToString("yyyyMMdd-HH")}.csv";
-            Writer = new StreamWriter(Root, true);
-            Writer.WriteLine($"Time,{Time}");
-            //Writer.WriteLine($"Time,{dt.ToString("yyyyMMdd_HH mm ss")},CAM1,Point2.4,{Glob.CAM_Point1Value[0]},{Glob.CAM_Point2Value[0]},Point3.3,{Glob.CAM_Point3Value[0]},CAM3,Point2.4,{Glob.CAM_Point1Value[2]},{Glob.CAM_Point2Value[2]},Point3.3,{Glob.CAM_Point3Value[2]}");
-            Writer.Close();
         }
 
         private void btn_Stop_Click(object sender, EventArgs e)

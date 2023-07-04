@@ -110,8 +110,8 @@ namespace VISION.Cogs
         /// <summary>
         /// 모델 이름으로 모델 교체
         /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="ModelRoot"></param>
+        /// <param name="Name">모델명</param>
+        /// <param name="ModelRoot">모델경로</param>
         /// <returns></returns>
         public bool Loadmodel(string Name, string ModelRoot, int camnumber, bool isFirst = false)
         {

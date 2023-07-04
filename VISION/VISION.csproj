@@ -612,9 +612,6 @@
     <EmbeddedResource Include="UI\ShieldMainDisplay.resx">
       <DependentUpon>ShieldMainDisplay.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="..\.editorconfig">
-      <Link>.editorconfig</Link>
-    </None>
     <None Include="Properties\DataSources\CamList.datasource" />
     <None Include="Properties\DataSources\Current_CamList.datasource" />
     <None Include="Properties\Settings.settings">

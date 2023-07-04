@@ -96,6 +96,7 @@ namespace VISION
 
         public bool OKImageSave = true;
         public bool NGImageSave = true;
+        public bool NGContainUIImageSave = false;
 
         public double[,] InsPat_Result = new double[6, 30];
         public double[,] MultiInsPat_Result = new double[6, 30];
