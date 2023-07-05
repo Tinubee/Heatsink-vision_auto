@@ -697,6 +697,7 @@
     <None Include="Resources\Analyze.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\minimize.png" />
     <None Include="Resources\Reset.png" />
     <Content Include="VisionIcon.ico" />
   </ItemGroup>

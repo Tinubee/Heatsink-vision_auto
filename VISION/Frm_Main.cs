@@ -2655,6 +2655,11 @@ namespace VISION
             }
             log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
         }
+
+        private void btn최소화_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
     }
 }
 public static class ExtensionMethods
