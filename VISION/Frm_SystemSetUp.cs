@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KimLib;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,6 +7,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -83,9 +85,10 @@ namespace VISION
             cb_NGSave.Checked = Unit.NGImageSave;
 
             num_ImageSaveDay.Value = Unit.ImageSaveDay;
+            Main.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
         }
 
-        private void btn_Save_Click(object sender, EventArgs e)
+        private void 시스템설정저장_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("시스템 설정값을 저장 하시겠습니까?", "Save", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 return;
@@ -155,6 +158,7 @@ namespace VISION
             {
                 myProcesses[0].Kill();
             }
+            Main.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
             MessageBox.Show("저장 완료", "Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 

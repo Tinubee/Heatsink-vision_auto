@@ -317,7 +317,7 @@
             this.btn_Exit.Size = new System.Drawing.Size(116, 73);
             this.btn_Exit.TabIndex = 0;
             this.btn_Exit.UseVisualStyleBackColor = true;
-            this.btn_Exit.Click += new System.EventHandler(this.btn_Exit_Click);
+            this.btn_Exit.Click += new System.EventHandler(this.검사설정창종료_Click);
             // 
             // btn_Save
             // 
@@ -329,7 +329,7 @@
             this.btn_Save.Size = new System.Drawing.Size(105, 73);
             this.btn_Save.TabIndex = 0;
             this.btn_Save.UseVisualStyleBackColor = true;
-            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
+            this.btn_Save.Click += new System.EventHandler(this.검사툴저장_Click);
             // 
             // btn_ImageOpen
             // 
@@ -539,7 +539,7 @@
             this.btn_ApplyMaster.Tag = "7";
             this.btn_ApplyMaster.Text = "마스터이미지 등록";
             this.btn_ApplyMaster.UseVisualStyleBackColor = false;
-            this.btn_ApplyMaster.Click += new System.EventHandler(this.btn_ApplyMaster_Click);
+            this.btn_ApplyMaster.Click += new System.EventHandler(this.마스터이미지등록_Click);
             // 
             // btn_Cam1
             // 

@@ -14,6 +14,9 @@ using System.Diagnostics;
 using Cognex.VisionPro.ImageFile;
 using Cognex.VisionPro.Dimensioning;
 using Cognex.VisionPro.ImageProcessing;
+using KimLib;
+using System.Reflection;
+using Microsoft.VisualBasic.Logging;
 
 namespace VISION
 {
@@ -145,6 +148,7 @@ namespace VISION
             UpdateCamStats();
             dgv_ToolSetUp.DoubleBuffered(true);
             DGVUpadte();
+            Main.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
         }
 
         private void DGVUpadte()
@@ -178,47 +182,56 @@ namespace VISION
             }
             catch (Exception ee)
             {
+                Main.log.AddLogMessage(LogType.Error, 0, $"{MethodBase.GetCurrentMethod().Name} - {ee.Message}");
                 cm.info(ee.Message);
             }
         }
         private void btn_ImageOpen_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Multiselect = true;
-            ImageDelete = false;
-            if (ofd.ShowDialog() == DialogResult.OK)
+            try
             {
-                //Glob.ImageFilePath = ofd.FileName.Substring(0, ofd.FileName.Length - ofd.SafeFileName.Length);
-                Glob.ImageFilePath = ofd.FileName;
-                string type = Path.GetExtension(ofd.FileName);
-                string[] ImageFileName = ofd.FileNames;
-                if (type == ".bmp")
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.Multiselect = true;
+                ImageDelete = false;
+                if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    CogImageFileBMP Imageopen = new CogImageFileBMP();
-                    Imageopen.Open(ofd.FileName, CogImageFileModeConstants.Read);
-                    Imageopen.Close();
+                    //Glob.ImageFilePath = ofd.FileName.Substring(0, ofd.FileName.Length - ofd.SafeFileName.Length);
+                    Glob.ImageFilePath = ofd.FileName;
+                    string type = Path.GetExtension(ofd.FileName);
+                    string[] ImageFileName = ofd.FileNames;
+                    if (type == ".bmp")
+                    {
+                        CogImageFileBMP Imageopen = new CogImageFileBMP();
+                        Imageopen.Open(ofd.FileName, CogImageFileModeConstants.Read);
+                        Imageopen.Close();
+                    }
+                    else
+                    {
+                        CogImageFileJPEG Imageopen2 = new CogImageFileJPEG();
+                        Imageopen2.Open(ofd.FileName, CogImageFileModeConstants.Read);
+                        CogImageConvertTool ImageConvert = new CogImageConvertTool();
+                        ImageConvert.InputImage = Imageopen2[0];
+                        ImageConvert.RunParams.RunMode = CogImageConvertRunModeConstants.Plane2;
+                        Monoimage = (CogImage8Grey)ImageConvert.OutputImage;
+                        Imageopen2.Close();
+                    }
+                    for (int i = 0; i < ImageFileName.Count(); i++)
+                    {
+                        ImageList.Items.Add(ImageFileName[i]);
+                    }
+                    ImageList.SelectedIndex = ImageList.Items.Count - 1;
+                    cdyDisplay.InteractiveGraphics.Clear();
+                    cdyDisplay.StaticGraphics.Clear();
                 }
-                else
-                {
-                    CogImageFileJPEG Imageopen2 = new CogImageFileJPEG();
-                    Imageopen2.Open(ofd.FileName, CogImageFileModeConstants.Read);
-                    CogImageConvertTool ImageConvert = new CogImageConvertTool();
-                    ImageConvert.InputImage = Imageopen2[0];
-                    ImageConvert.RunParams.RunMode = CogImageConvertRunModeConstants.Plane2;
-                    Monoimage = (CogImage8Grey)ImageConvert.OutputImage;
-                    Imageopen2.Close();
-                }
-                for (int i = 0; i < ImageFileName.Count(); i++)
-                {
-                    ImageList.Items.Add(ImageFileName[i]);
-                }
-                ImageList.SelectedIndex = ImageList.Items.Count - 1;
-                cdyDisplay.InteractiveGraphics.Clear();
-                cdyDisplay.StaticGraphics.Clear();
+            }
+            catch(Exception ee)
+            {
+                Main.log.AddLogMessage(LogType.Error, 0, $"{MethodBase.GetCurrentMethod().Name} - {ee.Message}");
+                cm.info(ee.Message);
             }
         }
 
-        private void btn_Exit_Click(object sender, EventArgs e)
+        private void 검사설정창종료_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("셋팅창을 종료 하시겠습니까?", "EXIT", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 return;
@@ -234,10 +247,7 @@ namespace VISION
                 {
                     Main.frm_toolsetup = null;
                 }
-                for (int i = 0; i < Program.CameraList.Count(); i++)
-                {
-
-                }
+                Main.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
                 GC.Collect();
                 Dispose();
                 Close();
@@ -299,7 +309,7 @@ namespace VISION
             cdyDisplay.InteractiveGraphics.Clear();
         }
 
-        private void btn_Save_Click(object sender, EventArgs e)
+        private void 검사툴저장_Click(object sender, EventArgs e)
         {
             INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{Glob.RunnModel.Modelname()}\\CamSet.ini");
             INIControl CalibrationValue = new INIControl($"{Glob.MODELROOT}\\{Glob.RunnModel.Modelname()}\\CalibrationValue.ini");
@@ -340,6 +350,7 @@ namespace VISION
             {
                 myProcesses[0].Kill();
             }
+            Main.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
             MessageBox.Show("저장 완료", "Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -633,15 +644,9 @@ namespace VISION
         {
             //************************************단축키 모음************************************//
             if (e.Control && e.KeyCode == Keys.S) //ctrl + s : 셋팅값 저장.
-                btn_Save_Click(sender, e);
+                검사툴저장_Click(sender, e);
             if (e.Control && e.KeyCode == Keys.O) //ctrl + o : 이미지 열기. 
                 btn_ImageOpen_Click(sender, e);
-            if (e.Control && e.KeyCode == Keys.H) //ctrl + h : 카메라 1회촬영.
-                btn_OneShot_Click(sender, e);
-            if (e.Control && e.KeyCode == Keys.L) //ctrl + l : 카메라 라이브 모드
-                btn_Live_Click(sender, e);
-            //if (e.KeyCode == Keys.Escape) // esc : 셋팅창 종료
-            //    btn_Exit_Click(sender, e);
             if (e.Control && e.KeyCode == Keys.D1) //ctrl + 1 : 1번카메라 화면.
                 btn_Cam1.PerformClick();
             if (e.Control && e.KeyCode == Keys.D2) //ctrl + 2 : 2번카메라 화면.
@@ -673,7 +678,6 @@ namespace VISION
         private void UpdateCameraSet()
         {
             try
-
             {
                 INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{Glob.RunnModel.Modelname()}\\CamSet.ini");
                 //카메라 및 조명 setting값 ini파일에 저장. - 카메라별로
@@ -702,8 +706,9 @@ namespace VISION
                 PGgloble gls = PGgloble.getInstance;
                 if (gls.RunnModel.Loadmodel(Glob.RunnModel.Modelname(), gls.MODELROOT, Glob.CamNumber) == true)
                 {
-
+                    Main.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
                 }
+                else Main.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 실패.");
             }
             catch (Exception ee)
             {
@@ -1169,7 +1174,7 @@ namespace VISION
             TempDistance_HighValue[Glob.CamNumber, (int)num_DimensionToolNum.Value] = Convert.ToDouble(tb_HighValue.Text);
         }
 
-        private void btn_ApplyMaster_Click(object sender, EventArgs e)
+        private void 마스터이미지등록_Click(object sender, EventArgs e)
         {
             string fileName;
             if (cdyDisplay.Image == null)
@@ -1187,6 +1192,7 @@ namespace VISION
                 ImageSave.Open($"{Glob.MODELROOT}\\{Glob.RunnModel.Modelname()}\\Cam{Glob.CamNumber}\\CAM{Glob.CamNumber}_Master.bmp", CogImageFileModeConstants.Write);
                 ImageSave.Append(cdyDisplay.Image);
                 ImageSave.Close();
+                Main.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
                 MessageBox.Show($"CAM{Glob.CamNumber + 1} Master Image 등록 완료", "Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
