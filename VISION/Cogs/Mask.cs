@@ -136,20 +136,7 @@ namespace VISION.Cogs
             {
                 return;
             }
-
-            //if (this.Tool.Region == null)
-            //{
-            //    this.NewTool();
-            //}
-
             int count = this.Tool.RunParams.MaskAreas.Count;
-
-            //CogPolygon area = (CogPolygon)Tool.Region; //영역설정 CogRectangleAffine에서 CogPolygon으로 변경함 - 191230
-            //area.Interactive = true;
-            //area.GraphicDOFEnable = CogPolygonDOFConstants.All;
-            //area.SelectedSpaceName = ImageSpace;
-            //area.Color = CogColorConstants.Green;
-            //Tool.Region = area;
         }
 
         public void ToolSetup()

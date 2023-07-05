@@ -61,7 +61,6 @@ namespace VISION.UI
                 btn_종합결과.BackColor = Color.DimGray;
                 btn_개별카메라결과.BackColor = Color.Lime;
             }
-
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -85,6 +84,10 @@ namespace VISION.UI
                     double ngRate = (ngCount / totalCount) * 100;
                     allResultCountDisplay.lb_NGRATE.Text = $"{ngRate:F1}%";
                 }
+                else
+                {
+                    allResultCountDisplay.lb_NGRATE.Text = "0%";
+                }
             }
             else
             {
@@ -100,7 +103,29 @@ namespace VISION.UI
                         Glob.G_MainForm.NG_Rate[lop] = (Glob.G_MainForm.NG_Count[lop] / Glob.G_MainForm.TOTAL_Count[lop]) * 100;
                         NGRATE_Label[lop].Text = $"{Glob.G_MainForm.NG_Rate[lop]:F1}%";
                     }
+                    else
+                    {
+                        NGRATE_Label[lop].Text = "0%";
+                    }
                 }
+            }
+        }
+
+        private void b수량초기화_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("검사결과 수량을 초기화 하시겠습니까?", "EXIT", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
+                return;
+
+            Glob.G_MainForm.AllOK_Count = 0;
+            Glob.G_MainForm.AllNG_Count = 0;
+            Glob.G_MainForm.AllNG_1_Count = 0;
+            Glob.G_MainForm.AllNG_2_Count = 0;
+            Glob.G_MainForm.AllTotal_Count = 0;
+
+            for (int lop = 0; lop < 6; lop++)
+            {
+                Glob.G_MainForm.OK_Count[lop] = 0;
+                Glob.G_MainForm.NG_Count[lop] = 0;
             }
         }
     }

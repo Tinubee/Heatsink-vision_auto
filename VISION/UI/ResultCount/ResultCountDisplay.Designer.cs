@@ -33,10 +33,12 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.btn_종합결과 = new System.Windows.Forms.Button();
             this.btn_개별카메라결과 = new System.Windows.Forms.Button();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.resultPanel = new System.Windows.Forms.Panel();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.b수량초기화 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.b수량초기화)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -56,17 +58,19 @@
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnCount = 3;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.80602F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.80602F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.38796F));
             this.tableLayoutPanel2.Controls.Add(this.btn_종합결과, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.btn_개별카메라결과, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.b수량초기화, 2, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(274, 43);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
@@ -79,7 +83,7 @@
             this.btn_종합결과.Location = new System.Drawing.Point(0, 0);
             this.btn_종합결과.Margin = new System.Windows.Forms.Padding(0);
             this.btn_종합결과.Name = "btn_종합결과";
-            this.btn_종합결과.Size = new System.Drawing.Size(137, 43);
+            this.btn_종합결과.Size = new System.Drawing.Size(114, 43);
             this.btn_종합결과.TabIndex = 0;
             this.btn_종합결과.Tag = "0";
             this.btn_종합결과.Text = "종합 결과";
@@ -91,18 +95,14 @@
             this.btn_개별카메라결과.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_개별카메라결과.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_개별카메라결과.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_개별카메라결과.Location = new System.Drawing.Point(137, 0);
+            this.btn_개별카메라결과.Location = new System.Drawing.Point(114, 0);
             this.btn_개별카메라결과.Margin = new System.Windows.Forms.Padding(0);
             this.btn_개별카메라결과.Name = "btn_개별카메라결과";
-            this.btn_개별카메라결과.Size = new System.Drawing.Size(137, 43);
+            this.btn_개별카메라결과.Size = new System.Drawing.Size(114, 43);
             this.btn_개별카메라결과.TabIndex = 1;
             this.btn_개별카메라결과.Tag = "1";
             this.btn_개별카메라결과.Text = "개별 결과";
             this.btn_개별카메라결과.UseVisualStyleBackColor = false;
-            // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // resultPanel
             // 
@@ -112,6 +112,23 @@
             this.resultPanel.Name = "resultPanel";
             this.resultPanel.Size = new System.Drawing.Size(274, 832);
             this.resultPanel.TabIndex = 1;
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // b수량초기화
+            // 
+            this.b수량초기화.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.b수량초기화.Image = global::VISION.Properties.Resources.Recycle;
+            this.b수량초기화.Location = new System.Drawing.Point(228, 0);
+            this.b수량초기화.Margin = new System.Windows.Forms.Padding(0);
+            this.b수량초기화.Name = "b수량초기화";
+            this.b수량초기화.Size = new System.Drawing.Size(46, 43);
+            this.b수량초기화.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.b수량초기화.TabIndex = 2;
+            this.b수량초기화.TabStop = false;
+            this.b수량초기화.Click += new System.EventHandler(this.b수량초기화_Click);
             // 
             // ResultCountDisplay
             // 
@@ -123,6 +140,7 @@
             this.Size = new System.Drawing.Size(274, 875);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.b수량초기화)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -135,5 +153,6 @@
         private System.Windows.Forms.Button btn_개별카메라결과;
         public System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Panel resultPanel;
+        public System.Windows.Forms.PictureBox b수량초기화;
     }
 }
