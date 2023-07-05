@@ -317,7 +317,7 @@ namespace VISION
             }
             catch (Euresys.clSerialException error)
             {
-                log.AddLogMessage(LogType.Error, 0, $"{MethodBase.GetCurrentMethod().Name} - {error.Message}" );
+                log.AddLogMessage(LogType.Error, 0, $"{MethodBase.GetCurrentMethod().Name} - {error.Message}");
             }
         }
 
@@ -850,6 +850,7 @@ namespace VISION
 
         public void DisplayLabelSet(string Model, string Result, int camNumber)
         {
+            log.AddLogMessage(LogType.Infomation, 0, $"Cam - {camNumber + 1} : {Result}");
             try
             {
                 if (Model == "shield")
@@ -903,6 +904,7 @@ namespace VISION
                     BeginInvoke((Action)delegate
                     {
                         result = "O K";
+                        DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                         OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
                             ImageSave1("OK", funCamNumber + 1, TempCogDisplay[funCamNumber]);
@@ -913,6 +915,7 @@ namespace VISION
                     BeginInvoke((Action)delegate
                     {
                         result = "N G";
+                        DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                         NG_Count[0]++;
                         if (Glob.NGImageSave)
                             ImageSave1("NG", funCamNumber + 1, TempCogDisplay[funCamNumber]);
@@ -926,7 +929,6 @@ namespace VISION
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
                 log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
-                DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                 Thread.Sleep(100);
             }
             catch (Exception ee)
@@ -966,6 +968,7 @@ namespace VISION
                     {
                         result = "O K";
                         OK_Count[funCamNumber]++;
+                        DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                         if (Glob.OKImageSave)
                             ImageSave2("OK", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, TempCogDisplay[funCamNumber]);
                     });
@@ -976,6 +979,7 @@ namespace VISION
                     {
                         result = "N G";
                         NG_Count[funCamNumber]++;
+                        DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                         if (Glob.NGImageSave)
                             ImageSave2("NG", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, TempCogDisplay[funCamNumber]);
                     });
@@ -989,7 +993,6 @@ namespace VISION
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
                 log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
-                DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                 Thread.Sleep(100);
             }
             catch (Exception ee)
@@ -1027,6 +1030,7 @@ namespace VISION
                     BeginInvoke((Action)delegate
                     {
                         result = "O K";
+                        DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                         OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
                             ImageSave3("OK", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, TempCogDisplay[funCamNumber]);
@@ -1037,6 +1041,7 @@ namespace VISION
                     BeginInvoke((Action)delegate
                     {
                         result = "N G";
+                        DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                         NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
                             ImageSave3("NG", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, TempCogDisplay[funCamNumber]);
@@ -1051,7 +1056,6 @@ namespace VISION
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
                 log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
-                DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                 Thread.Sleep(100);
             }
             catch (Exception ee)
@@ -1115,6 +1119,7 @@ namespace VISION
                         BeginInvoke((Action)delegate
                         {
                             result = "N G";
+                            DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                             NG_Count[funCamNumber]++;
                             if (Glob.NGImageSave)
                                 ImageSave4("NG", funCamNumber + 1, cdy, shotNumber);
@@ -1125,13 +1130,13 @@ namespace VISION
                         BeginInvoke((Action)delegate
                         {
                             result = "O K";
+                            DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                             OK_Count[funCamNumber]++;
                             if (Glob.OKImageSave)
                                 ImageSave4("OK", funCamNumber + 1, cdy, shotNumber);
                         });
                     }
                     log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
-                    DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                     LCP_100DC(LightControl[2], "1", "f", "0000");
                     LCP_100DC(LightControl[2], "2", "f", "0000");
                 }
@@ -1196,6 +1201,7 @@ namespace VISION
                         BeginInvoke((Action)delegate
                         {
                             result = "N G";
+                            DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                             NG_Count[funCamNumber]++;
                             if (Glob.NGImageSave)
                                 ImageSave5("NG", funCamNumber + 1, cdy, shotNumber);
@@ -1206,13 +1212,13 @@ namespace VISION
                         BeginInvoke((Action)delegate
                         {
                             result = "O K";
+                            DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                             OK_Count[funCamNumber]++;
                             if (Glob.OKImageSave)
                                 ImageSave5("OK", funCamNumber + 1, cdy, shotNumber);
                         });
                     }
                     log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
-                    DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                 }
                 Thread.Sleep(100);
             }
@@ -1257,6 +1263,7 @@ namespace VISION
                     BeginInvoke((Action)delegate
                     {
                         result = "O K";
+                        DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                         OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
                             ImageSave6("OK", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, cdy);
@@ -1267,6 +1274,7 @@ namespace VISION
                     BeginInvoke((Action)delegate
                     {
                         result = "N G";
+                        DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                         NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
                             ImageSave6("NG", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, cdy);
@@ -1283,7 +1291,6 @@ namespace VISION
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
                 log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
-                DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                 Thread.Sleep(100);
             }
             catch (Exception ee)
@@ -1368,6 +1375,12 @@ namespace VISION
 
         private void btn_Status_Click(object sender, EventArgs e)
         {
+            if (frm_toolsetup != null)
+            {
+                cm.info("Tool SetUp 화면이 열려 있습니다. \n변경사항이 있으면 저장 후 Tool Set Up화면을 닫아 주세요.");
+                frm_toolsetup.BringToFront();
+                return;
+            }
             btn_Status.Enabled = false;
             btn_ToolSetUp.Enabled = false;
             btn_Model.Enabled = false;
@@ -1850,7 +1863,7 @@ namespace VISION
                 Glob.BlobResult[CameraNumber] = false;
             }
             log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
-            
+
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, "PATTERN OK"); }
             else { DisplayLabelShow(Collection2, cog, 600, 100, "PATTERN NG"); };
 
