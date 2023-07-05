@@ -517,6 +517,7 @@
     <Compile Include="Frm_SystemSetUp.Designer.cs">
       <DependentUpon>Frm_SystemSetUp.cs</DependentUpon>
     </Compile>
+    <Compile Include="frm_toolsetup1.cs" />
     <Compile Include="Information.cs">
       <SubType>Form</SubType>
     </Compile>

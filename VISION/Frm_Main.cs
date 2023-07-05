@@ -33,6 +33,7 @@ namespace VISION
         DriveInfo DriveInfo;
         private Class_Common cm { get { return Program.cm; } } //에러 메세지 보여주기.
         internal Frm_ToolSetUp frm_toolsetup; //툴셋업창 화면
+        internal Frm_SystemSetUp frm_systemsetup; //시스템셋업창 화면
         internal Frm_AnalyzeResult frm_analyzeresult;
 
         private CogImage8Grey Fiximage; //PMAlign툴의 결과이미지(픽스쳐이미지)
@@ -747,6 +748,8 @@ namespace VISION
 
         private void btn_ToolSetUp_Click(object sender, EventArgs e)
         {
+            if (FromOpenCheck(frm_toolsetup)) return;
+
             frm_toolsetup = new Frm_ToolSetUp(this);
             frm_toolsetup.Show();
         }
@@ -764,8 +767,10 @@ namespace VISION
 
         private void btn_SystemSetup_Click(object sender, EventArgs e)
         {
-            Frm_SystemSetUp FrmSystemSetUp = new Frm_SystemSetUp(this);
-            FrmSystemSetUp.Show();
+            if (FromOpenCheck(frm_systemsetup)) return;
+
+            frm_systemsetup = new Frm_SystemSetUp(this);
+            frm_systemsetup.Show();
         }
 
         private void timer_Setting_Tick(object sender, EventArgs e)
@@ -2672,6 +2677,16 @@ namespace VISION
         private void btn최소화_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
+        }
+
+        private bool FromOpenCheck(Form form)
+        {
+            if (form != null)
+            {
+                form.BringToFront();
+                return true;
+            }
+            return false;
         }
     }
 }
