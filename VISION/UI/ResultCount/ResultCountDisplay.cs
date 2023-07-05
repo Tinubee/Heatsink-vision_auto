@@ -1,10 +1,12 @@
 ﻿using KimLib;
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -115,6 +117,11 @@ namespace VISION.UI
         {
             if (MessageBox.Show("검사결과 수량을 초기화 하시겠습니까?", "EXIT", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 return;
+            Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"OK : {Glob.G_MainForm.AllOK_Count}");
+            Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"NG : {Glob.G_MainForm.AllNG_Count}");
+            Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"NG - 1 : {Glob.G_MainForm.AllNG_1_Count}");
+            Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"NG - 2 : {Glob.G_MainForm.AllNG_2_Count}");
+            Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"TOTAL : {Glob.G_MainForm.AllTotal_Count}");
 
             Glob.G_MainForm.AllOK_Count = 0;
             Glob.G_MainForm.AllNG_Count = 0;
@@ -124,9 +131,15 @@ namespace VISION.UI
 
             for (int lop = 0; lop < 6; lop++)
             {
+                Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"CAM - {lop + 1} OK : {Glob.G_MainForm.OK_Count[lop]}");
+                Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"CAM - {lop + 1} NG : {Glob.G_MainForm.NG_Count[lop]}");
+                Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"CAM - {lop + 1} TOTAL : {Glob.G_MainForm.TOTAL_Count[lop]}");
+
                 Glob.G_MainForm.OK_Count[lop] = 0;
                 Glob.G_MainForm.NG_Count[lop] = 0;
             }
+
+            Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
         }
     }
 }

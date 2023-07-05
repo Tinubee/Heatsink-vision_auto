@@ -750,11 +750,12 @@ namespace VISION
             frm_toolsetup = new Frm_ToolSetUp(this);
             frm_toolsetup.Show();
         }
-        private void btn_Exit_Click(object sender, EventArgs e)
+        private void 프로그램종료_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("프로그램을 종료 하시겠습니까?", "EXIT", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 return;
 
+            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name}");
             INIControl setting = new INIControl(Glob.SETTING);
             DateTime dt = DateTime.Now;
             setting.WriteData("Exit Date", "Date", dt.ToString("yyyyMMdd"));
