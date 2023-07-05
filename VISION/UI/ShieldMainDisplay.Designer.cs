@@ -90,9 +90,9 @@
             this.tableLayoutPanel20.Name = "tableLayoutPanel20";
             this.tableLayoutPanel20.RowCount = 1;
             this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 937F));
-            this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 937F));
-            this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 937F));
+            this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 943F));
+            this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 943F));
+            this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 943F));
             this.tableLayoutPanel20.Size = new System.Drawing.Size(1214, 944);
             this.tableLayoutPanel20.TabIndex = 0;
             // 
@@ -158,8 +158,10 @@
             // lb_Cam6_Result
             // 
             this.lb_Cam6_Result.AutoSize = true;
+            this.lb_Cam6_Result.BackColor = System.Drawing.Color.Black;
             this.lb_Cam6_Result.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lb_Cam6_Result.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lb_Cam6_Result.ForeColor = System.Drawing.Color.White;
             this.lb_Cam6_Result.Location = new System.Drawing.Point(190, 1);
             this.lb_Cam6_Result.Name = "lb_Cam6_Result";
             this.lb_Cam6_Result.Size = new System.Drawing.Size(457, 44);
@@ -190,7 +192,7 @@
             this.lb_Cam6_InsTime.Name = "lb_Cam6_InsTime";
             this.lb_Cam6_InsTime.Size = new System.Drawing.Size(272, 44);
             this.lb_Cam6_InsTime.TabIndex = 2;
-            this.lb_Cam6_InsTime.Text = "label27";
+            this.lb_Cam6_InsTime.Text = "0msec";
             this.lb_Cam6_InsTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel1
@@ -357,7 +359,7 @@
             this.lb_Cam1_InsTime.Name = "lb_Cam1_InsTime";
             this.lb_Cam1_InsTime.Size = new System.Drawing.Size(166, 45);
             this.lb_Cam1_InsTime.TabIndex = 3;
-            this.lb_Cam1_InsTime.Text = "label21";
+            this.lb_Cam1_InsTime.Text = "0msec";
             this.lb_Cam1_InsTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ShieldMainDisplay

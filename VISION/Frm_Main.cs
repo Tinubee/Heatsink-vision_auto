@@ -814,14 +814,16 @@ namespace VISION
             {
                 if (Model == "shield")
                 {
-                    lb개별카메라검사결과[camNumber].BackColor = Color.Lime;
+                    lb개별카메라검사결과[camNumber].BackColor = Result == "O K" ? Color.Lime : Color.Red;
                     lb개별카메라검사결과[camNumber].Text = Result;
+                    lb개별카메라검사결과[camNumber].ForeColor = Color.White;
                     lb검사시간[camNumber].Text = InspectTime[camNumber].ElapsedMilliseconds.ToString() + "msec";
                 }
                 else
                 {
-                    lb개별카메라검사결과[camNumber].BackColor = Color.Lime;
+                    lb개별카메라검사결과[camNumber].BackColor = Result == "O K" ? Color.Lime : Color.Red;
                     lb개별카메라검사결과[camNumber].Text = Result;
+                    lb개별카메라검사결과[camNumber].ForeColor = Color.White;
                     lb검사시간[camNumber].Text = InspectTime[camNumber].ElapsedMilliseconds.ToString() + "msec";
                 }
             }
@@ -879,7 +881,6 @@ namespace VISION
                     {
                         ScratchErrorSet();
                     }
-
                 }
 
                 InspectTime[funCamNumber].Stop();
