@@ -238,7 +238,6 @@ namespace VISION
                 {
 
                 }
-                Main.LightOFF();
                 GC.Collect();
                 Dispose();
                 Close();
@@ -246,7 +245,6 @@ namespace VISION
             catch (Exception ee)
             {
                 cm.info(ee.Message);
-                Main.LightOFF();
                 GC.Collect();
                 Dispose();
                 Close();
@@ -270,7 +268,6 @@ namespace VISION
             if (TempMulti[Glob.CamNumber, 0].Run((CogImage8Grey)cdyDisplay.Image) == true)
             {
                 Fiximage = TempModel.FixtureImage((CogImage8Grey)cdyDisplay.Image, TempMulti[Glob.CamNumber, 0].ResultPoint(TempMulti[Glob.CamNumber, 0].HighestResultToolNumber()), TempMulti[Glob.CamNumber, 0].ToolName(), Glob.CamNumber, out FimageSpace, TempMulti[Glob.CamNumber, 0].HighestResultToolNumber(), Glob.InspectOrder);
-                //cdyDisplay.Image = Fiximage;
             }
         }
 
@@ -296,7 +293,6 @@ namespace VISION
                 Fiximage = TempModel.LINE_FixtureImage((CogImage8Grey)cdyDisplay.Image, TempMulti[Glob.CamNumber, toolnumber].ResultPoint(TempMulti[Glob.CamNumber, toolnumber].HighestResultToolNumber()), TempMulti[Glob.CamNumber, toolnumber].ToolName(), Glob.CamNumber, toolnumber, out FimageSpace, TempMulti[Glob.CamNumber, toolnumber].HighestResultToolNumber());
             }
         }
-
         private void ImageClear()
         {
             cdyDisplay.StaticGraphics.Clear();

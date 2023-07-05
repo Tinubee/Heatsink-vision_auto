@@ -31,6 +31,7 @@ namespace VISION
     public partial class Frm_Main : Form
     {
         public KimLib.Log log = new KimLib.Log();
+        DriveInfo DriveInfo;
         private Class_Common cm { get { return Program.cm; } } //에러 메세지 보여주기.
         internal Frm_ToolSetUp frm_toolsetup; //툴셋업창 화면
         internal Frm_AnalyzeResult frm_analyzeresult;
@@ -79,7 +80,6 @@ namespace VISION
 
         private PGgloble Glob; //전역변수 - CLASS "PGgloble" 참고.
 
-        public bool LightStats = false; //조명 상태
         public bool[] InspectResult = new bool[6]; //검사결과.
         public bool Modelchange = false; //모델체인지
 
@@ -700,11 +700,41 @@ namespace VISION
                 Glob.OKImageSave = setting.ReadData("SYSTEM", "OK IMAGE SAVE", true) == "1" ? true : false;
                 Glob.NGImageSave = setting.ReadData("SYSTEM", "NG IMAGE SAVE", true) == "1" ? true : false;
                 Glob.NGContainUIImageSave = setting.ReadData("SYSTEM", "NG CONTAIN UI IMAGE SAVE", true) == "1" ? true : false;
+
+                DriveInfo = new DriveInfo(Path.GetPathRoot(Glob.ImageSaveRoot));
             }
             catch (Exception ee)
             {
                 log.AddLogMessage(LogType.Error, 0, $"{ee.Message}");
             }
+        }
+
+        private void DisplayDiskCapacity()
+        {
+            long availableCapacityBytes = DriveInfo.AvailableFreeSpace;
+            double availableCapacityGB = availableCapacityBytes / (1024 * 1024 * 1024); // Convert bytes to GB
+            int usedPercent = 100 - (int)((availableCapacityBytes * 100) / DriveInfo.TotalSize);
+
+            lb저장공간.Text = $"{FormatSize(DriveInfo.TotalSize)} 중 {availableCapacityGB}GB 사용 가능";
+            lb저장공간.ForeColor = usedPercent > 80 ? Color.Tomato : usedPercent > 50 ? Color.Gold : Color.Lime; 
+
+            // Update the progress bar value
+            pb저장공간.Value = usedPercent;
+        }
+
+        private string FormatSize(long bytes)
+        {
+            string[] sizes = { "B", "KB", "MB", "GB", "TB" };
+            double size = bytes;
+            int i = 0;
+
+            while (size >= 1024 && i < sizes.Length - 1)
+            {
+                size /= 1024;
+                i++;
+            }
+
+            return $"{size:0}{sizes[i]}";
         }
 
         private void btn_ToolSetUp_Click(object sender, EventArgs e)
@@ -735,6 +765,7 @@ namespace VISION
             lb_Time.Text = dt.ToString("yyyy년 MM월 dd일 HH:mm:ss"); //현재날짜
             lb_CurruntModelName.Text = Glob.RunnModel.Modelname(); //현재사용중인 모델명 체크
             Glob.CurruntModelName = Glob.RunnModel.Modelname();
+            DisplayDiskCapacity();
         }
 
         public void ScratchErrorInit()
@@ -1311,10 +1342,7 @@ namespace VISION
         {
             this.IO_DoWork = false;
             this.ResultCountDisplay.timer1.Dispose();
-            if (LightStats == true)
-            {
-                LightOFF();
-            }
+        
             for (int i = 0; i < TempCam.Count(); i++)
             {
                 TempCam[i].Close();
@@ -2532,35 +2560,6 @@ namespace VISION
             //MODEL FORM 열기.
             Frm_Model frm_model = new Frm_Model(Glob.RunnModel.Modelname(), this);
             frm_model.Show();
-        }
-
-        public void LightON()
-        {
-            if (LightControl1.IsOpen == false)
-            {
-                return;
-            }
-            LightStats = true;
-            string LightValue = string.Format("{0:D3}", 255);
-            string LightValue2 = string.Format("{0:D3}", 255);
-            LightValue = ":L" + 1 + LightValue + "\r\n";
-            LightValue2 = ":L" + 2 + LightValue2 + "\r\n";
-            LightControl1.Write(LightValue.ToCharArray(), 0, LightValue.ToCharArray().Length);
-            LightControl1.Write(LightValue2.ToCharArray(), 0, LightValue2.ToCharArray().Length);
-        }
-        public void LightOFF()
-        {
-            if (LightControl1.IsOpen == false)
-            {
-                return;
-            }
-            LightStats = false;
-            string LightValue = string.Format("{0:D3}", 0);
-            string LightValue2 = string.Format("{0:D3}", 0);
-            LightValue = ":L" + 1 + LightValue + "\r\n";
-            LightValue2 = ":L" + 2 + LightValue2 + "\r\n";
-            LightControl1.Write(LightValue.ToCharArray(), 0, LightValue.ToCharArray().Length);
-            LightControl1.Write(LightValue2.ToCharArray(), 0, LightValue2.ToCharArray().Length);
         }
 
         private void Frm_Main_KeyDown(object sender, KeyEventArgs e)

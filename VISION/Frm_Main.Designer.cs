@@ -50,6 +50,9 @@
             this.btn_Status = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.pb저장공간 = new System.Windows.Forms.ProgressBar();
+            this.lb저장공간 = new System.Windows.Forms.Label();
             this.timer_Setting = new System.Windows.Forms.Timer(this.components);
             this.LightControl1 = new System.IO.Ports.SerialPort(this.components);
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -94,6 +97,7 @@
             this.tlpTopSide.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.tableLayoutPanel5.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -299,6 +303,7 @@
             this.tlpTopSide.Controls.Add(this.btn_Status, 5, 0);
             this.tlpTopSide.Controls.Add(this.pictureBox1, 0, 0);
             this.tlpTopSide.Controls.Add(this.label1, 2, 0);
+            this.tlpTopSide.Controls.Add(this.tableLayoutPanel5, 3, 0);
             this.tlpTopSide.Dock = System.Windows.Forms.DockStyle.Top;
             this.tlpTopSide.Location = new System.Drawing.Point(0, 0);
             this.tlpTopSide.Margin = new System.Windows.Forms.Padding(0);
@@ -314,9 +319,10 @@
             this.lb_CurruntModelName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.lb_CurruntModelName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lb_CurruntModelName.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_CurruntModelName.Location = new System.Drawing.Point(1367, 1);
+            this.lb_CurruntModelName.Location = new System.Drawing.Point(1364, 1);
+            this.lb_CurruntModelName.Margin = new System.Windows.Forms.Padding(0);
             this.lb_CurruntModelName.Name = "lb_CurruntModelName";
-            this.lb_CurruntModelName.Size = new System.Drawing.Size(183, 75);
+            this.lb_CurruntModelName.Size = new System.Drawing.Size(189, 75);
             this.lb_CurruntModelName.TabIndex = 1;
             this.lb_CurruntModelName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -343,9 +349,10 @@
             this.lb_Time.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lb_Time.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lb_Time.ForeColor = System.Drawing.Color.White;
-            this.lb_Time.Location = new System.Drawing.Point(3, 0);
+            this.lb_Time.Location = new System.Drawing.Point(0, 0);
+            this.lb_Time.Margin = new System.Windows.Forms.Padding(0);
             this.lb_Time.Name = "lb_Time";
-            this.lb_Time.Size = new System.Drawing.Size(239, 37);
+            this.lb_Time.Size = new System.Drawing.Size(245, 37);
             this.lb_Time.TabIndex = 0;
             this.lb_Time.Text = "0000-00-00 오전 00:00:00";
             this.lb_Time.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -357,9 +364,10 @@
             this.lb_Ver.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lb_Ver.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lb_Ver.ForeColor = System.Drawing.Color.White;
-            this.lb_Ver.Location = new System.Drawing.Point(3, 37);
+            this.lb_Ver.Location = new System.Drawing.Point(0, 37);
+            this.lb_Ver.Margin = new System.Windows.Forms.Padding(0);
             this.lb_Ver.Name = "lb_Ver";
-            this.lb_Ver.Size = new System.Drawing.Size(239, 38);
+            this.lb_Ver.Size = new System.Drawing.Size(245, 38);
             this.lb_Ver.TabIndex = 4;
             this.lb_Ver.Text = "Ver. 1.0.0";
             this.lb_Ver.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -424,12 +432,53 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Font = new System.Drawing.Font("맑은 고딕", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(496, 1);
+            this.label1.Location = new System.Drawing.Point(493, 1);
+            this.label1.Margin = new System.Windows.Forms.Padding(0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(590, 75);
+            this.label1.Size = new System.Drawing.Size(596, 75);
             this.label1.TabIndex = 11;
             this.label1.Text = "HeatSink Vision Program";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.ColumnCount = 1;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.Controls.Add(this.pb저장공간, 0, 1);
+            this.tableLayoutPanel5.Controls.Add(this.lb저장공간, 0, 0);
+            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(1090, 1);
+            this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 2;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(273, 75);
+            this.tableLayoutPanel5.TabIndex = 12;
+            // 
+            // pb저장공간
+            // 
+            this.pb저장공간.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pb저장공간.Location = new System.Drawing.Point(0, 37);
+            this.pb저장공간.Margin = new System.Windows.Forms.Padding(0);
+            this.pb저장공간.Name = "pb저장공간";
+            this.pb저장공간.Size = new System.Drawing.Size(273, 38);
+            this.pb저장공간.TabIndex = 0;
+            this.pb저장공간.Value = 50;
+            // 
+            // lb저장공간
+            // 
+            this.lb저장공간.AutoSize = true;
+            this.lb저장공간.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lb저장공간.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lb저장공간.ForeColor = System.Drawing.Color.Lime;
+            this.lb저장공간.Location = new System.Drawing.Point(0, 0);
+            this.lb저장공간.Margin = new System.Windows.Forms.Padding(0);
+            this.lb저장공간.Name = "lb저장공간";
+            this.lb저장공간.Size = new System.Drawing.Size(273, 37);
+            this.lb저장공간.TabIndex = 1;
+            this.lb저장공간.Text = "9999GB 중 9999GB 사용 가능";
+            this.lb저장공간.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // timer_Setting
             // 
@@ -1019,6 +1068,8 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.tableLayoutPanel5.ResumeLayout(false);
+            this.tableLayoutPanel5.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
@@ -1090,6 +1141,9 @@
         public System.Windows.Forms.Button btn_INPUT11;
         private System.Windows.Forms.CheckBox btn_OUTPUT6;
         private System.Windows.Forms.CheckBox btn_OUTPUT11;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.ProgressBar pb저장공간;
+        private System.Windows.Forms.Label lb저장공간;
     }
 }
 
