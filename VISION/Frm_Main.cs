@@ -126,7 +126,7 @@ namespace VISION
 
         private string[] IOModel = new string[2];
         private Button[] inputBtn;
-        private System.Windows.Forms.CheckBox[] outputBtn;
+        private CheckBox[] outputBtn;
 
         public readonly static uint INFINITE = 0xFFFFFFFF;
         public readonly static uint STATUS_WAIT_0 = 0x00000000;
@@ -149,16 +149,10 @@ namespace VISION
             Glob = PGgloble.getInstance; //전역변수 사용
             Process.Start($"{Glob.LOADINGFROM}");
             InitializeComponent();
-            ColumnHeader h = new ColumnHeader();
-            LightControl = new SerialPort[4] { LightControl1, LightControl2, LightControl3, LightControl4 };
             StandFirst();
             CamSet();
             Glob.RunnModel = new Model(); //코그넥스 모델 확인.
             Glob.G_MainForm = this;
-
-            // 최종 트리거 시간 초기화
-            for (Int32 i = 0; i < this.TrigTime.Length; i++)
-                this.TrigTime[i] = DateTime.Today;
         }
         public void StandFirst()
         {
@@ -170,6 +164,10 @@ namespace VISION
             Glob.DataSaveRoot = setting.ReadData("SYSTEM", "Data Save Root"); //데이터 저장 경로
             log.InitializeLog($"{Glob.DataSaveRoot}\\Log");
             log.OnLogEvent += Log_OnLogEvent;
+            LightControl = new SerialPort[4] { LightControl1, LightControl2, LightControl3, LightControl4 };
+            // 최종 트리거 시간 초기화
+            for (Int32 i = 0; i < this.TrigTime.Length; i++)
+                this.TrigTime[i] = DateTime.Today;
         }
         public void Log_OnLogEvent(object sender, LogItem e)
         {
@@ -181,14 +179,12 @@ namespace VISION
             LoadSetup(); //프로그램 셋팅 로드.
             timer_Setting.Start(); //타이머에서 계속해서 확인하는 것들
             Initialize_LightControl(); //조명컨틀로 초기화
-            //GeniCam 설정
-            Initialize_GeniCam();
-            //Camfile 셋팅.
-            Set_GeniCam(Glob.CurruntModelName);
+            Initialize_GeniCam(); //GeniCam 설정
+            Set_GeniCam(Glob.CurruntModelName); //Camfile 셋팅.
             CognexModelLoad(); //코그넥스 모델 로드.
-            DigitalIO_Load();//IO Load
-            SelectModule();
-            AllCameraOneShot();
+            DigitalIO_Load(); //IO Load
+            SelectModule(); //IO Board Module Select
+            AllCameraOneShot(); //All Camera One Shot.
             log.AddLogMessage(LogType.Infomation, 0, "Vision Program Start");
             Process[] myProcesses = Process.GetProcessesByName("LoadingForm_KHM"); //로딩폼 죽이기.
             if (myProcesses.LongLength > 0)
@@ -331,7 +327,7 @@ namespace VISION
             {
                 log.AddLogMessage(LogType.Error, 0, error.Message);
             }
-            catch (System.Exception error)
+            catch (Exception error)
             {
                 log.AddLogMessage(LogType.Error, 0, error.Message);
                 return;
@@ -662,10 +658,7 @@ namespace VISION
             try
             {
                 tabPage5.Controls.Add(ResultCountDisplay);
-                //MainPanel.Controls.Add(HeatSinkMainDisplay);
-                //HeatSinkMainDisplay.Dock = DockStyle.Fill;
                 ResultCountDisplay.Dock = DockStyle.Fill;
-                //TempCogDisplay = new CogDisplay[6] { HeatSinkMainDisplay.cdyDisplay, HeatSinkMainDisplay.cdyDisplay2, HeatSinkMainDisplay.cdyDisplay3, HeatSinkMainDisplay.cdyDisplay4, HeatSinkMainDisplay.cdyDisplay5, HeatSinkMainDisplay.cdyDisplay6 };
 
                 INIControl Modellist = new INIControl(Glob.MODELLIST); ;
                 INIControl CFGFILE = new INIControl(Glob.CONFIGFILE); ;
@@ -673,8 +666,7 @@ namespace VISION
                 INIControl setting = new INIControl(Glob.SETTING);
                 string LastModel = CFGFILE.ReadData("LASTMODEL", "NAME"); //마지막 사용모델 확인.
                 Glob.CurruntModelName = LastModel;
-                //확인 필요. - LastModel Name 변수에 들어오는 String값 확인하기.
-                MainUIDisplaySetting(Glob.CurruntModelName);
+                MainUIDisplaySetting(Glob.CurruntModelName); //MainUIDisplay Setting.
                 INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{LastModel}\\CamSet.ini");
                 for (int i = 0; i < camcount; i++)
                 {
@@ -799,7 +791,7 @@ namespace VISION
             {
                 lb최종결과[lop].Text = $"{lop + 1}-{res[lop]}";
                 lb최종결과[lop].ForeColor = res[lop] == "OK" ? Color.Lime : Color.Red;
-                if(lop == 1)
+                if (lop == 1)
                 {
                     AllOK_Count = (!스크레치검사결과 && !패턴블롭검사결과) ? AllOK_Count++ : AllOK_Count;
                     AllNG_1_Count = (스크레치검사결과 && !패턴블롭검사결과) ? AllNG_1_Count++ : AllNG_1_Count;
@@ -1361,7 +1353,6 @@ namespace VISION
         }
         public void CognexModelLoad()
         {
-            Glob = PGgloble.getInstance;
             TempModel = Glob.RunnModel;
             TempLines = TempModel.Line();
             TempLineEnable = TempModel.LineEnables();
@@ -2626,6 +2617,8 @@ namespace VISION
         {
             try
             {
+                if (cdy == null) return;
+
                 if (camNumber == 1 || camNumber == 2 || camNumber == 5)
                 {
                     Glob.FlipImageTool[camNumber].InputImage = TempCam[camNumber].Run();
@@ -2649,7 +2642,7 @@ namespace VISION
         {
             try
             {
-                HeatSinkMainDisplay.cdyDisplay.Image = TempCam[0].Run();
+                TempCogDisplay[0].Image = TempCam[0].Run();
             }
             catch (Exception ex)
             {
@@ -2765,7 +2758,7 @@ namespace VISION
                                 {
 
                                     log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
-                                    Task.Run(() => { ShotAndInspect_Cam4(HeatSinkMainDisplay.cdyDisplay4, 1); });
+                                    Task.Run(() => { ShotAndInspect_Cam4(TempCogDisplay[3], 1); });
                                 }
                                 break;
                             case 3: //4번촬영
@@ -2786,7 +2779,7 @@ namespace VISION
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
                                     log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
-                                    Task.Run(() => { ShotAndInspect_Cam5(HeatSinkMainDisplay.cdyDisplay5, 1); });
+                                    Task.Run(() => { ShotAndInspect_Cam5(TempCogDisplay[4], 1); });
                                 }
                                 break;
                             case 6: //5번촬영
@@ -2798,7 +2791,7 @@ namespace VISION
                                 break;
                             case 7://6번촬영
                                 log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i}");
-                                Task.Run(() => { ShotAndInspect_Cam6(HeatSinkMainDisplay.cdyDisplay6, 1); });
+                                Task.Run(() => { ShotAndInspect_Cam6(TempCogDisplay[5], 1); });
                                 break;
                             case 8:
                                 //조명 켜주기.
@@ -2877,12 +2870,10 @@ namespace VISION
 
         private void AllCameraOneShot()
         {
-            SnapShot1();
-            SnapShot2();
-            SnapShot3();
-            SnapShot4();
-            SnapShot5();
-            SnapShot6();
+            for (int lop = 0; lop < camcount; lop++)
+            {
+                SnapShot(lop, TempCogDisplay[lop]);
+            }
         }
     }
 }
