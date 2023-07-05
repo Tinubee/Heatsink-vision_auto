@@ -75,6 +75,7 @@ namespace VISION.UI
                 double totalCount = Glob.G_MainForm.AllTotal_Count;
 
                 allResultCountDisplay.lb_OK.Text = okCount.ToString();
+                allResultCountDisplay.lb_NG.Text = ngCount.ToString();
                 allResultCountDisplay.lb_1_NG.Text = ng1Count.ToString();
                 allResultCountDisplay.lb_2_NG.Text = ng2Count.ToString();
                 allResultCountDisplay.lb_TOTAL.Text = totalCount.ToString();
