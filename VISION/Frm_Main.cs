@@ -706,6 +706,7 @@ namespace VISION
                 log.AddLogMessage(LogType.Error, 0, $"{ee.Message}");
             }
         }
+
         private void btn_ToolSetUp_Click(object sender, EventArgs e)
         {
             frm_toolsetup = new Frm_ToolSetUp(this);
@@ -1507,12 +1508,6 @@ namespace VISION
             return 0;
         }
 
-        public void BlobMaskAreaSetting(CogDisplay cog, int CameraNumber, int toolnum)
-        {
-            //TempMask[CameraNumber].Run((CogImage8Grey)cog.Image); //MaskTool Run
-            //TempBlobs[Glob.CamNumber, toolnum].MaskAreaSet(TempMask[CameraNumber].MaskArea()); //검사 제외영역 입력.
-        }
-
         #region Inpection CAM0 
         public bool Inspect_Cam0(CogDisplay cog, int shotNumber)
         {
@@ -1561,7 +1556,6 @@ namespace VISION
                 {
                     Bolb_Train1(cog, CameraNumber, TempBlobFixPatternNumber[CameraNumber, toolnum]);
                     TempBlobs[CameraNumber, toolnum].Area_Affine_Main1(ref cog, (CogImage8Grey)cog.Image, TempBlobFixPatternNumber[CameraNumber, toolnum].ToString());
-                    BlobMaskAreaSetting(cog, CameraNumber, toolnum);
                 }
             }
             //******************************Blob Tool Run******************************//
@@ -1651,7 +1645,6 @@ namespace VISION
                 {
                     Bolb_Train2(cog, CameraNumber, TempBlobFixPatternNumber[CameraNumber, toolnum]);
                     TempBlobs[CameraNumber, toolnum].Area_Affine_Main2(ref cog, (CogImage8Grey)cog.Image, TempBlobFixPatternNumber[CameraNumber, toolnum].ToString());
-                    BlobMaskAreaSetting(cog, CameraNumber, toolnum);
                 }
             }
             //******************************Blob Tool Run******************************//
@@ -1810,7 +1803,6 @@ namespace VISION
                 {
                     Bolb_Train3(cog, CameraNumber, TempBlobFixPatternNumber[CameraNumber, toolnum]);
                     TempBlobs[CameraNumber, toolnum].Area_Affine_Main3(ref cog, (CogImage8Grey)cog.Image, TempBlobFixPatternNumber[CameraNumber, toolnum].ToString());
-                    BlobMaskAreaSetting(cog, CameraNumber, toolnum);
                 }
             }
             //******************************Blob Tool Run******************************//
@@ -1951,7 +1943,6 @@ namespace VISION
                 {
                     Bolb_Train4(cog, CameraNumber, TempBlobFixPatternNumber[CameraNumber, toolnum]);
                     TempBlobs[CameraNumber, toolnum].Area_Affine_Main4(ref cog, (CogImage8Grey)cog.Image, TempBlobFixPatternNumber[CameraNumber, toolnum].ToString());
-                    BlobMaskAreaSetting(cog, CameraNumber, toolnum);
                 }
             }
             //******************************Blob Tool Run******************************//
@@ -2089,7 +2080,6 @@ namespace VISION
                 {
                     Bolb_Train5(cog, CameraNumber, TempBlobFixPatternNumber[CameraNumber, toolnum]);
                     TempBlobs[CameraNumber, toolnum].Area_Affine_Main5(ref cog, (CogImage8Grey)cog.Image, TempBlobFixPatternNumber[CameraNumber, toolnum].ToString());
-                    BlobMaskAreaSetting(cog, CameraNumber, toolnum);
                 }
             }
             //******************************Blob Tool Run******************************//
@@ -2178,7 +2168,6 @@ namespace VISION
                 {
                     Bolb_Train6(cog, CameraNumber, TempBlobFixPatternNumber[CameraNumber, toolnum]);
                     TempBlobs[CameraNumber, toolnum].Area_Affine_Main6(ref cog, (CogImage8Grey)cog.Image, TempBlobFixPatternNumber[CameraNumber, toolnum].ToString());
-                    BlobMaskAreaSetting(cog, CameraNumber, toolnum);
                 }
             }
             //******************************Blob Tool Run******************************//
@@ -2361,7 +2350,7 @@ namespace VISION
                     {
                         Directory.CreateDirectory(Root2);
                     }
-                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}.bmp", ImageFormat.Jpeg);
                 }
             }
             catch (Exception ee)
@@ -2391,7 +2380,7 @@ namespace VISION
                     {
                         Directory.CreateDirectory(Root2);
                     }
-                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}.bmp", ImageFormat.Jpeg);
                 }
             }
             catch (Exception ee)
@@ -2403,7 +2392,7 @@ namespace VISION
         {
             try
             {
-                CogImageFileJPEG ImageSave = new Cognex.VisionPro.ImageFile.CogImageFileJPEG();
+                CogImageFileJPEG ImageSave = new CogImageFileJPEG();
                 DateTime dt = DateTime.Now;
                 string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}";
 
@@ -2421,7 +2410,7 @@ namespace VISION
                     {
                         Directory.CreateDirectory(Root2);
                     }
-                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}.bmp", ImageFormat.Jpeg);
                 }
             }
             catch (Exception ee)
@@ -2433,7 +2422,7 @@ namespace VISION
         {
             try
             {
-                CogImageFileJPEG ImageSave = new Cognex.VisionPro.ImageFile.CogImageFileJPEG();
+                CogImageFileJPEG ImageSave = new CogImageFileJPEG();
                 DateTime dt = DateTime.Now;
                 string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{shotNumber}\{Result}";
 
@@ -2451,7 +2440,7 @@ namespace VISION
                     {
                         Directory.CreateDirectory(Root2);
                     }
-                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}.bmp", ImageFormat.Jpeg);
                 }
             }
             catch (Exception ee)
@@ -2463,7 +2452,7 @@ namespace VISION
         {
             try
             {
-                CogImageFileJPEG ImageSave = new Cognex.VisionPro.ImageFile.CogImageFileJPEG();
+                CogImageFileJPEG ImageSave = new CogImageFileJPEG();
                 DateTime dt = DateTime.Now;
                 string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{shotNumber}\{Result}";
 
@@ -2481,7 +2470,7 @@ namespace VISION
                     {
                         Directory.CreateDirectory(Root2);
                     }
-                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}.bmp", ImageFormat.Jpeg);
                 }
             }
             catch (Exception ee)
@@ -2514,7 +2503,7 @@ namespace VISION
                     {
                         Directory.CreateDirectory(Root2);
                     }
-                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}", ImageFormat.Jpeg);
+                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}.bmp", ImageFormat.Jpeg);
                 }
             }
             catch (Exception ee)
