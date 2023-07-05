@@ -39,9 +39,9 @@
             this.label20 = new System.Windows.Forms.Label();
             this.lb_OK = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel27 = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.lb_NG = new System.Windows.Forms.Label();
+            this.tableLayoutPanel27 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel16.SuspendLayout();
             this.tableLayoutPanel27.SuspendLayout();
             this.SuspendLayout();
@@ -219,6 +219,34 @@
             this.label17.Text = "OK";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label2.ForeColor = System.Drawing.Color.Red;
+            this.label2.Location = new System.Drawing.Point(1, 138);
+            this.label2.Margin = new System.Windows.Forms.Padding(0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(78, 136);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "NG";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lb_NG
+            // 
+            this.lb_NG.AutoSize = true;
+            this.lb_NG.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lb_NG.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lb_NG.ForeColor = System.Drawing.Color.Red;
+            this.lb_NG.Location = new System.Drawing.Point(80, 138);
+            this.lb_NG.Margin = new System.Windows.Forms.Padding(0);
+            this.lb_NG.Name = "lb_NG";
+            this.lb_NG.Size = new System.Drawing.Size(185, 136);
+            this.lb_NG.TabIndex = 11;
+            this.lb_NG.Text = "0";
+            this.lb_NG.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // tableLayoutPanel27
             // 
             this.tableLayoutPanel27.BackColor = System.Drawing.Color.Black;
@@ -238,34 +266,6 @@
             this.tableLayoutPanel27.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel27.Size = new System.Drawing.Size(274, 832);
             this.tableLayoutPanel27.TabIndex = 2;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(1, 138);
-            this.label2.Margin = new System.Windows.Forms.Padding(0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 136);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "NG";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lb_NG
-            // 
-            this.lb_NG.AutoSize = true;
-            this.lb_NG.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lb_NG.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_NG.ForeColor = System.Drawing.Color.Red;
-            this.lb_NG.Location = new System.Drawing.Point(80, 138);
-            this.lb_NG.Margin = new System.Windows.Forms.Padding(0);
-            this.lb_NG.Name = "lb_NG";
-            this.lb_NG.Size = new System.Drawing.Size(185, 136);
-            this.lb_NG.TabIndex = 11;
-            this.lb_NG.Text = "0";
-            this.lb_NG.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // AllResultCount
             // 

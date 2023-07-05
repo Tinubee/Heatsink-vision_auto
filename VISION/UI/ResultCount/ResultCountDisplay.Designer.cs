@@ -119,13 +119,15 @@
             // 
             // b수량초기화
             // 
+            this.b수량초기화.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.b수량초기화.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.b수량초기화.Image = global::VISION.Properties.Resources.Recycle;
+            this.b수량초기화.Image = global::VISION.Properties.Resources.Reset;
+            this.b수량초기화.ImageLocation = "";
             this.b수량초기화.Location = new System.Drawing.Point(228, 0);
             this.b수량초기화.Margin = new System.Windows.Forms.Padding(0);
             this.b수량초기화.Name = "b수량초기화";
             this.b수량초기화.Size = new System.Drawing.Size(46, 43);
-            this.b수량초기화.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.b수량초기화.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.b수량초기화.TabIndex = 2;
             this.b수량초기화.TabStop = false;
             this.b수량초기화.Click += new System.EventHandler(this.b수량초기화_Click);
