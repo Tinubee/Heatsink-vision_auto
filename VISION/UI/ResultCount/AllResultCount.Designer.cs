@@ -29,17 +29,17 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
-            this.label17 = new System.Windows.Forms.Label();
-            this.lb_OK = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.lb_1_NG = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.lb_TOTAL = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.lb_NGRATE = new System.Windows.Forms.Label();
-            this.tableLayoutPanel27 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
             this.lb_2_NG = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lb_NGRATE = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.lb_TOTAL = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.lb_1_NG = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.lb_OK = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel27 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel16.SuspendLayout();
             this.tableLayoutPanel27.SuspendLayout();
             this.SuspendLayout();
@@ -73,89 +73,47 @@
             this.tableLayoutPanel16.Size = new System.Drawing.Size(266, 824);
             this.tableLayoutPanel16.TabIndex = 6;
             // 
-            // label17
+            // lb_2_NG
             // 
-            this.label17.AutoSize = true;
-            this.label17.BackColor = System.Drawing.Color.Black;
-            this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label17.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label17.ForeColor = System.Drawing.Color.Lime;
-            this.label17.Location = new System.Drawing.Point(4, 1);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(72, 163);
-            this.label17.TabIndex = 0;
-            this.label17.Text = "OK";
-            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lb_2_NG.AutoSize = true;
+            this.lb_2_NG.BackColor = System.Drawing.Color.Black;
+            this.lb_2_NG.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lb_2_NG.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lb_2_NG.ForeColor = System.Drawing.Color.Red;
+            this.lb_2_NG.Location = new System.Drawing.Point(83, 329);
+            this.lb_2_NG.Name = "lb_2_NG";
+            this.lb_2_NG.Size = new System.Drawing.Size(179, 163);
+            this.lb_2_NG.TabIndex = 9;
+            this.lb_2_NG.Text = "0";
+            this.lb_2_NG.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lb_OK
+            // label1
             // 
-            this.lb_OK.AutoSize = true;
-            this.lb_OK.BackColor = System.Drawing.Color.Black;
-            this.lb_OK.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lb_OK.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_OK.ForeColor = System.Drawing.Color.Lime;
-            this.lb_OK.Location = new System.Drawing.Point(83, 1);
-            this.lb_OK.Name = "lb_OK";
-            this.lb_OK.Size = new System.Drawing.Size(179, 163);
-            this.lb_OK.TabIndex = 1;
-            this.lb_OK.Text = "0";
-            this.lb_OK.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Black;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label1.ForeColor = System.Drawing.Color.Red;
+            this.label1.Location = new System.Drawing.Point(4, 329);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(72, 163);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "2 - NG";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label20
+            // lb_NGRATE
             // 
-            this.label20.AutoSize = true;
-            this.label20.BackColor = System.Drawing.Color.Black;
-            this.label20.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label20.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label20.ForeColor = System.Drawing.Color.Red;
-            this.label20.Location = new System.Drawing.Point(4, 165);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(72, 163);
-            this.label20.TabIndex = 2;
-            this.label20.Text = "1- NG";
-            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lb_1_NG
-            // 
-            this.lb_1_NG.AutoSize = true;
-            this.lb_1_NG.BackColor = System.Drawing.Color.Black;
-            this.lb_1_NG.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lb_1_NG.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_1_NG.ForeColor = System.Drawing.Color.Red;
-            this.lb_1_NG.Location = new System.Drawing.Point(83, 165);
-            this.lb_1_NG.Name = "lb_1_NG";
-            this.lb_1_NG.Size = new System.Drawing.Size(179, 163);
-            this.lb_1_NG.TabIndex = 3;
-            this.lb_1_NG.Text = "0";
-            this.lb_1_NG.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.BackColor = System.Drawing.Color.Black;
-            this.label22.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label22.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label22.ForeColor = System.Drawing.Color.White;
-            this.label22.Location = new System.Drawing.Point(4, 493);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(72, 163);
-            this.label22.TabIndex = 4;
-            this.label22.Text = "TOTAL";
-            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lb_TOTAL
-            // 
-            this.lb_TOTAL.AutoSize = true;
-            this.lb_TOTAL.BackColor = System.Drawing.Color.Black;
-            this.lb_TOTAL.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lb_TOTAL.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_TOTAL.ForeColor = System.Drawing.Color.White;
-            this.lb_TOTAL.Location = new System.Drawing.Point(83, 493);
-            this.lb_TOTAL.Name = "lb_TOTAL";
-            this.lb_TOTAL.Size = new System.Drawing.Size(179, 163);
-            this.lb_TOTAL.TabIndex = 5;
-            this.lb_TOTAL.Text = "0";
-            this.lb_TOTAL.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lb_NGRATE.AutoSize = true;
+            this.lb_NGRATE.BackColor = System.Drawing.Color.Black;
+            this.lb_NGRATE.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lb_NGRATE.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lb_NGRATE.ForeColor = System.Drawing.Color.Yellow;
+            this.lb_NGRATE.Location = new System.Drawing.Point(83, 657);
+            this.lb_NGRATE.Name = "lb_NGRATE";
+            this.lb_NGRATE.Size = new System.Drawing.Size(179, 166);
+            this.lb_NGRATE.TabIndex = 7;
+            this.lb_NGRATE.Text = "0%";
+            this.lb_NGRATE.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label24
             // 
@@ -171,19 +129,89 @@
             this.label24.Text = "NG RATE";
             this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lb_NGRATE
+            // lb_TOTAL
             // 
-            this.lb_NGRATE.AutoSize = true;
-            this.lb_NGRATE.BackColor = System.Drawing.Color.Black;
-            this.lb_NGRATE.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lb_NGRATE.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_NGRATE.ForeColor = System.Drawing.Color.Yellow;
-            this.lb_NGRATE.Location = new System.Drawing.Point(83, 657);
-            this.lb_NGRATE.Name = "lb_NGRATE";
-            this.lb_NGRATE.Size = new System.Drawing.Size(179, 166);
-            this.lb_NGRATE.TabIndex = 7;
-            this.lb_NGRATE.Text = "0";
-            this.lb_NGRATE.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lb_TOTAL.AutoSize = true;
+            this.lb_TOTAL.BackColor = System.Drawing.Color.Black;
+            this.lb_TOTAL.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lb_TOTAL.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lb_TOTAL.ForeColor = System.Drawing.Color.White;
+            this.lb_TOTAL.Location = new System.Drawing.Point(83, 493);
+            this.lb_TOTAL.Name = "lb_TOTAL";
+            this.lb_TOTAL.Size = new System.Drawing.Size(179, 163);
+            this.lb_TOTAL.TabIndex = 5;
+            this.lb_TOTAL.Text = "0";
+            this.lb_TOTAL.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.BackColor = System.Drawing.Color.Black;
+            this.label22.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label22.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label22.ForeColor = System.Drawing.Color.White;
+            this.label22.Location = new System.Drawing.Point(4, 493);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(72, 163);
+            this.label22.TabIndex = 4;
+            this.label22.Text = "TOTAL";
+            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lb_1_NG
+            // 
+            this.lb_1_NG.AutoSize = true;
+            this.lb_1_NG.BackColor = System.Drawing.Color.Black;
+            this.lb_1_NG.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lb_1_NG.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lb_1_NG.ForeColor = System.Drawing.Color.Red;
+            this.lb_1_NG.Location = new System.Drawing.Point(83, 165);
+            this.lb_1_NG.Name = "lb_1_NG";
+            this.lb_1_NG.Size = new System.Drawing.Size(179, 163);
+            this.lb_1_NG.TabIndex = 3;
+            this.lb_1_NG.Text = "0";
+            this.lb_1_NG.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.BackColor = System.Drawing.Color.Black;
+            this.label20.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label20.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label20.ForeColor = System.Drawing.Color.Red;
+            this.label20.Location = new System.Drawing.Point(4, 165);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(72, 163);
+            this.label20.TabIndex = 2;
+            this.label20.Text = "1- NG";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lb_OK
+            // 
+            this.lb_OK.AutoSize = true;
+            this.lb_OK.BackColor = System.Drawing.Color.Black;
+            this.lb_OK.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lb_OK.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lb_OK.ForeColor = System.Drawing.Color.Lime;
+            this.lb_OK.Location = new System.Drawing.Point(83, 1);
+            this.lb_OK.Name = "lb_OK";
+            this.lb_OK.Size = new System.Drawing.Size(179, 163);
+            this.lb_OK.TabIndex = 1;
+            this.lb_OK.Text = "0";
+            this.lb_OK.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.BackColor = System.Drawing.Color.Black;
+            this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label17.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label17.ForeColor = System.Drawing.Color.Lime;
+            this.label17.Location = new System.Drawing.Point(4, 1);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(72, 163);
+            this.label17.TabIndex = 0;
+            this.label17.Text = "OK";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel27
             // 
@@ -204,34 +232,6 @@
             this.tableLayoutPanel27.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel27.Size = new System.Drawing.Size(274, 832);
             this.tableLayoutPanel27.TabIndex = 2;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Black;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(4, 329);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 163);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "2 - NG";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lb_2_NG
-            // 
-            this.lb_2_NG.AutoSize = true;
-            this.lb_2_NG.BackColor = System.Drawing.Color.Black;
-            this.lb_2_NG.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lb_2_NG.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_2_NG.ForeColor = System.Drawing.Color.Red;
-            this.lb_2_NG.Location = new System.Drawing.Point(83, 329);
-            this.lb_2_NG.Name = "lb_2_NG";
-            this.lb_2_NG.Size = new System.Drawing.Size(179, 163);
-            this.lb_2_NG.TabIndex = 9;
-            this.lb_2_NG.Text = "0";
-            this.lb_2_NG.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // AllResultCount
             // 

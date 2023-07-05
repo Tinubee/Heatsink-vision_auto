@@ -165,7 +165,7 @@
             this.lb_CAM6_NGRATE.Name = "lb_CAM6_NGRATE";
             this.lb_CAM6_NGRATE.Size = new System.Drawing.Size(140, 33);
             this.lb_CAM6_NGRATE.TabIndex = 7;
-            this.lb_CAM6_NGRATE.Text = "0";
+            this.lb_CAM6_NGRATE.Text = "0%";
             this.lb_CAM6_NGRATE.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label59
@@ -295,7 +295,7 @@
             this.lb_CAM5_NGRATE.Name = "lb_CAM5_NGRATE";
             this.lb_CAM5_NGRATE.Size = new System.Drawing.Size(140, 33);
             this.lb_CAM5_NGRATE.TabIndex = 7;
-            this.lb_CAM5_NGRATE.Text = "0";
+            this.lb_CAM5_NGRATE.Text = "0%";
             this.lb_CAM5_NGRATE.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label51
@@ -432,7 +432,7 @@
             this.lb_CAM4_NGRATE.Name = "lb_CAM4_NGRATE";
             this.lb_CAM4_NGRATE.Size = new System.Drawing.Size(140, 33);
             this.lb_CAM4_NGRATE.TabIndex = 7;
-            this.lb_CAM4_NGRATE.Text = "0";
+            this.lb_CAM4_NGRATE.Text = "0%";
             this.lb_CAM4_NGRATE.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label43
@@ -569,7 +569,7 @@
             this.lb_CAM3_NGRATE.Name = "lb_CAM3_NGRATE";
             this.lb_CAM3_NGRATE.Size = new System.Drawing.Size(140, 33);
             this.lb_CAM3_NGRATE.TabIndex = 7;
-            this.lb_CAM3_NGRATE.Text = "0";
+            this.lb_CAM3_NGRATE.Text = "0%";
             this.lb_CAM3_NGRATE.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label35
@@ -706,7 +706,7 @@
             this.lb_CAM2_NGRATE.Name = "lb_CAM2_NGRATE";
             this.lb_CAM2_NGRATE.Size = new System.Drawing.Size(140, 33);
             this.lb_CAM2_NGRATE.TabIndex = 7;
-            this.lb_CAM2_NGRATE.Text = "0";
+            this.lb_CAM2_NGRATE.Text = "0%";
             this.lb_CAM2_NGRATE.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label27
@@ -844,7 +844,7 @@
             this.lb_CAM1_NGRATE.Name = "lb_CAM1_NGRATE";
             this.lb_CAM1_NGRATE.Size = new System.Drawing.Size(140, 33);
             this.lb_CAM1_NGRATE.TabIndex = 7;
-            this.lb_CAM1_NGRATE.Text = "0";
+            this.lb_CAM1_NGRATE.Text = "0%";
             this.lb_CAM1_NGRATE.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label24

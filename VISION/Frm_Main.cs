@@ -793,10 +793,10 @@ namespace VISION
                 lb최종결과[lop].ForeColor = res[lop] == "OK" ? Color.Lime : Color.Red;
                 if (lop == 1)
                 {
-                    AllOK_Count = (!스크레치검사결과 && !패턴블롭검사결과) ? AllOK_Count++ : AllOK_Count;
-                    AllNG_1_Count = (스크레치검사결과 && !패턴블롭검사결과) ? AllNG_1_Count++ : AllNG_1_Count;
-                    AllNG_2_Count = (!스크레치검사결과 && 패턴블롭검사결과) ? AllNG_2_Count++ : AllNG_2_Count;
-                    AllNG_Count = (스크레치검사결과 || 패턴블롭검사결과) ? AllNG_Count++ : AllNG_Count;
+                    AllOK_Count = (!스크레치검사결과 && !패턴블롭검사결과) ? AllOK_Count + 1 : AllOK_Count;
+                    AllNG_1_Count = (스크레치검사결과 && !패턴블롭검사결과) ? AllNG_1_Count + 1 : AllNG_1_Count;
+                    AllNG_2_Count = (!스크레치검사결과 && 패턴블롭검사결과) ? AllNG_2_Count + 1 : AllNG_2_Count;
+                    AllNG_Count = (스크레치검사결과 || 패턴블롭검사결과) ? AllNG_Count + 1 : AllNG_Count;
                 }
             }
         }
