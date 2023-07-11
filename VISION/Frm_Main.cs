@@ -1121,13 +1121,12 @@ namespace VISION
                     InspectFlag[funCamNumber] = false;
                     if (Glob.Inspect4[0] == false || Glob.Inspect4[1] == false || Glob.Inspect4[2] == false)
                     {
+                        log.AddLogMessage(LogType.Result, 0, $"Cam - 4 No Tab Error : 1:{Glob.Inspect4[0]} / 2:{Glob.Inspect4[1]} / 3:{Glob.Inspect4[2]}");
                         BeginInvoke((Action)delegate
                         {
                             result = "N G";
                             DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                             NG_Count[funCamNumber]++;
-                            if (Glob.NGImageSave)
-                                ImageSave4("NG", funCamNumber + 1, cdy, shotNumber);
                         });
                     }
                     else
@@ -1137,8 +1136,6 @@ namespace VISION
                             result = "O K";
                             DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                             OK_Count[funCamNumber]++;
-                            if (Glob.OKImageSave)
-                                ImageSave4("OK", funCamNumber + 1, cdy, shotNumber);
                         });
                     }
                     log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
@@ -1203,13 +1200,12 @@ namespace VISION
                     InspectFlag[funCamNumber] = false;
                     if (Glob.Inspect5[0] == false || Glob.Inspect5[1] == false)
                     {
+                        log.AddLogMessage(LogType.Result, 0, $"Cam - 5 No Tab Error : 1:{Glob.Inspect5[0]} / 2:{Glob.Inspect5[1]}");
                         BeginInvoke((Action)delegate
                         {
                             result = "N G";
                             DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                             NG_Count[funCamNumber]++;
-                            if (Glob.NGImageSave)
-                                ImageSave5("NG", funCamNumber + 1, cdy, shotNumber);
                         });
                     }
                     else
@@ -1219,8 +1215,6 @@ namespace VISION
                             result = "O K";
                             DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                             OK_Count[funCamNumber]++;
-                            if (Glob.OKImageSave)
-                                ImageSave5("OK", funCamNumber + 1, cdy, shotNumber);
                         });
                     }
                     log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
@@ -2344,7 +2338,7 @@ namespace VISION
                 ImageSave.Close();
                 if (Glob.NGContainUIImageSave)
                 {
-                    string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+                    string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{shotNumber}\{Result}Display";
                     if (!Directory.Exists(Root2))
                     {
                         Directory.CreateDirectory(Root2);
@@ -2374,7 +2368,7 @@ namespace VISION
                 ImageSave.Close();
                 if (Glob.NGContainUIImageSave)
                 {
-                    string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+                    string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{shotNumber}\{Result}Display";
                     if (!Directory.Exists(Root2))
                     {
                         Directory.CreateDirectory(Root2);
