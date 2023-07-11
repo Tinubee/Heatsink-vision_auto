@@ -241,7 +241,8 @@ namespace VISION
 
         public void Set_GeniCam(string modelName)
         {
-            //DualBase #0 Port A & B
+            //DualBase #0 Port A & B A=TOP카메라.
+            //DualBase #1 Port A & B
             try
             {
                 for (int lop = 0; lop < availablePort.Count(); lop++)
@@ -272,6 +273,7 @@ namespace VISION
 
                     //sendCommand
                     string setExposureCommand = modelName == "shield" ? "I=38" : "I=76";
+                    string setGainCommand = modelName == "shield" ? "G=200" : "G=50";
 
                     sendCommandToBoard("");
                     string first = readBuffer(serialRef);
@@ -280,6 +282,13 @@ namespace VISION
                     sendCommandToBoard(setExposureCommand);
                     string second = readBuffer(serialRef);
                     log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Receive Data : {second}");
+
+                    if (availablePort[lop] == "Euresys Grablink DualBase#0 Port A")
+                    {
+                        sendCommandToBoard(setGainCommand);
+                        string third = readBuffer(serialRef);
+                        log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Receive Data : {third}");
+                    }
                     //close port
                     CL.SerialClose(serialRef);
                 }
@@ -2119,7 +2128,6 @@ namespace VISION
             return InspectResult[CameraNumber];
         }
         #endregion
-
 
 
         public void DgvResult(DataGridView dgv, int camnumber, int cellnumber)

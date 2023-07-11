@@ -1277,7 +1277,7 @@ namespace VISION
 
         private void 패턴설정값일괄적용(object sender, EventArgs e)
         {
-            if (MessageBox.Show($"Pattern - {num_MultiPatternToolNumber.Value} 설정값을 일괄 적용 하시겠습니까? (스코어) ", "Setting", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
+            if (MessageBox.Show($"Pattern - {num_MultiPatternToolNumber.Value} 설정값을 일괄 적용 하시겠습니까?\n적용 되는 값 : 스코어", "Setting", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 return;
 
             for (int lop = 0; lop < Glob.코그넥스파일.패턴툴.GetLength(1); lop++)
@@ -1290,7 +1290,7 @@ namespace VISION
 
         private void 블롭설정값일괄적용(object sender, EventArgs e)
         {
-            if (MessageBox.Show($"Blob - {num_BlobToolNum.Value} 설정값을 일괄 적용 하시겠습니까? (검사 최소 픽셀, 명암값) ", "Setting", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
+            if (MessageBox.Show($"Blob - {num_BlobToolNum.Value} 설정값을 일괄 적용 하시겠습니까?\n적용 되는 값 : 검사 최소 픽셀, 명암값", "Setting", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 return;
 
             for (int lop = 0; lop < Glob.코그넥스파일.블롭툴.GetLength(1); lop++)
@@ -1299,7 +1299,7 @@ namespace VISION
                 Glob.코그넥스파일.블롭툴[Glob.CamNumber, lop].Threshold((int)num_BlobThreshold.Value);
             }
 
-            MessageBox.Show($"일괄 적용 완료\n검사 최소 픽셀 : {num_BlobMinipixel.Value} / 명암값 : {num_BlobThreshold.Value}", "Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"일괄 적용 완료\n검사 최소 픽셀 : {num_BlobMinipixel.Value}\n명암값 : {num_BlobThreshold.Value}", "Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void label6_DoubleClick(object sender, EventArgs e)
