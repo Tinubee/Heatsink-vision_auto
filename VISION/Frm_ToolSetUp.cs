@@ -35,42 +35,14 @@ namespace VISION
         private CogImage8Grey Fiximage;
         private string FimageSpace;
 
-        private Cogs.Model TempModel;
-        private Cogs.Blob[,] TempBlobs;
-        private Cogs.Line[,] TempLines;
-        private Cogs.Circle[,] TempCircles;
-        private Cogs.MultiPMAlign[,] TempMulti;
-        private Cogs.Distance[,] TempDistance;
-        private Cogs.Caliper[,] TempCaliper;
-
-        private bool[,] TempBlobEnable;
-        private bool[,] TempLineEnable;
-        private bool[,] TempCircleEnable;
-        private bool[,] TempMultiEnable;
-        private bool[,] TempDistanceEnable;
-        private bool[,] TempCaliperEnable;
-
-        private bool[,] TempBlobNGOKChange;
-        private int[,] TempBlobOKCount;
-        private int[,] TempBlobFixPatternNumber;
-        private int[,] TempMultiOrderNumber;
-
         private string[,] TempDistance_Tool1_Number;
         private string[,] TempDistance_Tool2_Number;
-
-        private double[,] TempDistance_CalibrationValue;
-        private double[,] TempDistance_LowValue;
-        private double[,] TempDistance_HighValue;
-
-        private Cogs.Camera[] TempCam;
-        private Cogs.Mask[] TempMask;
 
         private bool Dataset = false;
         public bool liveflag = false;
         bool FormLoad = false;
         bool ImageDelete = false;
         int SelectNumber;
-        //int ImagePathNumber;
 
         public Frm_ToolSetUp(Frm_Main main)
         {
@@ -81,31 +53,8 @@ namespace VISION
             btn_Livestop.Enabled = false;
             Dataset = true;
             Main = main;
-            TempModel = Glob.RunnModel;
-            TempBlobs = TempModel.Blob();
-            TempBlobEnable = TempModel.BlobEnables();
-            TempBlobNGOKChange = TempModel.BlobNGOKChanges();
-            TempBlobOKCount = TempModel.BlobOKCounts();
-            TempBlobFixPatternNumber = TempModel.BlobFixPatternNumbers();
-            TempLines = TempModel.Line();
-            TempLineEnable = TempModel.LineEnables();
-            TempCircles = TempModel.Circle();
-            TempCircleEnable = TempModel.CircleEnables();
-            TempMulti = TempModel.MultiPatterns();
-            TempMultiEnable = TempModel.MultiPatternEnables();
-            TempMultiOrderNumber = TempModel.MultiPatternOrderNumbers();
-            TempDistance = TempModel.Distancess();
-            TempDistanceEnable = TempModel.DistanceEnables();
-            TempDistance_Tool1_Number = TempModel.Distance_UseTool1_Numbers();
-            TempDistance_Tool2_Number = TempModel.Distance_UseTool2_Numbers();
-            TempDistance_CalibrationValue = TempModel.Distance_CalibrationValues();
-            TempDistance_LowValue = TempModel.Distance_LowValues();
-            TempDistance_HighValue = TempModel.Distance_HighValues();
-            TempCaliper = TempModel.Calipes();
-            TempCaliperEnable = TempModel.CaliperEnables();
-            TempCam = TempModel.Cam();
-            TempMask = TempModel.MaskTool();
-
+            TempDistance_Tool1_Number = Glob.코그넥스파일.모델.Distance_UseTool1_Numbers();
+            TempDistance_Tool2_Number = Glob.코그넥스파일.모델.Distance_UseTool2_Numbers();
             string[] Polarty = { "White to Black", "Black to  White", "Don't Care" };
             string[] Blob = { "White Blob", "Black Blob" };
             string[] Direction = { "Inward", "Outward" };
@@ -113,19 +62,19 @@ namespace VISION
             cb_BlobPolarty.Items.AddRange(Blob);
             for (int i = 0; i < 30; i++)
             {
-                cb_MultiPatternName.Items.Add(TempMulti[Glob.CamNumber, i].ToolName());
-                Num1_DimensionTool.Items.Add(TempLines[Glob.CamNumber, i].ToolName());
-                Num2_DimensionTool.Items.Add(TempLines[Glob.CamNumber, i].ToolName());
+                cb_MultiPatternName.Items.Add(Glob.코그넥스파일.패턴툴[Glob.CamNumber, i].ToolName());
+                Num1_DimensionTool.Items.Add(Glob.코그넥스파일.라인툴[Glob.CamNumber, i].ToolName());
+                Num2_DimensionTool.Items.Add(Glob.코그넥스파일.라인툴[Glob.CamNumber, i].ToolName());
             }
             for (int i = 0; i < 9; i++)
             {
-                Num1_DimensionTool.Items.Add(TempCircles[Glob.CamNumber, i].ToolName());
-                Num2_DimensionTool.Items.Add(TempCircles[Glob.CamNumber, i].ToolName());
+                Num1_DimensionTool.Items.Add(Glob.코그넥스파일.써클툴[Glob.CamNumber, i].ToolName());
+                Num2_DimensionTool.Items.Add(Glob.코그넥스파일.써클툴[Glob.CamNumber, i].ToolName());
             }
             for (int i = 0; i < 9; i++)
             {
-                Num1_DimensionTool.Items.Add(TempCaliper[Glob.CamNumber, i].ToolName());
-                Num2_DimensionTool.Items.Add(TempCaliper[Glob.CamNumber, i].ToolName());
+                Num1_DimensionTool.Items.Add(Glob.코그넥스파일.캘리퍼툴[Glob.CamNumber, i].ToolName());
+                Num2_DimensionTool.Items.Add(Glob.코그넥스파일.캘리퍼툴[Glob.CamNumber, i].ToolName());
             }
             num_BlobToolNum.Value = 0;
             num_MultiPatternToolNumber.Value = 0;
@@ -275,34 +224,31 @@ namespace VISION
 
         public void Pattern_Train()
         {
-            if (TempMulti[Glob.CamNumber, 0].Run((CogImage8Grey)cdyDisplay.Image) == true)
+            if (Glob.코그넥스파일.패턴툴[Glob.CamNumber, 0].Run((CogImage8Grey)cdyDisplay.Image) == true)
             {
-                Fiximage = TempModel.FixtureImage((CogImage8Grey)cdyDisplay.Image, TempMulti[Glob.CamNumber, 0].ResultPoint(TempMulti[Glob.CamNumber, 0].HighestResultToolNumber()), TempMulti[Glob.CamNumber, 0].ToolName(), Glob.CamNumber, out FimageSpace, TempMulti[Glob.CamNumber, 0].HighestResultToolNumber(), Glob.InspectOrder);
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[Glob.CamNumber, 0].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.FixtureImage((CogImage8Grey)cdyDisplay.Image, Glob.코그넥스파일.패턴툴[Glob.CamNumber, 0].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[Glob.CamNumber, 0].ToolName(), Glob.CamNumber, out FimageSpace, usePatternNumber, Glob.InspectOrder);
             }
         }
 
         public void Mask_Train(int toolnumber)
         {
-            if (TempMulti[Glob.CamNumber, toolnumber].Run((CogImage8Grey)cdyDisplay.Image) == true)
+            if (Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnumber].Run((CogImage8Grey)cdyDisplay.Image) == true)
             {
-                Fiximage = TempModel.Mask_FixtureImage1((CogImage8Grey)cdyDisplay.Image, TempMulti[Glob.CamNumber, toolnumber].ResultPoint(TempMulti[Glob.CamNumber, toolnumber].HighestResultToolNumber()), TempMulti[Glob.CamNumber, toolnumber].ToolName(), Glob.CamNumber, toolnumber, out FimageSpace, TempMulti[Glob.CamNumber, toolnumber].HighestResultToolNumber());
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.Mask_FixtureImage1((CogImage8Grey)cdyDisplay.Image, Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnumber].ToolName(), Glob.CamNumber, toolnumber, out FimageSpace, usePatternNumber);
             }
         }
 
         public void Bolb_Train(int toolnumber)
         {
-            if (TempMulti[Glob.CamNumber, toolnumber].Run((CogImage8Grey)cdyDisplay.Image) == true)
+            if (Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnumber].Run((CogImage8Grey)cdyDisplay.Image) == true)
             {
-                Fiximage = TempModel.Blob_FixtureImage((CogImage8Grey)cdyDisplay.Image, TempMulti[Glob.CamNumber, toolnumber].ResultPoint(TempMulti[Glob.CamNumber, toolnumber].HighestResultToolNumber()), TempMulti[Glob.CamNumber, toolnumber].ToolName(), Glob.CamNumber, toolnumber, out FimageSpace, TempMulti[Glob.CamNumber, toolnumber].HighestResultToolNumber());
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.Blob_FixtureImage((CogImage8Grey)cdyDisplay.Image, Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnumber].ToolName(), Glob.CamNumber, toolnumber, out FimageSpace, usePatternNumber);
             }
         }
-        public void Line_Train(int toolnumber)
-        {
-            if (TempMulti[Glob.CamNumber, toolnumber].Run((CogImage8Grey)cdyDisplay.Image) == true)
-            {
-                Fiximage = TempModel.LINE_FixtureImage((CogImage8Grey)cdyDisplay.Image, TempMulti[Glob.CamNumber, toolnumber].ResultPoint(TempMulti[Glob.CamNumber, toolnumber].HighestResultToolNumber()), TempMulti[Glob.CamNumber, toolnumber].ToolName(), Glob.CamNumber, toolnumber, out FimageSpace, TempMulti[Glob.CamNumber, toolnumber].HighestResultToolNumber());
-            }
-        }
+
         private void ImageClear()
         {
             cdyDisplay.StaticGraphics.Clear();
@@ -317,21 +263,21 @@ namespace VISION
                 return;
 
             Process.Start($"{Glob.SAVEFROM}");
-            Glob.RunnModel.Line(TempLines); //라인툴저장
-            Glob.RunnModel.LineEnables(TempLineEnable); //라인툴사용여부
-            Glob.RunnModel.Blob(TempBlobs); //블롭툴저장
-            Glob.RunnModel.BlobNGOKChanges(TempBlobNGOKChange);
-            Glob.RunnModel.BlobEnables(TempBlobEnable); //블롭툴사용여부
-            Glob.RunnModel.BlobOKCounts(TempBlobOKCount); //블롭카운트
-            Glob.RunnModel.BlobFixPatternNumbers(TempBlobFixPatternNumber);
-            Glob.RunnModel.MultiPatterns(TempMulti); // 멀티패턴툴저장
-            Glob.RunnModel.MultiPatternEnables(TempMultiEnable); // 멀티패턴툴사용여부젖장
-            Glob.RunnModel.Distancess(TempDistance);
-            Glob.RunnModel.DistanceEnables(TempDistanceEnable);
+            Glob.RunnModel.Line(Glob.코그넥스파일.라인툴); //라인툴저장
+            Glob.RunnModel.LineEnables(Glob.코그넥스파일.라인툴사용여부); //라인툴사용여부
+            Glob.RunnModel.Blob(Glob.코그넥스파일.블롭툴); //블롭툴저장
+            Glob.RunnModel.BlobNGOKChanges(Glob.코그넥스파일.블롭툴역검사);
+            Glob.RunnModel.BlobEnables(Glob.코그넥스파일.블롭툴사용여부); //블롭툴사용여부
+            Glob.RunnModel.BlobOKCounts(Glob.코그넥스파일.블롭툴양품갯수); //블롭카운트
+            Glob.RunnModel.BlobFixPatternNumbers(Glob.코그넥스파일.블롭툴픽스쳐번호);
+            Glob.RunnModel.MultiPatterns(Glob.코그넥스파일.패턴툴); // 멀티패턴툴저장
+            Glob.RunnModel.MultiPatternEnables(Glob.코그넥스파일.패턴툴사용여부); // 멀티패턴툴사용여부젖장
+            Glob.RunnModel.Distancess(Glob.코그넥스파일.거리측정툴);
+            Glob.RunnModel.DistanceEnables(Glob.코그넥스파일.거리측정툴사용여부);
             Glob.RunnModel.Distance_UseTool1_Numbers(TempDistance_Tool1_Number);
             Glob.RunnModel.Distance_UseTool2_Numbers(TempDistance_Tool2_Number);
-            Glob.RunnModel.Cams(TempCam);
-            Glob.RunnModel.MaskTools(TempMask);
+            Glob.RunnModel.Cams(Glob.코그넥스파일.카메라);
+            Glob.RunnModel.MaskTools(Glob.코그넥스파일.마스크툴);
 
             Glob.RunnModel.SaveModel(Glob.MODELROOT + "\\" + Glob.RunnModel.Modelname() + "\\" + $"Cam{Glob.CamNumber}", Glob.CamNumber); //모델명
             CamSet.WriteData($"Camera{Glob.CamNumber}", "Exposure", num_Exposure.Value.ToString()); //카메라 노출값
@@ -359,15 +305,15 @@ namespace VISION
             Dataset = true;
             int Toolnumber = (int)num_BlobToolNum.Value;
 
-            cb_BlobPolarty.SelectedIndex = TempBlobs[Glob.CamNumber, Toolnumber].Polarity();
-            cb_MultiPatternName.SelectedIndex = TempBlobs[Glob.CamNumber, Toolnumber].SpaceName();
-            num_BlobMinipixel.Value = TempBlobs[Glob.CamNumber, Toolnumber].Minipixel();
-            num_BlobThreshold.Value = TempBlobs[Glob.CamNumber, Toolnumber].Threshold();
-            num_AreaPoinrNumber.Value = TempBlobs[Glob.CamNumber, Toolnumber].PointNumber();
-            num_BlobMaxCout.Value = TempBlobOKCount[Glob.CamNumber, Toolnumber];
+            cb_BlobPolarty.SelectedIndex = Glob.코그넥스파일.블롭툴[Glob.CamNumber, Toolnumber].Polarity();
+            cb_MultiPatternName.SelectedIndex = Glob.코그넥스파일.블롭툴[Glob.CamNumber, Toolnumber].SpaceName();
+            num_BlobMinipixel.Value = Glob.코그넥스파일.블롭툴[Glob.CamNumber, Toolnumber].Minipixel();
+            num_BlobThreshold.Value = Glob.코그넥스파일.블롭툴[Glob.CamNumber, Toolnumber].Threshold();
+            num_AreaPoinrNumber.Value = Glob.코그넥스파일.블롭툴[Glob.CamNumber, Toolnumber].PointNumber();
+            num_BlobMaxCout.Value = Glob.코그넥스파일.블롭툴양품갯수[Glob.CamNumber, Toolnumber];
 
-            cb_BlobToolUsed.Checked = TempBlobEnable[Glob.CamNumber, Toolnumber];
-            cb_ngokchange.Checked = TempBlobNGOKChange[Glob.CamNumber, Toolnumber];
+            cb_BlobToolUsed.Checked = Glob.코그넥스파일.블롭툴사용여부[Glob.CamNumber, Toolnumber];
+            cb_ngokchange.Checked = Glob.코그넥스파일.블롭툴역검사[Glob.CamNumber, Toolnumber];
 
             BlobEnableChange(Toolnumber);
             BlobNGOKChangeChange(Toolnumber);
@@ -383,27 +329,27 @@ namespace VISION
             switch (Glob.CamNumber) //CAM 별 INSPECT 함수 나눠놈 - 20200205 김형민.
             {
                 case 0:
-                    lb_Tool_InspectResult.Text = Main.Inspect_Cam0(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
-                    lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
-                    break;
-                case 1:
                     lb_Tool_InspectResult.Text = Main.Inspect_Cam1(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
                     lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
                     break;
-                case 2:
+                case 1:
                     lb_Tool_InspectResult.Text = Main.Inspect_Cam2(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
                     lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
                     break;
-                case 3:
+                case 2:
                     lb_Tool_InspectResult.Text = Main.Inspect_Cam3(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
                     lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
                     break;
-                case 4:
+                case 3:
                     lb_Tool_InspectResult.Text = Main.Inspect_Cam4(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
                     lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
                     break;
-                case 5:
+                case 4:
                     lb_Tool_InspectResult.Text = Main.Inspect_Cam5(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
+                    lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
+                    break;
+                case 5:
+                    lb_Tool_InspectResult.Text = Main.Inspect_Cam6(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
                     lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
                     break;
             }
@@ -438,11 +384,11 @@ namespace VISION
                     cdyDisplay.StaticGraphics.Clear();
                     cdyDisplay.Fit();
                 }
-                TempCam[Glob.CamNumber].StartLive();
+                Glob.코그넥스파일.카메라[Glob.CamNumber].StartLive();
                 while (true)
                 {
                     if (liveflag == false) break;
-                    CogImage8Grey image = TempCam[Glob.CamNumber].Run();
+                    CogImage8Grey image = Glob.코그넥스파일.카메라[Glob.CamNumber].Run();
                     cdyDisplay.Image = image;
                     Application.DoEvents();
                 }
@@ -458,7 +404,7 @@ namespace VISION
         {
             if (Glob.CamNumber == 3 || Glob.CamNumber == 5)
             {
-                TempCam[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
+                Glob.코그넥스파일.카메라[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
             }
         }
 
@@ -486,7 +432,7 @@ namespace VISION
         {
             if (Glob.CamNumber == 3 || Glob.CamNumber == 4)
             {
-                TempCam[Glob.CamNumber].SetBrightness((double)num_Gain.Value);
+                Glob.코그넥스파일.카메라[Glob.CamNumber].SetBrightness((double)num_Gain.Value);
             }
         }
 
@@ -510,7 +456,7 @@ namespace VISION
         {
             if (Dataset == false)
             {
-                TempBlobEnable[Glob.CamNumber, (int)num_BlobToolNum.Value] = cb_BlobToolUsed.Checked;
+                Glob.코그넥스파일.블롭툴사용여부[Glob.CamNumber, (int)num_BlobToolNum.Value] = cb_BlobToolUsed.Checked;
                 BlobEnableChange((int)num_BlobToolNum.Value);
             }
         }
@@ -518,26 +464,26 @@ namespace VISION
         private void cb_BlobPolarty_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (Dataset == false)
-                TempBlobs[Glob.CamNumber, (int)num_BlobToolNum.Value].Polarity(cb_BlobPolarty.SelectedIndex);
+                Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].Polarity(cb_BlobPolarty.SelectedIndex);
         }
 
         private void num_BlobMinipixel_ValueChanged(object sender, EventArgs e)
         {
             if (Dataset == false)
-                TempBlobs[Glob.CamNumber, (int)num_BlobToolNum.Value].Minipixel((int)num_BlobMinipixel.Value);
+                Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].Minipixel((int)num_BlobMinipixel.Value);
         }
 
         private void num_BlobThreshold_ValueChanged(object sender, EventArgs e)
         {
             if (Dataset == false)
-                TempBlobs[Glob.CamNumber, (int)num_BlobToolNum.Value].Threshold((int)num_BlobThreshold.Value);
+                Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].Threshold((int)num_BlobThreshold.Value);
         }
 
         private void btn_BlobInspectionArea_Click(object sender, EventArgs e)
         {
             ImageClear();
             Bolb_Train((int)num_BlobToolNum.Value);
-            TempBlobs[Glob.CamNumber, (int)num_BlobToolNum.Value].Area_Affine(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, cb_MultiPatternName.SelectedIndex.ToString());
+            Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].Area_Affine(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, cb_MultiPatternName.SelectedIndex.ToString());
         }
 
         private void btn_BlobInspection_Click(object sender, EventArgs e)
@@ -546,33 +492,33 @@ namespace VISION
             Bolb_Train((int)num_BlobToolNum.Value);
             CogGraphicCollection Collection = new CogGraphicCollection();
 
-            TempMask[Glob.CamNumber].Run((CogImage8Grey)cdyDisplay.Image); //MaskTool Run
+            Glob.코그넥스파일.마스크툴[Glob.CamNumber].Run((CogImage8Grey)cdyDisplay.Image); //MaskTool Run
 
-            TempBlobs[Glob.CamNumber, (int)num_BlobToolNum.Value].MaskAreaSet(TempMask[Glob.CamNumber].MaskArea()); //검사 제외영역 입력.
+            Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].MaskAreaSet(Glob.코그넥스파일.마스크툴[Glob.CamNumber].MaskArea()); //검사 제외영역 입력.
 
-            TempBlobs[Glob.CamNumber, (int)num_BlobToolNum.Value].Run((CogImage8Grey)cdyDisplay.Image);
-            if (TempBlobs[Glob.CamNumber, (int)num_BlobToolNum.Value].ResultBlobCount() != TempBlobOKCount[Glob.CamNumber, (int)num_BlobToolNum.Value]) //BlobTool 실행.
+            Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].Run((CogImage8Grey)cdyDisplay.Image);
+            if (Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].ResultBlobCount() != Glob.코그넥스파일.블롭툴양품갯수[Glob.CamNumber, (int)num_BlobToolNum.Value]) //BlobTool 실행.
             {
-                TempBlobs[Glob.CamNumber, (int)num_BlobToolNum.Value].ResultAllBlobDisplayPLT(Collection, false);
+                Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].ResultAllBlobDisplayPLT(Collection, false);
             }
             else
             {
-                TempBlobs[Glob.CamNumber, (int)num_BlobToolNum.Value].ResultAllBlobDisplayPLT(Collection, true);
+                Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].ResultAllBlobDisplayPLT(Collection, true);
             }
 
             cdyDisplay.StaticGraphics.AddList(Collection, "");
-            tb_BlobCount.Text = TempBlobs[Glob.CamNumber, (int)num_BlobToolNum.Value].ResultBlobCount().ToString();
+            tb_BlobCount.Text = Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].ResultBlobCount().ToString();
         }
 
         private void BLOBINSPECTION_DoubleClick_1(object sender, EventArgs e)
         {
-            TempBlobs[Glob.CamNumber, (int)num_BlobToolNum.Value].ToolSetup();
+            Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].ToolSetup();
         }
 
         private void num_BlobMaxCout_ValueChanged(object sender, EventArgs e)
         {
             if (Dataset == false)
-                TempBlobOKCount[Glob.CamNumber, (int)num_BlobToolNum.Value] = (int)num_BlobMaxCout.Value;
+                Glob.코그넥스파일.블롭툴양품갯수[Glob.CamNumber, (int)num_BlobToolNum.Value] = (int)num_BlobMaxCout.Value;
         }
 
         private void ImageList_SelectedIndexChanged(object sender, EventArgs e)
@@ -688,8 +634,8 @@ namespace VISION
 
                 if (Glob.CamNumber == 3 || Glob.CamNumber == 4)
                 {
-                    TempCam[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
-                    TempCam[Glob.CamNumber].SetBrightness((double)num_Gain.Value);
+                    Glob.코그넥스파일.카메라[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
+                    Glob.코그넥스파일.카메라[Glob.CamNumber].SetBrightness((double)num_Gain.Value);
                 }
 
                 FormLoad = false;
@@ -748,18 +694,18 @@ namespace VISION
         private void num_AreaPoinrNumber_ValueChanged(object sender, EventArgs e)
         {
             if (Dataset == false)
-                TempBlobs[Glob.CamNumber, (int)num_BlobToolNum.Value].AreaPointNumber((int)num_AreaPoinrNumber.Value);
+                Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].AreaPointNumber((int)num_AreaPoinrNumber.Value);
         }
 
         private void label27_DoubleClick(object sender, EventArgs e)
         {
-            TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].InputImage((CogImage8Grey)cdyDisplay.Image);
-            TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ToolSetup();
+            Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].InputImage((CogImage8Grey)cdyDisplay.Image);
+            Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ToolSetup();
         }
         private void num_TrainImageNumber_ValueChanged(object sender, EventArgs e)
         {
             int Toolnumber = (int)num_MultiPatternToolNumber.Value;
-            cdyMultiPTTrained.Image = TempMulti[Glob.CamNumber, Toolnumber].TrainedImage((int)num_TrainImageNumber.Value);
+            cdyMultiPTTrained.Image = Glob.코그넥스파일.패턴툴[Glob.CamNumber, Toolnumber].TrainedImage((int)num_TrainImageNumber.Value);
         }
 
         private void num_MultiPatternToolNumber_ValueChanged(object sender, EventArgs e)
@@ -772,12 +718,12 @@ namespace VISION
         {
             Dataset = true;
             int Toolnumber = (int)num_MultiPatternToolNumber.Value;
-            cb_MultiPatternToolUsed.Checked = TempMultiEnable[Glob.CamNumber, Toolnumber];
-            cdyMultiPTTrained.Image = TempMulti[Glob.CamNumber, Toolnumber].TrainedImage(0);
-            num_MultiPatternScore.Value = Convert.ToDecimal(TempMulti[Glob.CamNumber, Toolnumber].Threshold() * 100);
-            lb_PatternCount.Text = $"등록된 패턴 수 : {TempMulti[Glob.CamNumber, Toolnumber].PatternCount()}개";
-            lb_FindPatternCount.Text = $"찾은 패턴 수 : {TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultCount()}개";
-            num_TrainImageNumber.Maximum = TempMulti[Glob.CamNumber, Toolnumber].PatternCount() - 1;
+            cb_MultiPatternToolUsed.Checked = Glob.코그넥스파일.패턴툴사용여부[Glob.CamNumber, Toolnumber];
+            cdyMultiPTTrained.Image = Glob.코그넥스파일.패턴툴[Glob.CamNumber, Toolnumber].TrainedImage(0);
+            num_MultiPatternScore.Value = Convert.ToDecimal(Glob.코그넥스파일.패턴툴[Glob.CamNumber, Toolnumber].Threshold() * 100);
+            lb_PatternCount.Text = $"등록된 패턴 수 : {Glob.코그넥스파일.패턴툴[Glob.CamNumber, Toolnumber].PatternCount()}개";
+            lb_FindPatternCount.Text = $"찾은 패턴 수 : {Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultCount()}개";
+            num_TrainImageNumber.Maximum = Glob.코그넥스파일.패턴툴[Glob.CamNumber, Toolnumber].PatternCount() - 1;
             num_TrainImageNumber.Minimum = 0;
             MultiPatternEnableChange(Toolnumber);
             MultiPatternOrderChange(Toolnumber);
@@ -790,9 +736,9 @@ namespace VISION
         }
         private void CheckMultiPatternStatus()
         {
-            if (TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].istrain((int)num_MultiPatternToolNumber.Value) == true)
+            if (Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].istrain((int)num_MultiPatternToolNumber.Value) == true)
             {
-                cdyMultiPTTrained.Image = TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].TrainedImage(0);
+                cdyMultiPTTrained.Image = Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].TrainedImage(0);
             }
             else
             {
@@ -804,7 +750,7 @@ namespace VISION
         {
             if (Dataset == false)
             {
-                TempMultiEnable[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value] = cb_MultiPatternToolUsed.Checked;
+                Glob.코그넥스파일.패턴툴사용여부[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value] = cb_MultiPatternToolUsed.Checked;
                 MultiPatternEnableChange((int)num_MultiPatternToolNumber.Value);
             }
         }
@@ -813,63 +759,66 @@ namespace VISION
         {
             ImageClear();
             Pattern_Train();
-            if (TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].Run((CogImage8Grey)cdyDisplay.Image) == true)
+            if (Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].Run((CogImage8Grey)cdyDisplay.Image) == true)
             {
-                for (int i = 0; i < TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultCount(); i++)
+                for (int i = 0; i < Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultCount(); i++)
                 {
-                    Glob.MultiPatternResultData[Glob.CamNumber, i] = TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultScore(i);
+                    Glob.MultiPatternResultData[Glob.CamNumber, i] = Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultScore(i);
                 }
 
-                Glob.MultiInsPat_Result[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value] = TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultScore(TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].HighestResultToolNumber());
-                TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultDisplay(ref cdyDisplay, TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].HighestResultToolNumber());
-                lb_FindPatternCount.Text = $"찾은 패턴 수 : {TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultCount()}개";
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].HighestResultToolNumber();
+
+                Glob.MultiInsPat_Result[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value] = Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultScore(usePatternNumber);
+                Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultDisplay(ref cdyDisplay, usePatternNumber);
+                lb_FindPatternCount.Text = $"찾은 패턴 수 : {Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultCount()}개";
                 lb_MultiScore.ForeColor = Color.Lime;
-                lb_MultiScore.Text = $"{TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultScore(TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].HighestResultToolNumber()).ToString("F2")}%";
+                lb_MultiScore.Text = $"{Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultScore(usePatternNumber).ToString("F2")}%";
             }
             else
             {
                 ImageClear();
                 lb_MultiScore.Text = "패턴 찾기 실패";
-                lb_FindPatternCount.Text = $"찾은 패턴 수 : {TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultCount()}개";
+                lb_FindPatternCount.Text = $"찾은 패턴 수 : {Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultCount()}개";
                 lb_MultiScore.ForeColor = Color.Red;
-                TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultDisplay(ref cdyDisplay, (int)num_MultiPatternToolNumber.Value);
+                Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultDisplay(ref cdyDisplay, (int)num_MultiPatternToolNumber.Value);
             }
         }
 
         private void btn_PatternInput_Click(object sender, EventArgs e)
         {
-            TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].InputImage((CogImage8Grey)cdyDisplay.Image);
-            TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ToolSetup();
+            Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].InputImage((CogImage8Grey)cdyDisplay.Image);
+            Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ToolSetup();
             ChangeMultiPatternToolNumber();
         }
 
         private void btn_ResultShow_Click(object sender, EventArgs e)
         {
-            frm_MultiPatternResult = new MultiPatternResult(this, TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultCount());
+            frm_MultiPatternResult = new MultiPatternResult(this, Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].ResultCount());
             frm_MultiPatternResult.Show();
         }
 
         private void num_MultiPatternScore_ValueChanged(object sender, EventArgs e)
         {
-            TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].Threshold((double)num_MultiPatternScore.Value / 100);
+            Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].Threshold((double)num_MultiPatternScore.Value / 100);
         }
 
         private void btn_MultiPTSearchArea_Click(object sender, EventArgs e)
         {
             ImageClear();
             Pattern_Train();
-            TempMulti[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].SearchArea(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, Glob.CamNumber, (int)num_MultiPatternToolNumber.Value);
+            Glob.코그넥스파일.패턴툴[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value].SearchArea(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, Glob.CamNumber, (int)num_MultiPatternToolNumber.Value);
         }
 
 
         private void cb_MultiPatternName_SelectedIndexChanged(object sender, EventArgs e)
         {
             int toolnum = cb_MultiPatternName.SelectedIndex;
-            TempBlobFixPatternNumber[Glob.CamNumber, (int)num_BlobToolNum.Value] = toolnum;
+            Glob.코그넥스파일.블롭툴픽스쳐번호[Glob.CamNumber, (int)num_BlobToolNum.Value] = toolnum;
             ImageClear();
-            if (TempMulti[Glob.CamNumber, toolnum].Run((CogImage8Grey)cdyDisplay.Image))
+            if (Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnum].Run((CogImage8Grey)cdyDisplay.Image))
             {
-                Fiximage = TempModel.Blob_FixtureImage((CogImage8Grey)cdyDisplay.Image, TempMulti[Glob.CamNumber, toolnum].ResultPoint(TempMulti[Glob.CamNumber, toolnum].HighestResultToolNumber()), TempMulti[Glob.CamNumber, toolnum].ToolName(), Glob.CamNumber, toolnum, out FimageSpace, TempMulti[Glob.CamNumber, toolnum].HighestResultToolNumber());
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnum].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.Blob_FixtureImage((CogImage8Grey)cdyDisplay.Image, Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnum].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnum].ToolName(), Glob.CamNumber, toolnum, out FimageSpace, usePatternNumber);
             }
             else
             {
@@ -879,8 +828,8 @@ namespace VISION
 
         private void label55_DoubleClick(object sender, EventArgs e)
         {
-            TempDistance[Glob.CamNumber, (int)num_DimensionToolNum.Value].InputImage((int)num_DimensionToolNum.Value, (CogImage8Grey)cdyDisplay.Image);
-            TempDistance[Glob.CamNumber, (int)num_DimensionToolNum.Value].ToolSetup((int)num_DimensionToolNum.Value);
+            Glob.코그넥스파일.거리측정툴[Glob.CamNumber, (int)num_DimensionToolNum.Value].InputImage((int)num_DimensionToolNum.Value, (CogImage8Grey)cdyDisplay.Image);
+            Glob.코그넥스파일.거리측정툴[Glob.CamNumber, (int)num_DimensionToolNum.Value].ToolSetup((int)num_DimensionToolNum.Value);
         }
 
         private void num_DimensionToolNum_ValueChanged(object sender, EventArgs e)
@@ -896,13 +845,13 @@ namespace VISION
             switch (s_toolname[0])
             {
                 case "Line ":
-                    TempLineEnable[Glob.CamNumber, Convert.ToInt32(s_toolname[1])] = true;
+                    Glob.코그넥스파일.라인툴사용여부[Glob.CamNumber, Convert.ToInt32(s_toolname[1])] = true;
                     break;
                 case "Caliper ":
-                    TempCaliperEnable[Glob.CamNumber, Convert.ToInt32(s_toolname[1])] = true;
+                    Glob.코그넥스파일.캘리퍼툴사용여부[Glob.CamNumber, Convert.ToInt32(s_toolname[1])] = true;
                     break;
                 case "Circle ":
-                    TempCircleEnable[Glob.CamNumber, Convert.ToInt32(s_toolname[1])] = true;
+                    Glob.코그넥스파일.써클툴사용여부[Glob.CamNumber, Convert.ToInt32(s_toolname[1])] = true;
                     break;
             }
         }
@@ -914,13 +863,13 @@ namespace VISION
             switch (s_toolname[0])
             {
                 case "Line ":
-                    TempLineEnable[Glob.CamNumber, Convert.ToInt32(s_toolname[1])] = true;
+                    Glob.코그넥스파일.라인툴사용여부[Glob.CamNumber, Convert.ToInt32(s_toolname[1])] = true;
                     break;
                 case "Caliper ":
-                    TempCaliperEnable[Glob.CamNumber, Convert.ToInt32(s_toolname[1])] = true;
+                    Glob.코그넥스파일.캘리퍼툴사용여부[Glob.CamNumber, Convert.ToInt32(s_toolname[1])] = true;
                     break;
                 case "Circle ":
-                    TempCircleEnable[Glob.CamNumber, Convert.ToInt32(s_toolname[1])] = true;
+                    Glob.코그넥스파일.써클툴사용여부[Glob.CamNumber, Convert.ToInt32(s_toolname[1])] = true;
                     break;
             }
         }
@@ -932,11 +881,11 @@ namespace VISION
             Num2_DimensionTool.SelectedItem = TempDistance_Tool2_Number[Glob.CamNumber, Toolnumber];
             tb_DemensionTool_Measure.Text = string.Empty;
             tb_DemensionTool_Pix.Text = string.Empty;
-            tb_DemensionTool_Calibration.Text = TempDistance_CalibrationValue[Glob.CamNumber, Toolnumber].ToString("F5");
-            tb_LowValue.Text = TempDistance_LowValue[Glob.CamNumber, Toolnumber].ToString("F3");
-            tb_HighValue.Text = TempDistance_HighValue[Glob.CamNumber, Toolnumber].ToString("F3");
+            tb_DemensionTool_Calibration.Text = Glob.코그넥스파일.보정값[Glob.CamNumber, Toolnumber].ToString("F5");
+            tb_LowValue.Text = Glob.코그넥스파일.최소값[Glob.CamNumber, Toolnumber].ToString("F3");
+            tb_HighValue.Text = Glob.코그넥스파일.최대값[Glob.CamNumber, Toolnumber].ToString("F3");
 
-            cb_DimensionToolUsed.Checked = TempDistanceEnable[Glob.CamNumber, Toolnumber];
+            cb_DimensionToolUsed.Checked = Glob.코그넥스파일.거리측정툴사용여부[Glob.CamNumber, Toolnumber];
             DistanceEnableChange(Toolnumber);
             Dataset = false;
         }
@@ -950,7 +899,7 @@ namespace VISION
         {
             if (Dataset == false)
             {
-                TempDistanceEnable[Glob.CamNumber, (int)num_DimensionToolNum.Value] = cb_DimensionToolUsed.Checked;
+                Glob.코그넥스파일.거리측정툴사용여부[Glob.CamNumber, (int)num_DimensionToolNum.Value] = cb_DimensionToolUsed.Checked;
                 DistanceEnableChange((int)num_DimensionToolNum.Value);
             }
         }
@@ -964,7 +913,7 @@ namespace VISION
             {
                 ImageClear();
                 Pattern_Train();
-                TempLines[Glob.CamNumber, Convert.ToInt32(Tool1_Name[1])].Area(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, TempMulti[Glob.CamNumber, 0].ToolName());
+                Glob.코그넥스파일.라인툴[Glob.CamNumber, Convert.ToInt32(Tool1_Name[1])].Area(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, Glob.코그넥스파일.패턴툴[Glob.CamNumber, 0].ToolName());
             }
         }
         private void LineInspection(string ToolName)
@@ -974,9 +923,9 @@ namespace VISION
 
             Pattern_Train();
 
-            TempLines[Glob.CamNumber, Convert.ToInt32(Tool1_Name[1])].Run((CogImage8Grey)cdyDisplay.Image);
-            TempLines[Glob.CamNumber, Convert.ToInt32(Tool1_Name[1])].ResultDisplay(cdyDisplay, Collection);
-            TempDistance[Glob.CamNumber, (int)num_DimensionToolNum.Value].InputLine((int)num_DimensionToolNum.Value, TempLines[Glob.CamNumber, Convert.ToInt32(Tool1_Name[1])].GetLine());
+            Glob.코그넥스파일.라인툴[Glob.CamNumber, Convert.ToInt32(Tool1_Name[1])].Run((CogImage8Grey)cdyDisplay.Image);
+            Glob.코그넥스파일.라인툴[Glob.CamNumber, Convert.ToInt32(Tool1_Name[1])].ResultDisplay(cdyDisplay, Collection);
+            Glob.코그넥스파일.거리측정툴[Glob.CamNumber, (int)num_DimensionToolNum.Value].InputLine((int)num_DimensionToolNum.Value, Glob.코그넥스파일.라인툴[Glob.CamNumber, Convert.ToInt32(Tool1_Name[1])].GetLine());
         }
 
         private void CaliperXY(string ToolName)
@@ -986,9 +935,9 @@ namespace VISION
 
             Pattern_Train();
 
-            TempCaliper[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Run((CogImage8Grey)cdyDisplay.Image);
-            TempCaliper[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].ResultDisplay(ref cdyDisplay);
-            TempDistance[Glob.CamNumber, (int)num_DimensionToolNum.Value].InputXY(TempCaliper[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Result_Corner_X(), TempCaliper[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Result_Corner_Y());
+            Glob.코그넥스파일.캘리퍼툴[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Run((CogImage8Grey)cdyDisplay.Image);
+            Glob.코그넥스파일.캘리퍼툴[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].ResultDisplay(ref cdyDisplay);
+            Glob.코그넥스파일.거리측정툴[Glob.CamNumber, (int)num_DimensionToolNum.Value].InputXY(Glob.코그넥스파일.캘리퍼툴[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Result_Corner_X(), Glob.코그넥스파일.캘리퍼툴[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Result_Corner_Y());
         }
         private void AveragePointXY(string ToolName)
         {
@@ -997,9 +946,9 @@ namespace VISION
 
             Pattern_Train();
 
-            TempLines[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Run((CogImage8Grey)cdyDisplay.Image);
-            TempLines[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].ResultDisplay(cdyDisplay, Collection);
-            TempDistance[Glob.CamNumber, (int)num_DimensionToolNum.Value].InputXY(TempLines[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Average_PointX(), TempLines[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Average_PointY());
+            Glob.코그넥스파일.라인툴[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Run((CogImage8Grey)cdyDisplay.Image);
+            Glob.코그넥스파일.라인툴[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].ResultDisplay(cdyDisplay, Collection);
+            Glob.코그넥스파일.거리측정툴[Glob.CamNumber, (int)num_DimensionToolNum.Value].InputXY(Glob.코그넥스파일.라인툴[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Average_PointX(), Glob.코그넥스파일.라인툴[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Average_PointY());
         }
         private void btn_Tool1Inspect_Click(object sender, EventArgs e)
         {
@@ -1021,13 +970,13 @@ namespace VISION
             switch (Tool2_Name[0])
             {
                 case "Line ":
-                    TempLines[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Area(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, TempMulti[Glob.CamNumber, 0].ToolName());
+                    Glob.코그넥스파일.라인툴[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Area(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, Glob.코그넥스파일.패턴툴[Glob.CamNumber, 0].ToolName());
                     break;
                 case "Caliper ":
-                    TempCaliper[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Area(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, TempMulti[Glob.CamNumber, 0].ToolName());
+                    Glob.코그넥스파일.캘리퍼툴[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Area(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, Glob.코그넥스파일.패턴툴[Glob.CamNumber, 0].ToolName());
                     break;
                 case "Circle ":
-                    TempCircles[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Area(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, TempMulti[Glob.CamNumber, 0].ToolName());
+                    Glob.코그넥스파일.써클툴[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Area(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, Glob.코그넥스파일.패턴툴[Glob.CamNumber, 0].ToolName());
                     break;
             }
         }
@@ -1057,9 +1006,9 @@ namespace VISION
 
             Pattern_Train();
 
-            TempCircles[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Run((CogImage8Grey)cdyDisplay.Image);
-            TempCircles[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].ResultDisplay(ref cdyDisplay);
-            TempDistance[Glob.CamNumber, (int)num_DimensionToolNum.Value].InputCircle(TempCircles[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].GetCircle());
+            Glob.코그넥스파일.써클툴[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].Run((CogImage8Grey)cdyDisplay.Image);
+            Glob.코그넥스파일.써클툴[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].ResultDisplay(ref cdyDisplay);
+            Glob.코그넥스파일.거리측정툴[Glob.CamNumber, (int)num_DimensionToolNum.Value].InputCircle(Glob.코그넥스파일.써클툴[Glob.CamNumber, Convert.ToInt32(Tool2_Name[1])].GetCircle());
         }
         private void btn_DimensionTool_Inspection_Click(object sender, EventArgs e)
         {
@@ -1089,13 +1038,13 @@ namespace VISION
                     break;
             }
 
-            TempDistance[Glob.CamNumber, (int)num_DimensionToolNum.Value].Run((int)num_DimensionToolNum.Value, (CogImage8Grey)cdyDisplay.Image);
-            TempDistance[Glob.CamNumber, (int)num_DimensionToolNum.Value].ResultDisplay((int)num_DimensionToolNum.Value, cdyDisplay, Collection);
-            ResultValue = TempDistance[Glob.CamNumber, (int)num_DimensionToolNum.Value].DistanceValue((int)num_DimensionToolNum.Value) * TempDistance_CalibrationValue[Glob.CamNumber, (int)num_DimensionToolNum.Value];
-            tb_DemensionTool_Pix.Text = TempDistance[Glob.CamNumber, (int)num_DimensionToolNum.Value].DistanceValue((int)num_DimensionToolNum.Value).ToString("F3");
+            Glob.코그넥스파일.거리측정툴[Glob.CamNumber, (int)num_DimensionToolNum.Value].Run((int)num_DimensionToolNum.Value, (CogImage8Grey)cdyDisplay.Image);
+            Glob.코그넥스파일.거리측정툴[Glob.CamNumber, (int)num_DimensionToolNum.Value].ResultDisplay((int)num_DimensionToolNum.Value, cdyDisplay, Collection);
+            ResultValue = Glob.코그넥스파일.거리측정툴[Glob.CamNumber, (int)num_DimensionToolNum.Value].DistanceValue((int)num_DimensionToolNum.Value) * Glob.코그넥스파일.보정값[Glob.CamNumber, (int)num_DimensionToolNum.Value];
+            tb_DemensionTool_Pix.Text = Glob.코그넥스파일.거리측정툴[Glob.CamNumber, (int)num_DimensionToolNum.Value].DistanceValue((int)num_DimensionToolNum.Value).ToString("F3");
             tb_DemensionTool_Measure.Text = ResultValue.ToString("F3");
 
-            if (TempDistance_LowValue[Glob.CamNumber, (int)num_DimensionToolNum.Value] <= ResultValue && TempDistance_HighValue[Glob.CamNumber, (int)num_DimensionToolNum.Value] >= ResultValue)
+            if (Glob.코그넥스파일.최소값[Glob.CamNumber, (int)num_DimensionToolNum.Value] <= ResultValue && Glob.코그넥스파일.최대값[Glob.CamNumber, (int)num_DimensionToolNum.Value] >= ResultValue)
             {
                 Label.OutputColor = CogColorConstants.Green;
             }
@@ -1107,7 +1056,7 @@ namespace VISION
             Label.InputImage = cdyDisplay.Image;
             Label.InputGraphicLabel.X = 1200;
             Label.InputGraphicLabel.Y = 600;
-            Label.InputGraphicLabel.Text = $"{TempDistance[Glob.CamNumber, (int)num_DimensionToolNum.Value].ToolName((int)num_DimensionToolNum.Value)} : {tb_DemensionTool_Measure.Text}";
+            Label.InputGraphicLabel.Text = $"{Glob.코그넥스파일.거리측정툴[Glob.CamNumber, (int)num_DimensionToolNum.Value].ToolName((int)num_DimensionToolNum.Value)} : {tb_DemensionTool_Measure.Text}";
             Label.Run();
             cdyDisplay.StaticGraphics.Add(Label.GetOutputGraphicLabel(), "");
         }
@@ -1119,12 +1068,12 @@ namespace VISION
             switch (s_toolname[0])
             {
                 case "Line ":
-                    TempLines[Glob.CamNumber, (int)num_DimensionToolNum.Value].InputImage((CogImage8Grey)cdyDisplay.Image);
-                    TempLines[Glob.CamNumber, (int)num_DimensionToolNum.Value].ToolSetup();
+                    Glob.코그넥스파일.라인툴[Glob.CamNumber, (int)num_DimensionToolNum.Value].InputImage((CogImage8Grey)cdyDisplay.Image);
+                    Glob.코그넥스파일.라인툴[Glob.CamNumber, (int)num_DimensionToolNum.Value].ToolSetup();
                     break;
                 case "Caliper ":
-                    TempCaliper[Glob.CamNumber, (int)num_DimensionToolNum.Value].InputImage((CogImage8Grey)cdyDisplay.Image);
-                    TempCaliper[Glob.CamNumber, (int)num_DimensionToolNum.Value].ToolSetup();
+                    Glob.코그넥스파일.캘리퍼툴[Glob.CamNumber, (int)num_DimensionToolNum.Value].InputImage((CogImage8Grey)cdyDisplay.Image);
+                    Glob.코그넥스파일.캘리퍼툴[Glob.CamNumber, (int)num_DimensionToolNum.Value].ToolSetup();
                     break;
             }
         }
@@ -1136,16 +1085,16 @@ namespace VISION
             switch (s_toolname[0])
             {
                 case "Line ":
-                    TempLines[Glob.CamNumber, Convert.ToInt32(s_toolname[1])].InputImage((CogImage8Grey)cdyDisplay.Image);
-                    TempLines[Glob.CamNumber, Convert.ToInt32(s_toolname[1])].ToolSetup();
+                    Glob.코그넥스파일.라인툴[Glob.CamNumber, Convert.ToInt32(s_toolname[1])].InputImage((CogImage8Grey)cdyDisplay.Image);
+                    Glob.코그넥스파일.라인툴[Glob.CamNumber, Convert.ToInt32(s_toolname[1])].ToolSetup();
                     break;
                 case "Caliper ":
-                    TempCaliper[Glob.CamNumber, Convert.ToInt32(s_toolname[1])].InputImage((CogImage8Grey)cdyDisplay.Image);
-                    TempCaliper[Glob.CamNumber, Convert.ToInt32(s_toolname[1])].ToolSetup();
+                    Glob.코그넥스파일.캘리퍼툴[Glob.CamNumber, Convert.ToInt32(s_toolname[1])].InputImage((CogImage8Grey)cdyDisplay.Image);
+                    Glob.코그넥스파일.캘리퍼툴[Glob.CamNumber, Convert.ToInt32(s_toolname[1])].ToolSetup();
                     break;
                 case "Circle ":
-                    TempCircles[Glob.CamNumber, Convert.ToInt32(s_toolname[1])].InputImage((CogImage8Grey)cdyDisplay.Image);
-                    TempCircles[Glob.CamNumber, Convert.ToInt32(s_toolname[1])].ToolSetup();
+                    Glob.코그넥스파일.써클툴[Glob.CamNumber, Convert.ToInt32(s_toolname[1])].InputImage((CogImage8Grey)cdyDisplay.Image);
+                    Glob.코그넥스파일.써클툴[Glob.CamNumber, Convert.ToInt32(s_toolname[1])].ToolSetup();
                     break;
             }
         }
@@ -1154,20 +1103,20 @@ namespace VISION
         {
             try
             {
-                TempDistance_CalibrationValue[Glob.CamNumber, (int)num_DimensionToolNum.Value] = Convert.ToDouble(tb_DemensionTool_Measure.Text) / Convert.ToDouble(tb_DemensionTool_Pix.Text);
-                tb_DemensionTool_Calibration.Text = TempDistance_CalibrationValue[Glob.CamNumber, (int)num_DimensionToolNum.Value].ToString("F5");
+                Glob.코그넥스파일.보정값[Glob.CamNumber, (int)num_DimensionToolNum.Value] = Convert.ToDouble(tb_DemensionTool_Measure.Text) / Convert.ToDouble(tb_DemensionTool_Pix.Text);
+                tb_DemensionTool_Calibration.Text = Glob.코그넥스파일.보정값[Glob.CamNumber, (int)num_DimensionToolNum.Value].ToString("F5");
             }
             catch
             {
-                TempDistance_CalibrationValue[Glob.CamNumber, (int)num_DimensionToolNum.Value] = Convert.ToDouble(tb_DemensionTool_Calibration.Text);
+                Glob.코그넥스파일.보정값[Glob.CamNumber, (int)num_DimensionToolNum.Value] = Convert.ToDouble(tb_DemensionTool_Calibration.Text);
                 //tb_DemensionTool_Calibration.Text = tb_DemensionTool_Calibration.Text;
             }
         }
 
         private void btn_SpecApply_Click(object sender, EventArgs e)
         {
-            TempDistance_LowValue[Glob.CamNumber, (int)num_DimensionToolNum.Value] = Convert.ToDouble(tb_LowValue.Text);
-            TempDistance_HighValue[Glob.CamNumber, (int)num_DimensionToolNum.Value] = Convert.ToDouble(tb_HighValue.Text);
+            Glob.코그넥스파일.최소값[Glob.CamNumber, (int)num_DimensionToolNum.Value] = Convert.ToDouble(tb_LowValue.Text);
+            Glob.코그넥스파일.최대값[Glob.CamNumber, (int)num_DimensionToolNum.Value] = Convert.ToDouble(tb_HighValue.Text);
         }
 
         private void 마스터이미지등록_Click(object sender, EventArgs e)
@@ -1231,21 +1180,21 @@ namespace VISION
 
         private void btn_OpenCamSetfile_Click(object sender, EventArgs e)
         {
-            TempCam[Glob.CamNumber].ToolSetup();
+            Glob.코그넥스파일.카메라[Glob.CamNumber].ToolSetup();
         }
 
         private void num_InspectOrder_ValueChanged(object sender, EventArgs e)
         {
             if (Dataset == false)
             {
-                TempMultiOrderNumber[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value] = Convert.ToInt32(num_InspectOrder.Value);
+                Glob.코그넥스파일.패턴툴검사순서번호[Glob.CamNumber, (int)num_MultiPatternToolNumber.Value] = Convert.ToInt32(num_InspectOrder.Value);
                 MultiPatternOrderChange((int)num_MultiPatternToolNumber.Value);
             }
         }
 
         private void MultiPatternOrderChange(int toolnumber)
         {
-            num_InspectOrder.Value = TempMultiOrderNumber[Glob.CamNumber, toolnumber];
+            num_InspectOrder.Value = Glob.코그넥스파일.패턴툴검사순서번호[Glob.CamNumber, toolnumber];
         }
 
         private void num_GlobOrderNumber_ValueChanged(object sender, EventArgs e)
@@ -1255,19 +1204,19 @@ namespace VISION
 
         private void btn_MaskAreaSet_Click(object sender, EventArgs e)
         {
-            if (TempMask[Glob.CamNumber].InputImage((CogImage8Grey)cdyDisplay.Image) == false) return;
+            if (Glob.코그넥스파일.마스크툴[Glob.CamNumber].InputImage((CogImage8Grey)cdyDisplay.Image) == false) return;
 
             Mask_Train(0);
-            TempMask[Glob.CamNumber].Area_Affine_Main1(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, cb_MultiPatternName.SelectedIndex.ToString());
+            Glob.코그넥스파일.마스크툴[Glob.CamNumber].Area_Affine_Main1(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, cb_MultiPatternName.SelectedIndex.ToString());
 
-            TempMask[Glob.CamNumber].ToolSetup();
+            Glob.코그넥스파일.마스크툴[Glob.CamNumber].ToolSetup();
         }
 
         private void cb_ngokchange_CheckedChanged(object sender, EventArgs e)
         {
             if (Dataset == false)
             {
-                TempBlobNGOKChange[Glob.CamNumber, (int)num_BlobToolNum.Value] = cb_ngokchange.Checked;
+                Glob.코그넥스파일.블롭툴역검사[Glob.CamNumber, (int)num_BlobToolNum.Value] = cb_ngokchange.Checked;
                 BlobNGOKChangeChange((int)num_BlobToolNum.Value);
             }
         }

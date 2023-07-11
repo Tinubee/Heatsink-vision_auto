@@ -39,10 +39,6 @@ namespace VISION
         private CogImage8Grey Fiximage; //PMAlign툴의 결과이미지(픽스쳐이미지)
         private string FimageSpace; //PMAlign툴 SpaceName(보정하기위해)
 
-        private Camera[] TempCam;
-        private Mask[] TempMask;
-
-
         public HeatSinkMainDisplay HeatSinkMainDisplay = new HeatSinkMainDisplay();
         public ShieldMainDisplay ShieldMainDisplay = new ShieldMainDisplay();
         private ResultCountDisplay ResultCountDisplay = new ResultCountDisplay();
@@ -51,32 +47,6 @@ namespace VISION
         public Label[] lb개별카메라검사결과;
         public Label[] lb검사시간;
         public Label[] lb최종결과;
-        //public List<CogDisplay> TempCogDisplay = new List<CogDisplay>();
-
-        private Model TempModel; //모델
-        private Blob[,] TempBlobs; //블롭툴
-        private Line[,] TempLines; //라인툴
-        private Circle[,] TempCircles; //써클툴
-        private MultiPMAlign[,] TempMulti;
-        private Distance[,] TempDistance;
-        private Caliper[,] TempCaliper;
-
-
-        private bool[,] TempLineEnable; //라인툴 사용여부
-        private bool[,] TempBlobEnable;//블롭툴 사용여부
-        private bool[,] TempBlobNGOKChange;
-        private bool[,] TempCircleEnable; //써클툴 사용여부
-        private bool[,] TempMultiEnable;
-        private bool[,] TempDistanceEnable;
-        private bool[,] TempCaliperEnable;
-
-        private int[,] TempBlobOKCount;//블롭툴 설정갯수
-        private int[,] TempBlobFixPatternNumber;
-        private int[,] TempMultiOrderNumber;
-
-        private double[,] TempDistance_CalibrationValue;
-        private double[,] TempDistance_LowValue;
-        private double[,] TempDistance_HighValue;
 
         private PGgloble Glob; //전역변수 - CLASS "PGgloble" 참고.
 
@@ -888,7 +858,7 @@ namespace VISION
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
 
-                TempCogDisplay[funCamNumber].Image = TempCam[funCamNumber].Run();
+                TempCogDisplay[funCamNumber].Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
 
@@ -902,7 +872,7 @@ namespace VISION
                     log.AddLogMessage(LogType.Error, 0, "이미지 획들을 하지 못하였습니다. CAM - 1");
                     return;
                 }
-                if (Inspect_Cam0(TempCogDisplay[funCamNumber], shotNumber) == true) // 검사 결과
+                if (Inspect_Cam1(TempCogDisplay[funCamNumber], shotNumber) == true) // 검사 결과
                 {
                     //검사 결과 OK
                     BeginInvoke((Action)delegate
@@ -920,7 +890,7 @@ namespace VISION
                     {
                         result = "N G";
                         DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
-                        NG_Count[0]++;
+                        NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
                             ImageSave1("NG", funCamNumber + 1, TempCogDisplay[funCamNumber]);
                     });
@@ -951,7 +921,7 @@ namespace VISION
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
 
-                Glob.FlipImageTool[funCamNumber].InputImage = TempCam[funCamNumber].Run();
+                Glob.FlipImageTool[funCamNumber].InputImage = Glob.코그넥스파일.카메라[funCamNumber].Run();
                 Glob.FlipImageTool[funCamNumber].Run();
 
                 TempCogDisplay[funCamNumber].Image = Glob.FlipImageTool[funCamNumber].OutputImage;
@@ -965,7 +935,7 @@ namespace VISION
                     log.AddLogMessage(LogType.Error, 0, "이미지 획들을 하지 못하였습니다. CAM - 2");
                     return;
                 }
-                if (Inspect_Cam1(TempCogDisplay[funCamNumber], shotNumber) == true) // 검사 결과
+                if (Inspect_Cam2(TempCogDisplay[funCamNumber], shotNumber) == true) // 검사 결과
                 {
                     //검사 결과 OK
                     BeginInvoke((Action)delegate
@@ -1014,7 +984,7 @@ namespace VISION
                 InspectTime[funCamNumber] = new Stopwatch();
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
-                Glob.FlipImageTool[funCamNumber].InputImage = TempCam[funCamNumber].Run();
+                Glob.FlipImageTool[funCamNumber].InputImage = Glob.코그넥스파일.카메라[funCamNumber].Run();
                 Glob.FlipImageTool[funCamNumber].Run();
 
                 TempCogDisplay[funCamNumber].Image = Glob.FlipImageTool[funCamNumber].OutputImage;
@@ -1028,7 +998,7 @@ namespace VISION
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
                     return;
                 }
-                if (Inspect_Cam2(TempCogDisplay[funCamNumber], shotNumber) == true) // 검사 결과
+                if (Inspect_Cam3(TempCogDisplay[funCamNumber], shotNumber) == true) // 검사 결과
                 {
                     //검사 결과 OK
                     BeginInvoke((Action)delegate
@@ -1080,7 +1050,7 @@ namespace VISION
 
                 NoScratchErrorInit();
 
-                cdy.Image = TempCam[funCamNumber].Run();
+                cdy.Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
                 cdy.InteractiveGraphics.Clear();
                 cdy.StaticGraphics.Clear();
 
@@ -1089,7 +1059,7 @@ namespace VISION
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
                     return;
                 }
-                if (Inspect_Cam3(cdy, shotNumber) == true) // 검사 결과
+                if (Inspect_Cam4(cdy, shotNumber) == true) // 검사 결과
                 {
                     Glob.Inspect4[shotNumber - 1] = true;
                     //검사 결과 OK
@@ -1159,7 +1129,7 @@ namespace VISION
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
 
-                cdy.Image = TempCam[funCamNumber].Run();
+                cdy.Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
                 cdy.InteractiveGraphics.Clear();
                 cdy.StaticGraphics.Clear();
 
@@ -1169,7 +1139,7 @@ namespace VISION
                     return;
                 }
 
-                if (Inspect_Cam4(cdy, shotNumber) == true) // 검사 결과
+                if (Inspect_Cam5(cdy, shotNumber) == true) // 검사 결과
                 {
                     Glob.Inspect5[shotNumber - 1] = true;
                     //검사 결과 OK
@@ -1241,7 +1211,7 @@ namespace VISION
                     NoScratchErrorInit();
                 }
 
-                Glob.FlipImageTool[funCamNumber].InputImage = TempCam[funCamNumber].Run();
+                Glob.FlipImageTool[funCamNumber].InputImage = Glob.코그넥스파일.카메라[funCamNumber].Run();
                 Glob.FlipImageTool[funCamNumber].Run();
 
                 cdy.Image = Glob.FlipImageTool[funCamNumber].OutputImage;
@@ -1255,7 +1225,7 @@ namespace VISION
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
                     return;
                 }
-                if (Inspect_Cam5(cdy, shotNumber) == true) // 검사 결과
+                if (Inspect_Cam6(cdy, shotNumber) == true) // 검사 결과
                 {
                     //검사 결과 OK
                     BeginInvoke((Action)delegate
@@ -1363,10 +1333,10 @@ namespace VISION
             this.IO_DoWork = false;
             this.ResultCountDisplay.timer1.Dispose();
 
-            for (int i = 0; i < TempCam.Count(); i++)
+            for (int i = 0; i < Glob.코그넥스파일.카메라.Count(); i++)
             {
-                TempCam[i].Close();
-                TempMask[i].Close();
+                Glob.코그넥스파일.카메라[i].Close();
+                Glob.코그넥스파일.마스크툴[i].Close();
             }
 
         }
@@ -1408,28 +1378,36 @@ namespace VISION
         }
         public void CognexModelLoad()
         {
-            TempModel = Glob.RunnModel;
-            TempLines = TempModel.Line();
-            TempLineEnable = TempModel.LineEnables();
-            TempBlobs = TempModel.Blob();
-            TempBlobEnable = TempModel.BlobEnables();
-            TempBlobOKCount = TempModel.BlobOKCounts();
-            TempBlobNGOKChange = TempModel.BlobNGOKChanges();
-            TempBlobFixPatternNumber = TempModel.BlobFixPatternNumbers();
-            TempCircles = TempModel.Circle();
-            TempCircleEnable = TempModel.CircleEnables();
-            TempMulti = TempModel.MultiPatterns();
-            TempMultiEnable = TempModel.MultiPatternEnables();
-            TempMultiOrderNumber = TempModel.MultiPatternOrderNumbers();
-            TempDistance = TempModel.Distancess();
-            TempDistanceEnable = TempModel.DistanceEnables();
-            TempDistance_CalibrationValue = TempModel.Distance_CalibrationValues();
-            TempDistance_LowValue = TempModel.Distance_LowValues();
-            TempDistance_HighValue = TempModel.Distance_HighValues();
-            TempCaliper = TempModel.Calipes();
-            TempCaliperEnable = TempModel.CaliperEnables();
-            TempCam = TempModel.Cam();
-            TempMask = TempModel.MaskTool();
+            Glob.코그넥스파일.모델 = Glob.RunnModel;
+            Glob.코그넥스파일.카메라 = Glob.코그넥스파일.모델.Cam();
+            Glob.코그넥스파일.마스크툴 = Glob.코그넥스파일.모델.MaskTool();
+            Glob.코그넥스파일.패턴툴 = Glob.코그넥스파일.모델.MultiPatterns();
+            Glob.코그넥스파일.블롭툴 = Glob.코그넥스파일.모델.Blob();
+            Glob.코그넥스파일.거리측정툴 = Glob.코그넥스파일.모델.Distancess();
+            Glob.코그넥스파일.라인툴 = Glob.코그넥스파일.모델.Line();
+            Glob.코그넥스파일.써클툴 = Glob.코그넥스파일.모델.Circle();
+            Glob.코그넥스파일.캘리퍼툴 = Glob.코그넥스파일.모델.Calipes();
+
+            Glob.코그넥스파일.패턴툴사용여부 = Glob.코그넥스파일.모델.MultiPatternEnables();
+            Glob.코그넥스파일.패턴툴검사순서번호 = Glob.코그넥스파일.모델.MultiPatternOrderNumbers();
+
+            Glob.코그넥스파일.블롭툴사용여부 = Glob.코그넥스파일.모델.BlobEnables();
+            Glob.코그넥스파일.블롭툴양품갯수 = Glob.코그넥스파일.모델.BlobOKCounts();
+            Glob.코그넥스파일.블롭툴역검사 = Glob.코그넥스파일.모델.BlobNGOKChanges();
+            Glob.코그넥스파일.블롭툴픽스쳐번호 = Glob.코그넥스파일.모델.BlobFixPatternNumbers();
+
+            Glob.코그넥스파일.거리측정툴사용여부 = Glob.코그넥스파일.모델.DistanceEnables();
+
+            Glob.코그넥스파일.라인툴사용여부 = Glob.코그넥스파일.모델.LineEnables();
+
+            Glob.코그넥스파일.써클툴사용여부 = Glob.코그넥스파일.모델.CircleEnables();
+
+            Glob.코그넥스파일.캘리퍼툴사용여부 = Glob.코그넥스파일.모델.CaliperEnables();
+
+            Glob.코그넥스파일.보정값 = Glob.코그넥스파일.모델.Distance_CalibrationValues();
+            Glob.코그넥스파일.최소값 = Glob.코그넥스파일.모델.Distance_LowValues();
+            Glob.코그넥스파일.최대값 = Glob.코그넥스파일.모델.Distance_HighValues();
+           
             log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
         }
 
@@ -1447,53 +1425,60 @@ namespace VISION
 
         public void Mask_Train1(CogDisplay cdy, int CameraNumber, int toolnumber)
         {
-            if (TempMulti[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
+            if (Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
             {
-                Fiximage = TempModel.Mask_FixtureImage1((CogImage8Grey)cdy.Image, TempMulti[CameraNumber, toolnumber].ResultPoint(TempMulti[CameraNumber, toolnumber].HighestResultToolNumber()), TempMulti[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, TempMulti[CameraNumber, toolnumber].HighestResultToolNumber());
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.Mask_FixtureImage1((CogImage8Grey)cdy.Image, Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, usePatternNumber);
             }
         }
 
         public void Bolb_Train1(CogDisplay cdy, int CameraNumber, int toolnumber)
         {
-            if (TempMulti[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
+            if (Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
             {
-                Fiximage = TempModel.Blob_FixtureImage1((CogImage8Grey)cdy.Image, TempMulti[CameraNumber, toolnumber].ResultPoint(TempMulti[CameraNumber, toolnumber].HighestResultToolNumber()), TempMulti[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, TempMulti[CameraNumber, toolnumber].HighestResultToolNumber());
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.Blob_FixtureImage1((CogImage8Grey)cdy.Image, Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, usePatternNumber);
             }
         }
         public void Bolb_Train2(CogDisplay cdy, int CameraNumber, int toolnumber)
         {
-            if (TempMulti[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
+            if (Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
             {
-                Fiximage = TempModel.Blob_FixtureImage2((CogImage8Grey)cdy.Image, TempMulti[CameraNumber, toolnumber].ResultPoint(TempMulti[CameraNumber, toolnumber].HighestResultToolNumber()), TempMulti[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, TempMulti[CameraNumber, toolnumber].HighestResultToolNumber());
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.Blob_FixtureImage2((CogImage8Grey)cdy.Image, Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, usePatternNumber);
             }
         }
         public void Bolb_Train3(CogDisplay cdy, int CameraNumber, int toolnumber)
         {
-            if (TempMulti[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
+            if (Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
             {
-                Fiximage = TempModel.Blob_FixtureImage3((CogImage8Grey)cdy.Image, TempMulti[CameraNumber, toolnumber].ResultPoint(TempMulti[CameraNumber, toolnumber].HighestResultToolNumber()), TempMulti[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, TempMulti[CameraNumber, toolnumber].HighestResultToolNumber());
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.Blob_FixtureImage3((CogImage8Grey)cdy.Image, Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, usePatternNumber);
             }
         }
         public void Bolb_Train4(CogDisplay cdy, int CameraNumber, int toolnumber)
         {
-            if (TempMulti[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
+            if (Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
             {
-                Fiximage = TempModel.Blob_FixtureImage4((CogImage8Grey)cdy.Image, TempMulti[CameraNumber, toolnumber].ResultPoint(TempMulti[CameraNumber, toolnumber].HighestResultToolNumber()), TempMulti[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, TempMulti[CameraNumber, toolnumber].HighestResultToolNumber());
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.Blob_FixtureImage4((CogImage8Grey)cdy.Image, Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, usePatternNumber);
             }
         }
         public void Bolb_Train5(CogDisplay cdy, int CameraNumber, int toolnumber)
         {
-            if (TempMulti[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
+            if (Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
             {
-                Fiximage = TempModel.Blob_FixtureImage5((CogImage8Grey)cdy.Image, TempMulti[CameraNumber, toolnumber].ResultPoint(TempMulti[CameraNumber, toolnumber].HighestResultToolNumber()), TempMulti[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, TempMulti[CameraNumber, toolnumber].HighestResultToolNumber());
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.Blob_FixtureImage5((CogImage8Grey)cdy.Image, Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, usePatternNumber);
             }
         }
 
         public void Bolb_Train6(CogDisplay cdy, int CameraNumber, int toolnumber)
         {
-            if (TempMulti[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
+            if (Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
             {
-                Fiximage = TempModel.Blob_FixtureImage6((CogImage8Grey)cdy.Image, TempMulti[CameraNumber, toolnumber].ResultPoint(TempMulti[CameraNumber, toolnumber].HighestResultToolNumber()), TempMulti[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, TempMulti[CameraNumber, toolnumber].HighestResultToolNumber());
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.Blob_FixtureImage6((CogImage8Grey)cdy.Image, Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, usePatternNumber);
             }
         }
 
@@ -1501,7 +1486,7 @@ namespace VISION
         {
             for (int lop = 0; lop < 30; lop++)
             {
-                if (TempMultiOrderNumber[CameraNumber, lop] == shotNumber)
+                if (Glob.코그넥스파일.패턴툴검사순서번호[CameraNumber, lop] == shotNumber)
                 {
                     return lop;
                 }
@@ -1512,7 +1497,7 @@ namespace VISION
         {
             for (int lop = 0; lop < 30; lop++)
             {
-                if (TempMultiOrderNumber[CameraNumber, lop] == shotNumber)
+                if (Glob.코그넥스파일.패턴툴검사순서번호[CameraNumber, lop] == shotNumber)
                 {
                     return lop;
                 }
@@ -1523,7 +1508,7 @@ namespace VISION
         {
             for (int lop = 0; lop < 30; lop++)
             {
-                if (TempMultiOrderNumber[CameraNumber, lop] == shotNumber)
+                if (Glob.코그넥스파일.패턴툴검사순서번호[CameraNumber, lop] == shotNumber)
                 {
                     return lop;
                 }
@@ -1534,7 +1519,7 @@ namespace VISION
         {
             for (int lop = 0; lop < 30; lop++)
             {
-                if (TempMultiOrderNumber[CameraNumber, lop] == shotNumber)
+                if (Glob.코그넥스파일.패턴툴검사순서번호[CameraNumber, lop] == shotNumber)
                 {
                     return lop;
                 }
@@ -1545,7 +1530,7 @@ namespace VISION
         {
             for (int lop = 0; lop < 30; lop++)
             {
-                if (TempMultiOrderNumber[CameraNumber, lop] == shotNumber)
+                if (Glob.코그넥스파일.패턴툴검사순서번호[CameraNumber, lop] == shotNumber)
                 {
                     return lop;
                 }
@@ -1556,7 +1541,7 @@ namespace VISION
         {
             for (int lop = 0; lop < 30; lop++)
             {
-                if (TempMultiOrderNumber[CameraNumber, lop] == shotNumber)
+                if (Glob.코그넥스파일.패턴툴검사순서번호[CameraNumber, lop] == shotNumber)
                 {
                     return lop;
                 }
@@ -1564,8 +1549,8 @@ namespace VISION
             return 0;
         }
 
-        #region Inpection CAM0 
-        public bool Inspect_Cam0(CogDisplay cog, int shotNumber)
+        #region Inpection CAM1 
+        public bool Inspect_Cam1(CogDisplay cog, int shotNumber)
         {
             int CameraNumber = 0;
             Glob.PatternResult[CameraNumber] = true;
@@ -1576,22 +1561,22 @@ namespace VISION
             CogGraphicCollection Collection = new CogGraphicCollection();
             CogGraphicCollection Collection2 = new CogGraphicCollection(); // 패턴
             CogGraphicCollection Collection3 = new CogGraphicCollection(); // 블롭
-            CogGraphicCollection Collection4 = new CogGraphicCollection(); // 치수
-                                                                           //CognexModelLoad();
+
             string[] temp = new string[30];
             int FixPatternNumber = FindFirstPatternNumber1(CameraNumber, shotNumber);
-            if (TempMulti[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
+            if (Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
             {
-                Fiximage = TempModel.FixtureImage((CogImage8Grey)cog.Image, TempMulti[CameraNumber, FixPatternNumber].ResultPoint(TempMulti[CameraNumber, FixPatternNumber].HighestResultToolNumber()), TempMulti[CameraNumber, FixPatternNumber].ToolName(), CameraNumber, out FimageSpace, TempMulti[CameraNumber, FixPatternNumber].HighestResultToolNumber(), FixPatternNumber);
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.FixtureImage((CogImage8Grey)cog.Image, Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].ToolName(), CameraNumber, out FimageSpace, usePatternNumber, FixPatternNumber);
             }
             //*******************************MultiPattern Tool Run******************************//
-            if (TempModel.MultiPattern_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber)) //검사결과가 true 일때
+            if (Glob.코그넥스파일.모델.MultiPattern_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber)) //검사결과가 true 일때
             {
                 for (int lop = 0; lop < 30; lop++)
                 {
-                    if (TempMultiEnable[CameraNumber, lop] == true)
+                    if (Glob.코그넥스파일.패턴툴사용여부[CameraNumber, lop] == true)
                     {
-                        if (TempMulti[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
+                        if (Glob.코그넥스파일.패턴툴[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
                         {
                             InspectResult[CameraNumber] = false;
                             Glob.PatternResult[CameraNumber] = false;
@@ -1608,14 +1593,14 @@ namespace VISION
             //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
             for (int toolnum = 0; toolnum < 29; toolnum++)
             {
-                if (TempBlobEnable[CameraNumber, toolnum])
+                if (Glob.코그넥스파일.블롭툴사용여부[CameraNumber, toolnum])
                 {
-                    Bolb_Train1(cog, CameraNumber, TempBlobFixPatternNumber[CameraNumber, toolnum]);
-                    TempBlobs[CameraNumber, toolnum].Area_Affine_Main1(ref cog, (CogImage8Grey)cog.Image, TempBlobFixPatternNumber[CameraNumber, toolnum].ToString());
+                    Bolb_Train1(cog, CameraNumber, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum]);
+                    Glob.코그넥스파일.블롭툴[CameraNumber, toolnum].Area_Affine_Main1(ref cog, (CogImage8Grey)cog.Image, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum].ToString());
                 }
             }
             //******************************Blob Tool Run******************************//
-            if (TempModel.Blob_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber))
+            if (Glob.코그넥스파일.모델.Blob_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber))
             {
 
             }
@@ -1652,7 +1637,6 @@ namespace VISION
             cog.StaticGraphics.AddList(Collection, "");
             cog.StaticGraphics.AddList(Collection2, "");
             cog.StaticGraphics.AddList(Collection3, "");
-            cog.StaticGraphics.AddList(Collection4, "");
 
             log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
 
@@ -1660,32 +1644,34 @@ namespace VISION
         }
         #endregion
 
-        #region Inpection CAM1 
-        public bool Inspect_Cam1(CogDisplay cog, int shotNumber)
+        #region Inpection CAM2 
+        public bool Inspect_Cam2(CogDisplay cog, int shotNumber)
         {
             int CameraNumber = 1;
             Glob.PatternResult[CameraNumber] = true;
             Glob.BlobResult[CameraNumber] = true;
+            Glob.MeasureResult[CameraNumber] = true;
+
             InspectResult[CameraNumber] = true; //검사 결과는 초기에 무조건 true로 되어있다.
             CogGraphicCollection Collection = new CogGraphicCollection();
             CogGraphicCollection Collection2 = new CogGraphicCollection(); // 패턴
             CogGraphicCollection Collection3 = new CogGraphicCollection(); // 블롭
-            CogGraphicCollection Collection4 = new CogGraphicCollection(); // 블롭
-                                                                           //CognexModelLoad();
+
             string[] temp = new string[30];
-            int FixPatternNumber = FindFirstPatternNumber2(CameraNumber, shotNumber);
-            if (TempMulti[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
+            int FixPatternNumber = FindFirstPatternNumber1(CameraNumber, shotNumber);
+            if (Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
             {
-                Fiximage = TempModel.FixtureImage((CogImage8Grey)cog.Image, TempMulti[CameraNumber, FixPatternNumber].ResultPoint(TempMulti[CameraNumber, FixPatternNumber].HighestResultToolNumber()), TempMulti[CameraNumber, FixPatternNumber].ToolName(), CameraNumber, out FimageSpace, TempMulti[CameraNumber, FixPatternNumber].HighestResultToolNumber(), FixPatternNumber);
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.FixtureImage((CogImage8Grey)cog.Image, Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].ToolName(), CameraNumber, out FimageSpace, usePatternNumber, FixPatternNumber);
             }
             //*******************************MultiPattern Tool Run******************************//
-            if (TempModel.MultiPattern_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber)) //검사결과가 true 일때
+            if (Glob.코그넥스파일.모델.MultiPattern_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber)) //검사결과가 true 일때
             {
                 for (int lop = 0; lop < 30; lop++)
                 {
-                    if (TempMultiEnable[CameraNumber, lop] == true)
+                    if (Glob.코그넥스파일.패턴툴사용여부[CameraNumber, lop] == true)
                     {
-                        if (TempMulti[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
+                        if (Glob.코그넥스파일.패턴툴[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
                         {
                             InspectResult[CameraNumber] = false;
                             Glob.PatternResult[CameraNumber] = false;
@@ -1702,14 +1688,14 @@ namespace VISION
             //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
             for (int toolnum = 0; toolnum < 29; toolnum++)
             {
-                if (TempBlobEnable[CameraNumber, toolnum])
+                if (Glob.코그넥스파일.블롭툴사용여부[CameraNumber, toolnum])
                 {
-                    Bolb_Train2(cog, CameraNumber, TempBlobFixPatternNumber[CameraNumber, toolnum]);
-                    TempBlobs[CameraNumber, toolnum].Area_Affine_Main2(ref cog, (CogImage8Grey)cog.Image, TempBlobFixPatternNumber[CameraNumber, toolnum].ToString());
+                    Bolb_Train1(cog, CameraNumber, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum]);
+                    Glob.코그넥스파일.블롭툴[CameraNumber, toolnum].Area_Affine_Main1(ref cog, (CogImage8Grey)cog.Image, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum].ToString());
                 }
             }
             //******************************Blob Tool Run******************************//
-            if (TempModel.Blob_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber))
+            if (Glob.코그넥스파일.모델.Blob_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber))
             {
 
             }
@@ -1721,54 +1707,6 @@ namespace VISION
             }
             log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
 
-            if (TempModel.Dimension_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection))
-            {
-                CogCreateGraphicLabelTool[] Point_Label = new CogCreateGraphicLabelTool[10];
-                CogCreateGraphicLabelTool[] Label = new CogCreateGraphicLabelTool[10];
-
-                for (int lop = 1; lop < TempDistance.Length / Glob.CamCount; lop++)
-                {
-                    if (TempDistanceEnable[CameraNumber, lop])
-                    {
-                        double ResultValue = 0;
-                        ResultValue = TempDistance[CameraNumber, lop].DistanceValue(lop) * TempDistance_CalibrationValue[Glob.CamNumber, lop];
-
-                        Point_Label[lop] = new CogCreateGraphicLabelTool();
-                        Point_Label[lop].InputImage = cog.Image;
-                        Point_Label[lop].InputGraphicLabel.X = TempDistance[CameraNumber, lop].GetX(lop);
-                        Point_Label[lop].InputGraphicLabel.Y = TempDistance[CameraNumber, lop].GetY(lop);
-                        Point_Label[lop].InputGraphicLabel.Text = ResultValue.ToString("F3");
-
-                        Label[lop] = new CogCreateGraphicLabelTool();
-                        Label[lop].InputImage = cog.Image;
-                        Label[lop].InputGraphicLabel.X = 600;
-                        Label[lop].InputGraphicLabel.Y = 170 + (80 * lop);
-                        Label[lop].InputGraphicLabel.Text = $"{TempDistance[CameraNumber, lop].ToolName(lop)} : {ResultValue.ToString("F3")}";
-                        Label[lop].Run();
-                        Collection4.Add(Label[lop].GetOutputGraphicLabel());
-
-                        if (TempDistance_LowValue[CameraNumber, lop] <= ResultValue && TempDistance_HighValue[CameraNumber, lop] >= ResultValue)
-                        {
-                            Point_Label[lop].OutputColor = CogColorConstants.Green;
-                            Collection4[lop - 1].Color = CogColorConstants.Green;
-                        }
-                        else
-                        {
-                            Point_Label[lop].OutputColor = CogColorConstants.Red;
-                            Collection4[lop - 1].Color = CogColorConstants.Red;
-                            InspectResult[CameraNumber] = false;
-                            Glob.MeasureResult[CameraNumber] = false;
-                        }
-
-                        Point_Label[lop].Run();
-                        cog.StaticGraphics.Add(Point_Label[lop].GetOutputGraphicLabel(), "");
-                    }
-                }
-            }
-            else
-            {
-                InspectResult[CameraNumber] = false;
-            }
 
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, "PATTERN OK"); }
             else { DisplayLabelShow(Collection2, cog, 600, 100, "PATTERN NG"); };
@@ -1794,13 +1732,15 @@ namespace VISION
             cog.StaticGraphics.AddList(Collection, "");
             cog.StaticGraphics.AddList(Collection2, "");
             cog.StaticGraphics.AddList(Collection3, "");
-            cog.StaticGraphics.AddList(Collection4, "");
+
+            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+
             return InspectResult[CameraNumber];
         }
         #endregion
 
-        #region Inpection CAM2 
-        public bool Inspect_Cam2(CogDisplay cog, int shotNumber)
+        #region Inpection CAM3
+        public bool Inspect_Cam3(CogDisplay cog, int shotNumber)
         {
             int CameraNumber = 2;
             Glob.PatternResult[CameraNumber] = true;
@@ -1811,22 +1751,22 @@ namespace VISION
             CogGraphicCollection Collection = new CogGraphicCollection();
             CogGraphicCollection Collection2 = new CogGraphicCollection(); // 패턴
             CogGraphicCollection Collection3 = new CogGraphicCollection(); // 블롭
-            CogGraphicCollection Collection4 = new CogGraphicCollection(); // 치수
-                                                                           //CognexModelLoad();
+
             string[] temp = new string[30];
-            int FixPatternNumber = FindFirstPatternNumber3(CameraNumber, shotNumber);
-            if (TempMulti[CameraNumber, 0].Run((CogImage8Grey)cog.Image))
+            int FixPatternNumber = FindFirstPatternNumber1(CameraNumber, shotNumber);
+            if (Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
             {
-                Fiximage = TempModel.FixtureImage((CogImage8Grey)cog.Image, TempMulti[CameraNumber, FixPatternNumber].ResultPoint(TempMulti[CameraNumber, FixPatternNumber].HighestResultToolNumber()), TempMulti[CameraNumber, FixPatternNumber].ToolName(), CameraNumber, out FimageSpace, TempMulti[CameraNumber, FixPatternNumber].HighestResultToolNumber(), FixPatternNumber);
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.FixtureImage((CogImage8Grey)cog.Image, Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].ToolName(), CameraNumber, out FimageSpace, usePatternNumber, FixPatternNumber);
             }
             //*******************************MultiPattern Tool Run******************************//
-            if (TempModel.MultiPattern_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber)) //검사결과가 true 일때
+            if (Glob.코그넥스파일.모델.MultiPattern_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber)) //검사결과가 true 일때
             {
                 for (int lop = 0; lop < 30; lop++)
                 {
-                    if (TempMultiEnable[CameraNumber, lop] == true)
+                    if (Glob.코그넥스파일.패턴툴사용여부[CameraNumber, lop] == true)
                     {
-                        if (TempMulti[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
+                        if (Glob.코그넥스파일.패턴툴[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
                         {
                             InspectResult[CameraNumber] = false;
                             Glob.PatternResult[CameraNumber] = false;
@@ -1843,14 +1783,14 @@ namespace VISION
             //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
             for (int toolnum = 0; toolnum < 29; toolnum++)
             {
-                if (TempBlobEnable[CameraNumber, toolnum])
+                if (Glob.코그넥스파일.블롭툴사용여부[CameraNumber, toolnum])
                 {
-                    Bolb_Train3(cog, CameraNumber, TempBlobFixPatternNumber[CameraNumber, toolnum]);
-                    TempBlobs[CameraNumber, toolnum].Area_Affine_Main3(ref cog, (CogImage8Grey)cog.Image, TempBlobFixPatternNumber[CameraNumber, toolnum].ToString());
+                    Bolb_Train1(cog, CameraNumber, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum]);
+                    Glob.코그넥스파일.블롭툴[CameraNumber, toolnum].Area_Affine_Main1(ref cog, (CogImage8Grey)cog.Image, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum].ToString());
                 }
             }
             //******************************Blob Tool Run******************************//
-            if (TempModel.Blob_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber))
+            if (Glob.코그넥스파일.모델.Blob_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber))
             {
 
             }
@@ -1861,6 +1801,7 @@ namespace VISION
                 Glob.BlobResult[CameraNumber] = false;
             }
             log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
+
 
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, "PATTERN OK"); }
             else { DisplayLabelShow(Collection2, cog, 600, 100, "PATTERN NG"); };
@@ -1886,13 +1827,15 @@ namespace VISION
             cog.StaticGraphics.AddList(Collection, "");
             cog.StaticGraphics.AddList(Collection2, "");
             cog.StaticGraphics.AddList(Collection3, "");
-            cog.StaticGraphics.AddList(Collection4, "");
+
+            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+
             return InspectResult[CameraNumber];
         }
         #endregion
 
-        #region Inpection CAM3 
-        public bool Inspect_Cam3(CogDisplay cog, int shotNumber)
+        #region Inpection CAM4 
+        public bool Inspect_Cam4(CogDisplay cog, int shotNumber)
         {
             int CameraNumber = 3;
             Glob.PatternResult[CameraNumber] = true;
@@ -1903,23 +1846,22 @@ namespace VISION
             CogGraphicCollection Collection = new CogGraphicCollection();
             CogGraphicCollection Collection2 = new CogGraphicCollection(); // 패턴
             CogGraphicCollection Collection3 = new CogGraphicCollection(); // 블롭
-            CogGraphicCollection Collection4 = new CogGraphicCollection(); // 치수
 
-            //CognexModelLoad();
             string[] temp = new string[30];
-            int FixPatternNumber = FindFirstPatternNumber4(CameraNumber, shotNumber);
-            if (TempMulti[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
+            int FixPatternNumber = FindFirstPatternNumber1(CameraNumber, shotNumber);
+            if (Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
             {
-                Fiximage = TempModel.FixtureImage((CogImage8Grey)cog.Image, TempMulti[CameraNumber, FixPatternNumber].ResultPoint(TempMulti[CameraNumber, FixPatternNumber].HighestResultToolNumber()), TempMulti[CameraNumber, FixPatternNumber].ToolName(), CameraNumber, out FimageSpace, TempMulti[CameraNumber, FixPatternNumber].HighestResultToolNumber(), FixPatternNumber);
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.FixtureImage((CogImage8Grey)cog.Image, Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].ToolName(), CameraNumber, out FimageSpace, usePatternNumber, FixPatternNumber);
             }
             //*******************************MultiPattern Tool Run******************************//
-            if (TempModel.MultiPattern_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber)) //검사결과가 true 일때
+            if (Glob.코그넥스파일.모델.MultiPattern_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber)) //검사결과가 true 일때
             {
                 for (int lop = 0; lop < 30; lop++)
                 {
-                    if (TempMultiEnable[CameraNumber, lop] == true && TempMultiOrderNumber[CameraNumber, lop] == shotNumber)
+                    if (Glob.코그넥스파일.패턴툴사용여부[CameraNumber, lop] == true)
                     {
-                        if (TempMulti[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
+                        if (Glob.코그넥스파일.패턴툴[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
                         {
                             InspectResult[CameraNumber] = false;
                             Glob.PatternResult[CameraNumber] = false;
@@ -1936,14 +1878,14 @@ namespace VISION
             //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
             for (int toolnum = 0; toolnum < 29; toolnum++)
             {
-                if (TempBlobEnable[CameraNumber, toolnum])
+                if (Glob.코그넥스파일.블롭툴사용여부[CameraNumber, toolnum])
                 {
-                    Bolb_Train4(cog, CameraNumber, TempBlobFixPatternNumber[CameraNumber, toolnum]);
-                    TempBlobs[CameraNumber, toolnum].Area_Affine_Main4(ref cog, (CogImage8Grey)cog.Image, TempBlobFixPatternNumber[CameraNumber, toolnum].ToString());
+                    Bolb_Train1(cog, CameraNumber, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum]);
+                    Glob.코그넥스파일.블롭툴[CameraNumber, toolnum].Area_Affine_Main1(ref cog, (CogImage8Grey)cog.Image, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum].ToString());
                 }
             }
             //******************************Blob Tool Run******************************//
-            if (TempModel.Blob_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber))
+            if (Glob.코그넥스파일.모델.Blob_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber))
             {
 
             }
@@ -1952,14 +1894,14 @@ namespace VISION
                 //BLOB 검사 FAIL
                 InspectResult[CameraNumber] = false;
                 Glob.BlobResult[CameraNumber] = false;
-                Glob.BlobResult[shotNumber - 1] = false;
             }
             log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
+
 
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, "PATTERN OK"); }
             else { DisplayLabelShow(Collection2, cog, 600, 100, "PATTERN NG"); };
 
-            if (Glob.BlobResult[CameraNumber] && Glob.BlobResult[shotNumber]) { DisplayLabelShow(Collection3, cog, 600, 170, "BLOB OK"); }
+            if (Glob.BlobResult[CameraNumber]) { DisplayLabelShow(Collection3, cog, 600, 170, "BLOB OK"); }
             else { DisplayLabelShow(Collection3, cog, 600, 170, "BLOB NG"); };
 
             for (int i = 0; i < Collection.Count; i++)
@@ -1980,36 +1922,41 @@ namespace VISION
             cog.StaticGraphics.AddList(Collection, "");
             cog.StaticGraphics.AddList(Collection2, "");
             cog.StaticGraphics.AddList(Collection3, "");
-            cog.StaticGraphics.AddList(Collection4, "");
+
+            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+
             return InspectResult[CameraNumber];
         }
         #endregion
 
-        #region Inpection CAM4 
-        public bool Inspect_Cam4(CogDisplay cog, int shotNumber)
+        #region Inpection CAM5
+        public bool Inspect_Cam5(CogDisplay cog, int shotNumber)
         {
             int CameraNumber = 4;
             Glob.PatternResult[CameraNumber] = true;
             Glob.BlobResult[CameraNumber] = true;
+            Glob.MeasureResult[CameraNumber] = true;
+
             InspectResult[CameraNumber] = true; //검사 결과는 초기에 무조건 true로 되어있다.
             CogGraphicCollection Collection = new CogGraphicCollection();
             CogGraphicCollection Collection2 = new CogGraphicCollection(); // 패턴
             CogGraphicCollection Collection3 = new CogGraphicCollection(); // 블롭
-                                                                           //CognexModelLoad();
+
             string[] temp = new string[30];
-            int FixPatternNumber = FindFirstPatternNumber5(CameraNumber, shotNumber);
-            if (TempMulti[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
+            int FixPatternNumber = FindFirstPatternNumber1(CameraNumber, shotNumber);
+            if (Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
             {
-                Fiximage = TempModel.FixtureImage((CogImage8Grey)cog.Image, TempMulti[CameraNumber, FixPatternNumber].ResultPoint(TempMulti[CameraNumber, FixPatternNumber].HighestResultToolNumber()), TempMulti[CameraNumber, FixPatternNumber].ToolName(), CameraNumber, out FimageSpace, TempMulti[CameraNumber, FixPatternNumber].HighestResultToolNumber(), FixPatternNumber);
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.FixtureImage((CogImage8Grey)cog.Image, Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].ToolName(), CameraNumber, out FimageSpace, usePatternNumber, FixPatternNumber);
             }
             //*******************************MultiPattern Tool Run******************************//
-            if (TempModel.MultiPattern_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber)) //검사결과가 true 일때
+            if (Glob.코그넥스파일.모델.MultiPattern_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber)) //검사결과가 true 일때
             {
                 for (int lop = 0; lop < 30; lop++)
                 {
-                    if (TempMultiEnable[CameraNumber, lop] == true && TempMultiOrderNumber[CameraNumber, lop] == shotNumber)
+                    if (Glob.코그넥스파일.패턴툴사용여부[CameraNumber, lop] == true)
                     {
-                        if (TempMulti[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
+                        if (Glob.코그넥스파일.패턴툴[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
                         {
                             InspectResult[CameraNumber] = false;
                             Glob.PatternResult[CameraNumber] = false;
@@ -2026,14 +1973,14 @@ namespace VISION
             //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
             for (int toolnum = 0; toolnum < 29; toolnum++)
             {
-                if (TempBlobEnable[CameraNumber, toolnum])
+                if (Glob.코그넥스파일.블롭툴사용여부[CameraNumber, toolnum])
                 {
-                    Bolb_Train5(cog, CameraNumber, TempBlobFixPatternNumber[CameraNumber, toolnum]);
-                    TempBlobs[CameraNumber, toolnum].Area_Affine_Main5(ref cog, (CogImage8Grey)cog.Image, TempBlobFixPatternNumber[CameraNumber, toolnum].ToString());
+                    Bolb_Train1(cog, CameraNumber, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum]);
+                    Glob.코그넥스파일.블롭툴[CameraNumber, toolnum].Area_Affine_Main1(ref cog, (CogImage8Grey)cog.Image, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum].ToString());
                 }
             }
             //******************************Blob Tool Run******************************//
-            if (TempModel.Blob_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber))
+            if (Glob.코그넥스파일.모델.Blob_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber))
             {
 
             }
@@ -2042,33 +1989,43 @@ namespace VISION
                 //BLOB 검사 FAIL
                 InspectResult[CameraNumber] = false;
                 Glob.BlobResult[CameraNumber] = false;
-                Glob.BlobResult5[shotNumber - 1] = false;
             }
             log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
+
+
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, "PATTERN OK"); }
             else { DisplayLabelShow(Collection2, cog, 600, 100, "PATTERN NG"); };
 
             if (Glob.BlobResult[CameraNumber]) { DisplayLabelShow(Collection3, cog, 600, 170, "BLOB OK"); }
             else { DisplayLabelShow(Collection3, cog, 600, 170, "BLOB NG"); };
 
+            for (int i = 0; i < Collection.Count; i++)
+            {
+                if (Collection[i] == null)
+                {
+                    continue;
+                }
+                if (Collection[i].ToString() == "Cognex.VisionPro.CogGraphicLabel")
+                    Collection[i].Color = CogColorConstants.Blue;
+            }
+
             for (int i = 0; i < Collection2.Count; i++)
                 Collection2[i].Color = Glob.PatternResult[CameraNumber] == true ? CogColorConstants.Green : CogColorConstants.Red;
             for (int i = 0; i < Collection3.Count; i++)
                 Collection3[i].Color = Glob.BlobResult[CameraNumber] == true ? CogColorConstants.Green : CogColorConstants.Red;
-            for (int i = 0; i < Collection.Count; i++)
-            {
-                if (Collection[i].ToString() == "Cognex.VisionPro.CogGraphicLabel")
-                    Collection[i].Color = CogColorConstants.Blue;
-            }
+
             cog.StaticGraphics.AddList(Collection, "");
             cog.StaticGraphics.AddList(Collection2, "");
             cog.StaticGraphics.AddList(Collection3, "");
+
+            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+
             return InspectResult[CameraNumber];
         }
         #endregion
 
-        #region Inpection CAM5 
-        public bool Inspect_Cam5(CogDisplay cog, int shotNumber)
+        #region Inpection CAM6
+        public bool Inspect_Cam6(CogDisplay cog, int shotNumber)
         {
             int CameraNumber = 5;
             Glob.PatternResult[CameraNumber] = true;
@@ -2079,25 +2036,22 @@ namespace VISION
             CogGraphicCollection Collection = new CogGraphicCollection();
             CogGraphicCollection Collection2 = new CogGraphicCollection(); // 패턴
             CogGraphicCollection Collection3 = new CogGraphicCollection(); // 블롭
-            CogGraphicCollection Collection4 = new CogGraphicCollection(); // 치수
-                                                                           //CognexModelLoad();
+
             string[] temp = new string[30];
-
-            int FixPatternNumber = FindFirstPatternNumber6(CameraNumber, shotNumber);
-            int highestResultNumber = TempMulti[CameraNumber, FixPatternNumber].HighestResultToolNumber();
-            if (TempMulti[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
+            int FixPatternNumber = FindFirstPatternNumber1(CameraNumber, shotNumber);
+            if (Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
             {
-                Fiximage = TempModel.FixtureImage((CogImage8Grey)cog.Image, TempMulti[CameraNumber, FixPatternNumber].ResultPoint(highestResultNumber), TempMulti[CameraNumber, FixPatternNumber].ToolName(), CameraNumber, out FimageSpace, highestResultNumber, FixPatternNumber);
-
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.FixtureImage((CogImage8Grey)cog.Image, Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].ToolName(), CameraNumber, out FimageSpace, usePatternNumber, FixPatternNumber);
             }
             //*******************************MultiPattern Tool Run******************************//
-            if (TempModel.MultiPattern_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber)) //검사결과가 true 일때
+            if (Glob.코그넥스파일.모델.MultiPattern_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber)) //검사결과가 true 일때
             {
                 for (int lop = 0; lop < 30; lop++)
                 {
-                    if (TempMultiEnable[CameraNumber, lop] == true && TempMultiOrderNumber[CameraNumber, lop] == shotNumber)
+                    if (Glob.코그넥스파일.패턴툴사용여부[CameraNumber, lop] == true)
                     {
-                        if (TempMulti[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
+                        if (Glob.코그넥스파일.패턴툴[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
                         {
                             InspectResult[CameraNumber] = false;
                             Glob.PatternResult[CameraNumber] = false;
@@ -2114,14 +2068,14 @@ namespace VISION
             //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
             for (int toolnum = 0; toolnum < 29; toolnum++)
             {
-                if (TempBlobEnable[CameraNumber, toolnum])
+                if (Glob.코그넥스파일.블롭툴사용여부[CameraNumber, toolnum])
                 {
-                    Bolb_Train6(cog, CameraNumber, TempBlobFixPatternNumber[CameraNumber, toolnum]);
-                    TempBlobs[CameraNumber, toolnum].Area_Affine_Main6(ref cog, (CogImage8Grey)cog.Image, TempBlobFixPatternNumber[CameraNumber, toolnum].ToString());
+                    Bolb_Train1(cog, CameraNumber, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum]);
+                    Glob.코그넥스파일.블롭툴[CameraNumber, toolnum].Area_Affine_Main1(ref cog, (CogImage8Grey)cog.Image, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum].ToString());
                 }
             }
             //******************************Blob Tool Run******************************//
-            if (TempModel.Blob_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber))
+            if (Glob.코그넥스파일.모델.Blob_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber))
             {
 
             }
@@ -2132,6 +2086,7 @@ namespace VISION
                 Glob.BlobResult[CameraNumber] = false;
             }
             log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
+
 
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, "PATTERN OK"); }
             else { DisplayLabelShow(Collection2, cog, 600, 100, "PATTERN NG"); };
@@ -2157,10 +2112,13 @@ namespace VISION
             cog.StaticGraphics.AddList(Collection, "");
             cog.StaticGraphics.AddList(Collection2, "");
             cog.StaticGraphics.AddList(Collection3, "");
-            cog.StaticGraphics.AddList(Collection4, "");
+
+            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+
             return InspectResult[CameraNumber];
         }
         #endregion
+
 
 
         public void DgvResult(DataGridView dgv, int camnumber, int cellnumber)
@@ -2169,17 +2127,17 @@ namespace VISION
             {
                 for (int i = 0; i < 30; i++)
                 {
-                    int patternIndex = TempBlobFixPatternNumber[camnumber, i];
-                    if (TempBlobEnable[camnumber, i] == true && TempMultiOrderNumber[camnumber, patternIndex] == Glob.InspectOrder)
+                    int patternIndex = Glob.코그넥스파일.블롭툴픽스쳐번호[camnumber, i];
+                    if (Glob.코그넥스파일.블롭툴사용여부[camnumber, i] == true && Glob.코그넥스파일.패턴툴검사순서번호[camnumber, patternIndex] == Glob.InspectOrder)
                     {
-                        if (TempBlobs[camnumber, i].ResultBlobCount() != TempBlobOKCount[camnumber, i]) // - 검사결과 NG
+                        if (Glob.코그넥스파일.블롭툴[camnumber, i].ResultBlobCount() != Glob.코그넥스파일.블롭툴양품갯수[camnumber, i]) // - 검사결과 NG
                         {
-                            dgv.Rows[i].Cells[3].Value = $"{TempBlobs[camnumber, i].ResultBlobCount()}-({TempBlobOKCount[camnumber, i]})";
+                            dgv.Rows[i].Cells[3].Value = $"{Glob.코그넥스파일.블롭툴[camnumber, i].ResultBlobCount()}-({Glob.코그넥스파일.블롭툴양품갯수[camnumber, i]})";
                             dgv.Rows[i].Cells[3].Style.BackColor = Color.Red;
                         }
                         else // - 검사결과 OK
                         {
-                            dgv.Rows[i].Cells[3].Value = $"{TempBlobs[camnumber, i].ResultBlobCount()}-({TempBlobOKCount[camnumber, i]})";
+                            dgv.Rows[i].Cells[3].Value = $"{Glob.코그넥스파일.블롭툴[camnumber, i].ResultBlobCount()}-({Glob.코그넥스파일.블롭툴양품갯수[camnumber, i]})";
                             dgv.Rows[i].Cells[3].Style.BackColor = Color.Lime;
                         }
                     }
@@ -2191,11 +2149,11 @@ namespace VISION
                 }
                 for (int i = 0; i < 30; i++)
                 {
-                    if (TempMultiEnable[camnumber, i] == true && TempMultiOrderNumber[camnumber, i] == Glob.InspectOrder)
+                    if (Glob.코그넥스파일.패턴툴사용여부[camnumber, i] == true && Glob.코그넥스파일.패턴툴검사순서번호[camnumber, i] == Glob.InspectOrder)
                     {
-                        if (TempMulti[camnumber, i].ResultPoint(TempMulti[camnumber, i].HighestResultToolNumber()) != null)
+                        if (Glob.코그넥스파일.패턴툴[camnumber, i].ResultPoint(Glob.코그넥스파일.패턴툴[camnumber, i].HighestResultToolNumber()) != null)
                         {
-                            if (Glob.MultiInsPat_Result[camnumber, i] > TempMulti[camnumber, i].Threshold() * 100)
+                            if (Glob.MultiInsPat_Result[camnumber, i] > Glob.코그넥스파일.패턴툴[camnumber, i].Threshold() * 100)
                             {
                                 dgv.Rows[i].Cells[cellnumber].Value = Glob.MultiInsPat_Result[camnumber, i].ToString("F2");
                                 dgv.Rows[i].Cells[cellnumber].Style.BackColor = Color.Lime;
@@ -2460,14 +2418,14 @@ namespace VISION
 
                 if (camNumber == 1 || camNumber == 2 || camNumber == 5)
                 {
-                    Glob.FlipImageTool[camNumber].InputImage = TempCam[camNumber].Run();
+                    Glob.FlipImageTool[camNumber].InputImage = Glob.코그넥스파일.카메라[camNumber].Run();
                     Glob.FlipImageTool[camNumber].Run();
 
                     cdy.Image = Glob.FlipImageTool[camNumber].OutputImage;
                 }
                 else
                 {
-                    cdy.Image = TempCam[camNumber].Run();
+                    cdy.Image = Glob.코그넥스파일.카메라[camNumber].Run();
                 }
                 log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Cam{camNumber + 1} OneShot 완료.");
             }

@@ -1,4 +1,5 @@
 ﻿using Cognex.VisionPro.Dimensioning;
+using Cognex.VisionPro.Interop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -202,7 +203,7 @@ namespace VISION.Cogs
         public void SearchArea(ref Cognex.VisionPro.Display.CogDisplay display, Cognex.VisionPro.CogImage8Grey Image, int CameraNumber, int ToolNumber)
         {
             Cognex.VisionPro.CogRectangleAffine SearchRegion = new Cognex.VisionPro.CogRectangleAffine();
-            
+
             SearchRegion = (Cognex.VisionPro.CogRectangleAffine)Tool.SearchRegion;
             if (SearchRegion == null) return;
             SearchRegion.LineWidthInScreenPixels = 5;
@@ -375,7 +376,7 @@ namespace VISION.Cogs
             {
                 return 0;
             }
-           
+
         }
         public void ResultDisplay(ref Cognex.VisionPro.Display.CogDisplay display, int PatternNumber)
         {
@@ -390,7 +391,7 @@ namespace VISION.Cogs
                 NG.LineStyle = Cognex.VisionPro.CogGraphicLineStyleConstants.Solid;
                 NG.Color = Cognex.VisionPro.CogColorConstants.Red;
                 NG.Interactive = false;
-                display.InteractiveGraphics.Add(NG, null,false);
+                display.InteractiveGraphics.Add(NG, null, false);
                 return;
             }
             display.InteractiveGraphics.Add(Tool.Results.PMAlignResults[PatternNumber].CreateResultGraphics(Cognex.VisionPro.PMAlign.CogPMAlignResultGraphicConstants.All), null, false);
@@ -399,7 +400,7 @@ namespace VISION.Cogs
         {
             CogCreateGraphicLabelTool lb_Score = new CogCreateGraphicLabelTool();
             lb_Score.InputImage = display.Image;
-            lb_Score.SourceSelector = CogCreateGraphicLabelSourceSelectorConstants.InputDouble;
+            lb_Score.SourceSelector = CogCreateGraphicLabelSourceSelectorConstants.InputGraphicLabelText;
 
             if (Tool.Results == null || Tool.Results.PMAlignResults.Count < 1)
             {
@@ -411,20 +412,22 @@ namespace VISION.Cogs
                 lb_Score.InputGraphicLabel.X = NG.CenterX;
                 lb_Score.InputGraphicLabel.Y = NG.CenterY;
                 lb_Score.OutputColor = Cognex.VisionPro.CogColorConstants.Red;
-                lb_Score.InputDouble = ToolNumber;
+
+                lb_Score.InputGraphicLabel.Text = $"{ToolNumber}번패턴 검색영역 내 없음";
                 lb_Score.Run();
 
-                display.InteractiveGraphics.Add(NG, null, false);
+                //display.InteractiveGraphics.Add(NG, null, false);
                 display.StaticGraphics.Add(lb_Score.GetOutputGraphicLabel(), null);
             }
             else
             {
                 lb_Score.InputGraphicLabel.X = Tool.Results.PMAlignResults[Number].GetPose().TranslationX;
                 lb_Score.InputGraphicLabel.Y = Tool.Results.PMAlignResults[Number].GetPose().TranslationY;
-                lb_Score.InputDouble = ToolNumber;//Convert.ToDouble((Tool.Results.PMAlignResults[Number].Score * 100).ToString("F2"));
-                lb_Score.OutputColor = Cognex.VisionPro.CogColorConstants.Green;
+                lb_Score.InputGraphicLabel.Text = Tool.Results.PMAlignResults[Number].Score > Tool.RunParams.PMAlignRunParams.AcceptThreshold ? $"{ToolNumber}" : $"{ToolNumber} - {(Tool.Results.PMAlignResults[Number].Score * 100).ToString("F2")} / {Tool.RunParams.PMAlignRunParams.AcceptThreshold * 100}";
+
+                lb_Score.OutputColor = Tool.Results.PMAlignResults[Number].Score > Tool.RunParams.PMAlignRunParams.AcceptThreshold ? Cognex.VisionPro.CogColorConstants.Green : Cognex.VisionPro.CogColorConstants.Red;
                 lb_Score.Run();
-              
+
                 display.InteractiveGraphics.Add(Tool.Results.PMAlignResults[Number].CreateResultGraphics(Cognex.VisionPro.PMAlign.CogPMAlignResultGraphicConstants.MatchRegion), null, false);
                 display.InteractiveGraphics.Add(lb_Score.GetOutputGraphicLabel(), null, false);
             }
@@ -446,9 +449,9 @@ namespace VISION.Cogs
 
                 Window.ShowDialog(); // 폼 실행
             }
-            catch(Exception)
+            catch (Exception)
             {
-                
+
             }
         }
     }

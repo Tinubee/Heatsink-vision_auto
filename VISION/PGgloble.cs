@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VISION.Cogs;
 
 namespace VISION
 {
@@ -63,7 +64,7 @@ namespace VISION
 
         // 시스템
         public int CamCount = 6;
-        public Cogs.Model RunnModel = null;
+        public Model RunnModel = null;
         public CogIPOneImageTool[] FlipImageTool = new CogIPOneImageTool[6];
         public Frm_Main G_MainForm;
 
@@ -112,7 +113,7 @@ namespace VISION
 
         public double StandPoint_X;
         public double StandPoint_Y;
-   
+
         public double[,] MultiPatternResultData = new double[6, 30];
         public int allCameraCount;
 
@@ -128,13 +129,44 @@ namespace VISION
         public CogMaskCreatorTool[] curruntMaskTool = new CogMaskCreatorTool[6];
         public string curruntMaskToolPath;
 
-        public bool[] Inspect4= new bool[3];
+        public bool[] Inspect4 = new bool[3];
         public bool[] Inspect5 = new bool[2];
+
+        public 코그넥스파일 코그넥스파일;
     }
     public struct CamSets
     {
         public double[] Exposure; //조리개값
         public double[] Gain;
         public int DelayTime; //지연시간
+    }
+
+    public struct 코그넥스파일
+    {
+        public Model 모델;
+        public Camera[] 카메라;
+        public Mask[] 마스크툴;
+        public Blob[,] 블롭툴;
+        public MultiPMAlign[,] 패턴툴;
+        public Line[,] 라인툴;
+        public Circle[,] 써클툴;
+        public Distance[,] 거리측정툴;
+        public Caliper[,] 캘리퍼툴;
+
+        public bool[,] 라인툴사용여부;
+        public bool[,] 블롭툴사용여부;
+        public bool[,] 블롭툴역검사;
+        public bool[,] 패턴툴사용여부;
+        public bool[,] 거리측정툴사용여부;
+        public bool[,] 써클툴사용여부;
+        public bool[,] 캘리퍼툴사용여부;
+
+        public int[,] 블롭툴양품갯수;
+        public int[,] 블롭툴픽스쳐번호;
+        public int[,] 패턴툴검사순서번호;
+
+        public double[,] 보정값;
+        public double[,] 최소값;
+        public double[,] 최대값;
     }
 }
