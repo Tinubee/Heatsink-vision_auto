@@ -159,6 +159,11 @@ namespace VISION.Cogs
             return true;
         }
 
+        private bool ReadCamera(string path, int cam)
+        {
+            return Camera[cam].Loadtool(path + $"\\cam - {cam.ToString()}.vpp");
+        }
+
         /// <summary>
         /// 검사 모델 파일 불러오기
         /// </summary>

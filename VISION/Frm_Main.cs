@@ -2626,6 +2626,11 @@ namespace VISION
             }
             return false;
         }
+
+        private void 카메라파일다시로드하기(object sender, EventArgs e)
+        {
+            //캠파일 ReLoading.
+        }
     }
 }
 public static class ExtensionMethods

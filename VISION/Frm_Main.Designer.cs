@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Main));
             this.tlpUnder = new System.Windows.Forms.TableLayoutPanel();
+            this.btn카메라리로드 = new System.Windows.Forms.Button();
             this.btn_SystemSetup = new System.Windows.Forms.Button();
             this.btn_Model = new System.Windows.Forms.Button();
             this.btn_Analyze = new System.Windows.Forms.Button();
@@ -121,6 +122,7 @@
             this.tlpUnder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.302063F));
             this.tlpUnder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.302063F));
             this.tlpUnder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.302063F));
+            this.tlpUnder.Controls.Add(this.btn카메라리로드, 0, 0);
             this.tlpUnder.Controls.Add(this.btn_SystemSetup, 11, 0);
             this.tlpUnder.Controls.Add(this.btn_Model, 8, 0);
             this.tlpUnder.Controls.Add(this.btn_Analyze, 10, 0);
@@ -134,6 +136,22 @@
             this.tlpUnder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpUnder.Size = new System.Drawing.Size(1920, 89);
             this.tlpUnder.TabIndex = 1;
+            // 
+            // btn카메라리로드
+            // 
+            this.btn카메라리로드.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn카메라리로드.Enabled = false;
+            this.btn카메라리로드.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn카메라리로드.Location = new System.Drawing.Point(259, 1);
+            this.btn카메라리로드.Margin = new System.Windows.Forms.Padding(0);
+            this.btn카메라리로드.Name = "btn카메라리로드";
+            this.btn카메라리로드.Size = new System.Drawing.Size(139, 87);
+            this.btn카메라리로드.TabIndex = 57;
+            this.btn카메라리로드.Tag = "Front";
+            this.btn카메라리로드.Text = "Cam ReLoad";
+            this.btn카메라리로드.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btn카메라리로드.UseVisualStyleBackColor = true;
+            this.btn카메라리로드.Click += new System.EventHandler(this.카메라파일다시로드하기);
             // 
             // btn_SystemSetup
             // 
@@ -1139,6 +1157,7 @@
         private System.Windows.Forms.ProgressBar pb저장공간;
         private System.Windows.Forms.Label lb저장공간;
         private System.Windows.Forms.Button btn최소화;
+        private System.Windows.Forms.Button btn카메라리로드;
     }
 }
 
