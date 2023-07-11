@@ -31,15 +31,24 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Main));
             this.tlpUnder = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_SystemSetup = new System.Windows.Forms.Button();
+            this.btn_Model = new System.Windows.Forms.Button();
+            this.btn_Analyze = new System.Windows.Forms.Button();
             this.tableLayoutPanel32 = new System.Windows.Forms.TableLayoutPanel();
             this.label10 = new System.Windows.Forms.Label();
             this.cb_ResultOK = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_ToolSetUp = new System.Windows.Forms.Button();
             this.tlpTopSide = new System.Windows.Forms.TableLayoutPanel();
+            this.btn최소화 = new System.Windows.Forms.Button();
             this.lb_CurruntModelName = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lb_Time = new System.Windows.Forms.Label();
             this.lb_Ver = new System.Windows.Forms.Label();
+            this.btn_Exit = new System.Windows.Forms.Button();
+            this.btn_Stop = new System.Windows.Forms.Button();
+            this.btn_Status = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.pb저장공간 = new System.Windows.Forms.ProgressBar();
@@ -83,27 +92,17 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.MainPanel = new System.Windows.Forms.Panel();
             this.LightControl4 = new System.IO.Ports.SerialPort(this.components);
-            this.btn최소화 = new System.Windows.Forms.Button();
-            this.btn_Exit = new System.Windows.Forms.Button();
-            this.btn_Stop = new System.Windows.Forms.Button();
-            this.btn_Status = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btn_SystemSetup = new System.Windows.Forms.Button();
-            this.btn_Model = new System.Windows.Forms.Button();
-            this.btn_CamSet = new System.Windows.Forms.Button();
-            this.btn_Analyze = new System.Windows.Forms.Button();
-            this.btn_ToolSetUp = new System.Windows.Forms.Button();
             this.tlpUnder.SuspendLayout();
             this.tableLayoutPanel32.SuspendLayout();
             this.tlpTopSide.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel5.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.Main_TabControl.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tlpUnder
@@ -124,7 +123,6 @@
             this.tlpUnder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.302063F));
             this.tlpUnder.Controls.Add(this.btn_SystemSetup, 11, 0);
             this.tlpUnder.Controls.Add(this.btn_Model, 8, 0);
-            this.tlpUnder.Controls.Add(this.btn_CamSet, 7, 0);
             this.tlpUnder.Controls.Add(this.btn_Analyze, 10, 0);
             this.tlpUnder.Controls.Add(this.tableLayoutPanel32, 0, 0);
             this.tlpUnder.Controls.Add(this.tableLayoutPanel4, 2, 0);
@@ -136,6 +134,59 @@
             this.tlpUnder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpUnder.Size = new System.Drawing.Size(1920, 89);
             this.tlpUnder.TabIndex = 1;
+            // 
+            // btn_SystemSetup
+            // 
+            this.btn_SystemSetup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_SystemSetup.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn_SystemSetup.Image = ((System.Drawing.Image)(resources.GetObject("btn_SystemSetup.Image")));
+            this.btn_SystemSetup.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btn_SystemSetup.Location = new System.Drawing.Point(1777, 1);
+            this.btn_SystemSetup.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_SystemSetup.Name = "btn_SystemSetup";
+            this.btn_SystemSetup.Size = new System.Drawing.Size(142, 87);
+            this.btn_SystemSetup.TabIndex = 0;
+            this.btn_SystemSetup.Text = "System Setting";
+            this.btn_SystemSetup.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btn_SystemSetup.UseVisualStyleBackColor = true;
+            this.btn_SystemSetup.Click += new System.EventHandler(this.btn_SystemSetup_Click);
+            // 
+            // btn_Model
+            // 
+            this.btn_Model.BackColor = System.Drawing.Color.Transparent;
+            this.btn_Model.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_Model.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn_Model.Image = ((System.Drawing.Image)(resources.GetObject("btn_Model.Image")));
+            this.btn_Model.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btn_Model.Location = new System.Drawing.Point(1357, 1);
+            this.btn_Model.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_Model.Name = "btn_Model";
+            this.btn_Model.Size = new System.Drawing.Size(139, 87);
+            this.btn_Model.TabIndex = 2;
+            this.btn_Model.Tag = "";
+            this.btn_Model.Text = "Model";
+            this.btn_Model.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btn_Model.UseVisualStyleBackColor = false;
+            this.btn_Model.Click += new System.EventHandler(this.btn_Model_Click);
+            // 
+            // btn_Analyze
+            // 
+            this.btn_Analyze.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btn_Analyze.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_Analyze.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn_Analyze.Image = ((System.Drawing.Image)(resources.GetObject("btn_Analyze.Image")));
+            this.btn_Analyze.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btn_Analyze.Location = new System.Drawing.Point(1637, 1);
+            this.btn_Analyze.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_Analyze.Name = "btn_Analyze";
+            this.btn_Analyze.Size = new System.Drawing.Size(139, 87);
+            this.btn_Analyze.TabIndex = 52;
+            this.btn_Analyze.Tag = "";
+            this.btn_Analyze.Text = "Analyze";
+            this.btn_Analyze.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btn_Analyze.UseVisualStyleBackColor = true;
+            this.btn_Analyze.Visible = false;
+            this.btn_Analyze.Click += new System.EventHandler(this.btn_Analyze_Click);
             // 
             // tableLayoutPanel32
             // 
@@ -197,6 +248,23 @@
             this.tableLayoutPanel4.Size = new System.Drawing.Size(257, 87);
             this.tableLayoutPanel4.TabIndex = 55;
             // 
+            // btn_ToolSetUp
+            // 
+            this.btn_ToolSetUp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_ToolSetUp.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn_ToolSetUp.Image = ((System.Drawing.Image)(resources.GetObject("btn_ToolSetUp.Image")));
+            this.btn_ToolSetUp.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btn_ToolSetUp.Location = new System.Drawing.Point(937, 1);
+            this.btn_ToolSetUp.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_ToolSetUp.Name = "btn_ToolSetUp";
+            this.btn_ToolSetUp.Size = new System.Drawing.Size(139, 87);
+            this.btn_ToolSetUp.TabIndex = 56;
+            this.btn_ToolSetUp.Tag = "Front";
+            this.btn_ToolSetUp.Text = "Tool Setting";
+            this.btn_ToolSetUp.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btn_ToolSetUp.UseVisualStyleBackColor = true;
+            this.btn_ToolSetUp.Click += new System.EventHandler(this.btn_ToolSetUp_Click);
+            // 
             // tlpTopSide
             // 
             this.tlpTopSide.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
@@ -227,6 +295,18 @@
             this.tlpTopSide.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpTopSide.Size = new System.Drawing.Size(1920, 77);
             this.tlpTopSide.TabIndex = 2;
+            // 
+            // btn최소화
+            // 
+            this.btn최소화.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn최소화.Image = global::VISION.Properties.Resources.minimize;
+            this.btn최소화.Location = new System.Drawing.Point(1461, 1);
+            this.btn최소화.Margin = new System.Windows.Forms.Padding(0);
+            this.btn최소화.Name = "btn최소화";
+            this.btn최소화.Size = new System.Drawing.Size(112, 75);
+            this.btn최소화.TabIndex = 13;
+            this.btn최소화.UseVisualStyleBackColor = true;
+            this.btn최소화.Click += new System.EventHandler(this.btn최소화_Click);
             // 
             // lb_CurruntModelName
             // 
@@ -286,6 +366,59 @@
             this.lb_Ver.TabIndex = 4;
             this.lb_Ver.Text = "Ver. 1.0.0";
             this.lb_Ver.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btn_Exit
+            // 
+            this.btn_Exit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_Exit.Image = ((System.Drawing.Image)(resources.GetObject("btn_Exit.Image")));
+            this.btn_Exit.Location = new System.Drawing.Point(1800, 1);
+            this.btn_Exit.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_Exit.Name = "btn_Exit";
+            this.btn_Exit.Size = new System.Drawing.Size(119, 75);
+            this.btn_Exit.TabIndex = 0;
+            this.btn_Exit.UseVisualStyleBackColor = true;
+            this.btn_Exit.Click += new System.EventHandler(this.프로그램종료_Click);
+            // 
+            // btn_Stop
+            // 
+            this.btn_Stop.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_Stop.Enabled = false;
+            this.btn_Stop.Image = ((System.Drawing.Image)(resources.GetObject("btn_Stop.Image")));
+            this.btn_Stop.Location = new System.Drawing.Point(1687, 1);
+            this.btn_Stop.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_Stop.Name = "btn_Stop";
+            this.btn_Stop.Size = new System.Drawing.Size(112, 75);
+            this.btn_Stop.TabIndex = 9;
+            this.btn_Stop.UseVisualStyleBackColor = true;
+            this.btn_Stop.Click += new System.EventHandler(this.btn_Stop_Click);
+            // 
+            // btn_Status
+            // 
+            this.btn_Status.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_Status.Image = ((System.Drawing.Image)(resources.GetObject("btn_Status.Image")));
+            this.btn_Status.Location = new System.Drawing.Point(1574, 1);
+            this.btn_Status.Margin = new System.Windows.Forms.Padding(0);
+            this.btn_Status.Name = "btn_Status";
+            this.btn_Status.Size = new System.Drawing.Size(112, 75);
+            this.btn_Status.TabIndex = 5;
+            this.btn_Status.UseVisualStyleBackColor = true;
+            this.btn_Status.Click += new System.EventHandler(this.btn_Status_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.ErrorImage = null;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(1, 1);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(230, 75);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 10;
+            this.pictureBox1.TabStop = false;
             // 
             // label1
             // 
@@ -904,159 +1037,6 @@
             // 
             this.LightControl4.PortName = "COM9";
             // 
-            // btn최소화
-            // 
-            this.btn최소화.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn최소화.Image = global::VISION.Properties.Resources.minimize;
-            this.btn최소화.Location = new System.Drawing.Point(1461, 1);
-            this.btn최소화.Margin = new System.Windows.Forms.Padding(0);
-            this.btn최소화.Name = "btn최소화";
-            this.btn최소화.Size = new System.Drawing.Size(112, 75);
-            this.btn최소화.TabIndex = 13;
-            this.btn최소화.UseVisualStyleBackColor = true;
-            this.btn최소화.Click += new System.EventHandler(this.btn최소화_Click);
-            // 
-            // btn_Exit
-            // 
-            this.btn_Exit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_Exit.Image = ((System.Drawing.Image)(resources.GetObject("btn_Exit.Image")));
-            this.btn_Exit.Location = new System.Drawing.Point(1800, 1);
-            this.btn_Exit.Margin = new System.Windows.Forms.Padding(0);
-            this.btn_Exit.Name = "btn_Exit";
-            this.btn_Exit.Size = new System.Drawing.Size(119, 75);
-            this.btn_Exit.TabIndex = 0;
-            this.btn_Exit.UseVisualStyleBackColor = true;
-            this.btn_Exit.Click += new System.EventHandler(this.프로그램종료_Click);
-            // 
-            // btn_Stop
-            // 
-            this.btn_Stop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_Stop.Enabled = false;
-            this.btn_Stop.Image = ((System.Drawing.Image)(resources.GetObject("btn_Stop.Image")));
-            this.btn_Stop.Location = new System.Drawing.Point(1687, 1);
-            this.btn_Stop.Margin = new System.Windows.Forms.Padding(0);
-            this.btn_Stop.Name = "btn_Stop";
-            this.btn_Stop.Size = new System.Drawing.Size(112, 75);
-            this.btn_Stop.TabIndex = 9;
-            this.btn_Stop.UseVisualStyleBackColor = true;
-            this.btn_Stop.Click += new System.EventHandler(this.btn_Stop_Click);
-            // 
-            // btn_Status
-            // 
-            this.btn_Status.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_Status.Image = ((System.Drawing.Image)(resources.GetObject("btn_Status.Image")));
-            this.btn_Status.Location = new System.Drawing.Point(1574, 1);
-            this.btn_Status.Margin = new System.Windows.Forms.Padding(0);
-            this.btn_Status.Name = "btn_Status";
-            this.btn_Status.Size = new System.Drawing.Size(112, 75);
-            this.btn_Status.TabIndex = 5;
-            this.btn_Status.UseVisualStyleBackColor = true;
-            this.btn_Status.Click += new System.EventHandler(this.btn_Status_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.ErrorImage = null;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(1, 1);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(230, 75);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 10;
-            this.pictureBox1.TabStop = false;
-            // 
-            // btn_SystemSetup
-            // 
-            this.btn_SystemSetup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_SystemSetup.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_SystemSetup.Image = ((System.Drawing.Image)(resources.GetObject("btn_SystemSetup.Image")));
-            this.btn_SystemSetup.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_SystemSetup.Location = new System.Drawing.Point(1777, 1);
-            this.btn_SystemSetup.Margin = new System.Windows.Forms.Padding(0);
-            this.btn_SystemSetup.Name = "btn_SystemSetup";
-            this.btn_SystemSetup.Size = new System.Drawing.Size(142, 87);
-            this.btn_SystemSetup.TabIndex = 0;
-            this.btn_SystemSetup.Text = "System Setting";
-            this.btn_SystemSetup.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btn_SystemSetup.UseVisualStyleBackColor = true;
-            this.btn_SystemSetup.Click += new System.EventHandler(this.btn_SystemSetup_Click);
-            // 
-            // btn_Model
-            // 
-            this.btn_Model.BackColor = System.Drawing.Color.Transparent;
-            this.btn_Model.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_Model.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Model.Image = ((System.Drawing.Image)(resources.GetObject("btn_Model.Image")));
-            this.btn_Model.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_Model.Location = new System.Drawing.Point(1357, 1);
-            this.btn_Model.Margin = new System.Windows.Forms.Padding(0);
-            this.btn_Model.Name = "btn_Model";
-            this.btn_Model.Size = new System.Drawing.Size(139, 87);
-            this.btn_Model.TabIndex = 2;
-            this.btn_Model.Tag = "";
-            this.btn_Model.Text = "Model";
-            this.btn_Model.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btn_Model.UseVisualStyleBackColor = false;
-            this.btn_Model.Click += new System.EventHandler(this.btn_Model_Click);
-            // 
-            // btn_CamSet
-            // 
-            this.btn_CamSet.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btn_CamSet.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_CamSet.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_CamSet.Image = ((System.Drawing.Image)(resources.GetObject("btn_CamSet.Image")));
-            this.btn_CamSet.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_CamSet.Location = new System.Drawing.Point(1217, 1);
-            this.btn_CamSet.Margin = new System.Windows.Forms.Padding(0);
-            this.btn_CamSet.Name = "btn_CamSet";
-            this.btn_CamSet.Size = new System.Drawing.Size(139, 87);
-            this.btn_CamSet.TabIndex = 51;
-            this.btn_CamSet.Tag = "";
-            this.btn_CamSet.Text = "Camera Setting";
-            this.btn_CamSet.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btn_CamSet.UseVisualStyleBackColor = true;
-            this.btn_CamSet.Visible = false;
-            this.btn_CamSet.Click += new System.EventHandler(this.btn_CamList_Click);
-            // 
-            // btn_Analyze
-            // 
-            this.btn_Analyze.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btn_Analyze.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_Analyze.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Analyze.Image = ((System.Drawing.Image)(resources.GetObject("btn_Analyze.Image")));
-            this.btn_Analyze.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_Analyze.Location = new System.Drawing.Point(1637, 1);
-            this.btn_Analyze.Margin = new System.Windows.Forms.Padding(0);
-            this.btn_Analyze.Name = "btn_Analyze";
-            this.btn_Analyze.Size = new System.Drawing.Size(139, 87);
-            this.btn_Analyze.TabIndex = 52;
-            this.btn_Analyze.Tag = "";
-            this.btn_Analyze.Text = "Analyze";
-            this.btn_Analyze.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btn_Analyze.UseVisualStyleBackColor = true;
-            this.btn_Analyze.Visible = false;
-            this.btn_Analyze.Click += new System.EventHandler(this.btn_Analyze_Click);
-            // 
-            // btn_ToolSetUp
-            // 
-            this.btn_ToolSetUp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_ToolSetUp.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_ToolSetUp.Image = ((System.Drawing.Image)(resources.GetObject("btn_ToolSetUp.Image")));
-            this.btn_ToolSetUp.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_ToolSetUp.Location = new System.Drawing.Point(940, 4);
-            this.btn_ToolSetUp.Name = "btn_ToolSetUp";
-            this.btn_ToolSetUp.Size = new System.Drawing.Size(133, 81);
-            this.btn_ToolSetUp.TabIndex = 56;
-            this.btn_ToolSetUp.Tag = "Front";
-            this.btn_ToolSetUp.Text = "Tool Setting";
-            this.btn_ToolSetUp.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btn_ToolSetUp.UseVisualStyleBackColor = true;
-            this.btn_ToolSetUp.Click += new System.EventHandler(this.btn_ToolSetUp_Click);
-            // 
             // Frm_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -1082,6 +1062,7 @@
             this.tlpTopSide.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
             this.tabPage2.ResumeLayout(false);
@@ -1090,7 +1071,6 @@
             this.tabPage1.ResumeLayout(false);
             this.Main_TabControl.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1111,7 +1091,6 @@
         private System.Windows.Forms.Label lb_CurruntModelName;
         public System.IO.Ports.SerialPort LightControl1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button btn_CamSet;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;

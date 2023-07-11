@@ -23,6 +23,7 @@ namespace VISION.Cogs
         private string Name; // 모델 명
         private int Number; // 모델 번호
 
+        public const int CAMERACOUNT = 6;
         public const int BLOBTOOLMAX = 30;
         public const int LINETOOLMAX = 30;
         public const int OCRTOOLMAX = 30;
@@ -32,36 +33,36 @@ namespace VISION.Cogs
         public const int CIRCLETOOLMAX = 10;
         //Program.CameraList = CamList.LoadCamInfo();
 
-        private Camera[] Camera = new Camera[Program.CameraList.Count()];
-        private Mask[] Masks = new Mask[Program.CameraList.Count()];
+        private Camera[] Camera = new Camera[CAMERACOUNT];
+        private Mask[] Masks = new Mask[CAMERACOUNT];
 
-        private Line[,] Lines = new Line[Program.CameraList.Count(), LINETOOLMAX];
-        private bool[,] LineEnable = new bool[Program.CameraList.Count(), LINETOOLMAX];
+        private Line[,] Lines = new Line[CAMERACOUNT, LINETOOLMAX];
+        private bool[,] LineEnable = new bool[CAMERACOUNT, LINETOOLMAX];
 
-        private Blob[,] Blobs = new Blob[Program.CameraList.Count(), BLOBTOOLMAX];
-        private bool[,] BlobEnable = new bool[Program.CameraList.Count(), BLOBTOOLMAX];
-        private bool[,] BlobNGOKChange = new bool[Program.CameraList.Count(), BLOBTOOLMAX];
-        private int[,] BlobOKCount = new int[Program.CameraList.Count(), BLOBTOOLMAX];
-        private int[,] BlobFixPatternNumber = new int[Program.CameraList.Count(), BLOBTOOLMAX];
+        private Blob[,] Blobs = new Blob[CAMERACOUNT, BLOBTOOLMAX];
+        private bool[,] BlobEnable = new bool[  6, BLOBTOOLMAX];
+        private bool[,] BlobNGOKChange = new bool[CAMERACOUNT, BLOBTOOLMAX];
+        private int[,] BlobOKCount = new int[CAMERACOUNT, BLOBTOOLMAX];
+        private int[,] BlobFixPatternNumber = new int[CAMERACOUNT, BLOBTOOLMAX];
 
-        private MultiPMAlign[,] MultiPattern = new MultiPMAlign[Program.CameraList.Count(), MULTIPATTERNMAX];
-        private bool[,] MultiPatternEnable = new bool[Program.CameraList.Count(), MULTIPATTERNMAX];
-        private int[,] MultiPatternOrderNumber = new int[Program.CameraList.Count(), MULTIPATTERNMAX];
+        private MultiPMAlign[,] MultiPattern = new MultiPMAlign[CAMERACOUNT, MULTIPATTERNMAX];
+        private bool[,] MultiPatternEnable = new bool[CAMERACOUNT, MULTIPATTERNMAX];
+        private int[,] MultiPatternOrderNumber = new int[CAMERACOUNT, MULTIPATTERNMAX];
 
-        private Circle[,] Circles = new Circle[Program.CameraList.Count(), CIRCLETOOLMAX];
-        private bool[,] CircleEnable = new bool[Program.CameraList.Count(), CIRCLETOOLMAX];
+        private Circle[,] Circles = new Circle[CAMERACOUNT, CIRCLETOOLMAX];
+        private bool[,] CircleEnable = new bool[CAMERACOUNT, CIRCLETOOLMAX];
 
-        private Distance[,] Distances = new Distance[Program.CameraList.Count(), DISTANCEMAX];
-        private bool[,] DistanceEnable = new bool[Program.CameraList.Count(), DISTANCEMAX];
-        private string[,] Distance_UseTool1_Number = new string[Program.CameraList.Count(), DISTANCEMAX];
-        private string[,] Distance_UseTool2_Number = new string[Program.CameraList.Count(), DISTANCEMAX];
+        private Distance[,] Distances = new Distance[CAMERACOUNT, DISTANCEMAX];
+        private bool[,] DistanceEnable = new bool[CAMERACOUNT, DISTANCEMAX];
+        private string[,] Distance_UseTool1_Number = new string[CAMERACOUNT, DISTANCEMAX];
+        private string[,] Distance_UseTool2_Number = new string[CAMERACOUNT, DISTANCEMAX];
 
-        private double[,] Distance_CalibrationValue = new double[Program.CameraList.Count(), DISTANCEMAX];
-        private double[,] Distance_LowValue = new double[Program.CameraList.Count(), DISTANCEMAX];
-        private double[,] Distance_HighValue = new double[Program.CameraList.Count(), DISTANCEMAX];
+        private double[,] Distance_CalibrationValue = new double[CAMERACOUNT, DISTANCEMAX];
+        private double[,] Distance_LowValue = new double[CAMERACOUNT, DISTANCEMAX];
+        private double[,] Distance_HighValue = new double[CAMERACOUNT, DISTANCEMAX];
 
-        private Caliper[,] Calipers = new Caliper[Program.CameraList.Count(), CALIPERMAX];
-        private bool[,] CaliperEnable = new bool[Program.CameraList.Count(), CALIPERMAX];
+        private Caliper[,] Calipers = new Caliper[CAMERACOUNT, CALIPERMAX];
+        private bool[,] CaliperEnable = new bool[CAMERACOUNT, CALIPERMAX];
 
         public Model()
         { // 초기화
@@ -79,7 +80,7 @@ namespace VISION.Cogs
             }
 
 
-            for (int i = 0; i < Program.CameraList.Count(); i++)
+            for (int i = 0; i < Glob.CamCount; i++)
             {
                 for (int lop = 0; lop <= MultiPatternMax; lop++)
                 {

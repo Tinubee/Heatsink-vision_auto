@@ -99,7 +99,6 @@ namespace VISION
         public double AllNG_Rate = 0; //종합 판정 불량률
 
         public bool[] InspectFlag = new bool[6]; //검사 플래그
-        public int camcount = 6;
 
         //유레시스 보드 시리얼포트 연결 관련.
         // Handle to the serial port
@@ -682,7 +681,7 @@ namespace VISION
                 Glob.CurruntModelName = LastModel;
                 MainUIDisplaySetting(Glob.CurruntModelName); //MainUIDisplay Setting.
                 INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{LastModel}\\CamSet.ini");
-                for (int i = 0; i < camcount; i++)
+                for (int i = 0; i < Glob.CamCount; i++)
                 {
                     Glob.FlipImageTool[i] = (CogIPOneImageTool)CogSerializer.LoadObjectFromFile(Glob.MODELROOT + $"\\{LastModel}\\Cam{i}\\FlipImage.vpp");
                     Glob.RunnModel.Loadmodel(LastModel, Glob.MODELROOT, i); //VISION TOOL LOAD
@@ -1727,7 +1726,7 @@ namespace VISION
                 CogCreateGraphicLabelTool[] Point_Label = new CogCreateGraphicLabelTool[10];
                 CogCreateGraphicLabelTool[] Label = new CogCreateGraphicLabelTool[10];
 
-                for (int lop = 1; lop < TempDistance.Length / Program.CameraList.Count(); lop++)
+                for (int lop = 1; lop < TempDistance.Length / Glob.CamCount; lop++)
                 {
                     if (TempDistanceEnable[CameraNumber, lop])
                     {
@@ -2447,28 +2446,6 @@ namespace VISION
                 btn_Exit.PerformClick();
         }
 
-        private void btn_CamList_Click(object sender, EventArgs e)
-        {
-            Frm_CamSet frm_camset = new Frm_CamSet(this);
-            if (frm_camset.ShowDialog() == DialogResult.OK)
-            {
-                //Camera Serial Number Setting 이후 프로그램 재시작하여, Camera 연결.
-                Application.Restart(); //프로그램 재시작
-            }
-            else
-            {
-
-            }
-        }
-
-        private void btn_Log_Click(object sender, EventArgs e)
-        {
-            int jobNo = Convert.ToInt16((sender as Button).Tag);
-            Main_TabControl.SelectedIndex = jobNo;
-        }
-
-
-
         private void btn_Analyze_Click(object sender, EventArgs e)
         {
             frm_analyzeresult = new Frm_AnalyzeResult(this);
@@ -2661,7 +2638,7 @@ namespace VISION
 
         private void AllCameraOneShot()
         {
-            for (int lop = 0; lop < camcount; lop++)
+            for (int lop = 0; lop < Glob.CamCount; lop++)
             {
                 SnapShot(lop, TempCogDisplay[lop]);
             }

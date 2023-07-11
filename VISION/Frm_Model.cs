@@ -68,11 +68,11 @@ namespace VISION
             Main.Set_GeniCam(SelectedModel);
             Main.MainUIDisplaySetting(SelectedModel);
 
-            for (int i = 0; i < Main.camcount; i++)
+            for (int i = 0; i < Glob.CamCount; i++)
             {
                 if (Glob.RunnModel.Loadmodel(SelectedModel, Glob.MODELROOT, i) == true)
                 {
-                    if (i == Main.camcount -1)
+                    if (i == Glob.CamCount - 1)
                     {
                         Process[] myProcesses = Process.GetProcessesByName("ModelChange_KHM");
                         if (myProcesses.LongLength > 0)
@@ -131,7 +131,7 @@ namespace VISION
         {
             PGgloble gls = PGgloble.getInstance;
             INIControl List = new INIControl(gls.MODELLIST);
-            if (MessageBox.Show("선택한 모델을 삭제 하시겠습니까?","",MessageBoxButtons.OKCancel,MessageBoxIcon.Question)==DialogResult.Cancel)
+            if (MessageBox.Show("선택한 모델을 삭제 하시겠습니까?", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 return;
 
             if (SelectedModel == "")

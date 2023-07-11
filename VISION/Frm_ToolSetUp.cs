@@ -75,12 +75,12 @@ namespace VISION
         public Frm_ToolSetUp(Frm_Main main)
         {
             InitializeComponent();
-            gainvalue = new double[main.camcount];
-            exposurevalue = new double[main.camcount];
+            Glob = PGgloble.getInstance;
+            gainvalue = new double[Glob.CamCount];
+            exposurevalue = new double[Glob.CamCount];
             btn_Livestop.Enabled = false;
             Dataset = true;
             Main = main;
-            Glob = PGgloble.getInstance;
             TempModel = Glob.RunnModel;
             TempBlobs = TempModel.Blob();
             TempBlobEnable = TempModel.BlobEnables();
@@ -173,7 +173,7 @@ namespace VISION
                 num_LightCH1.Value = Glob.LightChAndValue[0, 0];
                 num_LightCH2.Value = Glob.LightChAndValue[0, 1];
                 Dataset = false;
-                for (int i = 0; i < Main.camcount; i++)
+                for (int i = 0; i < Glob.CamCount; i++)
                 {
                     gainvalue[i] = Convert.ToDouble(CamSet.ReadData($"Camera{i}", "Exposure"));
                     exposurevalue[i] = Convert.ToDouble(CamSet.ReadData($"Camera{i}", "Gain"));
@@ -238,7 +238,7 @@ namespace VISION
 
             try
             {
-                for (int i = 0; i < Main.camcount; i++)
+                for (int i = 0; i < Glob.CamCount; i++)
                 {
                     Glob.RunnModel.Loadmodel(Glob.RunnModel.Modelname(), Glob.MODELROOT, i);
                 }
@@ -719,13 +719,9 @@ namespace VISION
         {
             try
             {
-                //CAM1부터있는 모든 버튼들이 하나의 이벤트로 묶어져있다.(참조확인)
-                if (Program.CameraList.Count() == 0)
-                    return;
-
                 FormLoad = true;
                 int job = Convert.ToInt32((sender as Button).Tag); //클리한 버튼의 TAG값 받아오기.
-                Glob.CamNumber = Convert.ToInt32(Program.CameraList[job].Number);
+                Glob.CamNumber = Convert.ToInt32(job);
 
                 cdyDisplay.InteractiveGraphics.Clear();
                 cdyDisplay.StaticGraphics.Clear();
@@ -1182,14 +1178,14 @@ namespace VISION
                 MessageBox.Show("이미지가 없습니다. 카메라촬영을 진행해 주시거나, 이미지파일을 불러오시기 바랍니다.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            var result = MessageBox.Show($"현재 이미지를 모델 {Glob.RunnModel.Modelname()}의 CAM{Glob.CamNumber + 1} Master 이미지로 저장 하시겠습니까?", " 이미지 저장 ",
+            var result = MessageBox.Show($"현재 이미지를 모델 {Glob.RunnModel.Modelname()}의 CAM{Glob.CamNumber + 1} Master {Glob.InspectOrder} 이미지로 저장 하시겠습니까?", " 이미지 저장 ",
                                        MessageBoxButtons.YesNo,
                                        MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
                 fileName = $"CAM{Glob.CamNumber}_Master";
                 CogImageFileBMP ImageSave = new CogImageFileBMP();
-                ImageSave.Open($"{Glob.MODELROOT}\\{Glob.RunnModel.Modelname()}\\Cam{Glob.CamNumber}\\CAM{Glob.CamNumber}_Master.bmp", CogImageFileModeConstants.Write);
+                ImageSave.Open($"{Glob.MODELROOT}\\{Glob.RunnModel.Modelname()}\\Cam{Glob.CamNumber}\\CAM{Glob.CamNumber}_Master_{Glob.InspectOrder}.bmp", CogImageFileModeConstants.Write);
                 ImageSave.Append(cdyDisplay.Image);
                 ImageSave.Close();
                 Main.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
@@ -1200,7 +1196,7 @@ namespace VISION
         private void btn_OpenMaster_Click(object sender, EventArgs e)
         {
             string ImageType;
-            string ImageName = $"{Glob.MODELROOT}\\{Glob.RunnModel.Modelname()}\\Cam{Glob.CamNumber}\\CAM{Glob.CamNumber}_Master.bmp";
+            string ImageName = $"{Glob.MODELROOT}\\{Glob.RunnModel.Modelname()}\\Cam{Glob.CamNumber}\\CAM{Glob.CamNumber}_Master_{Glob.InspectOrder}.bmp";
             FileInfo fileInfo = new FileInfo(ImageName);
 
             cdyDisplay.InteractiveGraphics.Clear();
@@ -1286,7 +1282,6 @@ namespace VISION
 
             num_LightCH1.Value = Convert.ToDecimal(Glob.LightChAndValue[Glob.LightControlNumber, 0]);
             num_LightCH2.Value = Convert.ToDecimal(Glob.LightChAndValue[Glob.LightControlNumber, 1]);
-
         }
 
         private void num_LightCH1_ValueChanged(object sender, EventArgs e)
@@ -1329,22 +1324,6 @@ namespace VISION
             {
                 Main.LCP_100DC(Main.LightControl[Glob.LightControlNumber], "2", "d", Glob.LightChAndValue[Glob.LightControlNumber, 1].ToString("D4"));
             }
-        }
-
-        private void btn_CamReload_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < TempCam.Count(); i++)
-            {
-                TempCam[i].Close();
-                TempMask[i].Close();
-            }
-
-            for (int i = 0; i < 6; i++)
-            {
-                Glob.FlipImageTool[i] = (CogIPOneImageTool)CogSerializer.LoadObjectFromFile(Glob.MODELROOT + $"\\{Glob.RunnModel.Modelname()}\\Cam{i}\\FlipImage.vpp");
-                Glob.RunnModel.Loadmodel(Glob.RunnModel.Modelname(), Glob.MODELROOT, i); //VISION TOOL LOAD
-            }
-
         }
     }
 }

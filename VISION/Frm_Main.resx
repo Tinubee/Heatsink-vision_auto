@@ -159,30 +159,6 @@
         5o6GO0QPxYOyPU+RyenxlwI533e7aDH7kyglJuYnf0Sk51qPOxQAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="btn_CamSet.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAABENJREFUaEPt
-        mFlPVDEUx3n0U/jgqwpuuOGWaIIJvukn8MG4gCvuC1ETNTHGRNEYTQwGd2AYUBCD26ARcEGUTQVcUEFE
-        AdFhFeo5nYOnt9ORmXsRNbm/5J9M2tP233vb096JcnFxcXFxcTEwZ8uV5aA2kLChflAxaDx1N7LAwPGg
-        AZDJXCRqB42hbiNH68woCrUA5bV6nAMVULeRY+gsSBT6Cygbrcc4FC6nUdR9aCAoAfSFGv2r8oN6QCvI
-        NgOFrRT0xzUXtDDlmojflW+sD0N+ss1AYZMWNKyK25QrYtdni4lrPCI6MVPM2Jgjpm/wyt+ToGzqeq+Y
-        tTnX2NagVrLNGIKGRWgKTSfsLhBnb78U7z59Ezo171pF6tVKMQsmOWVdtpgdxkTINqMH+CobqfuhKX7e
-        bGk7qBnJOfJJ33r2niKHJu3mCxGzOktOxtTnoMg2owf0/uinLsNj0Z4CS/tpsDyW7C+k2shobvfDBHJE
-        HExe7VMV2Wb0gKII3sDjuhZLW3zyi22aH6S7t0/M3Aj7IsSbINuMKciOcM1PT/aK/oEBsmKlAfbAifxq
-        se1MqUg590icv1MrvnX1Uq2V+qavYlxiBuyJ4HHINqMH2BVmlPxHDWTByorj98S4VZmQcbLlJDELxcKm
-        HQ+Z6GDWU4qysv/yE7kc9XHINqMH2NX87Xk0NDMAb2PetsC+MLXBrDNprUcsPeKjFkwf7MWYpMygzES2
-        GbXSiY7lVdHQzLJUX0jzqjDdni58Tq2YpJP35b5SY8k2o1Y6UVndZxo2wKuPHXKJmGJ1yTexJotaMp77
-        r+X5oMaSbUatdCJ9Qx6DAwpPWVOsSbiHSmo+UusA1Q2tslyNI9uMWmlXC3YEr//k06Vyw5riTcJNfcFX
-        R60DtHztFBPgcFPjyDajVtqVaQNvTiuJeAKX7lon0NTmH5kJoNr9PTRsgFPXq2XaNMWaNBH2QPkr6z6q
-        ejtCSwhVCvcilWZ4emNXZhhjdeEhiNlG5/Ldevlm1FiyzaiVTnQ4p4KGZbaklQYZMCk6KUt4i19TK2bZ
-        0SJ5KVRjyTajVjoRpkITi/cVhrwqY1kMmN+e/oCime+dvTIN69cJss2olU40eS1swqJ6Gt7K3otl8iqB
-        E8HUisITGHO/nnkG2Qp3JlMSINuMHmBX+DQng6nvIS5onT19wlvyRhy5UiFP7RvlH6gmmDK45YY6BMk2
-        Ywqyq5mwXuN35pMNe3xq75IPwrTkUGSbMQU5EWYTnERHpzWthkNNQxssM89vv8rINmMKcqo4+KrC/H0O
-        7vzhciCjHJYNfgOENo8i24wpaDiERnDTxsHX1SHPM/G4tsVyX/rS0S18FY1iZ/pDeYhNhVur6QNGF9lm
-        TEHDKTyk8EqNWQevBZjzUfgb1zpmmqGeuiqyzZiC/mWRbQYK7f4V/jdk/GPrf/hvtBGEHhPItouLi8tf
-        JSrqJ7FZjw8coqApAAAAAElFTkSuQmCC
-</value>
-  </data>
   <data name="btn_Analyze.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO

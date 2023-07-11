@@ -62,6 +62,7 @@ namespace VISION
         #endregion
 
         // 시스템
+        public int CamCount = 6;
         public Cogs.Model RunnModel = null;
         public CogIPOneImageTool[] FlipImageTool = new CogIPOneImageTool[6];
         public Frm_Main G_MainForm;
