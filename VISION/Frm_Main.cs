@@ -864,6 +864,7 @@ namespace VISION
 
                 //조명꺼주기
                 LCP_100DC(LightControl[1], "1", "f", "0000");
+                LCP_100DC(LightControl[1], "2", "f", "0000");
 
                 ScratchErrorInit();
 

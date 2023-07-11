@@ -1301,5 +1301,11 @@ namespace VISION
 
             MessageBox.Show($"일괄 적용 완료\n검사 최소 픽셀 : {num_BlobMinipixel.Value} / 명암값 : {num_BlobThreshold.Value}", "Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private void label6_DoubleClick(object sender, EventArgs e)
+        {
+            Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].InputImage((CogImage8Grey)cdyDisplay.Image);
+            Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].ToolSetup();
+        }
     }
 }
