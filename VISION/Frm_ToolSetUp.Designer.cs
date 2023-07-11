@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_ToolSetUp));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.lb_CurruntModelName = new System.Windows.Forms.Label();
             this.btn_Exit = new System.Windows.Forms.Button();
@@ -112,7 +112,6 @@
             this.tableLayoutPanel27 = new System.Windows.Forms.TableLayoutPanel();
             this.label32 = new System.Windows.Forms.Label();
             this.cb_MultiPatternName = new System.Windows.Forms.ComboBox();
-            this.BLOBINSPECTION = new System.Windows.Forms.Label();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
             this.num_BlobToolNum = new System.Windows.Forms.NumericUpDown();
@@ -155,7 +154,9 @@
             this.cdyMultiPTTrained = new Cognex.VisionPro.Display.CogDisplay();
             this.lb_PatternCount = new System.Windows.Forms.Label();
             this.tableLayoutPanel39 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel15 = new System.Windows.Forms.TableLayoutPanel();
             this.label27 = new System.Windows.Forms.Label();
+            this.btn패턴설정값일괄적용 = new System.Windows.Forms.Button();
             this.btn_PatternInput = new System.Windows.Forms.Button();
             this.tableLayoutPanel41 = new System.Windows.Forms.TableLayoutPanel();
             this.label28 = new System.Windows.Forms.Label();
@@ -188,6 +189,9 @@
             this.label45 = new System.Windows.Forms.Label();
             this.num_GlobOrderNumber = new System.Windows.Forms.NumericUpDown();
             this.btn_MaskAreaSet = new System.Windows.Forms.Button();
+            this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.btn블롭설정값일괄적용 = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).BeginInit();
             this.tableLayoutPanel23.SuspendLayout();
@@ -236,6 +240,7 @@
             this.tableLayoutPanel37.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cdyMultiPTTrained)).BeginInit();
             this.tableLayoutPanel39.SuspendLayout();
+            this.tableLayoutPanel15.SuspendLayout();
             this.tableLayoutPanel41.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_MultiPatternScore)).BeginInit();
             this.tableLayoutPanel40.SuspendLayout();
@@ -250,6 +255,7 @@
             this.tab_Menu.SuspendLayout();
             this.tableLayoutPanel13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_GlobOrderNumber)).BeginInit();
+            this.tableLayoutPanel16.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel2
@@ -649,28 +655,28 @@
             // 
             this.dgv_ToolSetUp.AllowUserToAddRows = false;
             this.dgv_ToolSetUp.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_ToolSetUp.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle28.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle28.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle28.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle28.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle28.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_ToolSetUp.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle28;
             this.dgv_ToolSetUp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_ToolSetUp.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colname,
             this.coldata,
             this.Column1,
             this.Column2});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_ToolSetUp.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle29.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle29.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle29.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle29.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle29.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_ToolSetUp.DefaultCellStyle = dataGridViewCellStyle29;
             this.dgv_ToolSetUp.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgv_ToolSetUp.Location = new System.Drawing.Point(1127, 368);
             this.dgv_ToolSetUp.Margin = new System.Windows.Forms.Padding(0);
@@ -678,8 +684,8 @@
             this.dgv_ToolSetUp.Name = "dgv_ToolSetUp";
             this.dgv_ToolSetUp.ReadOnly = true;
             this.dgv_ToolSetUp.RowHeadersWidth = 10;
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            this.dgv_ToolSetUp.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle30.ForeColor = System.Drawing.Color.Black;
+            this.dgv_ToolSetUp.RowsDefaultCellStyle = dataGridViewCellStyle30;
             this.dgv_ToolSetUp.RowTemplate.Height = 23;
             this.dgv_ToolSetUp.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgv_ToolSetUp.Size = new System.Drawing.Size(302, 708);
@@ -1287,7 +1293,6 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel14, 0, 8);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel27, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.BLOBINSPECTION, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel6, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel10, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel11, 0, 13);
@@ -1298,6 +1303,7 @@
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel7, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel30, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.cb_BlobPolarty, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel16, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -1403,20 +1409,6 @@
             this.cb_MultiPatternName.Size = new System.Drawing.Size(273, 40);
             this.cb_MultiPatternName.TabIndex = 22;
             this.cb_MultiPatternName.SelectedIndexChanged += new System.EventHandler(this.cb_MultiPatternName_SelectedIndexChanged);
-            // 
-            // BLOBINSPECTION
-            // 
-            this.BLOBINSPECTION.AutoSize = true;
-            this.BLOBINSPECTION.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BLOBINSPECTION.Font = new System.Drawing.Font("맑은 고딕", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.BLOBINSPECTION.ForeColor = System.Drawing.Color.White;
-            this.BLOBINSPECTION.Location = new System.Drawing.Point(4, 1);
-            this.BLOBINSPECTION.Name = "BLOBINSPECTION";
-            this.BLOBINSPECTION.Size = new System.Drawing.Size(467, 57);
-            this.BLOBINSPECTION.TabIndex = 0;
-            this.BLOBINSPECTION.Text = "블롭 툴 설정";
-            this.BLOBINSPECTION.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.BLOBINSPECTION.DoubleClick += new System.EventHandler(this.BLOBINSPECTION_DoubleClick_1);
             // 
             // tableLayoutPanel6
             // 
@@ -1795,6 +1787,7 @@
             this.tableLayoutPanel31.Controls.Add(this.btn_MultiPTSearchArea, 0, 9);
             this.tableLayoutPanel31.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel31.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel31.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel31.Name = "tableLayoutPanel31";
             this.tableLayoutPanel31.RowCount = 13;
             this.tableLayoutPanel31.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.249997F));
@@ -1876,11 +1869,12 @@
             this.tableLayoutPanel32.Controls.Add(this.label24, 0, 0);
             this.tableLayoutPanel32.Controls.Add(this.cb_MultiPatternToolUsed, 1, 0);
             this.tableLayoutPanel32.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel32.Location = new System.Drawing.Point(4, 120);
+            this.tableLayoutPanel32.Location = new System.Drawing.Point(1, 117);
+            this.tableLayoutPanel32.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel32.Name = "tableLayoutPanel32";
             this.tableLayoutPanel32.RowCount = 1;
             this.tableLayoutPanel32.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel32.Size = new System.Drawing.Size(473, 51);
+            this.tableLayoutPanel32.Size = new System.Drawing.Size(479, 57);
             this.tableLayoutPanel32.TabIndex = 14;
             // 
             // label24
@@ -1891,7 +1885,7 @@
             this.label24.ForeColor = System.Drawing.Color.White;
             this.label24.Location = new System.Drawing.Point(4, 1);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(229, 49);
+            this.label24.Size = new System.Drawing.Size(232, 55);
             this.label24.TabIndex = 0;
             this.label24.Text = "툴 사용여부";
             this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1902,9 +1896,9 @@
             this.cb_MultiPatternToolUsed.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cb_MultiPatternToolUsed.Font = new System.Drawing.Font("맑은 고딕", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.cb_MultiPatternToolUsed.ForeColor = System.Drawing.Color.Red;
-            this.cb_MultiPatternToolUsed.Location = new System.Drawing.Point(240, 4);
+            this.cb_MultiPatternToolUsed.Location = new System.Drawing.Point(243, 4);
             this.cb_MultiPatternToolUsed.Name = "cb_MultiPatternToolUsed";
-            this.cb_MultiPatternToolUsed.Size = new System.Drawing.Size(229, 43);
+            this.cb_MultiPatternToolUsed.Size = new System.Drawing.Size(232, 49);
             this.cb_MultiPatternToolUsed.TabIndex = 1;
             this.cb_MultiPatternToolUsed.Text = "UNUSED";
             this.cb_MultiPatternToolUsed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1920,11 +1914,12 @@
             this.tableLayoutPanel33.Controls.Add(this.label26, 0, 0);
             this.tableLayoutPanel33.Controls.Add(this.num_MultiPatternToolNumber, 1, 0);
             this.tableLayoutPanel33.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel33.Location = new System.Drawing.Point(4, 62);
+            this.tableLayoutPanel33.Location = new System.Drawing.Point(1, 59);
+            this.tableLayoutPanel33.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel33.Name = "tableLayoutPanel33";
             this.tableLayoutPanel33.RowCount = 1;
             this.tableLayoutPanel33.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel33.Size = new System.Drawing.Size(473, 51);
+            this.tableLayoutPanel33.Size = new System.Drawing.Size(479, 57);
             this.tableLayoutPanel33.TabIndex = 14;
             // 
             // label26
@@ -1933,9 +1928,10 @@
             this.label26.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label26.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label26.ForeColor = System.Drawing.Color.White;
-            this.label26.Location = new System.Drawing.Point(4, 1);
+            this.label26.Location = new System.Drawing.Point(1, 1);
+            this.label26.Margin = new System.Windows.Forms.Padding(0);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(229, 49);
+            this.label26.Size = new System.Drawing.Size(238, 55);
             this.label26.TabIndex = 0;
             this.label26.Text = "툴 번호";
             this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1943,15 +1939,16 @@
             // num_MultiPatternToolNumber
             // 
             this.num_MultiPatternToolNumber.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.num_MultiPatternToolNumber.Font = new System.Drawing.Font("Consolas", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.num_MultiPatternToolNumber.Location = new System.Drawing.Point(240, 4);
+            this.num_MultiPatternToolNumber.Font = new System.Drawing.Font("맑은 고딕", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.num_MultiPatternToolNumber.Location = new System.Drawing.Point(240, 1);
+            this.num_MultiPatternToolNumber.Margin = new System.Windows.Forms.Padding(0);
             this.num_MultiPatternToolNumber.Maximum = new decimal(new int[] {
             29,
             0,
             0,
             0});
             this.num_MultiPatternToolNumber.Name = "num_MultiPatternToolNumber";
-            this.num_MultiPatternToolNumber.Size = new System.Drawing.Size(229, 45);
+            this.num_MultiPatternToolNumber.Size = new System.Drawing.Size(238, 54);
             this.num_MultiPatternToolNumber.TabIndex = 1;
             this.num_MultiPatternToolNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_MultiPatternToolNumber.ValueChanged += new System.EventHandler(this.num_MultiPatternToolNumber_ValueChanged);
@@ -2003,12 +2000,13 @@
             this.tableLayoutPanel37.Controls.Add(this.cdyMultiPTTrained, 0, 1);
             this.tableLayoutPanel37.Controls.Add(this.lb_PatternCount, 0, 0);
             this.tableLayoutPanel37.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel37.Location = new System.Drawing.Point(4, 178);
+            this.tableLayoutPanel37.Location = new System.Drawing.Point(1, 175);
+            this.tableLayoutPanel37.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel37.Name = "tableLayoutPanel37";
             this.tableLayoutPanel37.RowCount = 2;
             this.tableLayoutPanel37.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel37.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.tableLayoutPanel37.Size = new System.Drawing.Size(473, 224);
+            this.tableLayoutPanel37.Size = new System.Drawing.Size(479, 230);
             this.tableLayoutPanel37.TabIndex = 17;
             // 
             // cdyMultiPTTrained
@@ -2021,12 +2019,12 @@
             this.cdyMultiPTTrained.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cdyMultiPTTrained.DoubleTapZoomCycleLength = 2;
             this.cdyMultiPTTrained.DoubleTapZoomSensitivity = 2.5D;
-            this.cdyMultiPTTrained.Location = new System.Drawing.Point(3, 47);
+            this.cdyMultiPTTrained.Location = new System.Drawing.Point(3, 49);
             this.cdyMultiPTTrained.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
             this.cdyMultiPTTrained.MouseWheelSensitivity = 1D;
             this.cdyMultiPTTrained.Name = "cdyMultiPTTrained";
             this.cdyMultiPTTrained.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyMultiPTTrained.OcxState")));
-            this.cdyMultiPTTrained.Size = new System.Drawing.Size(467, 174);
+            this.cdyMultiPTTrained.Size = new System.Drawing.Size(473, 178);
             this.cdyMultiPTTrained.TabIndex = 16;
             // 
             // lb_PatternCount
@@ -2038,7 +2036,7 @@
             this.lb_PatternCount.ForeColor = System.Drawing.Color.White;
             this.lb_PatternCount.Location = new System.Drawing.Point(3, 0);
             this.lb_PatternCount.Name = "lb_PatternCount";
-            this.lb_PatternCount.Size = new System.Drawing.Size(467, 44);
+            this.lb_PatternCount.Size = new System.Drawing.Size(473, 46);
             this.lb_PatternCount.TabIndex = 18;
             this.lb_PatternCount.Text = "등록된 패턴 수 : 0개";
             this.lb_PatternCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2048,13 +2046,32 @@
             this.tableLayoutPanel39.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel39.ColumnCount = 1;
             this.tableLayoutPanel39.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 90.47619F));
-            this.tableLayoutPanel39.Controls.Add(this.label27, 0, 0);
-            this.tableLayoutPanel39.Location = new System.Drawing.Point(4, 4);
+            this.tableLayoutPanel39.Controls.Add(this.tableLayoutPanel15, 0, 0);
+            this.tableLayoutPanel39.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel39.Location = new System.Drawing.Point(1, 1);
+            this.tableLayoutPanel39.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel39.Name = "tableLayoutPanel39";
             this.tableLayoutPanel39.RowCount = 1;
             this.tableLayoutPanel39.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel39.Size = new System.Drawing.Size(473, 51);
+            this.tableLayoutPanel39.Size = new System.Drawing.Size(479, 57);
             this.tableLayoutPanel39.TabIndex = 18;
+            // 
+            // tableLayoutPanel15
+            // 
+            this.tableLayoutPanel15.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel15.ColumnCount = 2;
+            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanel15.Controls.Add(this.label27, 0, 0);
+            this.tableLayoutPanel15.Controls.Add(this.btn패턴설정값일괄적용, 1, 0);
+            this.tableLayoutPanel15.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel15.Location = new System.Drawing.Point(1, 1);
+            this.tableLayoutPanel15.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel15.Name = "tableLayoutPanel15";
+            this.tableLayoutPanel15.RowCount = 1;
+            this.tableLayoutPanel15.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel15.Size = new System.Drawing.Size(477, 55);
+            this.tableLayoutPanel15.TabIndex = 0;
             // 
             // label27
             // 
@@ -2065,11 +2082,23 @@
             this.label27.ForeColor = System.Drawing.Color.White;
             this.label27.Location = new System.Drawing.Point(4, 1);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(465, 49);
+            this.label27.Size = new System.Drawing.Size(325, 53);
             this.label27.TabIndex = 0;
             this.label27.Text = "멀티 패턴 설정 ";
             this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label27.DoubleClick += new System.EventHandler(this.label27_DoubleClick);
+            // 
+            // btn패턴설정값일괄적용
+            // 
+            this.btn패턴설정값일괄적용.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn패턴설정값일괄적용.Location = new System.Drawing.Point(333, 1);
+            this.btn패턴설정값일괄적용.Margin = new System.Windows.Forms.Padding(0);
+            this.btn패턴설정값일괄적용.Name = "btn패턴설정값일괄적용";
+            this.btn패턴설정값일괄적용.Size = new System.Drawing.Size(143, 53);
+            this.btn패턴설정값일괄적용.TabIndex = 1;
+            this.btn패턴설정값일괄적용.Text = "설정값 일괄 적용";
+            this.btn패턴설정값일괄적용.UseVisualStyleBackColor = true;
+            this.btn패턴설정값일괄적용.Click += new System.EventHandler(this.패턴설정값일괄적용);
             // 
             // btn_PatternInput
             // 
@@ -2551,6 +2580,49 @@
             this.btn_MaskAreaSet.UseVisualStyleBackColor = true;
             this.btn_MaskAreaSet.Click += new System.EventHandler(this.btn_MaskAreaSet_Click);
             // 
+            // tableLayoutPanel16
+            // 
+            this.tableLayoutPanel16.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel16.ColumnCount = 2;
+            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanel16.Controls.Add(this.label6, 0, 0);
+            this.tableLayoutPanel16.Controls.Add(this.btn블롭설정값일괄적용, 1, 0);
+            this.tableLayoutPanel16.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel16.Location = new System.Drawing.Point(1, 1);
+            this.tableLayoutPanel16.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel16.Name = "tableLayoutPanel16";
+            this.tableLayoutPanel16.RowCount = 1;
+            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel16.Size = new System.Drawing.Size(473, 57);
+            this.tableLayoutPanel16.TabIndex = 28;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.DimGray;
+            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label6.Font = new System.Drawing.Font("맑은 고딕", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Location = new System.Drawing.Point(4, 1);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(323, 55);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "블롭 툴 설정 ";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btn블롭설정값일괄적용
+            // 
+            this.btn블롭설정값일괄적용.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn블롭설정값일괄적용.Location = new System.Drawing.Point(331, 1);
+            this.btn블롭설정값일괄적용.Margin = new System.Windows.Forms.Padding(0);
+            this.btn블롭설정값일괄적용.Name = "btn블롭설정값일괄적용";
+            this.btn블롭설정값일괄적용.Size = new System.Drawing.Size(141, 55);
+            this.btn블롭설정값일괄적용.TabIndex = 1;
+            this.btn블롭설정값일괄적용.Text = "설정값 일괄 적용";
+            this.btn블롭설정값일괄적용.UseVisualStyleBackColor = true;
+            this.btn블롭설정값일괄적용.Click += new System.EventHandler(this.블롭설정값일괄적용);
+            // 
             // Frm_ToolSetUp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -2610,7 +2682,6 @@
             this.tableLayoutPanel8.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel14.ResumeLayout(false);
             this.tableLayoutPanel14.PerformLayout();
             this.tableLayoutPanel27.ResumeLayout(false);
@@ -2651,7 +2722,8 @@
             this.tableLayoutPanel37.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cdyMultiPTTrained)).EndInit();
             this.tableLayoutPanel39.ResumeLayout(false);
-            this.tableLayoutPanel39.PerformLayout();
+            this.tableLayoutPanel15.ResumeLayout(false);
+            this.tableLayoutPanel15.PerformLayout();
             this.tableLayoutPanel41.ResumeLayout(false);
             this.tableLayoutPanel41.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_MultiPatternScore)).EndInit();
@@ -2671,6 +2743,8 @@
             this.tableLayoutPanel13.ResumeLayout(false);
             this.tableLayoutPanel13.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_GlobOrderNumber)).EndInit();
+            this.tableLayoutPanel16.ResumeLayout(false);
+            this.tableLayoutPanel16.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2740,7 +2814,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel27;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.ComboBox cb_MultiPatternName;
-        private System.Windows.Forms.Label BLOBINSPECTION;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown num_BlobToolNum;
@@ -2831,5 +2904,10 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.NumericUpDown num_LightCH1;
         private System.Windows.Forms.NumericUpDown num_LightCH2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel15;
+        private System.Windows.Forms.Button btn패턴설정값일괄적용;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel16;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btn블롭설정값일괄적용;
     }
 }
