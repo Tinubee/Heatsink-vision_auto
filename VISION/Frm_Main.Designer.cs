@@ -140,7 +140,6 @@
             // btn카메라리로드
             // 
             this.btn카메라리로드.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn카메라리로드.Enabled = false;
             this.btn카메라리로드.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btn카메라리로드.Location = new System.Drawing.Point(259, 1);
             this.btn카메라리로드.Margin = new System.Windows.Forms.Padding(0);

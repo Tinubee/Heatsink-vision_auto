@@ -88,7 +88,7 @@ namespace VISION
             Tuple.Create(CL.BAUDRATE_921600, "921600"),
         };
         //연결 가능한 포트.
-        List<string> availablePort = new List<string>();
+        //List<string> availablePort = new List<string>();
         List<string> baudRates = new List<string>();
 
 
@@ -239,14 +239,34 @@ namespace VISION
             }
         }
 
+        public void 라인스캔카메라설정파일읽어오기()
+        {
+            INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{Glob.CurruntModelName}\\CamSet.ini");
+
+            for (int lop = 0; lop < Glob.LineCameraOption.Length; lop++)
+            {
+                if (CamSet.ReadData($"LineCamera{lop}", "Exposure") == "")
+                    CamSet.WriteData($"LineCamera{lop}", "Exposure", Glob.CurruntModelName == "shield" ? "38" : "76");
+
+                if (CamSet.ReadData($"LineCamera{lop}", "Gain") == "")
+                    CamSet.WriteData($"LineCamera{lop}", "Gain", Glob.CurruntModelName == "shield" ? "200" : "50");
+
+                Glob.LineCameraOption[lop].Exposure = Convert.ToDouble(CamSet.ReadData($"LineCamera{lop}", "Exposure"));
+                Glob.LineCameraOption[lop].Gain = Convert.ToDouble(CamSet.ReadData($"LineCamera{lop}", "Gain"));
+                Glob.LineCameraOption[lop].CamNumber = lop == 3 ? 6 : lop + 1;
+            }
+        }
+
         public void Set_GeniCam(string modelName)
         {
             //DualBase #0 Port A & B A=TOP카메라.
             //DualBase #1 Port A & B
             try
             {
-                for (int lop = 0; lop < availablePort.Count(); lop++)
+                라인스캔카메라설정파일읽어오기();
+                for (int lop = 0; lop < Glob.LineCameraOption.Count(); lop++)
                 {
+                    if (Glob.LineCameraOption[lop].Port == null) continue;
                     //open serial port
                     CL.SerialInit((UInt32)lop, out serialRef);
                     UInt32 supportedBaudRates;
@@ -272,8 +292,8 @@ namespace VISION
                     CL.SetBaudRate(serialRef, baudRate);
 
                     //sendCommand
-                    string setExposureCommand = modelName == "shield" ? "I=38" : "I=76";
-                    string setGainCommand = modelName == "shield" ? "G=200" : "G=50";
+                    string setExposureCommand = $"I={Glob.LineCameraOption[lop].Exposure}";
+                    string setGainCommand = $"G={Glob.LineCameraOption[lop].Gain}";
 
                     sendCommandToBoard("");
                     string first = readBuffer(serialRef);
@@ -283,7 +303,7 @@ namespace VISION
                     string second = readBuffer(serialRef);
                     log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Receive Data : {second}");
 
-                    if (availablePort[lop] == "Euresys Grablink DualBase#0 Port A")
+                    if (Glob.LineCameraOption[lop].Port == "Euresys Grablink DualBase#0 Port A") //Top Camera
                     {
                         sendCommandToBoard(setGainCommand);
                         string third = readBuffer(serialRef);
@@ -346,7 +366,8 @@ namespace VISION
                     // Retrieve the port identifier
                     CL.GetSerialPortIdentifier(i, textPort, out bufferSize);
                     portIdentifier = Marshal.PtrToStringAnsi(textPort);
-                    availablePort.Add(portIdentifier);
+                    //Glob.availablePort.Add(portIdentifier);
+                    Glob.LineCameraOption[i].Port = portIdentifier;
                 }
                 catch (Euresys.clSerialException error)
                 {
@@ -354,6 +375,7 @@ namespace VISION
                 }
                 Marshal.FreeHGlobal(textPort);
             }
+
             log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
         }
 
@@ -438,6 +460,8 @@ namespace VISION
 
                 Glob.allCameraCount = frameGrabbers.Count + 3;
                 log.AddLogMessage(LogType.Program, 0, $"확인 된 카메라 개수 : {Glob.allCameraCount}");
+
+                Glob.LineCameraOption = new LineCamSets[4]; //라인카메라 옵션 초기화.
             }
             catch (Exception ee)
             {
@@ -688,6 +712,7 @@ namespace VISION
                 Glob.NGContainUIImageSave = setting.ReadData("SYSTEM", "NG CONTAIN UI IMAGE SAVE", true) == "1" ? true : false;
 
                 DriveInfo = new DriveInfo(Path.GetPathRoot(Glob.ImageSaveRoot));
+                라인스캔카메라설정파일읽어오기();
                 log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
             }
             catch (Exception ee)
@@ -1417,7 +1442,7 @@ namespace VISION
             Glob.코그넥스파일.보정값 = Glob.코그넥스파일.모델.Distance_CalibrationValues();
             Glob.코그넥스파일.최소값 = Glob.코그넥스파일.모델.Distance_LowValues();
             Glob.코그넥스파일.최대값 = Glob.코그넥스파일.모델.Distance_HighValues();
-           
+
             log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
         }
 
@@ -1869,7 +1894,7 @@ namespace VISION
             {
                 for (int lop = 0; lop < 30; lop++)
                 {
-                    if (Glob.코그넥스파일.패턴툴사용여부[CameraNumber, lop] == true && Glob.코그넥스파일.패턴툴검사순서번호[CameraNumber,lop] == shotNumber)
+                    if (Glob.코그넥스파일.패턴툴사용여부[CameraNumber, lop] == true && Glob.코그넥스파일.패턴툴검사순서번호[CameraNumber, lop] == shotNumber)
                     {
                         if (Glob.코그넥스파일.패턴툴[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
                         {
@@ -2630,6 +2655,8 @@ namespace VISION
         private void 카메라파일다시로드하기(object sender, EventArgs e)
         {
             //캠파일 ReLoading.
+            Frm_CamSet frm_CamSet = new Frm_CamSet();
+            frm_CamSet.ShowDialog();
         }
     }
 }

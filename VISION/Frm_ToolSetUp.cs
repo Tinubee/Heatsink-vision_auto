@@ -402,7 +402,7 @@ namespace VISION
 
         private void num_Exposure_ValueChanged(object sender, EventArgs e)
         {
-            if (Glob.CamNumber == 3 || Glob.CamNumber == 5)
+            if (Glob.CamNumber == 3 || Glob.CamNumber == 4)
             {
                 Glob.코그넥스파일.카메라[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
             }

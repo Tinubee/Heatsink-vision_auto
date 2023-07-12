@@ -437,6 +437,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.DurableInstancing" />
     <Reference Include="System.Runtime.Remoting" />
@@ -487,6 +488,12 @@
     </Compile>
     <Compile Include="Frm_Model.Designer.cs">
       <DependentUpon>Frm_Model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_CamSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_CamSet.Designer.cs">
+      <DependentUpon>Frm_CamSet.cs</DependentUpon>
     </Compile>
     <Compile Include="Frm_NewModel.cs">
       <SubType>Form</SubType>
@@ -561,6 +568,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_Model.resx">
       <DependentUpon>Frm_Model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_CamSet.resx">
+      <DependentUpon>Frm_CamSet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_NewModel.resx">
       <DependentUpon>Frm_NewModel.cs</DependentUpon>

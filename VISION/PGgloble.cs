@@ -50,20 +50,9 @@ namespace VISION
         public readonly string SETTING = Application.StartupPath + "\\setting.ini"; //setting값 저장
 
         public readonly string PROGRAM_VERSION = "1.0.0"; //Program Version
-        #region "버전 관리 및 업데이트 내용"
-        //1.0.0 - 현장투입 후 완성된 최종버전(주요기능 및 프로그램 구성 완료) - 날짜 / 이름
-        //2.0.1 - 프로그램 로딩창, 저장창, 모델변경창 새로 추가.
-        //       - 치수 측정 방식 변경(Line, Circle 등등 전부 없애고 Distance Tool 로 통합
-
-        //*******추가 확인해야될 사항들*******(2022년 2월22일 김형민)
-        //1. 모델 변경 시 Camera Exposure값 & Gain값 설정 되는 지 확인(각 모델별로)
-        //2. Camera Setting 값 저장위치 확인(Model -> 각 Cam에 저장하도록 하기)
-        //3. Setting Form  종료시 Cognex Model Load 안해도 되는지 확인(안해도 되면 빼버리기) - AutoRun 진행 시 변경된 Cognex Model로 Load되는지 확인.
-        //4. PLC에서 Model Change 신호 시, 정상적으로 변경되는지 확인(Camera Setting 값 포함)
-        #endregion
-
         // 시스템
         public int CamCount = 6;
+        //public List<string> availablePort = new List<string>();
         public Model RunnModel = null;
         public CogIPOneImageTool[] FlipImageTool = new CogIPOneImageTool[6];
         public Frm_Main G_MainForm;
@@ -75,7 +64,8 @@ namespace VISION
         public string LineName; // 프로그램 메인 화면 중앙 상단에 적힐 무언가.
 
         public string Camera_SerialNumber; //카메라 시리얼번호.
-        public CamSets CameraOption; //카메라 옵션 클래스
+        public LineCamSets[] LineCameraOption; //카메라 옵션 클래스
+        public ModelType ModelTypes;
 
         // Light controller
         public int LightControlNumber;
@@ -134,11 +124,21 @@ namespace VISION
 
         public 코그넥스파일 코그넥스파일;
     }
-    public struct CamSets
+    public struct LineCamSets
     {
-        public double[] Exposure; //조리개값
-        public double[] Gain;
-        public int DelayTime; //지연시간
+        public string Port;
+        public int CamNumber;
+        public double Exposure; 
+        public double Gain; 
+        public int DelayTime;
+    }
+
+    public enum ModelType
+    {
+        shield,
+        heatsink0023,
+        heatsink0024,
+        heatsink0026,
     }
 
     public struct 코그넥스파일
