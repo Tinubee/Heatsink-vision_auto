@@ -34,7 +34,6 @@ namespace VISION
         private Class_Common cm { get { return Program.cm; } } //에러 메세지 보여주기.
         internal Frm_ToolSetUp frm_toolsetup; //툴셋업창 화면
         internal Frm_SystemSetUp frm_systemsetup; //시스템셋업창 화면
-        internal Frm_AnalyzeResult frm_analyzeresult;
 
         private CogImage8Grey Fiximage; //PMAlign툴의 결과이미지(픽스쳐이미지)
         private string FimageSpace; //PMAlign툴 SpaceName(보정하기위해)
@@ -596,7 +595,7 @@ namespace VISION
 
             if (OpenDevice())
             {
-
+                log.AddLogMessage(LogType.Result, 0, $"PLC Module Open Complete.");
             }
             CheckForIllegalCrossThreadCalls = false;
             log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
@@ -2438,12 +2437,6 @@ namespace VISION
                 btn_Exit.PerformClick();
         }
 
-        private void btn_Analyze_Click(object sender, EventArgs e)
-        {
-            frm_analyzeresult = new Frm_AnalyzeResult(this);
-            frm_analyzeresult.Show();
-        }
-
         public void SnapShot(int camNumber, CogDisplay cdy)
         {
             try
@@ -2481,11 +2474,8 @@ namespace VISION
                         check++;
                     }
                     UInt32 iVal = 0;
-                    //UInt32 oVal = 0;
                     CAXD.AxdiReadInportDword(0, 0, ref iVal);  // 입력신호 32점
-                                                               //CAXD.AxdoReadOutportDword(1, 0, ref oVal); // 출력신호 32점
                     BitArray Inputs = new BitArray(BitConverter.GetBytes(iVal));
-                    //BitArray Outputs = new BitArray(BitConverter.GetBytes(oVal));
 
                     for (Int32 i = 0; i < gbool_di.Length; i++)
                     {

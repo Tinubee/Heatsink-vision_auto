@@ -34,7 +34,6 @@
             this.btn카메라리로드 = new System.Windows.Forms.Button();
             this.btn_SystemSetup = new System.Windows.Forms.Button();
             this.btn_Model = new System.Windows.Forms.Button();
-            this.btn_Analyze = new System.Windows.Forms.Button();
             this.tableLayoutPanel32 = new System.Windows.Forms.TableLayoutPanel();
             this.label10 = new System.Windows.Forms.Label();
             this.cb_ResultOK = new System.Windows.Forms.CheckBox();
@@ -125,7 +124,6 @@
             this.tlpUnder.Controls.Add(this.btn카메라리로드, 0, 0);
             this.tlpUnder.Controls.Add(this.btn_SystemSetup, 11, 0);
             this.tlpUnder.Controls.Add(this.btn_Model, 8, 0);
-            this.tlpUnder.Controls.Add(this.btn_Analyze, 10, 0);
             this.tlpUnder.Controls.Add(this.tableLayoutPanel32, 0, 0);
             this.tlpUnder.Controls.Add(this.tableLayoutPanel4, 2, 0);
             this.tlpUnder.Controls.Add(this.btn_ToolSetUp, 5, 0);
@@ -187,25 +185,6 @@
             this.btn_Model.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btn_Model.UseVisualStyleBackColor = false;
             this.btn_Model.Click += new System.EventHandler(this.btn_Model_Click);
-            // 
-            // btn_Analyze
-            // 
-            this.btn_Analyze.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btn_Analyze.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_Analyze.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Analyze.Image = ((System.Drawing.Image)(resources.GetObject("btn_Analyze.Image")));
-            this.btn_Analyze.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_Analyze.Location = new System.Drawing.Point(1637, 1);
-            this.btn_Analyze.Margin = new System.Windows.Forms.Padding(0);
-            this.btn_Analyze.Name = "btn_Analyze";
-            this.btn_Analyze.Size = new System.Drawing.Size(139, 87);
-            this.btn_Analyze.TabIndex = 52;
-            this.btn_Analyze.Tag = "";
-            this.btn_Analyze.Text = "Analyze";
-            this.btn_Analyze.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btn_Analyze.UseVisualStyleBackColor = true;
-            this.btn_Analyze.Visible = false;
-            this.btn_Analyze.Click += new System.EventHandler(this.btn_Analyze_Click);
             // 
             // tableLayoutPanel32
             // 
@@ -1121,7 +1100,6 @@
         private System.Windows.Forms.TabControl Main_TabControl;
         private System.Windows.Forms.TabPage tabPage5;
         private KimLib.LogControl logControl1;
-        private System.Windows.Forms.Button btn_Analyze;
         public System.Windows.Forms.Button btn_INPUT4;
         public System.Windows.Forms.Button btn_INPUT3;
         public System.Windows.Forms.Button btn_INPUT2;
