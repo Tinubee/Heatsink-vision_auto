@@ -13,7 +13,7 @@ namespace VISION
     public partial class Frm_NewModel : Form
     {
         private Class_Common cm { get { return Program.cm; } }
-        public Frm_NewModel(int Modelnumber = 0)
+        public Frm_NewModel(int Modelnumber)
         {
             InitializeComponent();
             num_ModelNumber.Value = Modelnumber;

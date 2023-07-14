@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VISION.Properties;
 using VISION.UI.ResultCount;
 
 namespace VISION.UI
@@ -67,13 +68,17 @@ namespace VISION.UI
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            DateTime dt = DateTime.Now;
+            lb수량체크현재시간.Text = dt.ToString("yyyy-MM-dd HH:mm");
+            lb수량체크시작날짜.Text = Glob.G_MainForm.수량체크시작시간;
+
             if (검사결과표시타입 == 0)
             {
                 double okCount = Glob.G_MainForm.AllOK_Count;
                 double ngCount = Glob.G_MainForm.AllNG_Count;
                 double ng1Count = Glob.G_MainForm.AllNG_1_Count;
                 double ng2Count = Glob.G_MainForm.AllNG_2_Count;
-                double totalCount = Glob.G_MainForm.AllTotal_Count;
+                double totalCount = okCount + ngCount;
 
                 allResultCountDisplay.lb_OK.Text = okCount.ToString();
                 allResultCountDisplay.lb_NG.Text = ngCount.ToString();
@@ -117,17 +122,17 @@ namespace VISION.UI
         {
             if (MessageBox.Show("검사결과 수량을 초기화 하시겠습니까?", "EXIT", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 return;
+
             Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"OK : {Glob.G_MainForm.AllOK_Count}");
             Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"NG : {Glob.G_MainForm.AllNG_Count}");
             Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"NG - 1 : {Glob.G_MainForm.AllNG_1_Count}");
             Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"NG - 2 : {Glob.G_MainForm.AllNG_2_Count}");
-            Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"TOTAL : {Glob.G_MainForm.AllTotal_Count}");
+            Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"TOTAL : {Glob.G_MainForm.AllOK_Count + Glob.G_MainForm.AllNG_Count}");
 
             Glob.G_MainForm.AllOK_Count = 0;
             Glob.G_MainForm.AllNG_Count = 0;
             Glob.G_MainForm.AllNG_1_Count = 0;
             Glob.G_MainForm.AllNG_2_Count = 0;
-            Glob.G_MainForm.AllTotal_Count = 0;
 
             for (int lop = 0; lop < 6; lop++)
             {
@@ -138,6 +143,8 @@ namespace VISION.UI
                 Glob.G_MainForm.OK_Count[lop] = 0;
                 Glob.G_MainForm.NG_Count[lop] = 0;
             }
+
+            Glob.G_MainForm.CountSave();
 
             Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
         }

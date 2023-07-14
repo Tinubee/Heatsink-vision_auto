@@ -64,8 +64,9 @@ namespace VISION
         public double AllNG_1_Count = 0; //종합 판정 NG1 개수
         public double AllNG_2_Count = 0; //종합 판정 NG2 개수
 
-        public double AllTotal_Count = 0; //종합 판정 총 개수
-        public double AllNG_Rate = 0; //종합 판정 불량률
+        //public double AllTotal_Count = 0; //종합 판정 총 개수
+        //public double AllNG_Rate = 0; //종합 판정 불량률
+        public string 수량체크시작시간;
 
         public bool[] InspectFlag = new bool[6]; //검사 플래그
 
@@ -117,13 +118,13 @@ namespace VISION
         public Frm_Main()
         {
             Glob = PGgloble.getInstance; //전역변수 사용
+            Glob.G_MainForm = this;
             Process.Start($"{Glob.LOADINGFROM}");
             InitializeComponent();
             StandFirst();
             CamSet();
             Glob.RunnModel = new Model(); //코그넥스 모델 초기화.
             log.AddLogMessage(LogType.Result, 0, "Cognex 모델 초기화 완료.");
-            Glob.G_MainForm = this;
         }
         public void StandFirst()
         {
@@ -307,7 +308,7 @@ namespace VISION
                     sendCommandToBoard(setGainCommand);
                     string third = readBuffer(serialRef);
                     log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Receive Data : {third}");
-                    
+
                     //close port
                     CL.SerialClose(serialRef);
                 }
@@ -712,12 +713,51 @@ namespace VISION
 
                 DriveInfo = new DriveInfo(Path.GetPathRoot(Glob.ImageSaveRoot));
                 라인스캔카메라설정파일읽어오기();
+                수량체크불러오기();
                 log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
             }
             catch (Exception ee)
             {
                 log.AddLogMessage(LogType.Error, 0, $"{MethodBase.GetCurrentMethod().Name} - {ee.Message}");
             }
+        }
+
+        public void 수량체크불러오기()
+        {
+            INIControl setting = new INIControl(Glob.SETTING);
+
+            수량체크시작시간 = setting.ReadData("Count", "stDate");
+            for (int lop = 0; lop < OK_Count.Length; lop++)
+            {
+                OK_Count[lop] = Convert.ToDouble(setting.ReadData($"Count", $"OK_Count[{lop + 1}]"));
+                NG_Count[lop] = Convert.ToDouble(setting.ReadData($"Count", $"NG_Count[{lop + 1}]"));
+            }
+
+            AllOK_Count = Convert.ToDouble(setting.ReadData($"Count", "AllOK_Count"));
+            AllNG_2_Count = Convert.ToDouble(setting.ReadData($"Count", "AllNG1_Count"));
+            AllNG_1_Count = Convert.ToDouble(setting.ReadData($"Count", "AllNG2_Count"));
+            AllNG_Count = Convert.ToDouble(setting.ReadData($"Count", "AllNG_Count"));
+            //AllTotal_Count = Convert.ToDouble(setting.ReadData($"Count", "AllTOTAL_Count"));
+            //AllNG_Rate = Convert.ToDouble(setting.ReadData($"Count", "AllNGRATE_Count"));
+    }
+
+        public void CountSave()
+        {
+            INIControl setting = new INIControl(Glob.SETTING);
+            DateTime dt = DateTime.Now;
+            setting.WriteData("Count", "stDate", dt.ToString("yyyy-MM-dd HH:mm"));
+
+            for (int lop = 0; lop < OK_Count.Length; lop++)
+            {
+                setting.WriteData("Count", $"OK_Count[{lop + 1}]", OK_Count[lop].ToString());
+                setting.WriteData("Count", $"NG_Count[{lop + 1}]", NG_Count[lop].ToString());
+            }
+            setting.WriteData("Count", "AllOK_Count", AllOK_Count.ToString());
+            setting.WriteData("Count", "AllNG1_Count", AllOK_Count.ToString());
+            setting.WriteData("Count", "AllNG2_Count", AllOK_Count.ToString());
+            setting.WriteData("Count", "AllNG_Count", AllOK_Count.ToString());
+            //setting.WriteData("Count", "AllTOTAL_Count", AllOK_Count.ToString());
+            //setting.WriteData("Count", "AllNGRATE_Count", AllOK_Count.ToString());
         }
 
         private void DisplayDiskCapacity()
@@ -840,7 +880,6 @@ namespace VISION
 
         public void 최종결과표시(bool 스크레치검사결과, bool 패턴블롭검사결과, string[] res)
         {
-            AllTotal_Count++;
             for (int lop = 0; lop < lb최종결과.Count(); lop++)
             {
                 lb최종결과[lop].Text = $"{lop + 1}-{res[lop]}";
@@ -2416,6 +2455,7 @@ namespace VISION
             Glob.firstInspection[1] = true;
             tlpUnder.Visible = true;
             this.IO_DoWork = false;
+            CountSave();
             log.AddLogMessage(LogType.Infomation, 0, "AUTO MODE STOP");
         }
 

@@ -32,7 +32,7 @@ namespace VISION
 
         private void btn_NewModel_Click(object sender, EventArgs e)
         {
-            Frm_NewModel Create = new Frm_NewModel();
+            Frm_NewModel Create = new Frm_NewModel(dgvModelList.RowCount);
             if (Create.ShowDialog() == DialogResult.OK)
             {
                 RefreashList();

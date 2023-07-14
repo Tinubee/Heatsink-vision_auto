@@ -87,6 +87,7 @@
             // tb_SelectModel
             // 
             this.tb_SelectModel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tb_SelectModel.Enabled = false;
             this.tb_SelectModel.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_SelectModel.Location = new System.Drawing.Point(171, 38);
             this.tb_SelectModel.Margin = new System.Windows.Forms.Padding(0);
@@ -94,6 +95,7 @@
             this.tb_SelectModel.ReadOnly = true;
             this.tb_SelectModel.Size = new System.Drawing.Size(316, 35);
             this.tb_SelectModel.TabIndex = 2;
+            this.tb_SelectModel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label1
             // 
@@ -128,6 +130,7 @@
             // tb_CurruntModel
             // 
             this.tb_CurruntModel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tb_CurruntModel.Enabled = false;
             this.tb_CurruntModel.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_CurruntModel.Location = new System.Drawing.Point(171, 1);
             this.tb_CurruntModel.Margin = new System.Windows.Forms.Padding(0);
@@ -135,6 +138,7 @@
             this.tb_CurruntModel.ReadOnly = true;
             this.tb_CurruntModel.Size = new System.Drawing.Size(316, 35);
             this.tb_CurruntModel.TabIndex = 1;
+            this.tb_CurruntModel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // tableLayoutPanel3
             // 
