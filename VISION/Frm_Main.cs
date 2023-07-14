@@ -145,6 +145,7 @@ namespace VISION
         {
             logControl1.ManageLog(e);
         }
+
         private void Frm_Main_Load(object sender, EventArgs e)
         {
             lb_Ver.Text = $"Ver. {Glob.PROGRAM_VERSION}";
@@ -253,17 +254,18 @@ namespace VISION
 
                 Glob.LineCameraOption[lop].Exposure = Convert.ToDouble(CamSet.ReadData($"LineCamera{lop}", "Exposure"));
                 Glob.LineCameraOption[lop].Gain = Convert.ToDouble(CamSet.ReadData($"LineCamera{lop}", "Gain"));
-                Glob.LineCameraOption[lop].CamNumber = lop == 3 ? 6 : lop + 1;
+                Glob.LineCameraOption[lop].CamNumber = lop == 2 ? 6 : lop == 3 ? lop : lop + 1;
             }
         }
 
         public void Set_GeniCam(string modelName)
         {
-            //DualBase #0 Port A & B A=TOP카메라.
-            //DualBase #1 Port A & B
+            //DualBase #0 Port A & B A=CAM1 B=CAM6
+            //DualBase #1 Port A & B A=CAM2 B=CAM3
             try
             {
                 라인스캔카메라설정파일읽어오기();
+                // 0= CAM1 , 1=CAM2 , 2=CAM6 , 3=CAM3
                 for (int lop = 0; lop < Glob.LineCameraOption.Count(); lop++)
                 {
                     if (Glob.LineCameraOption[lop].Port == null) continue;
@@ -303,12 +305,10 @@ namespace VISION
                     string second = readBuffer(serialRef);
                     log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Receive Data : {second}");
 
-                    //if (Glob.LineCameraOption[lop].Port == "Euresys Grablink DualBase#0 Port A") //Top Camera
-                    //{
                     sendCommandToBoard(setGainCommand);
                     string third = readBuffer(serialRef);
                     log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Receive Data : {third}");
-                    //}
+                    
                     //close port
                     CL.SerialClose(serialRef);
                 }

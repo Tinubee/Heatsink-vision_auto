@@ -141,13 +141,15 @@
             // 
             this.btn카메라리로드.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn카메라리로드.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn카메라리로드.Image = global::VISION.Properties.Resources.OneShot;
+            this.btn카메라리로드.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn카메라리로드.Location = new System.Drawing.Point(259, 1);
             this.btn카메라리로드.Margin = new System.Windows.Forms.Padding(0);
             this.btn카메라리로드.Name = "btn카메라리로드";
             this.btn카메라리로드.Size = new System.Drawing.Size(139, 87);
             this.btn카메라리로드.TabIndex = 57;
             this.btn카메라리로드.Tag = "Front";
-            this.btn카메라리로드.Text = "Cam ReLoad";
+            this.btn카메라리로드.Text = "LineCam Setting";
             this.btn카메라리로드.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btn카메라리로드.UseVisualStyleBackColor = true;
             this.btn카메라리로드.Click += new System.EventHandler(this.카메라파일다시로드하기);

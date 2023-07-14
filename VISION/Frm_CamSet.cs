@@ -1,9 +1,12 @@
-﻿using System;
+﻿using KimLib;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -52,6 +55,10 @@ namespace VISION
 
         private void 카메라설정값저장(object sender, EventArgs e)
         {
+            if (MessageBox.Show("셋팅값을 저장 하시겠습니까?", "Save", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
+                return;
+
+            Process.Start($"{Glob.SAVEFROM}");
             INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{Glob.RunnModel.Modelname()}\\CamSet.ini");
 
             CamSet.WriteData($"LineCamera{selectPort}", "Exposure", tb노출값.Text);
@@ -59,6 +66,15 @@ namespace VISION
 
             Glob.LineCameraOption[selectPort].Exposure = Convert.ToDouble(tb노출값.Text);
             Glob.LineCameraOption[selectPort].Gain = Convert.ToDouble(tb감도값.Text);
+
+            Glob.G_MainForm.Set_GeniCam(Glob.CurruntModelName);
+
+            Process[] myProcesses = Process.GetProcessesByName("SaveForm_KHM");
+            if (myProcesses.LongLength > 0)
+            {
+                myProcesses[0].Kill();
+            }
+            Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
         }
         private void 숫자만입력(object sender, KeyPressEventArgs e)
         {

@@ -95,6 +95,7 @@ namespace VISION
             Glob.InspectOrder = 1;
             LoadSetup();
             UpdateCamStats();
+            UpdateCameraSet();
             dgv_ToolSetUp.DoubleBuffered(true);
             DGVUpadte();
             Main.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
@@ -625,17 +626,20 @@ namespace VISION
         {
             try
             {
-                INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{Glob.RunnModel.Modelname()}\\CamSet.ini");
-                //카메라 및 조명 setting값 ini파일에 저장. - 카메라별로
-                //변경될수도있는 사항 : 모델별로 각각 카메라 setting값을 따로 가져가야 될 수도있을꺼 같음. - 191231 김형민 
-                // --> 모델별로 카메라값 가져가도록 변경완료 - 200122 김형민
-                num_Exposure.Value = Convert.ToDecimal(CamSet.ReadData($"Camera{Glob.CamNumber}", "Exposure"));
-                num_Gain.Value = Convert.ToDecimal(CamSet.ReadData($"Camera{Glob.CamNumber}", "Gain"));
-
                 if (Glob.CamNumber == 3 || Glob.CamNumber == 4)
                 {
+                    카메라설정값보여주기(true);
+                    INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{Glob.RunnModel.Modelname()}\\CamSet.ini");
+
+                    num_Exposure.Value = Convert.ToDecimal(CamSet.ReadData($"Camera{Glob.CamNumber}", "Exposure"));
+                    num_Gain.Value = Convert.ToDecimal(CamSet.ReadData($"Camera{Glob.CamNumber}", "Gain"));
+
                     Glob.코그넥스파일.카메라[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
                     Glob.코그넥스파일.카메라[Glob.CamNumber].SetBrightness((double)num_Gain.Value);
+                }
+                else
+                {
+                    카메라설정값보여주기(false);
                 }
 
                 FormLoad = false;
@@ -645,6 +649,15 @@ namespace VISION
                 cm.info(ee.Message);
             }
         }
+
+        private void 카메라설정값보여주기(bool state)
+        {
+            lbExposure.Visible = state;
+            lbGain.Visible = state;
+            num_Gain.Visible = state;
+            num_Exposure.Visible = state;
+        }
+
         private void ReLoadVisionTool()
         {
             try
