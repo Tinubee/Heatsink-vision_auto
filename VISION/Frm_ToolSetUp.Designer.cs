@@ -795,7 +795,7 @@
             this.tableLayoutPanel51.Name = "tableLayoutPanel51";
             this.tableLayoutPanel51.RowCount = 1;
             this.tableLayoutPanel51.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel51.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel51.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 56F));
             this.tableLayoutPanel51.Size = new System.Drawing.Size(479, 57);
             this.tableLayoutPanel51.TabIndex = 36;
             // 
@@ -892,7 +892,7 @@
             this.tableLayoutPanel50.Name = "tableLayoutPanel50";
             this.tableLayoutPanel50.RowCount = 1;
             this.tableLayoutPanel50.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel50.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel50.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 56F));
             this.tableLayoutPanel50.Size = new System.Drawing.Size(479, 57);
             this.tableLayoutPanel50.TabIndex = 34;
             // 
@@ -968,7 +968,7 @@
             // 
             this.num_DimensionToolNum.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.num_DimensionToolNum.Font = new System.Drawing.Font("Consolas", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.num_DimensionToolNum.Location = new System.Drawing.Point(246, 6);
+            this.num_DimensionToolNum.Location = new System.Drawing.Point(240, 6);
             this.num_DimensionToolNum.Margin = new System.Windows.Forms.Padding(0);
             this.num_DimensionToolNum.Maximum = new decimal(new int[] {
             8,
@@ -981,7 +981,7 @@
             0,
             0});
             this.num_DimensionToolNum.Name = "num_DimensionToolNum";
-            this.num_DimensionToolNum.Size = new System.Drawing.Size(226, 45);
+            this.num_DimensionToolNum.Size = new System.Drawing.Size(238, 45);
             this.num_DimensionToolNum.TabIndex = 1;
             this.num_DimensionToolNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_DimensionToolNum.Value = new decimal(new int[] {
@@ -1191,7 +1191,7 @@
             this.tableLayoutPanel44.Name = "tableLayoutPanel44";
             this.tableLayoutPanel44.RowCount = 1;
             this.tableLayoutPanel44.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel44.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel44.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 56F));
             this.tableLayoutPanel44.Size = new System.Drawing.Size(479, 57);
             this.tableLayoutPanel44.TabIndex = 33;
             // 
@@ -1246,7 +1246,7 @@
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 56F));
             this.tableLayoutPanel5.Size = new System.Drawing.Size(479, 57);
             this.tableLayoutPanel5.TabIndex = 37;
             // 
@@ -1290,7 +1290,7 @@
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
             this.tableLayoutPanel8.RowCount = 1;
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 56F));
             this.tableLayoutPanel8.Size = new System.Drawing.Size(479, 57);
             this.tableLayoutPanel8.TabIndex = 38;
             // 
@@ -1497,8 +1497,8 @@
             // num_BlobToolNum
             // 
             this.num_BlobToolNum.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.num_BlobToolNum.Font = new System.Drawing.Font("Consolas", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.num_BlobToolNum.Location = new System.Drawing.Point(246, 6);
+            this.num_BlobToolNum.Font = new System.Drawing.Font("맑은 고딕", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.num_BlobToolNum.Location = new System.Drawing.Point(240, 3);
             this.num_BlobToolNum.Margin = new System.Windows.Forms.Padding(0);
             this.num_BlobToolNum.Maximum = new decimal(new int[] {
             29,
@@ -1506,7 +1506,7 @@
             0,
             0});
             this.num_BlobToolNum.Name = "num_BlobToolNum";
-            this.num_BlobToolNum.Size = new System.Drawing.Size(226, 45);
+            this.num_BlobToolNum.Size = new System.Drawing.Size(238, 50);
             this.num_BlobToolNum.TabIndex = 0;
             this.num_BlobToolNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_BlobToolNum.ValueChanged += new System.EventHandler(this.num_BlobToolNum_ValueChanged);
@@ -1838,13 +1838,13 @@
             // 
             // tableLayoutPanel16
             // 
+            this.tableLayoutPanel16.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.tableLayoutPanel16.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel16.ColumnCount = 2;
             this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tableLayoutPanel16.Controls.Add(this.label6, 0, 0);
             this.tableLayoutPanel16.Controls.Add(this.btn블롭설정값일괄적용, 1, 0);
-            this.tableLayoutPanel16.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel16.Location = new System.Drawing.Point(1, 1);
             this.tableLayoutPanel16.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel16.Name = "tableLayoutPanel16";
@@ -1870,11 +1870,11 @@
             // 
             // btn블롭설정값일괄적용
             // 
-            this.btn블롭설정값일괄적용.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn블롭설정값일괄적용.Location = new System.Drawing.Point(335, 1);
+            this.btn블롭설정값일괄적용.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btn블롭설정값일괄적용.Location = new System.Drawing.Point(335, 2);
             this.btn블롭설정값일괄적용.Margin = new System.Windows.Forms.Padding(0);
             this.btn블롭설정값일괄적용.Name = "btn블롭설정값일괄적용";
-            this.btn블롭설정값일괄적용.Size = new System.Drawing.Size(143, 55);
+            this.btn블롭설정값일괄적용.Size = new System.Drawing.Size(143, 53);
             this.btn블롭설정값일괄적용.TabIndex = 1;
             this.btn블롭설정값일괄적용.Text = "설정값 일괄 적용";
             this.btn블롭설정값일괄적용.UseVisualStyleBackColor = true;
@@ -2062,9 +2062,9 @@
             // 
             // num_MultiPatternToolNumber
             // 
-            this.num_MultiPatternToolNumber.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.num_MultiPatternToolNumber.Font = new System.Drawing.Font("맑은 고딕", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.num_MultiPatternToolNumber.Location = new System.Drawing.Point(240, 1);
+            this.num_MultiPatternToolNumber.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.num_MultiPatternToolNumber.Font = new System.Drawing.Font("맑은 고딕", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.num_MultiPatternToolNumber.Location = new System.Drawing.Point(240, 3);
             this.num_MultiPatternToolNumber.Margin = new System.Windows.Forms.Padding(0);
             this.num_MultiPatternToolNumber.Maximum = new decimal(new int[] {
             29,
@@ -2072,7 +2072,7 @@
             0,
             0});
             this.num_MultiPatternToolNumber.Name = "num_MultiPatternToolNumber";
-            this.num_MultiPatternToolNumber.Size = new System.Drawing.Size(238, 54);
+            this.num_MultiPatternToolNumber.Size = new System.Drawing.Size(238, 50);
             this.num_MultiPatternToolNumber.TabIndex = 1;
             this.num_MultiPatternToolNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_MultiPatternToolNumber.ValueChanged += new System.EventHandler(this.num_MultiPatternToolNumber_ValueChanged);
@@ -2182,13 +2182,13 @@
             // 
             // tableLayoutPanel15
             // 
+            this.tableLayoutPanel15.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.tableLayoutPanel15.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel15.ColumnCount = 2;
             this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tableLayoutPanel15.Controls.Add(this.label27, 0, 0);
             this.tableLayoutPanel15.Controls.Add(this.btn패턴설정값일괄적용, 1, 0);
-            this.tableLayoutPanel15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel15.Location = new System.Drawing.Point(1, 1);
             this.tableLayoutPanel15.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel15.Name = "tableLayoutPanel15";
@@ -2204,9 +2204,10 @@
             this.label27.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label27.Font = new System.Drawing.Font("맑은 고딕", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label27.ForeColor = System.Drawing.Color.White;
-            this.label27.Location = new System.Drawing.Point(4, 1);
+            this.label27.Location = new System.Drawing.Point(1, 1);
+            this.label27.Margin = new System.Windows.Forms.Padding(0);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(325, 53);
+            this.label27.Size = new System.Drawing.Size(331, 53);
             this.label27.TabIndex = 0;
             this.label27.Text = "멀티 패턴 설정 ";
             this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2214,7 +2215,7 @@
             // 
             // btn패턴설정값일괄적용
             // 
-            this.btn패턴설정값일괄적용.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn패턴설정값일괄적용.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btn패턴설정값일괄적용.Location = new System.Drawing.Point(333, 1);
             this.btn패턴설정값일괄적용.Margin = new System.Windows.Forms.Padding(0);
             this.btn패턴설정값일괄적용.Name = "btn패턴설정값일괄적용";
