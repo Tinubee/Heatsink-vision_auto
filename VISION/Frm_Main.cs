@@ -303,12 +303,12 @@ namespace VISION
                     string second = readBuffer(serialRef);
                     log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Receive Data : {second}");
 
-                    if (Glob.LineCameraOption[lop].Port == "Euresys Grablink DualBase#0 Port A") //Top Camera
-                    {
-                        sendCommandToBoard(setGainCommand);
-                        string third = readBuffer(serialRef);
-                        log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Receive Data : {third}");
-                    }
+                    //if (Glob.LineCameraOption[lop].Port == "Euresys Grablink DualBase#0 Port A") //Top Camera
+                    //{
+                    sendCommandToBoard(setGainCommand);
+                    string third = readBuffer(serialRef);
+                    log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Receive Data : {third}");
+                    //}
                     //close port
                     CL.SerialClose(serialRef);
                 }
@@ -1693,7 +1693,7 @@ namespace VISION
             CogGraphicCollection Collection3 = new CogGraphicCollection(); // 블롭
 
             string[] temp = new string[30];
-            int FixPatternNumber = FindFirstPatternNumber1(CameraNumber, shotNumber);
+            int FixPatternNumber = FindFirstPatternNumber2(CameraNumber, shotNumber);
             if (Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
             {
                 int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].HighestResultToolNumber();
@@ -1788,7 +1788,7 @@ namespace VISION
             CogGraphicCollection Collection3 = new CogGraphicCollection(); // 블롭
 
             string[] temp = new string[30];
-            int FixPatternNumber = FindFirstPatternNumber1(CameraNumber, shotNumber);
+            int FixPatternNumber = FindFirstPatternNumber3(CameraNumber, shotNumber);
             if (Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
             {
                 int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].HighestResultToolNumber();
@@ -1883,7 +1883,7 @@ namespace VISION
             CogGraphicCollection Collection3 = new CogGraphicCollection(); // 블롭
 
             string[] temp = new string[30];
-            int FixPatternNumber = FindFirstPatternNumber1(CameraNumber, shotNumber);
+            int FixPatternNumber = FindFirstPatternNumber4(CameraNumber, shotNumber);
             if (Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
             {
                 int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].HighestResultToolNumber();
@@ -1978,7 +1978,7 @@ namespace VISION
             CogGraphicCollection Collection3 = new CogGraphicCollection(); // 블롭
 
             string[] temp = new string[30];
-            int FixPatternNumber = FindFirstPatternNumber1(CameraNumber, shotNumber);
+            int FixPatternNumber = FindFirstPatternNumber5(CameraNumber, shotNumber);
             if (Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
             {
                 int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].HighestResultToolNumber();
@@ -2073,7 +2073,7 @@ namespace VISION
             CogGraphicCollection Collection3 = new CogGraphicCollection(); // 블롭
 
             string[] temp = new string[30];
-            int FixPatternNumber = FindFirstPatternNumber1(CameraNumber, shotNumber);
+            int FixPatternNumber = FindFirstPatternNumber6(CameraNumber, shotNumber);
             if (Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
             {
                 int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].HighestResultToolNumber();
