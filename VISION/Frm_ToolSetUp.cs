@@ -1251,6 +1251,7 @@ namespace VISION
             //LCP_100DC는 채널번호 1부터시작.
             //LCP24_150DC는 채널번호 0부터시작.
             if (Dataset == true) return;
+            if(cb조명사용여부.Checked == false) return;
 
             Glob.LightChAndValue[Glob.LightControlNumber, 0] = (int)num_LightCH1.Value;
             if (Main.LightControl[Glob.LightControlNumber].IsOpen == false)
