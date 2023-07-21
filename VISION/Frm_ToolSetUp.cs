@@ -493,9 +493,9 @@ namespace VISION
             Bolb_Train((int)num_BlobToolNum.Value);
             CogGraphicCollection Collection = new CogGraphicCollection();
 
-            Glob.코그넥스파일.마스크툴[Glob.CamNumber, Glob.InspectOrder].Run((CogImage8Grey)cdyDisplay.Image); //MaskTool Run
+            Glob.코그넥스파일.마스크툴[Glob.CamNumber, Glob.InspectOrder - 1].Run((CogImage8Grey)cdyDisplay.Image); //MaskTool Run
 
-            Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].MaskAreaSet(Glob.코그넥스파일.마스크툴[Glob.CamNumber, Glob.InspectOrder].MaskArea()); //검사 제외영역 입력.
+            Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].MaskAreaSet(Glob.코그넥스파일.마스크툴[Glob.CamNumber, Glob.InspectOrder - 1].MaskArea()); //검사 제외영역 입력.
 
             Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].Run((CogImage8Grey)cdyDisplay.Image);
             if (Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].ResultBlobCount() != Glob.코그넥스파일.블롭툴양품갯수[Glob.CamNumber, (int)num_BlobToolNum.Value]) //BlobTool 실행.
