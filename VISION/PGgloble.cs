@@ -145,7 +145,7 @@ namespace VISION
     {
         public Model 모델;
         public Camera[] 카메라;
-        public Mask[] 마스크툴;
+        public Mask[,] 마스크툴;
         public Blob[,] 블롭툴;
         public MultiPMAlign[,] 패턴툴;
         public Line[,] 라인툴;

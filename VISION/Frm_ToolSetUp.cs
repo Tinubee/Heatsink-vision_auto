@@ -174,7 +174,7 @@ namespace VISION
                     cdyDisplay.StaticGraphics.Clear();
                 }
             }
-            catch(Exception ee)
+            catch (Exception ee)
             {
                 Main.log.AddLogMessage(LogType.Error, 0, $"{MethodBase.GetCurrentMethod().Name} - {ee.Message}");
                 cm.info(ee.Message);
@@ -493,9 +493,9 @@ namespace VISION
             Bolb_Train((int)num_BlobToolNum.Value);
             CogGraphicCollection Collection = new CogGraphicCollection();
 
-            Glob.코그넥스파일.마스크툴[Glob.CamNumber].Run((CogImage8Grey)cdyDisplay.Image); //MaskTool Run
+            Glob.코그넥스파일.마스크툴[Glob.CamNumber, Glob.InspectOrder].Run((CogImage8Grey)cdyDisplay.Image); //MaskTool Run
 
-            Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].MaskAreaSet(Glob.코그넥스파일.마스크툴[Glob.CamNumber].MaskArea()); //검사 제외영역 입력.
+            Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].MaskAreaSet(Glob.코그넥스파일.마스크툴[Glob.CamNumber, Glob.InspectOrder].MaskArea()); //검사 제외영역 입력.
 
             Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].Run((CogImage8Grey)cdyDisplay.Image);
             if (Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].ResultBlobCount() != Glob.코그넥스파일.블롭툴양품갯수[Glob.CamNumber, (int)num_BlobToolNum.Value]) //BlobTool 실행.
@@ -1217,12 +1217,12 @@ namespace VISION
 
         private void btn_MaskAreaSet_Click(object sender, EventArgs e)
         {
-            if (Glob.코그넥스파일.마스크툴[Glob.CamNumber].InputImage((CogImage8Grey)cdyDisplay.Image) == false) return;
+            if (Glob.코그넥스파일.마스크툴[Glob.CamNumber, Glob.InspectOrder - 1].InputImage((CogImage8Grey)cdyDisplay.Image) == false) return;
+            //shotNumber = 1 : 0 / 2: 1 / 3: 2
+            Mask_Train(Glob.InspectOrder - 1);
+            Glob.코그넥스파일.마스크툴[Glob.CamNumber, Glob.InspectOrder - 1].Area_Affine_Main1(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, cb_MultiPatternName.SelectedIndex.ToString());
 
-            Mask_Train(0);
-            Glob.코그넥스파일.마스크툴[Glob.CamNumber].Area_Affine_Main1(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, cb_MultiPatternName.SelectedIndex.ToString());
-
-            Glob.코그넥스파일.마스크툴[Glob.CamNumber].ToolSetup();
+            Glob.코그넥스파일.마스크툴[Glob.CamNumber, Glob.InspectOrder - 1].ToolSetup();
         }
 
         private void cb_ngokchange_CheckedChanged(object sender, EventArgs e)
@@ -1251,7 +1251,7 @@ namespace VISION
             //LCP_100DC는 채널번호 1부터시작.
             //LCP24_150DC는 채널번호 0부터시작.
             if (Dataset == true) return;
-            if(cb조명사용여부.Checked == false) return;
+            if (cb조명사용여부.Checked == false) return;
 
             Glob.LightChAndValue[Glob.LightControlNumber, 0] = (int)num_LightCH1.Value;
             if (Main.LightControl[Glob.LightControlNumber].IsOpen == false)

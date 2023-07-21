@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_ToolSetUp));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.lb_CurruntModelName = new System.Windows.Forms.Label();
             this.btn_Exit = new System.Windows.Forms.Button();
@@ -187,12 +187,12 @@
             this.num_LightCH1 = new System.Windows.Forms.NumericUpDown();
             this.num_LightCH2 = new System.Windows.Forms.NumericUpDown();
             this.num_LightControlNumber = new System.Windows.Forms.NumericUpDown();
+            this.cb조명사용여부 = new System.Windows.Forms.CheckBox();
             this.tab_Menu = new System.Windows.Forms.TabControl();
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
             this.label45 = new System.Windows.Forms.Label();
             this.num_GlobOrderNumber = new System.Windows.Forms.NumericUpDown();
             this.btn_MaskAreaSet = new System.Windows.Forms.Button();
-            this.cb조명사용여부 = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).BeginInit();
             this.tableLayoutPanel23.SuspendLayout();
@@ -660,28 +660,28 @@
             // 
             this.dgv_ToolSetUp.AllowUserToAddRows = false;
             this.dgv_ToolSetUp.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_ToolSetUp.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_ToolSetUp.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgv_ToolSetUp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_ToolSetUp.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colname,
             this.coldata,
             this.Column1,
             this.Column2});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_ToolSetUp.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_ToolSetUp.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgv_ToolSetUp.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgv_ToolSetUp.Location = new System.Drawing.Point(1127, 368);
             this.dgv_ToolSetUp.Margin = new System.Windows.Forms.Padding(0);
@@ -689,8 +689,8 @@
             this.dgv_ToolSetUp.Name = "dgv_ToolSetUp";
             this.dgv_ToolSetUp.ReadOnly = true;
             this.dgv_ToolSetUp.RowHeadersWidth = 10;
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            this.dgv_ToolSetUp.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
+            this.dgv_ToolSetUp.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.dgv_ToolSetUp.RowTemplate.Height = 23;
             this.dgv_ToolSetUp.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgv_ToolSetUp.Size = new System.Drawing.Size(302, 708);
@@ -2644,6 +2644,20 @@
             this.num_LightControlNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_LightControlNumber.ValueChanged += new System.EventHandler(this.num_LightControlNumber_ValueChanged);
             // 
+            // cb조명사용여부
+            // 
+            this.cb조명사용여부.AutoSize = true;
+            this.cb조명사용여부.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cb조명사용여부.Font = new System.Drawing.Font("맑은 고딕", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.cb조명사용여부.ForeColor = System.Drawing.Color.Red;
+            this.cb조명사용여부.Location = new System.Drawing.Point(4, 409);
+            this.cb조명사용여부.Name = "cb조명사용여부";
+            this.cb조명사용여부.Size = new System.Drawing.Size(182, 38);
+            this.cb조명사용여부.TabIndex = 67;
+            this.cb조명사용여부.Text = "UNUSED";
+            this.cb조명사용여부.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.cb조명사용여부.UseVisualStyleBackColor = true;
+            // 
             // tab_Menu
             // 
             this.tab_Menu.Controls.Add(this.tabPage1);
@@ -2722,20 +2736,6 @@
             this.btn_MaskAreaSet.Text = "검사제외영역 설정";
             this.btn_MaskAreaSet.UseVisualStyleBackColor = true;
             this.btn_MaskAreaSet.Click += new System.EventHandler(this.btn_MaskAreaSet_Click);
-            // 
-            // cb조명사용여부
-            // 
-            this.cb조명사용여부.AutoSize = true;
-            this.cb조명사용여부.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cb조명사용여부.Font = new System.Drawing.Font("맑은 고딕", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.cb조명사용여부.ForeColor = System.Drawing.Color.Red;
-            this.cb조명사용여부.Location = new System.Drawing.Point(4, 409);
-            this.cb조명사용여부.Name = "cb조명사용여부";
-            this.cb조명사용여부.Size = new System.Drawing.Size(182, 38);
-            this.cb조명사용여부.TabIndex = 67;
-            this.cb조명사용여부.Text = "UNUSED";
-            this.cb조명사용여부.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.cb조명사용여부.UseVisualStyleBackColor = true;
             // 
             // Frm_ToolSetUp
             // 

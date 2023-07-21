@@ -31,16 +31,17 @@ namespace VISION.Cogs
         public const int DISTANCEMAX = 10;
         public const int CALIPERMAX = 10;
         public const int CIRCLETOOLMAX = 10;
+        public const int SHOTNUMBER = 3;
         //Program.CameraList = CamList.LoadCamInfo();
 
         private Camera[] Camera = new Camera[CAMERACOUNT];
-        private Mask[] Masks = new Mask[CAMERACOUNT];
+        private Mask[,] Masks = new Mask[CAMERACOUNT, SHOTNUMBER];
 
         private Line[,] Lines = new Line[CAMERACOUNT, LINETOOLMAX];
         private bool[,] LineEnable = new bool[CAMERACOUNT, LINETOOLMAX];
 
         private Blob[,] Blobs = new Blob[CAMERACOUNT, BLOBTOOLMAX];
-        private bool[,] BlobEnable = new bool[  6, BLOBTOOLMAX];
+        private bool[,] BlobEnable = new bool[6, BLOBTOOLMAX];
         private bool[,] BlobNGOKChange = new bool[CAMERACOUNT, BLOBTOOLMAX];
         private int[,] BlobOKCount = new int[CAMERACOUNT, BLOBTOOLMAX];
         private int[,] BlobFixPatternNumber = new int[CAMERACOUNT, BLOBTOOLMAX];
@@ -76,7 +77,10 @@ namespace VISION.Cogs
             for (int lop = 0; lop < 6; lop++) //Glob.allCameraCount 에서 6으로 임시 변경.
             {
                 Camera[lop] = new Camera(lop);
-                Masks[lop] = new Mask(lop);
+                for (int lop2 = 0; lop2 < 3; lop2++)
+                {
+                    Masks[lop, lop2] = new Mask(lop);
+                }
             }
 
 
@@ -183,8 +187,12 @@ namespace VISION.Cogs
             int MultiPatternMax = MULTIPATTERNMAX - 1;
             int DistanceMax = DISTANCEMAX - 1;
 
-            Camera[cam].Loadtool(path + $"\\cam - {cam.ToString()}.vpp");
-            Masks[cam].Loadtool(path + $"\\Mask - {cam.ToString()}.vpp");
+            Camera[cam].Loadtool(path + $"\\cam - {cam}.vpp");
+
+            for (int lop = 0; lop < 3; lop++)
+            {
+                Masks[cam, lop].Loadtool(path + $"\\Mask - {cam}_{lop + 1}.vpp");
+            }
 
             for (int lop = 0; lop <= MultiPatternMax; lop++)
             {
@@ -285,8 +293,11 @@ namespace VISION.Cogs
             int DistanceMax = DISTANCEMAX - 1;
             int CalipersMax = CALIPERMAX - 1;
 
-            Camera[cam].SaveTool(path , $"cam - {cam.ToString()}.vpp");
-            Masks[cam].SaveTool(path, $"Mask - {cam.ToString()}.vpp");
+            Camera[cam].SaveTool(path, $"cam - {cam}.vpp");
+            for (int lop = 0; lop < 3; lop++)
+            {
+                Masks[cam, lop].SaveTool(path, $"Mask - {cam}_{lop + 1}.vpp");
+            }
 
             for (int lop = 0; lop <= MultiPatternMax; lop++)
             {
@@ -462,12 +473,12 @@ namespace VISION.Cogs
             return Lines;
         }
 
-        public Mask[] MaskTool()
+        public Mask[,] MaskTool()
         {
             return Masks;
         }
 
-        public void MaskTools(Mask[] masktools)
+        public void MaskTools(Mask[,] masktools)
         {
             Masks = masktools;
         }
@@ -662,7 +673,7 @@ namespace VISION.Cogs
                 return false;
             }
         }
-        public bool Blob_Inspection(ref Cognex.VisionPro.Display.CogDisplay Display, CogImage8Grey Image, ref string[] ResultString, int CamNumber, CogGraphicCollection Collection,int shotNumber)
+        public bool Blob_Inspection(ref Cognex.VisionPro.Display.CogDisplay Display, CogImage8Grey Image, ref string[] ResultString, int CamNumber, CogGraphicCollection Collection, int shotNumber)
         {
             try
             {
@@ -676,8 +687,8 @@ namespace VISION.Cogs
                     //pattern 4 
                     if (BlobEnable[CamNumber, lop] == true && (MultiPatternOrderNumber[CamNumber, patternIndex] == Glob.InspectOrder || MultiPatternOrderNumber[CamNumber, patternIndex] == shotNumber))
                     {
-                        Masks[CamNumber].Run(Image);
-                        Blobs[CamNumber, lop].MaskAreaSet(Masks[CamNumber].MaskArea());
+                        Masks[CamNumber, shotNumber - 1].Run(Image);
+                        Blobs[CamNumber, lop].MaskAreaSet(Masks[CamNumber, shotNumber - 1].MaskArea());
                         Blobs[CamNumber, lop].Run(Image);
                         ResultString[lop] = "OK";
                     }
@@ -718,7 +729,7 @@ namespace VISION.Cogs
                                 {
                                     Blobs[CamNumber, lop].ResultAllBlobDisplayPLT(Collection, true);
                                 }
-                                   
+
                             }
                         }
                     }
@@ -910,7 +921,7 @@ namespace VISION.Cogs
                 return false;
             }
         }
-        public CogImage8Grey FixtureImage(CogImage8Grey OriImage, CogTransform2DLinear Fixtured, string SetName, int Camnumber, out string ImageSpacename, int HighPatternNumber,int FixIndexNumber)
+        public CogImage8Grey FixtureImage(CogImage8Grey OriImage, CogTransform2DLinear Fixtured, string SetName, int Camnumber, out string ImageSpacename, int HighPatternNumber, int FixIndexNumber)
         {
             Cognex.VisionPro.CalibFix.CogFixtureTool Fixture = new Cognex.VisionPro.CalibFix.CogFixtureTool();
 

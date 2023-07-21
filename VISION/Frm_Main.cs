@@ -1409,9 +1409,11 @@ namespace VISION
             for (int i = 0; i < Glob.코그넥스파일.카메라.Count(); i++)
             {
                 Glob.코그넥스파일.카메라[i].Close();
-                Glob.코그넥스파일.마스크툴[i].Close();
+                for (int lop = 0; lop < 3; lop++)
+                {
+                    Glob.코그넥스파일.마스크툴[i,lop].Close();
+                }
             }
-
         }
 
         private void btn_Status_Click(object sender, EventArgs e)
