@@ -396,7 +396,7 @@ namespace VISION.Cogs
             }
             display.InteractiveGraphics.Add(Tool.Results.PMAlignResults[PatternNumber].CreateResultGraphics(Cognex.VisionPro.PMAlign.CogPMAlignResultGraphicConstants.All), null, false);
         }
-        public void ResultDisplay(Cognex.VisionPro.Display.CogDisplay display, Cognex.VisionPro.CogGraphicCollection Collection, int Number, int ToolNumber)
+        public void ResultDisplay(Cognex.VisionPro.Display.CogDisplay display, Cognex.VisionPro.CogGraphicCollection Collection, int Number, int ToolNumber, double 회전각도)
         {
             CogCreateGraphicLabelTool lb_Score = new CogCreateGraphicLabelTool();
             lb_Score.InputImage = display.Image;
@@ -412,7 +412,7 @@ namespace VISION.Cogs
                 lb_Score.InputGraphicLabel.X = NG.CenterX;
                 lb_Score.InputGraphicLabel.Y = NG.CenterY;
                 lb_Score.OutputColor = Cognex.VisionPro.CogColorConstants.Red;
-
+                lb_Score.InputGraphicLabel.Rotation = 회전각도;
                 lb_Score.InputGraphicLabel.Text = $"{ToolNumber}번패턴 검색영역 내 없음";
                 lb_Score.Run();
 
@@ -424,7 +424,7 @@ namespace VISION.Cogs
                 lb_Score.InputGraphicLabel.X = Tool.Results.PMAlignResults[Number].GetPose().TranslationX;
                 lb_Score.InputGraphicLabel.Y = Tool.Results.PMAlignResults[Number].GetPose().TranslationY;
                 lb_Score.InputGraphicLabel.Text = Tool.Results.PMAlignResults[Number].Score > Tool.RunParams.PMAlignRunParams.AcceptThreshold ? $"{ToolNumber}" : $"{ToolNumber} - {(Tool.Results.PMAlignResults[Number].Score * 100).ToString("F2")} / {Tool.RunParams.PMAlignRunParams.AcceptThreshold * 100}";
-
+                lb_Score.InputGraphicLabel.Rotation = 회전각도;
                 lb_Score.OutputColor = Tool.Results.PMAlignResults[Number].Score > Tool.RunParams.PMAlignRunParams.AcceptThreshold ? Cognex.VisionPro.CogColorConstants.Green : Cognex.VisionPro.CogColorConstants.Red;
                 lb_Score.Run();
 

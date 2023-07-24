@@ -45,7 +45,7 @@
             this.btn_Livestop = new System.Windows.Forms.Button();
             this.cdyDisplay = new Cognex.VisionPro.Display.CogDisplay();
             this.ImageList = new System.Windows.Forms.ListBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btn최근불량 = new System.Windows.Forms.Button();
             this.btn_DeleteImage = new System.Windows.Forms.Button();
             this.btn_AllClear = new System.Windows.Forms.Button();
             this.tableLayoutPanel23 = new System.Windows.Forms.TableLayoutPanel();
@@ -444,15 +444,15 @@
             this.ImageList.SelectedIndexChanged += new System.EventHandler(this.ImageList_SelectedIndexChanged);
             this.ImageList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ImageList_KeyDown);
             // 
-            // button1
+            // btn최근불량
             // 
-            this.button1.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button1.Location = new System.Drawing.Point(1126, 75);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(302, 39);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "사진 이름";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btn최근불량.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn최근불량.Location = new System.Drawing.Point(1126, 75);
+            this.btn최근불량.Name = "btn최근불량";
+            this.btn최근불량.Size = new System.Drawing.Size(302, 39);
+            this.btn최근불량.TabIndex = 10;
+            this.btn최근불량.Text = "최근 NG 불러오기";
+            this.btn최근불량.UseVisualStyleBackColor = true;
             // 
             // btn_DeleteImage
             // 
@@ -683,7 +683,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_ToolSetUp.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_ToolSetUp.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.dgv_ToolSetUp.Location = new System.Drawing.Point(1127, 368);
+            this.dgv_ToolSetUp.Location = new System.Drawing.Point(1127, 364);
             this.dgv_ToolSetUp.Margin = new System.Windows.Forms.Padding(0);
             this.dgv_ToolSetUp.MultiSelect = false;
             this.dgv_ToolSetUp.Name = "dgv_ToolSetUp";
@@ -693,7 +693,7 @@
             this.dgv_ToolSetUp.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgv_ToolSetUp.RowTemplate.Height = 23;
             this.dgv_ToolSetUp.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgv_ToolSetUp.Size = new System.Drawing.Size(302, 708);
+            this.dgv_ToolSetUp.Size = new System.Drawing.Size(302, 712);
             this.dgv_ToolSetUp.TabIndex = 23;
             // 
             // colname
@@ -2729,9 +2729,9 @@
             // btn_MaskAreaSet
             // 
             this.btn_MaskAreaSet.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_MaskAreaSet.Location = new System.Drawing.Point(1128, 326);
+            this.btn_MaskAreaSet.Location = new System.Drawing.Point(1126, 322);
             this.btn_MaskAreaSet.Name = "btn_MaskAreaSet";
-            this.btn_MaskAreaSet.Size = new System.Drawing.Size(301, 39);
+            this.btn_MaskAreaSet.Size = new System.Drawing.Size(302, 39);
             this.btn_MaskAreaSet.TabIndex = 29;
             this.btn_MaskAreaSet.Text = "검사제외영역 설정";
             this.btn_MaskAreaSet.UseVisualStyleBackColor = true;
@@ -2750,7 +2750,7 @@
             this.Controls.Add(this.tableLayoutPanel23);
             this.Controls.Add(this.btn_AllClear);
             this.Controls.Add(this.btn_DeleteImage);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btn최근불량);
             this.Controls.Add(this.ImageList);
             this.Controls.Add(this.cdyDisplay);
             this.Controls.Add(this.tableLayoutPanel2);
@@ -2875,7 +2875,7 @@
         internal Cognex.VisionPro.Display.CogDisplay cdyDisplay;
         private System.Windows.Forms.Button btn_Livestop;
         internal System.Windows.Forms.ListBox ImageList;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btn최근불량;
         private System.Windows.Forms.Button btn_DeleteImage;
         private System.Windows.Forms.Button btn_AllClear;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel23;

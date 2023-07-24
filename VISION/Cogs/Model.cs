@@ -626,7 +626,7 @@ namespace VISION.Cogs
             Distance_HighValue = distance_highvalue;
         }
 
-        public bool MultiPattern_Inspection(ref Cognex.VisionPro.Display.CogDisplay Display, CogImage8Grey Image, ref string[] ResultString, int CamNumber, CogGraphicCollection Collection, int shotNumber)
+        public bool MultiPattern_Inspection(ref Cognex.VisionPro.Display.CogDisplay Display, CogImage8Grey Image, ref string[] ResultString, int CamNumber, CogGraphicCollection Collection, int shotNumber, double 이미지회전각도)
         {
             try
             {
@@ -655,7 +655,7 @@ namespace VISION.Cogs
                 {
                     if (MultiPatternEnable[CamNumber, lop] == true && (MultiPatternOrderNumber[CamNumber, lop] == Glob.InspectOrder || MultiPatternOrderNumber[CamNumber, lop] == shotNumber))
                     {
-                        MultiPattern[CamNumber, lop].ResultDisplay(Display, Collection, MultiPattern[CamNumber, lop].HighestResultToolNumber(), lop);
+                        MultiPattern[CamNumber, lop].ResultDisplay(Display, Collection, MultiPattern[CamNumber, lop].HighestResultToolNumber(), lop, 이미지회전각도);
                         //SCORE 표시.
                         Glob.MultiInsPat_Result[CamNumber, lop] = MultiPattern[CamNumber, lop].ResultScore(MultiPattern[CamNumber, lop].HighestResultToolNumber());
                     }
