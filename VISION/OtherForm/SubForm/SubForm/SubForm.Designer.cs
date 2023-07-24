@@ -53,7 +53,6 @@
             this.lb진행사항이름.Name = "lb진행사항이름";
             this.lb진행사항이름.Size = new System.Drawing.Size(518, 43);
             this.lb진행사항이름.TabIndex = 0;
-            this.lb진행사항이름.Text = "제목";
             this.lb진행사항이름.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBox1

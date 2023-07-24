@@ -32,7 +32,7 @@ namespace VISION
         public Log log = new Log();
         DriveInfo DriveInfo;
         private Class_Common cm { get { return Program.cm; } } //에러 메세지 보여주기.
-        public SubForm.SubForm SubForm = new SubForm.SubForm();
+        public SubForm.SubForm SubForm;
         public Thread SubTread;
         internal Frm_ToolSetUp frm_toolsetup; //툴셋업창 화면
         internal Frm_SystemSetUp frm_systemsetup; //시스템셋업창 화면
@@ -118,19 +118,31 @@ namespace VISION
         [DllImport("KERNEL32", EntryPoint = "SetEvent", SetLastError = true, CharSet = CharSet.Unicode)]
         private static extern bool SetEvent(long hEvent);
 
-        public void Loading()
+        public void SubFormRun()
         {
             Application.Run(SubForm);
+        }
+
+        public void SubFromStart(string title, string ver)
+        {
+            SubForm = new SubForm.SubForm();
+            SubTread = new Thread(new ThreadStart(SubFormRun));
+            SubTread.Start();
+            SubForm.제목 = title;
+            SubForm.프로그램버전 = $"Ver. {ver}";
+        }
+
+        public void SubFromClose()
+        {
+            SubForm.Close();
+            //SubTread.Abort();
         }
 
         public Frm_Main()
         {
             Glob = PGgloble.getInstance; //전역변수 사용
             Glob.G_MainForm = this;
-            SubTread = new Thread(new ThreadStart(Loading));
-            SubTread.Start();
-            SubForm.제목 = "VISION PROGRAM START";
-            SubForm.프로그램버전 = $"Ver {Glob.PROGRAM_VERSION}";
+            SubFromStart("VISION PROGRAM START", Glob.PROGRAM_VERSION);
             InitializeComponent();
             StandFirst();
             CamSet();
@@ -170,7 +182,7 @@ namespace VISION
             SelectModule(); //IO Board Module Select
             AllCameraOneShot(); //All Camera One Shot.
             log.AddLogMessage(LogType.Infomation, 0, "Vision Program Start");
-            SubTread.Abort();
+            SubFromClose();
         }
 
         public void MainUIDisplaySetting(string modelName)
@@ -190,7 +202,7 @@ namespace VISION
                 for (int lop = 0; lop < TempCogMasterDisplay.Length; lop++)
                 {
                     if (TempCogMasterDisplay[lop] != null)
-                        메인화면마스터이미지셋팅(lop, TempCogMasterDisplay[lop]);
+                        메인화면마스터이미지셋팅(lop, TempCogMasterDisplay[lop], modelName);
                 }
             }
             else
@@ -208,7 +220,7 @@ namespace VISION
                 for (int lop = 0; lop < TempCogMasterDisplay.Length; lop++)
                 {
                     if (TempCogMasterDisplay[lop] != null)
-                        메인화면마스터이미지셋팅(lop, TempCogMasterDisplay[lop]);
+                        메인화면마스터이미지셋팅(lop, TempCogMasterDisplay[lop], modelName);
                 }
             }
             log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
@@ -688,12 +700,13 @@ namespace VISION
             return true;
         }
 
-        private void 메인화면마스터이미지셋팅(int CamNumber, CogDisplay cdyDisplay)
+        private void 메인화면마스터이미지셋팅(int CamNumber, CogDisplay cdyDisplay, string model)
         {
             string ImageType;
-            string ImageName = $"{Glob.MODELROOT}\\{Glob.CurruntModelName}\\Cam{CamNumber}\\CAM{CamNumber}_Master_1.bmp";
+            string ImageName = $"{Glob.MODELROOT}\\{model}\\Cam{CamNumber}\\CAM{CamNumber}_Master_1.bmp";
             FileInfo fileInfo = new FileInfo(ImageName);
 
+            cdyDisplay.Image = null;
             cdyDisplay.InteractiveGraphics.Clear();
             cdyDisplay.StaticGraphics.Clear();
 

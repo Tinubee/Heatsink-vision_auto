@@ -63,7 +63,7 @@ namespace VISION
             if (MessageBox.Show($"{SelectedModel} 모델로 변경 하시겠습니까? (현재모델 : {r_model})", "Change Model", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 return;
 
-            Process.Start($"{Glob.MODELCHANGEFROM}");
+            Main.SubFromStart("모델 변경중 입니다.", Glob.PROGRAM_VERSION);
 
             Main.Set_GeniCam(SelectedModel);
             Main.MainUIDisplaySetting(SelectedModel);
@@ -74,14 +74,10 @@ namespace VISION
                 {
                     if (i == Glob.CamCount - 1)
                     {
-                        Process[] myProcesses = Process.GetProcessesByName("ModelChange_KHM");
-                        if (myProcesses.LongLength > 0)
-                        {
-                            myProcesses[0].Kill();
-                        }
-                        //log.AddLogMessage(LogType.Infomation, 0, "Vision Program Start");
+                        Main.SubFromClose();
                         Main.log.AddLogMessage(LogType.Infomation, 0, $"Model Change Complete ({r_model} -> {Glob.RunnModel.Modelname()})");
                         MessageBox.Show("모델 전환 성공", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Close();
                     }
                 }
             }

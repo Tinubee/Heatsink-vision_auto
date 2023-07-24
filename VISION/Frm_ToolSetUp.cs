@@ -263,7 +263,8 @@ namespace VISION
             if (MessageBox.Show("셋팅값을 저장 하시겠습니까?", "Save", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 return;
 
-            Process.Start($"{Glob.SAVEFROM}");
+            Glob.G_MainForm.SubFromStart("툴 설정값을 저장중 입니다.", Glob.PROGRAM_VERSION);
+
             Glob.RunnModel.Line(Glob.코그넥스파일.라인툴); //라인툴저장
             Glob.RunnModel.LineEnables(Glob.코그넥스파일.라인툴사용여부); //라인툴사용여부
             Glob.RunnModel.Blob(Glob.코그넥스파일.블롭툴); //블롭툴저장
@@ -292,11 +293,8 @@ namespace VISION
                 CamSet.WriteData($"LightControl{lop}", "CH2", Glob.LightChAndValue[lop, 1].ToString("D4"));
             }
 
-            Process[] myProcesses = Process.GetProcessesByName("SaveForm_KHM");
-            if (myProcesses.LongLength > 0)
-            {
-                myProcesses[0].Kill();
-            }
+            Glob.G_MainForm.SubFromClose();
+
             Main.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
             MessageBox.Show("저장 완료", "Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }

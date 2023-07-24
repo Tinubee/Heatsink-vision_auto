@@ -58,7 +58,7 @@ namespace VISION
             if (MessageBox.Show("셋팅값을 저장 하시겠습니까?", "Save", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 return;
 
-            Process.Start($"{Glob.SAVEFROM}");
+            Glob.G_MainForm.SubFromStart("라인카메라 설정값을 저장중 입니다.", Glob.PROGRAM_VERSION);
             INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{Glob.RunnModel.Modelname()}\\CamSet.ini");
 
             CamSet.WriteData($"LineCamera{selectPort}", "Exposure", tb노출값.Text);
@@ -68,12 +68,7 @@ namespace VISION
             Glob.LineCameraOption[selectPort].Gain = Convert.ToDouble(tb감도값.Text);
 
             Glob.G_MainForm.Set_GeniCam(Glob.CurruntModelName);
-
-            Process[] myProcesses = Process.GetProcessesByName("SaveForm_KHM");
-            if (myProcesses.LongLength > 0)
-            {
-                myProcesses[0].Kill();
-            }
+            Glob.G_MainForm.SubFromClose();
             Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
         }
         private void 숫자만입력(object sender, KeyPressEventArgs e)

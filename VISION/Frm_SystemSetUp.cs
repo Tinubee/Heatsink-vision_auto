@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VISION.Cogs;
 
 namespace VISION
 {
@@ -93,7 +94,7 @@ namespace VISION
             if (MessageBox.Show("시스템 설정값을 저장 하시겠습니까?", "Save", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 return;
 
-            Process.Start($"{Unit.SAVEFROM}");
+            Main.SubFromStart("시스템 설정값을 저장중 입니다.", Unit.PROGRAM_VERSION);
 
             INIControl Writer = new INIControl(this.Unit.SETTING);
             Unit.ImageSaveRoot = tb_ImageSaveRoot.Text;
@@ -152,12 +153,7 @@ namespace VISION
             {
                 Writer.WriteData("SYSTEM", "NG CONTAIN UI IMAGE SAVE", "0");
             }
-
-            Process[] myProcesses = Process.GetProcessesByName("SaveForm_KHM");
-            if (myProcesses.LongLength > 0)
-            {
-                myProcesses[0].Kill();
-            }
+            Main.SubFromClose();
             Main.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
             MessageBox.Show("저장 완료", "Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
