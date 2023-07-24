@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace LoadingForm_KHM
+namespace SubForm
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace LoadingForm_KHM
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new SubForm());
         }
     }
 }

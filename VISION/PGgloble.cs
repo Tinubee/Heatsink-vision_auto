@@ -37,7 +37,6 @@ namespace VISION
         #endregion
         public readonly string PROGRAMROOT = Application.StartupPath;
 
-        public readonly string LOADINGFROM = Application.StartupPath + "\\OtherForm\\LoadingForm\\LoadingForm_KHM\\bin\\Debug\\LoadingForm_KHM.exe"; //로딩창 경로
         public readonly string SAVEFROM = Application.StartupPath + "\\OtherForm\\SaveForm\\SaveForm_KHM\\bin\\Debug\\SaveForm_KHM.exe"; //저장창 경로
         public readonly string MODELCHANGEFROM = Application.StartupPath + "\\OtherForm\\ModelChange\\ModelChange_KHM\\bin\\Debug\\ModelChange_KHM.exe"; //변경창 경로
 

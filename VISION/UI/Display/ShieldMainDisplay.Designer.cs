@@ -44,11 +44,15 @@
             this.lb_최종결과2 = new System.Windows.Forms.Label();
             this.lb_최종결과 = new System.Windows.Forms.Label();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.cdyDisplay = new Cognex.VisionPro.Display.CogDisplay();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
             this.lb_Cam1_Result = new System.Windows.Forms.Label();
             this.lb_Cam1_InsTime = new System.Windows.Forms.Label();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.cdy마스터이미지 = new Cognex.VisionPro.Display.CogDisplay();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cdyDisplay = new Cognex.VisionPro.Display.CogDisplay();
             this.tableLayoutPanel19.SuspendLayout();
             this.tableLayoutPanel20.SuspendLayout();
             this.tableLayoutPanel9.SuspendLayout();
@@ -57,16 +61,18 @@
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).BeginInit();
             this.tableLayoutPanel10.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cdy마스터이미지)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel19
             // 
             this.tableLayoutPanel19.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel19.ColumnCount = 2;
-            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.39469F));
-            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.60531F));
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tableLayoutPanel19.Controls.Add(this.tableLayoutPanel20, 1, 0);
             this.tableLayoutPanel19.Controls.Add(this.tableLayoutPanel4, 0, 0);
             this.tableLayoutPanel19.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -74,7 +80,7 @@
             this.tableLayoutPanel19.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel19.Name = "tableLayoutPanel19";
             this.tableLayoutPanel19.RowCount = 1;
-            this.tableLayoutPanel19.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel19.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel19.Size = new System.Drawing.Size(1772, 946);
             this.tableLayoutPanel19.TabIndex = 33;
             // 
@@ -271,8 +277,8 @@
             this.tableLayoutPanel4.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel4.ColumnCount = 1;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Controls.Add(this.cdyDisplay, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel10, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel3, 0, 1);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.ForeColor = System.Drawing.Color.White;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(1, 1);
@@ -283,25 +289,6 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 95F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(555, 944);
             this.tableLayoutPanel4.TabIndex = 13;
-            // 
-            // cdyDisplay
-            // 
-            this.cdyDisplay.ColorMapLowerClipColor = System.Drawing.Color.Black;
-            this.cdyDisplay.ColorMapLowerRoiLimit = 0D;
-            this.cdyDisplay.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
-            this.cdyDisplay.ColorMapUpperClipColor = System.Drawing.Color.Black;
-            this.cdyDisplay.ColorMapUpperRoiLimit = 1D;
-            this.cdyDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cdyDisplay.DoubleTapZoomCycleLength = 2;
-            this.cdyDisplay.DoubleTapZoomSensitivity = 2.5D;
-            this.cdyDisplay.Location = new System.Drawing.Point(1, 49);
-            this.cdyDisplay.Margin = new System.Windows.Forms.Padding(0);
-            this.cdyDisplay.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
-            this.cdyDisplay.MouseWheelSensitivity = 1D;
-            this.cdyDisplay.Name = "cdyDisplay";
-            this.cdyDisplay.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay.OcxState")));
-            this.cdyDisplay.Size = new System.Drawing.Size(553, 894);
-            this.cdyDisplay.TabIndex = 8;
             // 
             // tableLayoutPanel10
             // 
@@ -362,6 +349,94 @@
             this.lb_Cam1_InsTime.Text = "0msec";
             this.lb_Cam1_InsTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Controls.Add(this.cdyDisplay, 1, 1);
+            this.tableLayoutPanel3.Controls.Add(this.cdy마스터이미지, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.label2, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.label3, 1, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(1, 49);
+            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 95F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(553, 894);
+            this.tableLayoutPanel3.TabIndex = 10;
+            // 
+            // cdy마스터이미지
+            // 
+            this.cdy마스터이미지.ColorMapLowerClipColor = System.Drawing.Color.Black;
+            this.cdy마스터이미지.ColorMapLowerRoiLimit = 0D;
+            this.cdy마스터이미지.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
+            this.cdy마스터이미지.ColorMapUpperClipColor = System.Drawing.Color.Black;
+            this.cdy마스터이미지.ColorMapUpperRoiLimit = 1D;
+            this.cdy마스터이미지.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cdy마스터이미지.DoubleTapZoomCycleLength = 2;
+            this.cdy마스터이미지.DoubleTapZoomSensitivity = 2.5D;
+            this.cdy마스터이미지.Location = new System.Drawing.Point(1, 46);
+            this.cdy마스터이미지.Margin = new System.Windows.Forms.Padding(0);
+            this.cdy마스터이미지.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
+            this.cdy마스터이미지.MouseWheelSensitivity = 1D;
+            this.cdy마스터이미지.Name = "cdy마스터이미지";
+            this.cdy마스터이미지.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdy마스터이미지.OcxState")));
+            this.cdy마스터이미지.Size = new System.Drawing.Size(275, 847);
+            this.cdy마스터이미지.TabIndex = 9;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(1, 1);
+            this.label2.Margin = new System.Windows.Forms.Padding(0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(275, 44);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "마스터 이미지";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Cursor = System.Windows.Forms.Cursors.No;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label3.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label3.ForeColor = System.Drawing.Color.Black;
+            this.label3.Location = new System.Drawing.Point(277, 1);
+            this.label3.Margin = new System.Windows.Forms.Padding(0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(275, 44);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "촬영 이미지";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // cdyDisplay
+            // 
+            this.cdyDisplay.ColorMapLowerClipColor = System.Drawing.Color.Black;
+            this.cdyDisplay.ColorMapLowerRoiLimit = 0D;
+            this.cdyDisplay.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
+            this.cdyDisplay.ColorMapUpperClipColor = System.Drawing.Color.Black;
+            this.cdyDisplay.ColorMapUpperRoiLimit = 1D;
+            this.cdyDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cdyDisplay.DoubleTapZoomCycleLength = 2;
+            this.cdyDisplay.DoubleTapZoomSensitivity = 2.5D;
+            this.cdyDisplay.Location = new System.Drawing.Point(277, 46);
+            this.cdyDisplay.Margin = new System.Windows.Forms.Padding(0);
+            this.cdyDisplay.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
+            this.cdyDisplay.MouseWheelSensitivity = 1D;
+            this.cdyDisplay.Name = "cdyDisplay";
+            this.cdyDisplay.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay.OcxState")));
+            this.cdyDisplay.Size = new System.Drawing.Size(275, 847);
+            this.cdyDisplay.TabIndex = 12;
+            // 
             // ShieldMainDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -380,9 +455,12 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).EndInit();
             this.tableLayoutPanel10.ResumeLayout(false);
             this.tableLayoutPanel10.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cdy마스터이미지)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -400,7 +478,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         public System.Windows.Forms.Label label1;
         public System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        public Cognex.VisionPro.Display.CogDisplay cdyDisplay;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
         public System.Windows.Forms.Label label4;
         public System.Windows.Forms.Label lb_Cam1_Result;
@@ -408,5 +485,10 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         public System.Windows.Forms.Label lb_최종결과2;
         public System.Windows.Forms.Label lb_최종결과;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        public Cognex.VisionPro.Display.CogDisplay cdyDisplay;
+        public Cognex.VisionPro.Display.CogDisplay cdy마스터이미지;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }

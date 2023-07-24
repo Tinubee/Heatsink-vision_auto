@@ -32,6 +32,8 @@ namespace VISION
         public Log log = new Log();
         DriveInfo DriveInfo;
         private Class_Common cm { get { return Program.cm; } } //에러 메세지 보여주기.
+        public SubForm.SubForm SubForm = new SubForm.SubForm();
+        public Thread SubTread;
         internal Frm_ToolSetUp frm_toolsetup; //툴셋업창 화면
         internal Frm_SystemSetUp frm_systemsetup; //시스템셋업창 화면
 
@@ -43,6 +45,7 @@ namespace VISION
         private ResultCountDisplay ResultCountDisplay = new ResultCountDisplay();
 
         public CogDisplay[] TempCogDisplay;
+        public CogDisplay[] TempCogMasterDisplay;
         public Label[] lb개별카메라검사결과;
         public Label[] lb검사시간;
         public Label[] lb최종결과;
@@ -115,11 +118,19 @@ namespace VISION
         [DllImport("KERNEL32", EntryPoint = "SetEvent", SetLastError = true, CharSet = CharSet.Unicode)]
         private static extern bool SetEvent(long hEvent);
 
+        public void Loading()
+        {
+            Application.Run(SubForm);
+        }
+
         public Frm_Main()
         {
             Glob = PGgloble.getInstance; //전역변수 사용
             Glob.G_MainForm = this;
-            Process.Start($"{Glob.LOADINGFROM}");
+            SubTread = new Thread(new ThreadStart(Loading));
+            SubTread.Start();
+            SubForm.제목 = "VISION PROGRAM START";
+            SubForm.프로그램버전 = $"Ver {Glob.PROGRAM_VERSION}";
             InitializeComponent();
             StandFirst();
             CamSet();
@@ -159,11 +170,7 @@ namespace VISION
             SelectModule(); //IO Board Module Select
             AllCameraOneShot(); //All Camera One Shot.
             log.AddLogMessage(LogType.Infomation, 0, "Vision Program Start");
-            Process[] myProcesses = Process.GetProcessesByName("LoadingForm_KHM"); //로딩폼 죽이기.
-            if (myProcesses.LongLength > 0)
-            {
-                myProcesses[0].Kill();
-            }
+            SubTread.Abort();
         }
 
         public void MainUIDisplaySetting(string modelName)
@@ -176,9 +183,15 @@ namespace VISION
                 MainPanel.Controls.Add(ShieldMainDisplay);
                 ShieldMainDisplay.Dock = DockStyle.Fill;
                 TempCogDisplay = new CogDisplay[6] { ShieldMainDisplay.cdyDisplay, null, null, null, null, ShieldMainDisplay.cdyDisplay6 };
+                TempCogMasterDisplay = new CogDisplay[6] { ShieldMainDisplay.cdy마스터이미지, null, null, null, null, null };
                 lb개별카메라검사결과 = new Label[6] { ShieldMainDisplay.lb_Cam1_Result, null, null, null, null, ShieldMainDisplay.lb_Cam6_Result };
                 lb검사시간 = new Label[6] { ShieldMainDisplay.lb_Cam1_InsTime, null, null, null, null, ShieldMainDisplay.lb_Cam6_InsTime };
                 lb최종결과 = new Label[2] { ShieldMainDisplay.lb_최종결과, ShieldMainDisplay.lb_최종결과2 };
+                for (int lop = 0; lop < TempCogMasterDisplay.Length; lop++)
+                {
+                    if (TempCogMasterDisplay[lop] != null)
+                        메인화면마스터이미지셋팅(lop, TempCogMasterDisplay[lop]);
+                }
             }
             else
             {
@@ -574,7 +587,7 @@ namespace VISION
                             uFlagLow = uDataLow & 0x0001;
 
                             // Shift rightward by bit by bit
-                            uDataLow = uDataLow >> 1;
+                            uDataLow >>= 1;
 
                             // Updat bit value in control
                             if (uFlagLow == 1)
@@ -669,12 +682,48 @@ namespace VISION
             return true;
         }
 
+        private void 메인화면마스터이미지셋팅(int CamNumber, CogDisplay cdyDisplay)
+        {
+            string ImageType;
+            string ImageName = $"{Glob.MODELROOT}\\{Glob.CurruntModelName}\\Cam{CamNumber}\\CAM{CamNumber}_Master_1.bmp";
+            FileInfo fileInfo = new FileInfo(ImageName);
+
+            cdyDisplay.InteractiveGraphics.Clear();
+            cdyDisplay.StaticGraphics.Clear();
+
+            if (!fileInfo.Exists)
+            {
+                log.AddLogMessage(LogType.Error,0, $"{ImageName} 마스터 이미지가 없습니다. 마스터이미지를 등록해주시기 바랍니다.");
+                return;
+            }
+
+            CogImageFileTool curimage = new CogImageFileTool();
+            curimage.Operator.Open(ImageName, CogImageFileModeConstants.Read);
+            curimage.Run();
+            ImageType = curimage.OutputImage.GetType().ToString();
+            if (ImageType.Contains("CogImage24PlanarColor"))
+            {
+                CogImageConvertTool imageconvert = new CogImageConvertTool();
+                imageconvert.InputImage = curimage.OutputImage;
+                imageconvert.RunParams.RunMode = CogImageConvertRunModeConstants.Plane2;
+                imageconvert.Run();
+                cdyDisplay.Image = (CogImage8Grey)imageconvert.OutputImage;
+            }
+            else
+            {
+                cdyDisplay.Image = (CogImage8Grey)curimage.OutputImage; //JPG 파일
+            }
+            //cdyDisplay.Image = (CogImage8Grey)curimage.OutputImage;
+            cdyDisplay.Fit();
+            GC.Collect();
+        }
+
         private void LoadSetup()
         {
             try
             {
-                tabPage5.Controls.Add(ResultCountDisplay);
-                ResultCountDisplay.Dock = DockStyle.Fill;
+                //tabPage5.Controls.Add(ResultCountDisplay);
+                //ResultCountDisplay.Dock = DockStyle.Fill;
 
                 INIControl Modellist = new INIControl(Glob.MODELLIST); ;
                 INIControl CFGFILE = new INIControl(Glob.CONFIGFILE); ;
@@ -714,6 +763,8 @@ namespace VISION
                 DriveInfo = new DriveInfo(Path.GetPathRoot(Glob.ImageSaveRoot));
                 라인스캔카메라설정파일읽어오기();
                 수량체크불러오기();
+                //frm_Information.infolog = new Log();
+
                 log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
             }
             catch (Exception ee)
@@ -739,7 +790,7 @@ namespace VISION
             AllNG_Count = Convert.ToDouble(setting.ReadData($"Count", "AllNG_Count"));
             //AllTotal_Count = Convert.ToDouble(setting.ReadData($"Count", "AllTOTAL_Count"));
             //AllNG_Rate = Convert.ToDouble(setting.ReadData($"Count", "AllNGRATE_Count"));
-    }
+        }
 
         public void CountSave()
         {
@@ -1411,7 +1462,7 @@ namespace VISION
                 Glob.코그넥스파일.카메라[i].Close();
                 for (int lop = 0; lop < 3; lop++)
                 {
-                    Glob.코그넥스파일.마스크툴[i,lop].Close();
+                    Glob.코그넥스파일.마스크툴[i, lop].Close();
                 }
             }
         }

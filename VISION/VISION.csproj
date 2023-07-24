@@ -524,10 +524,10 @@
     <Compile Include="PGgloble.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\HeatSinkMainDisplay.cs">
+    <Compile Include="UI\Display\HeatSinkMainDisplay.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\HeatSinkMainDisplay.Designer.cs">
+    <Compile Include="UI\Display\HeatSinkMainDisplay.Designer.cs">
       <DependentUpon>HeatSinkMainDisplay.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\ResultCount\AllResultCount.cs">
@@ -548,10 +548,10 @@
     <Compile Include="UI\ResultCount\ResultCountDisplay.Designer.cs">
       <DependentUpon>ResultCountDisplay.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\ShieldMainDisplay.cs">
+    <Compile Include="UI\Display\ShieldMainDisplay.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\ShieldMainDisplay.Designer.cs">
+    <Compile Include="UI\Display\ShieldMainDisplay.Designer.cs">
       <DependentUpon>ShieldMainDisplay.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Frm_Main.resx">
@@ -588,7 +588,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="UI\HeatSinkMainDisplay.resx">
+    <EmbeddedResource Include="UI\Display\HeatSinkMainDisplay.resx">
       <DependentUpon>HeatSinkMainDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ResultCount\AllResultCount.resx">
@@ -600,7 +600,7 @@
     <EmbeddedResource Include="UI\ResultCount\ResultCountDisplay.resx">
       <DependentUpon>ResultCountDisplay.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\ShieldMainDisplay.resx">
+    <EmbeddedResource Include="UI\Display\ShieldMainDisplay.resx">
       <DependentUpon>ShieldMainDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\DataSources\CamList.datasource" />
@@ -688,6 +688,12 @@
     <None Include="Resources\minimize.png" />
     <None Include="Resources\Reset.png" />
     <Content Include="VisionIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="OtherForm\SubForm\SubForm\SubForm.csproj">
+      <Project>{58724854-1231-46b5-8701-c16f093e0d58}</Project>
+      <Name>SubForm</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

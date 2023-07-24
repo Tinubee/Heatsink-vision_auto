@@ -57,6 +57,8 @@
             this.LightControl1 = new System.IO.Ports.SerialPort(this.components);
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.btn_INPUT11 = new System.Windows.Forms.Button();
             this.btn_OUTPUT8 = new System.Windows.Forms.CheckBox();
             this.btn_OUTPUT9 = new System.Windows.Forms.CheckBox();
@@ -92,8 +94,6 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.MainPanel = new System.Windows.Forms.Panel();
             this.LightControl4 = new System.IO.Ports.SerialPort(this.components);
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.tlpUnder.SuspendLayout();
             this.tableLayoutPanel32.SuspendLayout();
             this.tlpTopSide.SuspendLayout();
@@ -559,6 +559,30 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(280, 879);
             this.tableLayoutPanel3.TabIndex = 2;
             // 
+            // button2
+            // 
+            this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button2.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button2.Location = new System.Drawing.Point(1, 807);
+            this.button2.Margin = new System.Windows.Forms.Padding(0);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(138, 71);
+            this.button2.TabIndex = 51;
+            this.button2.Tag = "7";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button1.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button1.Location = new System.Drawing.Point(140, 807);
+            this.button1.Margin = new System.Windows.Forms.Padding(0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(139, 71);
+            this.button1.TabIndex = 50;
+            this.button1.Tag = "7";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // btn_INPUT11
             // 
             this.btn_INPUT11.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -986,9 +1010,9 @@
             // 
             // Main_TabControl
             // 
-            this.Main_TabControl.Controls.Add(this.tabPage5);
-            this.Main_TabControl.Controls.Add(this.tabPage2);
             this.Main_TabControl.Controls.Add(this.tabPage1);
+            this.Main_TabControl.Controls.Add(this.tabPage2);
+            this.Main_TabControl.Controls.Add(this.tabPage5);
             this.Main_TabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Main_TabControl.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Main_TabControl.Location = new System.Drawing.Point(1631, 1);
@@ -1047,30 +1071,6 @@
             // LightControl4
             // 
             this.LightControl4.PortName = "COM9";
-            // 
-            // button1
-            // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button1.Location = new System.Drawing.Point(140, 807);
-            this.button1.Margin = new System.Windows.Forms.Padding(0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(139, 71);
-            this.button1.TabIndex = 50;
-            this.button1.Tag = "7";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button2.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button2.Location = new System.Drawing.Point(1, 807);
-            this.button2.Margin = new System.Windows.Forms.Padding(0);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(138, 71);
-            this.button2.TabIndex = 51;
-            this.button2.Tag = "7";
-            this.button2.UseVisualStyleBackColor = true;
             // 
             // Frm_Main
             // 
