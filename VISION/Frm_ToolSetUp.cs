@@ -17,6 +17,7 @@ using Cognex.VisionPro.ImageProcessing;
 using KimLib;
 using System.Reflection;
 using Microsoft.VisualBasic.Logging;
+using VISION.Class;
 
 namespace VISION
 {

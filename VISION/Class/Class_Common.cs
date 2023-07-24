@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace VISION
+namespace VISION.Class
 {
     public class Class_Common
     {

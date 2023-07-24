@@ -23,6 +23,7 @@ using VISION.UI;
 using Euresys.clseremc;
 using Microsoft.Win32;
 using System.Drawing.Imaging;
+using VISION.Class;
 
 namespace VISION
 {
@@ -990,6 +991,7 @@ namespace VISION
             }
         }
 
+        #region Shot CAM1 
         public void ShotAndInspect_Cam1(int shotNumber)
         {
             try
@@ -1001,6 +1003,7 @@ namespace VISION
                 InspectTime[funCamNumber].Start();
 
                 TempCogDisplay[funCamNumber].Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
+                TempCogDisplay[funCamNumber].Fit();
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
 
@@ -1053,7 +1056,9 @@ namespace VISION
                 log.AddLogMessage(LogType.Error, 0, $"Camera - 1 Error : {ee.Message}");
             }
         }
+        #endregion
 
+        #region Shot CAM2 
         public void ShotAndInspect_Cam2(int shotNumber)
         {
             int funCamNumber = 1;
@@ -1068,6 +1073,7 @@ namespace VISION
                 Glob.FlipImageTool[funCamNumber].Run();
 
                 TempCogDisplay[funCamNumber].Image = Glob.FlipImageTool[funCamNumber].OutputImage;
+                TempCogDisplay[funCamNumber].Fit();
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
 
@@ -1117,7 +1123,9 @@ namespace VISION
                 log.AddLogMessage(LogType.Error, 0, $"Camera - 2 Error : {ee.Message}");
             }
         }
+        #endregion
 
+        #region Shot CAM3
         public void ShotAndInspect_Cam3(int shotNumber)
         {
             int funCamNumber = 2;
@@ -1131,6 +1139,7 @@ namespace VISION
                 Glob.FlipImageTool[funCamNumber].Run();
 
                 TempCogDisplay[funCamNumber].Image = Glob.FlipImageTool[funCamNumber].OutputImage;
+                TempCogDisplay[funCamNumber].Fit();
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
 
@@ -1180,7 +1189,9 @@ namespace VISION
                 log.AddLogMessage(LogType.Error, 0, $"Camera - {funCamNumber + 1} Error : {ee.Message}");
             }
         }
+        #endregion
 
+        #region Shot CAM4 
         public void ShotAndInspect_Cam4(CogDisplay cdy, int shotNumber)
         {
             int funCamNumber = 3;
@@ -1194,6 +1205,7 @@ namespace VISION
                 NoScratchErrorInit();
 
                 cdy.Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
+                cdy.Fit();
                 cdy.InteractiveGraphics.Clear();
                 cdy.StaticGraphics.Clear();
 
@@ -1261,7 +1273,9 @@ namespace VISION
                 log.AddLogMessage(LogType.Error, 0, $"Camera - {funCamNumber + 1} Error : {ee.Message}");
             }
         }
+        #endregion
 
+        #region Shot CAM5
         public void ShotAndInspect_Cam5(CogDisplay cdy, int shotNumber)
         {
             int funCamNumber = 4;
@@ -1273,6 +1287,7 @@ namespace VISION
                 InspectTime[funCamNumber].Start();
 
                 cdy.Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
+                cdy.Fit();
                 cdy.InteractiveGraphics.Clear();
                 cdy.StaticGraphics.Clear();
 
@@ -1338,7 +1353,9 @@ namespace VISION
                 log.AddLogMessage(LogType.Error, 0, $"Camera - {funCamNumber + 1} Error : {ee.Message}");
             }
         }
+        #endregion
 
+        #region Shot CAM6
         public void ShotAndInspect_Cam6(CogDisplay cdy, int shotNumber)
         {
             int funCamNumber = 5;
@@ -1358,6 +1375,7 @@ namespace VISION
                 Glob.FlipImageTool[funCamNumber].Run();
 
                 cdy.Image = Glob.FlipImageTool[funCamNumber].OutputImage;
+                cdy.Fit();
                 cdy.InteractiveGraphics.Clear();
                 cdy.StaticGraphics.Clear();
 
@@ -1409,6 +1427,7 @@ namespace VISION
                 log.AddLogMessage(LogType.Error, 0, $"Camera - {funCamNumber + 1} Error : {ee.Message}");
             }
         }
+        #endregion
 
         public async void ErrorCheckAndSendPLC()
         {

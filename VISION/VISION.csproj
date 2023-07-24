@@ -457,11 +457,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AXD.cs" />
-    <Compile Include="AXHS.cs" />
-    <Compile Include="AXL.cs" />
-    <Compile Include="Class_Common.cs" />
-    <Compile Include="clseremc.cs" />
+    <Compile Include="Class\AXD.cs" />
+    <Compile Include="Class\AXHS.cs" />
+    <Compile Include="Class\AXL.cs" />
+    <Compile Include="Class\Class_Common.cs" />
+    <Compile Include="Class\clseremc.cs" />
+    <Compile Include="Class\Inspection.cs" />
     <Compile Include="Cogs\Blob.cs" />
     <Compile Include="Cogs\Caliper.cs" />
     <Compile Include="Cogs\Camera.cs" />
@@ -507,14 +508,13 @@
     <Compile Include="Frm_SystemSetUp.Designer.cs">
       <DependentUpon>Frm_SystemSetUp.cs</DependentUpon>
     </Compile>
-    <Compile Include="frm_toolsetup1.cs" />
     <Compile Include="Information.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Information.Designer.cs">
       <DependentUpon>Information.cs</DependentUpon>
     </Compile>
-    <Compile Include="INIControl.cs" />
+    <Compile Include="Class\INIControl.cs" />
     <Compile Include="MultiPatternResult.cs">
       <SubType>Form</SubType>
     </Compile>
