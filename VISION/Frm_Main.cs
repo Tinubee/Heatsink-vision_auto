@@ -201,9 +201,15 @@ namespace VISION
                 MainPanel.Controls.Add(HeatSinkMainDisplay);
                 HeatSinkMainDisplay.Dock = DockStyle.Fill;
                 TempCogDisplay = new CogDisplay[6] { HeatSinkMainDisplay.cdyDisplay, HeatSinkMainDisplay.cdyDisplay2, HeatSinkMainDisplay.cdyDisplay3, HeatSinkMainDisplay.cdyDisplay4, HeatSinkMainDisplay.cdyDisplay5, HeatSinkMainDisplay.cdyDisplay6 };
+                TempCogMasterDisplay = new CogDisplay[6] { HeatSinkMainDisplay.cdy마스터이미지, null, null, null, null, null };
                 lb개별카메라검사결과 = new Label[6] { HeatSinkMainDisplay.lb_Cam1_Result, HeatSinkMainDisplay.lb_Cam2_Result, HeatSinkMainDisplay.lb_Cam3_Result, HeatSinkMainDisplay.lb_Cam4_Result, HeatSinkMainDisplay.lb_Cam5_Result, HeatSinkMainDisplay.lb_Cam6_Result };
                 lb검사시간 = new Label[6] { HeatSinkMainDisplay.lb_Cam1_InsTime, HeatSinkMainDisplay.lb_Cam2_InsTime, HeatSinkMainDisplay.lb_Cam3_InsTime, HeatSinkMainDisplay.lb_Cam4_InsTime, HeatSinkMainDisplay.lb_Cam5_InsTime, HeatSinkMainDisplay.lb_Cam6_InsTime, };
                 lb최종결과 = new Label[2] { HeatSinkMainDisplay.lb_최종결과, HeatSinkMainDisplay.lb_최종결과2 };
+                for (int lop = 0; lop < TempCogMasterDisplay.Length; lop++)
+                {
+                    if (TempCogMasterDisplay[lop] != null)
+                        메인화면마스터이미지셋팅(lop, TempCogMasterDisplay[lop]);
+                }
             }
             log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
         }

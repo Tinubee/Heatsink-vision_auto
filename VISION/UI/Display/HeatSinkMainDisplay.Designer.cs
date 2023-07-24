@@ -72,11 +72,15 @@
             this.label7 = new System.Windows.Forms.Label();
             this.lb_Cam4_InsTime = new System.Windows.Forms.Label();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.cdyDisplay = new Cognex.VisionPro.Display.CogDisplay();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
             this.lb_Cam1_Result = new System.Windows.Forms.Label();
             this.lb_Cam1_InsTime = new System.Windows.Forms.Label();
+            this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
+            this.cdyDisplay = new Cognex.VisionPro.Display.CogDisplay();
+            this.cdy마스터이미지 = new Cognex.VisionPro.Display.CogDisplay();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.tableLayoutPanel19.SuspendLayout();
             this.tableLayoutPanel20.SuspendLayout();
             this.tableLayoutPanel9.SuspendLayout();
@@ -101,16 +105,18 @@
             this.tableLayoutPanel15.SuspendLayout();
             this.tableLayoutPanel11.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).BeginInit();
             this.tableLayoutPanel10.SuspendLayout();
+            this.tableLayoutPanel14.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cdy마스터이미지)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel19
             // 
             this.tableLayoutPanel19.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel19.ColumnCount = 2;
-            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21.37072F));
-            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 78.62928F));
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65F));
             this.tableLayoutPanel19.Controls.Add(this.tableLayoutPanel20, 1, 0);
             this.tableLayoutPanel19.Controls.Add(this.tableLayoutPanel4, 0, 0);
             this.tableLayoutPanel19.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -118,7 +124,7 @@
             this.tableLayoutPanel19.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel19.Name = "tableLayoutPanel19";
             this.tableLayoutPanel19.RowCount = 1;
-            this.tableLayoutPanel19.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel19.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel19.Size = new System.Drawing.Size(1772, 946);
             this.tableLayoutPanel19.TabIndex = 32;
             // 
@@ -132,7 +138,7 @@
             this.tableLayoutPanel20.Controls.Add(this.tableLayoutPanel5, 0, 0);
             this.tableLayoutPanel20.Controls.Add(this.tableLayoutPanel2, 0, 2);
             this.tableLayoutPanel20.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel20.Location = new System.Drawing.Point(380, 1);
+            this.tableLayoutPanel20.Location = new System.Drawing.Point(621, 1);
             this.tableLayoutPanel20.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel20.Name = "tableLayoutPanel20";
             this.tableLayoutPanel20.RowCount = 4;
@@ -140,7 +146,7 @@
             this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel20.Size = new System.Drawing.Size(1391, 944);
+            this.tableLayoutPanel20.Size = new System.Drawing.Size(1150, 944);
             this.tableLayoutPanel20.TabIndex = 0;
             // 
             // tableLayoutPanel9
@@ -158,7 +164,7 @@
             this.tableLayoutPanel9.RowCount = 2;
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(1389, 237);
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(1148, 237);
             this.tableLayoutPanel9.TabIndex = 18;
             // 
             // cdyDisplay6
@@ -177,7 +183,7 @@
             this.cdyDisplay6.MouseWheelSensitivity = 1D;
             this.cdyDisplay6.Name = "cdyDisplay6";
             this.cdyDisplay6.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay6.OcxState")));
-            this.cdyDisplay6.Size = new System.Drawing.Size(1387, 188);
+            this.cdyDisplay6.Size = new System.Drawing.Size(1146, 188);
             this.cdyDisplay6.TabIndex = 8;
             // 
             // tableLayoutPanel12
@@ -199,7 +205,7 @@
             this.tableLayoutPanel12.Name = "tableLayoutPanel12";
             this.tableLayoutPanel12.RowCount = 1;
             this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel12.Size = new System.Drawing.Size(1387, 46);
+            this.tableLayoutPanel12.Size = new System.Drawing.Size(1146, 46);
             this.tableLayoutPanel12.TabIndex = 11;
             // 
             // lb_Cam6_Result
@@ -207,9 +213,9 @@
             this.lb_Cam6_Result.AutoSize = true;
             this.lb_Cam6_Result.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lb_Cam6_Result.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_Cam6_Result.Location = new System.Drawing.Point(217, 1);
+            this.lb_Cam6_Result.Location = new System.Drawing.Point(180, 1);
             this.lb_Cam6_Result.Name = "lb_Cam6_Result";
-            this.lb_Cam6_Result.Size = new System.Drawing.Size(525, 44);
+            this.lb_Cam6_Result.Size = new System.Drawing.Size(432, 44);
             this.lb_Cam6_Result.TabIndex = 1;
             this.lb_Cam6_Result.Text = "Result";
             this.lb_Cam6_Result.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -223,7 +229,7 @@
             this.label9.Location = new System.Drawing.Point(1, 1);
             this.label9.Margin = new System.Windows.Forms.Padding(0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(212, 44);
+            this.label9.Size = new System.Drawing.Size(175, 44);
             this.label9.TabIndex = 0;
             this.label9.Text = "CAM 6";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -233,9 +239,9 @@
             this.lb_Cam6_InsTime.AutoSize = true;
             this.lb_Cam6_InsTime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lb_Cam6_InsTime.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_Cam6_InsTime.Location = new System.Drawing.Point(749, 1);
+            this.lb_Cam6_InsTime.Location = new System.Drawing.Point(619, 1);
             this.lb_Cam6_InsTime.Name = "lb_Cam6_InsTime";
-            this.lb_Cam6_InsTime.Size = new System.Drawing.Size(312, 44);
+            this.lb_Cam6_InsTime.Size = new System.Drawing.Size(257, 44);
             this.lb_Cam6_InsTime.TabIndex = 2;
             this.lb_Cam6_InsTime.Text = "label27";
             this.lb_Cam6_InsTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -250,12 +256,12 @@
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(1065, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(880, 1);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(321, 44);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(265, 44);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // tableLayoutPanel3
@@ -266,12 +272,12 @@
             this.tableLayoutPanel3.Controls.Add(this.lb_최종결과2, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.lb_최종결과, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(97, 1);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(80, 1);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(223, 42);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(184, 42);
             this.tableLayoutPanel3.TabIndex = 5;
             // 
             // lb_최종결과2
@@ -279,9 +285,9 @@
             this.lb_최종결과2.AutoSize = true;
             this.lb_최종결과2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lb_최종결과2.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_최종결과2.Location = new System.Drawing.Point(114, 0);
+            this.lb_최종결과2.Location = new System.Drawing.Point(95, 0);
             this.lb_최종결과2.Name = "lb_최종결과2";
-            this.lb_최종결과2.Size = new System.Drawing.Size(106, 42);
+            this.lb_최종결과2.Size = new System.Drawing.Size(86, 42);
             this.lb_최종결과2.TabIndex = 6;
             this.lb_최종결과2.Text = "Result2";
             this.lb_최종결과2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -293,7 +299,7 @@
             this.lb_최종결과.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lb_최종결과.Location = new System.Drawing.Point(3, 0);
             this.lb_최종결과.Name = "lb_최종결과";
-            this.lb_최종결과.Size = new System.Drawing.Size(105, 42);
+            this.lb_최종결과.Size = new System.Drawing.Size(86, 42);
             this.lb_최종결과.TabIndex = 5;
             this.lb_최종결과.Text = "Result";
             this.lb_최종결과.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -305,7 +311,7 @@
             this.label1.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label1.Location = new System.Drawing.Point(4, 1);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(89, 42);
+            this.label1.Size = new System.Drawing.Size(72, 42);
             this.label1.TabIndex = 3;
             this.label1.Text = "최종결과";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -324,7 +330,7 @@
             this.tableLayoutPanel8.RowCount = 2;
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(1389, 234);
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(1148, 234);
             this.tableLayoutPanel8.TabIndex = 20;
             // 
             // cdyDisplay3
@@ -343,7 +349,7 @@
             this.cdyDisplay3.MouseWheelSensitivity = 1D;
             this.cdyDisplay3.Name = "cdyDisplay3";
             this.cdyDisplay3.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay3.OcxState")));
-            this.cdyDisplay3.Size = new System.Drawing.Size(1387, 185);
+            this.cdyDisplay3.Size = new System.Drawing.Size(1146, 185);
             this.cdyDisplay3.TabIndex = 8;
             // 
             // tableLayoutPanel13
@@ -364,7 +370,7 @@
             this.tableLayoutPanel13.Name = "tableLayoutPanel13";
             this.tableLayoutPanel13.RowCount = 1;
             this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel13.Size = new System.Drawing.Size(1387, 46);
+            this.tableLayoutPanel13.Size = new System.Drawing.Size(1146, 46);
             this.tableLayoutPanel13.TabIndex = 9;
             // 
             // lb_Cam3_Result
@@ -372,9 +378,9 @@
             this.lb_Cam3_Result.AutoSize = true;
             this.lb_Cam3_Result.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lb_Cam3_Result.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_Cam3_Result.Location = new System.Drawing.Point(281, 1);
+            this.lb_Cam3_Result.Location = new System.Drawing.Point(233, 1);
             this.lb_Cam3_Result.Name = "lb_Cam3_Result";
-            this.lb_Cam3_Result.Size = new System.Drawing.Size(685, 44);
+            this.lb_Cam3_Result.Size = new System.Drawing.Size(565, 44);
             this.lb_Cam3_Result.TabIndex = 1;
             this.lb_Cam3_Result.Text = "Result";
             this.lb_Cam3_Result.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -386,7 +392,7 @@
             this.label13.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label13.Location = new System.Drawing.Point(4, 1);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(270, 44);
+            this.label13.Size = new System.Drawing.Size(222, 44);
             this.label13.TabIndex = 0;
             this.label13.Text = "CAM 3";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -396,9 +402,9 @@
             this.lb_Cam3_InsTime.AutoSize = true;
             this.lb_Cam3_InsTime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lb_Cam3_InsTime.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_Cam3_InsTime.Location = new System.Drawing.Point(973, 1);
+            this.lb_Cam3_InsTime.Location = new System.Drawing.Point(805, 1);
             this.lb_Cam3_InsTime.Name = "lb_Cam3_InsTime";
-            this.lb_Cam3_InsTime.Size = new System.Drawing.Size(410, 44);
+            this.lb_Cam3_InsTime.Size = new System.Drawing.Size(337, 44);
             this.lb_Cam3_InsTime.TabIndex = 2;
             this.lb_Cam3_InsTime.Text = "label26";
             this.lb_Cam3_InsTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -417,7 +423,7 @@
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(1389, 234);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(1148, 234);
             this.tableLayoutPanel5.TabIndex = 19;
             // 
             // cdyDisplay2
@@ -436,7 +442,7 @@
             this.cdyDisplay2.MouseWheelSensitivity = 1D;
             this.cdyDisplay2.Name = "cdyDisplay2";
             this.cdyDisplay2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay2.OcxState")));
-            this.cdyDisplay2.Size = new System.Drawing.Size(1387, 185);
+            this.cdyDisplay2.Size = new System.Drawing.Size(1146, 185);
             this.cdyDisplay2.TabIndex = 8;
             // 
             // tableLayoutPanel6
@@ -457,7 +463,7 @@
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 1;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(1387, 46);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(1146, 46);
             this.tableLayoutPanel6.TabIndex = 9;
             // 
             // lb_Cam2_Result
@@ -465,9 +471,9 @@
             this.lb_Cam2_Result.AutoSize = true;
             this.lb_Cam2_Result.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lb_Cam2_Result.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_Cam2_Result.Location = new System.Drawing.Point(281, 1);
+            this.lb_Cam2_Result.Location = new System.Drawing.Point(233, 1);
             this.lb_Cam2_Result.Name = "lb_Cam2_Result";
-            this.lb_Cam2_Result.Size = new System.Drawing.Size(685, 44);
+            this.lb_Cam2_Result.Size = new System.Drawing.Size(565, 44);
             this.lb_Cam2_Result.TabIndex = 1;
             this.lb_Cam2_Result.Text = "Result";
             this.lb_Cam2_Result.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -479,7 +485,7 @@
             this.label11.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label11.Location = new System.Drawing.Point(4, 1);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(270, 44);
+            this.label11.Size = new System.Drawing.Size(222, 44);
             this.label11.TabIndex = 0;
             this.label11.Text = "CAM 2";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -489,9 +495,9 @@
             this.lb_Cam2_InsTime.AutoSize = true;
             this.lb_Cam2_InsTime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lb_Cam2_InsTime.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_Cam2_InsTime.Location = new System.Drawing.Point(973, 1);
+            this.lb_Cam2_InsTime.Location = new System.Drawing.Point(805, 1);
             this.lb_Cam2_InsTime.Name = "lb_Cam2_InsTime";
-            this.lb_Cam2_InsTime.Size = new System.Drawing.Size(410, 44);
+            this.lb_Cam2_InsTime.Size = new System.Drawing.Size(337, 44);
             this.lb_Cam2_InsTime.TabIndex = 2;
             this.lb_Cam2_InsTime.Text = "label23";
             this.lb_Cam2_InsTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -510,7 +516,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1389, 234);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1148, 234);
             this.tableLayoutPanel2.TabIndex = 26;
             // 
             // tableLayoutPanel21
@@ -533,7 +539,7 @@
             this.tableLayoutPanel21.Name = "tableLayoutPanel21";
             this.tableLayoutPanel21.RowCount = 1;
             this.tableLayoutPanel21.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel21.Size = new System.Drawing.Size(1387, 185);
+            this.tableLayoutPanel21.Size = new System.Drawing.Size(1146, 185);
             this.tableLayoutPanel21.TabIndex = 0;
             // 
             // cdyDisplay5
@@ -546,13 +552,13 @@
             this.cdyDisplay5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cdyDisplay5.DoubleTapZoomCycleLength = 2;
             this.cdyDisplay5.DoubleTapZoomSensitivity = 2.5D;
-            this.cdyDisplay5.Location = new System.Drawing.Point(832, 1);
+            this.cdyDisplay5.Location = new System.Drawing.Point(688, 1);
             this.cdyDisplay5.Margin = new System.Windows.Forms.Padding(0);
             this.cdyDisplay5.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
             this.cdyDisplay5.MouseWheelSensitivity = 1D;
             this.cdyDisplay5.Name = "cdyDisplay5";
             this.cdyDisplay5.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay5.OcxState")));
-            this.cdyDisplay5.Size = new System.Drawing.Size(276, 183);
+            this.cdyDisplay5.Size = new System.Drawing.Size(228, 183);
             this.cdyDisplay5.TabIndex = 8;
             // 
             // cdyDisplay4_3
@@ -565,13 +571,13 @@
             this.cdyDisplay4_3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cdyDisplay4_3.DoubleTapZoomCycleLength = 2;
             this.cdyDisplay4_3.DoubleTapZoomSensitivity = 2.5D;
-            this.cdyDisplay4_3.Location = new System.Drawing.Point(555, 1);
+            this.cdyDisplay4_3.Location = new System.Drawing.Point(459, 1);
             this.cdyDisplay4_3.Margin = new System.Windows.Forms.Padding(0);
             this.cdyDisplay4_3.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
             this.cdyDisplay4_3.MouseWheelSensitivity = 1D;
             this.cdyDisplay4_3.Name = "cdyDisplay4_3";
             this.cdyDisplay4_3.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay4_3.OcxState")));
-            this.cdyDisplay4_3.Size = new System.Drawing.Size(276, 183);
+            this.cdyDisplay4_3.Size = new System.Drawing.Size(228, 183);
             this.cdyDisplay4_3.TabIndex = 9;
             // 
             // cdyDisplay4
@@ -590,7 +596,7 @@
             this.cdyDisplay4.MouseWheelSensitivity = 1D;
             this.cdyDisplay4.Name = "cdyDisplay4";
             this.cdyDisplay4.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay4.OcxState")));
-            this.cdyDisplay4.Size = new System.Drawing.Size(276, 183);
+            this.cdyDisplay4.Size = new System.Drawing.Size(228, 183);
             this.cdyDisplay4.TabIndex = 10;
             // 
             // cdyDisplay4_2
@@ -603,13 +609,13 @@
             this.cdyDisplay4_2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cdyDisplay4_2.DoubleTapZoomCycleLength = 2;
             this.cdyDisplay4_2.DoubleTapZoomSensitivity = 2.5D;
-            this.cdyDisplay4_2.Location = new System.Drawing.Point(278, 1);
+            this.cdyDisplay4_2.Location = new System.Drawing.Point(230, 1);
             this.cdyDisplay4_2.Margin = new System.Windows.Forms.Padding(0);
             this.cdyDisplay4_2.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
             this.cdyDisplay4_2.MouseWheelSensitivity = 1D;
             this.cdyDisplay4_2.Name = "cdyDisplay4_2";
             this.cdyDisplay4_2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay4_2.OcxState")));
-            this.cdyDisplay4_2.Size = new System.Drawing.Size(276, 183);
+            this.cdyDisplay4_2.Size = new System.Drawing.Size(228, 183);
             this.cdyDisplay4_2.TabIndex = 9;
             // 
             // cdyDisplay5_1
@@ -622,13 +628,13 @@
             this.cdyDisplay5_1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cdyDisplay5_1.DoubleTapZoomCycleLength = 2;
             this.cdyDisplay5_1.DoubleTapZoomSensitivity = 2.5D;
-            this.cdyDisplay5_1.Location = new System.Drawing.Point(1109, 1);
+            this.cdyDisplay5_1.Location = new System.Drawing.Point(917, 1);
             this.cdyDisplay5_1.Margin = new System.Windows.Forms.Padding(0);
             this.cdyDisplay5_1.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
             this.cdyDisplay5_1.MouseWheelSensitivity = 1D;
             this.cdyDisplay5_1.Name = "cdyDisplay5_1";
             this.cdyDisplay5_1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay5_1.OcxState")));
-            this.cdyDisplay5_1.Size = new System.Drawing.Size(277, 183);
+            this.cdyDisplay5_1.Size = new System.Drawing.Size(228, 183);
             this.cdyDisplay5_1.TabIndex = 9;
             // 
             // tableLayoutPanel7
@@ -645,7 +651,7 @@
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
             this.tableLayoutPanel7.RowCount = 1;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(1387, 46);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(1146, 46);
             this.tableLayoutPanel7.TabIndex = 1;
             // 
             // tableLayoutPanel15
@@ -661,12 +667,12 @@
             this.tableLayoutPanel15.Controls.Add(this.lb_Cam5_InsTime, 2, 0);
             this.tableLayoutPanel15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel15.ForeColor = System.Drawing.Color.White;
-            this.tableLayoutPanel15.Location = new System.Drawing.Point(827, 1);
+            this.tableLayoutPanel15.Location = new System.Drawing.Point(683, 1);
             this.tableLayoutPanel15.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel15.Name = "tableLayoutPanel15";
             this.tableLayoutPanel15.RowCount = 1;
             this.tableLayoutPanel15.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel15.Size = new System.Drawing.Size(559, 44);
+            this.tableLayoutPanel15.Size = new System.Drawing.Size(462, 44);
             this.tableLayoutPanel15.TabIndex = 9;
             // 
             // lb_Cam5_Result
@@ -674,9 +680,9 @@
             this.lb_Cam5_Result.AutoSize = true;
             this.lb_Cam5_Result.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lb_Cam5_Result.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_Cam5_Result.Location = new System.Drawing.Point(116, 1);
+            this.lb_Cam5_Result.Location = new System.Drawing.Point(96, 1);
             this.lb_Cam5_Result.Name = "lb_Cam5_Result";
-            this.lb_Cam5_Result.Size = new System.Drawing.Size(271, 42);
+            this.lb_Cam5_Result.Size = new System.Drawing.Size(223, 42);
             this.lb_Cam5_Result.TabIndex = 1;
             this.lb_Cam5_Result.Text = "Result";
             this.lb_Cam5_Result.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -688,7 +694,7 @@
             this.label15.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label15.Location = new System.Drawing.Point(4, 1);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(105, 42);
+            this.label15.Size = new System.Drawing.Size(85, 42);
             this.label15.TabIndex = 0;
             this.label15.Text = "CAM 5";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -698,9 +704,9 @@
             this.lb_Cam5_InsTime.AutoSize = true;
             this.lb_Cam5_InsTime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lb_Cam5_InsTime.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_Cam5_InsTime.Location = new System.Drawing.Point(394, 1);
+            this.lb_Cam5_InsTime.Location = new System.Drawing.Point(326, 1);
             this.lb_Cam5_InsTime.Name = "lb_Cam5_InsTime";
-            this.lb_Cam5_InsTime.Size = new System.Drawing.Size(161, 42);
+            this.lb_Cam5_InsTime.Size = new System.Drawing.Size(132, 42);
             this.lb_Cam5_InsTime.TabIndex = 2;
             this.lb_Cam5_InsTime.Text = "label25";
             this.lb_Cam5_InsTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -723,7 +729,7 @@
             this.tableLayoutPanel11.Name = "tableLayoutPanel11";
             this.tableLayoutPanel11.RowCount = 1;
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel11.Size = new System.Drawing.Size(825, 44);
+            this.tableLayoutPanel11.Size = new System.Drawing.Size(681, 44);
             this.tableLayoutPanel11.TabIndex = 10;
             // 
             // lb_Cam4_Result
@@ -731,9 +737,9 @@
             this.lb_Cam4_Result.AutoSize = true;
             this.lb_Cam4_Result.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lb_Cam4_Result.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_Cam4_Result.Location = new System.Drawing.Point(169, 1);
+            this.lb_Cam4_Result.Location = new System.Drawing.Point(140, 1);
             this.lb_Cam4_Result.Name = "lb_Cam4_Result";
-            this.lb_Cam4_Result.Size = new System.Drawing.Size(404, 42);
+            this.lb_Cam4_Result.Size = new System.Drawing.Size(332, 42);
             this.lb_Cam4_Result.TabIndex = 1;
             this.lb_Cam4_Result.Text = "Result";
             this.lb_Cam4_Result.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -745,7 +751,7 @@
             this.label7.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label7.Location = new System.Drawing.Point(4, 1);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(158, 42);
+            this.label7.Size = new System.Drawing.Size(129, 42);
             this.label7.TabIndex = 0;
             this.label7.Text = "CAM 4";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -755,9 +761,9 @@
             this.lb_Cam4_InsTime.AutoSize = true;
             this.lb_Cam4_InsTime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lb_Cam4_InsTime.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_Cam4_InsTime.Location = new System.Drawing.Point(580, 1);
+            this.lb_Cam4_InsTime.Location = new System.Drawing.Point(479, 1);
             this.lb_Cam4_InsTime.Name = "lb_Cam4_InsTime";
-            this.lb_Cam4_InsTime.Size = new System.Drawing.Size(241, 42);
+            this.lb_Cam4_InsTime.Size = new System.Drawing.Size(198, 42);
             this.lb_Cam4_InsTime.TabIndex = 2;
             this.lb_Cam4_InsTime.Text = "label24";
             this.lb_Cam4_InsTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -767,8 +773,8 @@
             this.tableLayoutPanel4.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel4.ColumnCount = 1;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Controls.Add(this.cdyDisplay, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel10, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel14, 0, 1);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.ForeColor = System.Drawing.Color.White;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(1, 1);
@@ -777,27 +783,8 @@
             this.tableLayoutPanel4.RowCount = 2;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 95F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(378, 944);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(619, 944);
             this.tableLayoutPanel4.TabIndex = 13;
-            // 
-            // cdyDisplay
-            // 
-            this.cdyDisplay.ColorMapLowerClipColor = System.Drawing.Color.Black;
-            this.cdyDisplay.ColorMapLowerRoiLimit = 0D;
-            this.cdyDisplay.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
-            this.cdyDisplay.ColorMapUpperClipColor = System.Drawing.Color.Black;
-            this.cdyDisplay.ColorMapUpperRoiLimit = 1D;
-            this.cdyDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cdyDisplay.DoubleTapZoomCycleLength = 2;
-            this.cdyDisplay.DoubleTapZoomSensitivity = 2.5D;
-            this.cdyDisplay.Location = new System.Drawing.Point(1, 49);
-            this.cdyDisplay.Margin = new System.Windows.Forms.Padding(0);
-            this.cdyDisplay.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
-            this.cdyDisplay.MouseWheelSensitivity = 1D;
-            this.cdyDisplay.Name = "cdyDisplay";
-            this.cdyDisplay.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay.OcxState")));
-            this.cdyDisplay.Size = new System.Drawing.Size(376, 894);
-            this.cdyDisplay.TabIndex = 8;
             // 
             // tableLayoutPanel10
             // 
@@ -816,7 +803,7 @@
             this.tableLayoutPanel10.Name = "tableLayoutPanel10";
             this.tableLayoutPanel10.RowCount = 1;
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel10.Size = new System.Drawing.Size(376, 47);
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(617, 47);
             this.tableLayoutPanel10.TabIndex = 9;
             // 
             // label4
@@ -826,7 +813,7 @@
             this.label4.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label4.Location = new System.Drawing.Point(4, 1);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(68, 45);
+            this.label4.Size = new System.Drawing.Size(116, 45);
             this.label4.TabIndex = 0;
             this.label4.Text = "CAM 1";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -836,9 +823,9 @@
             this.lb_Cam1_Result.AutoSize = true;
             this.lb_Cam1_Result.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lb_Cam1_Result.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_Cam1_Result.Location = new System.Drawing.Point(79, 1);
+            this.lb_Cam1_Result.Location = new System.Drawing.Point(127, 1);
             this.lb_Cam1_Result.Name = "lb_Cam1_Result";
-            this.lb_Cam1_Result.Size = new System.Drawing.Size(180, 45);
+            this.lb_Cam1_Result.Size = new System.Drawing.Size(300, 45);
             this.lb_Cam1_Result.TabIndex = 1;
             this.lb_Cam1_Result.Text = "Result";
             this.lb_Cam1_Result.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -848,12 +835,98 @@
             this.lb_Cam1_InsTime.AutoSize = true;
             this.lb_Cam1_InsTime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lb_Cam1_InsTime.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lb_Cam1_InsTime.Location = new System.Drawing.Point(266, 1);
+            this.lb_Cam1_InsTime.Location = new System.Drawing.Point(434, 1);
             this.lb_Cam1_InsTime.Name = "lb_Cam1_InsTime";
-            this.lb_Cam1_InsTime.Size = new System.Drawing.Size(106, 45);
+            this.lb_Cam1_InsTime.Size = new System.Drawing.Size(179, 45);
             this.lb_Cam1_InsTime.TabIndex = 3;
             this.lb_Cam1_InsTime.Text = "label21";
             this.lb_Cam1_InsTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tableLayoutPanel14
+            // 
+            this.tableLayoutPanel14.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel14.ColumnCount = 2;
+            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel14.Controls.Add(this.cdy마스터이미지, 0, 1);
+            this.tableLayoutPanel14.Controls.Add(this.cdyDisplay, 1, 1);
+            this.tableLayoutPanel14.Controls.Add(this.label2, 0, 0);
+            this.tableLayoutPanel14.Controls.Add(this.label3, 1, 0);
+            this.tableLayoutPanel14.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel14.Location = new System.Drawing.Point(1, 49);
+            this.tableLayoutPanel14.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel14.Name = "tableLayoutPanel14";
+            this.tableLayoutPanel14.RowCount = 2;
+            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 95F));
+            this.tableLayoutPanel14.Size = new System.Drawing.Size(617, 894);
+            this.tableLayoutPanel14.TabIndex = 10;
+            // 
+            // cdyDisplay
+            // 
+            this.cdyDisplay.ColorMapLowerClipColor = System.Drawing.Color.Black;
+            this.cdyDisplay.ColorMapLowerRoiLimit = 0D;
+            this.cdyDisplay.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
+            this.cdyDisplay.ColorMapUpperClipColor = System.Drawing.Color.Black;
+            this.cdyDisplay.ColorMapUpperRoiLimit = 1D;
+            this.cdyDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cdyDisplay.DoubleTapZoomCycleLength = 2;
+            this.cdyDisplay.DoubleTapZoomSensitivity = 2.5D;
+            this.cdyDisplay.Location = new System.Drawing.Point(309, 46);
+            this.cdyDisplay.Margin = new System.Windows.Forms.Padding(0);
+            this.cdyDisplay.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
+            this.cdyDisplay.MouseWheelSensitivity = 1D;
+            this.cdyDisplay.Name = "cdyDisplay";
+            this.cdyDisplay.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay.OcxState")));
+            this.cdyDisplay.Size = new System.Drawing.Size(307, 847);
+            this.cdyDisplay.TabIndex = 9;
+            // 
+            // cdy마스터이미지
+            // 
+            this.cdy마스터이미지.ColorMapLowerClipColor = System.Drawing.Color.Black;
+            this.cdy마스터이미지.ColorMapLowerRoiLimit = 0D;
+            this.cdy마스터이미지.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
+            this.cdy마스터이미지.ColorMapUpperClipColor = System.Drawing.Color.Black;
+            this.cdy마스터이미지.ColorMapUpperRoiLimit = 1D;
+            this.cdy마스터이미지.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cdy마스터이미지.DoubleTapZoomCycleLength = 2;
+            this.cdy마스터이미지.DoubleTapZoomSensitivity = 2.5D;
+            this.cdy마스터이미지.Location = new System.Drawing.Point(1, 46);
+            this.cdy마스터이미지.Margin = new System.Windows.Forms.Padding(0);
+            this.cdy마스터이미지.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
+            this.cdy마스터이미지.MouseWheelSensitivity = 1D;
+            this.cdy마스터이미지.Name = "cdy마스터이미지";
+            this.cdy마스터이미지.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdy마스터이미지.OcxState")));
+            this.cdy마스터이미지.Size = new System.Drawing.Size(307, 847);
+            this.cdy마스터이미지.TabIndex = 10;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(4, 1);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(301, 44);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "마스터 이미지";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Cursor = System.Windows.Forms.Cursors.No;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label3.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label3.ForeColor = System.Drawing.Color.Black;
+            this.label3.Location = new System.Drawing.Point(312, 1);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(301, 44);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "촬영 이미지";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // HeatSinkMainDisplay
             // 
@@ -893,9 +966,12 @@
             this.tableLayoutPanel11.ResumeLayout(false);
             this.tableLayoutPanel11.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).EndInit();
             this.tableLayoutPanel10.ResumeLayout(false);
             this.tableLayoutPanel10.PerformLayout();
+            this.tableLayoutPanel14.ResumeLayout(false);
+            this.tableLayoutPanel14.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cdy마스터이미지)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -940,7 +1016,6 @@
         public System.Windows.Forms.Label label7;
         public System.Windows.Forms.Label lb_Cam4_InsTime;
         public System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        public Cognex.VisionPro.Display.CogDisplay cdyDisplay;
         public System.Windows.Forms.Label label4;
         public System.Windows.Forms.Label lb_Cam1_Result;
         public System.Windows.Forms.Label lb_Cam1_InsTime;
@@ -949,5 +1024,10 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         public System.Windows.Forms.Label lb_최종결과2;
         public System.Windows.Forms.Label lb_최종결과;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel14;
+        public Cognex.VisionPro.Display.CogDisplay cdy마스터이미지;
+        public Cognex.VisionPro.Display.CogDisplay cdyDisplay;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }
