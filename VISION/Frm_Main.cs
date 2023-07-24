@@ -1561,8 +1561,8 @@ namespace VISION
             CogCreateGraphicLabelTool Label = new CogCreateGraphicLabelTool();
             Label.InputGraphicLabel.Color = CogColorConstants.Green;
             Label.InputImage = cog.Image;
-            Label.InputGraphicLabel.X = X;
-            Label.InputGraphicLabel.Y = Y;
+            Label.InputGraphicLabel.X = rotate == 0 ? X : Y;
+            Label.InputGraphicLabel.Y = rotate == 0 ? Y : X;
             Label.InputGraphicLabel.Rotation = rotate;
             Label.InputGraphicLabel.Text = Text;
             Label.Run();
