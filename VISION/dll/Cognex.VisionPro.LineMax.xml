@@ -1,0 +1,3096 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        "Cognex.VisionPro.LineMax"
+    </assembly>
+    <members>
+        <member name="T:Cognex.VisionPro.LineMax.Implementation.Internal.CogLineMaxSerializationSurrogateSelector">
+            <summary>
+Cognex internal use only.
+</summary>
+        </member>
+        <member name="T:Cognex.VisionPro.LineMax.Implementation.Internal.CogLineMaxSerializationBinder">
+            <summary>
+Cognex internal use only.
+</summary>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.Clone">
+            <summary>
+Creates a deep copy of this instance. 
+</summary>
+            <returns>
+The deep copy.
+</returns>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMaskOffsetYs">
+            <summary>
+Gets the collection of the y-offsets of the masks.
+</summary>
+            <remarks>
+                <para>
+Use the y-offset values in InputImageMaskOffsetYs to vertically align the
+view masks in <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMasks" />
+to pixel rows of the view images in
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImages" />.
+</para>
+                <para>
+The InputImageMaskOffsetYs collection cannot be replaced, only the
+collection items can be replaced; therefore, this class does not define
+the SfInputImageMaskOffsetYs state flag. See the
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.NumFOV" />
+property for information on resizing the collection.
+</para>
+            </remarks>
+            <value>
+The collection of y-offsets in pixels. The default is one item of
+value 0.
+</value>
+            <seealso cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMaskOffsetXs" />
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMaskOffsetXs">
+            <summary>
+Gets the collection of the x-offsets of the masks.
+</summary>
+            <remarks>
+                <para>
+Use the x-offset values in InputImageMaskOffsetXs to horizontally align
+the view masks in <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMasks" />
+to pixel columns of the view images in
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImages" />.
+</para>
+                <para>
+The InputImageMaskOffsetXs collection cannot be replaced, only the
+collection items can be replaced; therefore, this class does not define
+the SfInputImageMaskOffsetXs state flag. See the
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.NumFOV" />
+property for information on resizing the collection.
+</para>
+            </remarks>
+            <value>
+The collection of x-offsets in pixels. The default is one item
+of value 0.
+</value>
+            <seealso cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMaskOffsetYs" />
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMasks">
+            <summary>
+Gets the collection of the pixel masks of the input images.
+</summary>
+            <remarks>
+                <para>
+Use masks to categorize view input image pixels as "Care" or "Don't
+Care". Mask pixels with values of 255 are defined as "Care" pixels,
+meaning the corresponding image pixels are processed normally. Pixels
+with values of 0 are defined as "Don't Care", meaning the corresponding
+image pixels are not considered. All other pixel values are undefined.
+</para>
+                <para>
+Mask pixels are aligned to view image pixels using the offset values in
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMaskOffsetXs" />
+and <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMaskOffsetYs" />.
+</para>
+                <para>
+If any mask is null or an unallocated <see cref="T:Cognex.VisionPro.CogImage8Grey" />
+then the entire view image is processed, subject to the view region.
+</para>
+                <para>
+The InputImageMasks collection cannot be replaced, only the collection
+items can be replaced; therefore, this class does not define the
+SfInputImageMasks state flag. See the
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.NumFOV" />
+property for information on resizing the collection.
+</para>
+            </remarks>
+            <value>
+The collection of inspection masks. The default is one null item.
+</value>
+            <seealso cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMaskOffsetXs" />
+            <seealso cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMaskOffsetYs" />
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.Regions">
+            <summary>
+Gets the collection of inspection regions of the input images.
+</summary>
+            <remarks>
+                <para>
+If any region is null then the entire view image is processed, subject to
+the mask properties of the view.
+</para>
+                <para>
+The Regions collection cannot be replaced, only the collection items can
+be replaced; therefore, this class does not define the SfRegions state
+flag. See the <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.NumFOV" />
+property for information on resizing the collection.
+</para>
+            </remarks>
+            <value>
+The collection of inspection regions. The default is one null item.
+</value>
+            <seealso cref="P:Cognex.VisionPro.LineMax.CogLineMax.RegionMode" />
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImages">
+            <summary>
+Gets the collection of inspection images.
+</summary>
+            <remarks>
+                <para>
+Although any <see cref="T:Cognex.VisionPro.ICogImage" /> can be assigned
+to a view, calls to <see cref="M:Cognex.VisionPro.Implementation.CogToolBase.Run" />
+will fail if all images are not <see cref="T:Cognex.VisionPro.CogImage8Grey" />
+or all are not <see cref="T:Cognex.VisionPro.CogImage16Grey" />.
+</para>
+                <para>
+The InputImages collection cannot be replaced, only the collection items
+can be replaced; therefore, this class does not define the SfInputImages
+state flag. See the
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.NumFOV" />
+property for information on resizing the collection.
+</para>
+            </remarks>
+            <value>
+The collection of inspection images. The default is one null item.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.NumFOV">
+            <summary>
+Gets or sets the number of fields of view.
+</summary>
+            <remarks>
+                <para>
+This value corresponds to the size of the
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImages" />,
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.Regions" />,
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMasks" />,
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMaskOffsetXs" /> and 
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMaskOffsetYs" />
+collections. Setting NumFOV implicitly resizes these collections to the
+length of the assigned value. When NumFOV is increased new items are
+added to the ends of the collections. And each new item is initialized to
+the default item value, as specified in the linked pages, for the
+particular collection. When NumFOV is decreased items are removed from
+the ends of the collections.
+</para>
+                <para>
+Each view is made up of an image, region and mask. And the view index is
+used to retrieve the corresponding view image, region or mask component
+from the respective
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImages" />,
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.Regions" />,
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMasks" />,
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMaskOffsetXs" /> or 
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMaskOffsetYs" />
+collections.
+</para>
+            </remarks>
+            <value>
+The FOV count. The default is 1.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>
+Fires when the value of this property changes.
+</para>
+                <para>
+The following state flags may be affected:
+</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.SfNumFOV" />
+                    </item>
+                    <item>
+                        <see cref="F:Cognex.VisionPro.Implementation.CogToolBase.SfCreateCurrentRecord" />
+                    </item>
+                </list>
+                <para>
+The collection objects referenced by the following properties will also
+raise their <see cref="E:Cognex.VisionPro.ICogChangedEvent.Changed" />
+events when the NumFOV value changes:
+</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImages" />
+                    </item>
+                    <item>
+                        <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.Regions" />
+                    </item>
+                    <item>
+                        <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMasks" />
+                    </item>
+                    <item>
+                        <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMaskOffsetXs" />
+                    </item>
+                    <item>
+                        <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMaskOffsetYs" />
+                    </item>
+                </list>
+            </event>
+            <exception cref="T:System.ArgumentOutOfRangeException"> 
+Thrown when you assign a value less than one.
+</exception>
+            <seealso cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImages" />
+            <seealso cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.Regions" />
+            <seealso cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMasks" />
+            <seealso cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMaskOffsetXs" />
+            <seealso cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.InputImageMaskOffsetYs" />
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+Serialization constructor.
+</summary>
+            <param name="info">
+The initialization data.
+</param>
+            <param name="ctxt">
+The initialization context.
+</param>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.#ctor(Cognex.VisionPro.LineMax.CogLineMaxMFOVTool)">
+            <summary>
+Constructs a deep copy of the supplied instance.
+</summary>
+            <param name="other">
+The object to copy.
+</param>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="other" /> is null.
+</exception>
+            <exception cref="T:System.ObjectDisposedException">
+                <paramref name="other" /> has been disposed.
+</exception>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.#ctor">
+            <summary>
+Constructs a new instance of this class.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.SfNextSf">
+            <summary>
+Next state flag to be used in derived classes.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.SfNumFOV">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every time
+the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool.NumFOV" />
+may have changed.
+</summary>
+        </member>
+        <member name="T:Cognex.VisionPro.LineMax.CogLineMaxMFOVTool">
+            <summary>
+This class provides tool level access to LineMaxMFOV functionality.
+</summary>
+            <exclude />
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxTool.Clone">
+            <summary>
+Creates a deep copy of this instance. 
+</summary>
+            <returns>
+The deep copy.
+</returns>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImageMaskOffsetY">
+            <summary>
+Gets or sets the y-offset of the pixel mask.
+</summary>
+            <remarks>
+Use InputImageMaskOffsetY to vertically align
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImageMask" />
+to a pixel row in <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImage" />.
+</remarks>
+            <value>
+The vertical offset in pixels. The default is 0.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>
+Fires when the value of this property changes.
+</para>
+                <para>
+The following state flag may be affected:
+</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMaxTool.SfInputImageMaskOffsetY" />
+                    </item>
+                    <item>
+                        <see cref="F:Cognex.VisionPro.Implementation.CogToolBase.SfCreateCurrentRecord" />
+                    </item>
+                </list>
+            </event>
+            <seealso cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImageMaskOffsetX" />
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImageMaskOffsetX">
+            <summary>
+Gets or sets the x-offset of the pixel mask.
+</summary>
+            <remarks>
+Use InputImageMaskOffsetX to horizontally align
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImageMask" />
+to a pixel column in <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImage" />.
+</remarks>
+            <value>
+The horizontal offset in pixels. The default is 0.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>
+Fires when the value of this property changes.
+</para>
+                <para>
+The following state flag may be affected:
+</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMaxTool.SfInputImageMaskOffsetX" />
+                    </item>
+                    <item>
+                        <see cref="F:Cognex.VisionPro.Implementation.CogToolBase.SfCreateCurrentRecord" />
+                    </item>
+                </list>
+            </event>
+            <seealso cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImageMaskOffsetY" />
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImageMask">
+            <summary>
+Gets or sets the pixel mask of the input image.
+</summary>
+            <remarks>
+                <para>
+Use a mask to categorize input image pixels as "Care" or "Don't Care".
+Mask pixels with values of 255 are defined as "Care" pixels, meaning the 
+corresponding image pixels are processed normally. Pixels with values of 0
+are defined as "Don't Care", meaning the corresponding image pixels are
+not considered. All other pixel values are undefined.
+</para>
+                <para>
+Mask pixels are aligned to <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImage" />
+pixels using the <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImageMaskOffsetX" />
+and <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImageMaskOffsetY" />
+values.
+</para>
+                <para>
+If the InputImageMask value is null or it is an unallocated
+<see cref="T:Cognex.VisionPro.CogImage8Grey" /> then the entire
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImage" />
+is processed, subject to the <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.Region" />
+property.
+</para>
+            </remarks>
+            <value>
+The inspection mask.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>
+Fires when the value of this property changes.
+</para>
+                <para>
+The following state flag may be affected:
+</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMaxTool.SfInputImageMask" />
+                    </item>
+                    <item>
+                        <see cref="F:Cognex.VisionPro.Implementation.CogToolBase.SfCreateCurrentRecord" />
+                    </item>
+                </list>
+            </event>
+            <seealso cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImageMaskOffsetX" />
+            <seealso cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImageMaskOffsetY" />
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxTool.Region">
+            <summary>
+Gets or sets the inspection region of the input image.
+</summary>
+            <remarks>
+If the Region value is null then the entire
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImage" />
+is processed, subject to the mask properties.
+</remarks>
+            <value>
+The inspection region.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>
+Fires when the value of this property changes.
+</para>
+                <para>
+The following state flags may be affected:
+</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMaxTool.SfRegion" />
+                    </item>
+                    <item>
+                        <see cref="F:Cognex.VisionPro.Implementation.CogToolBase.SfCreateCurrentRecord" />
+                    </item>
+                </list>
+            </event>
+            <seealso cref="P:Cognex.VisionPro.LineMax.CogLineMax.RegionMode" />
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImage">
+            <summary>
+Gets or sets the image to be inspected.
+</summary>
+            <remarks>
+Although any <see cref="T:Cognex.VisionPro.ICogImage" /> can be assigned
+to InputImage, calls to <see cref="M:Cognex.VisionPro.Implementation.CogToolBase.Run" />
+will fail if the InputImage is not a <see cref="T:Cognex.VisionPro.CogImage8Grey" />
+or a <see cref="T:Cognex.VisionPro.CogImage16Grey" />.
+</remarks>
+            <value>
+The inspection image.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>
+Fires when the value of this property changes.
+</para>
+                <para>
+The following state flags may be affected:
+</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMaxTool.SfInputImage" />
+                    </item>
+                    <item>
+                        <see cref="F:Cognex.VisionPro.Implementation.CogToolBase.SfCreateCurrentRecord" />
+                    </item>
+                </list>
+            </event>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxTool.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+Serialization constructor.
+</summary>
+            <param name="info">
+The initialization data.
+</param>
+            <param name="ctxt">
+The initialization context.
+</param>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxTool.#ctor(Cognex.VisionPro.LineMax.CogLineMaxTool)">
+            <summary>
+Constructs a deep copy of the supplied instance.
+</summary>
+            <param name="other">
+The object to copy.
+</param>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="other" /> is null.
+</exception>
+            <exception cref="T:System.ObjectDisposedException">
+                <paramref name="other" /> has been disposed.
+</exception>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxTool.#ctor">
+            <summary>
+Constructs a new instance of this class.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxTool.SfNextSf">
+            <summary>
+Next state flag to be used in derived classes.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxTool.SfInputImageMaskOffsetY">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImageMaskOffsetY" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxTool.SfInputImageMaskOffsetX">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImageMaskOffsetX" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxTool.SfInputImageMask">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImageMask" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxTool.SfRegion">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every time
+the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.Region" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxTool.SfInputImage">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every time
+the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxTool.InputImage" />
+may have changed.
+</summary>
+        </member>
+        <member name="T:Cognex.VisionPro.LineMax.CogLineMaxTool">
+            <summary>
+This class provides tool level access to LineMax functionality.
+</summary>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.Results">
+            <summary>
+Gets the collection of results generated by the most recent call to 
+<see cref="M:Cognex.VisionPro.Implementation.CogToolBase.Run" />.
+</summary>
+            <value>
+The zero-based indexable collection.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.LastRunRecordDiagEnable">
+            <summary>
+Get or set the record diagnostic options used by
+<see cref="M:Cognex.VisionPro.Implementation.CogToolBase.CreateLastRunRecord" />.
+</summary>
+            <remarks>
+The value does not take effect until
+<see cref="M:Cognex.VisionPro.Implementation.CogToolBase.Run" /> is
+invoked.
+</remarks>
+            <value>
+A bitwise combination of
+<see cref="T:Cognex.VisionPro.LineMax.CogLineMaxLastRunRecordDiagConstants" />
+flags.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>
+Fires when the value of this property changes.
+</para>
+                <para>
+The following state flag may be affected:
+</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.SfLastRunRecordDiagEnable" />
+                    </item>
+                </list>
+            </event>
+            <seealso cref="M:Cognex.VisionPro.ICogTool.CreateLastRunRecord" />
+            <seealso cref="P:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.CurrentRecordEnable" />
+            <seealso cref="P:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.LastRunRecordEnable" />
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.LastRunRecordEnable">
+            <summary>
+Get or set the record options used by
+<see cref="M:Cognex.VisionPro.Implementation.CogToolBase.CreateLastRunRecord" />.
+</summary>
+            <value>
+A bitwise combination of
+<see cref="T:Cognex.VisionPro.LineMax.CogLineMaxLastRunRecordConstants" />
+flags.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>
+Fires when the value of this property changes.
+</para>
+                <para>
+The following state flags may be affected:
+</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.SfLastRunRecordEnable" />
+                    </item>
+                    <item>
+                        <see cref="F:Cognex.VisionPro.Implementation.CogToolBase.SfCreateLastRunRecord" />
+                    </item>
+                </list>
+            </event>
+            <seealso cref="M:Cognex.VisionPro.ICogTool.CreateCurrentRecord" />
+            <seealso cref="P:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.CurrentRecordEnable" />
+            <seealso cref="P:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.LastRunRecordDiagEnable" />
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.CurrentRecordEnable">
+            <summary>
+Get or set the record options used by
+<see cref="M:Cognex.VisionPro.Implementation.CogToolBase.CreateCurrentRecord" />.
+</summary>
+            <value>
+A bitwise combination of
+<see cref="T:Cognex.VisionPro.LineMax.CogLineMaxCurrentRecordConstants" />
+flags.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>
+Fires when the value of this property changes.
+</para>
+                <para>
+The following state flags may be affected:
+</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.SfCurrentRecordEnable" />
+                    </item>
+                    <item>
+                        <see cref="F:Cognex.VisionPro.Implementation.CogToolBase.SfCreateCurrentRecord" />
+                    </item>
+                </list>
+            </event>
+            <seealso cref="M:Cognex.VisionPro.ICogTool.CreateCurrentRecord" />
+            <seealso cref="P:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.LastRunRecordEnable" />
+            <seealso cref="P:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.LastRunRecordDiagEnable" />
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.RunParams">
+            <summary>
+Gets or sets the settings used by
+<see cref="M:Cognex.VisionPro.Implementation.CogToolBase.Run" />.
+</summary>
+            <value>
+The run parameters.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+Fires when this property changes.
+</event>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.OnDeserialization(System.Object)">
+            <summary>
+Implementation of IDeserializationCallback::OnDeserialization.
+</summary>
+            <param name="sender">
+Not used.
+</param>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+Serialization constructor.
+</summary>
+            <param name="info">
+The initialization data.
+</param>
+            <param name="ctxt">
+The initialization context.
+</param>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.#ctor(Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase)">
+            <summary>
+Constructs a deep copy of the supplied instance.
+</summary>
+            <param name="other">
+The object to copy.
+</param>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="other" /> is null.
+</exception>
+            <exception cref="T:System.ObjectDisposedException">
+                <paramref name="other" /> has been disposed.
+</exception>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.#ctor">
+            <summary>
+Constructs a new instance of this class.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.SfNextSf">
+            <summary>
+Next state flag to be used in derived classes.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.SfResults">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every time
+the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.Results" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.SfLastRunRecordDiagEnable">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every time
+the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.LastRunRecordDiagEnable" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.SfLastRunRecordEnable">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every time
+the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.LastRunRecordEnable" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.SfCurrentRecordEnable">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every time
+the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.CurrentRecordEnable" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.SfRunParams">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every time
+the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.RunParams" />
+may have changed.
+</summary>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.CogLastRunFromResultGraphicsAdapter.ConstructContent(Cognex.VisionPro.ICogRecord,System.Int32)">
+            <summary>
+Set the content of <paramref name="record" />.
+</summary>
+            <param name="record">
+The record for whom the content is created and assigned.
+</param>
+            <param name="flags">
+The
+<see cref="T:Cognex.VisionPro.LineMax.CogLineMaxLastRunRecordConstants" />
+flags to be mapped to their
+<see cref="T:Cognex.VisionPro.LineMax.CogLineMaxResultGraphicConstants" />.
+counterparts and passed to
+<see cref="M:Cognex.VisionPro.LineMax.CogLineMaxResult.CreateResultGraphics(Cognex.VisionPro.LineMax.CogLineMaxResultGraphicConstants)" />.
+</param>
+        </member>
+        <member name="T:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.CogLastRunFromResultGraphicsAdapter">
+            <summary>
+This class allows us to maintain a single shared implementation of result
+graphics creation for
+<see cref="P:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase.LastRunRecordEnable" />
+and
+<see cref="M:Cognex.VisionPro.LineMax.CogLineMaxResult.CreateResultGraphics(Cognex.VisionPro.LineMax.CogLineMaxResultGraphicConstants)" />
+implementations.
+</summary>
+        </member>
+        <member name="T:Cognex.VisionPro.LineMax.Implementation.CogLineMaxToolBase">
+            <summary>
+Class that provides tool level access to LineMax functionality.
+</summary>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMax.Execute(System.Collections.Generic.IEnumerable`1{Cognex.VisionPro.ICogImage},System.Collections.Generic.IEnumerable`1{Cognex.VisionPro.ICogRegion},System.Collections.Generic.IEnumerable`1{Cognex.VisionPro.CogImage8Grey},System.Collections.Generic.IEnumerable`1{System.Int32},System.Collections.Generic.IEnumerable`1{System.Int32})">
+            <summary>
+Performs line finding on the supplied images. The inspection results are
+stored in a
+<see cref="T:Cognex.VisionPro.LineMax.CogLineMaxResults" />
+object.
+</summary>
+            <param name="inputImages">
+The images to process. Must contain one or more images and
+all images must be of type <see cref="T:Cognex.VisionPro.CogImage8Grey" />
+or <see cref="T:Cognex.VisionPro.CogImage16Grey" />, exclusive.
+</param>
+            <param name="regions">
+The regions of the <paramref name="inputImages" /> to process. A null
+collection means all pixels of all images are processed. A null
+collection item means all pixels of the corresponding image
+are processed.
+</param>
+            <param name="imageMasks">
+A collection of masks. A null collection means none of the images
+are masked. A null collection item means the image at the
+corresponding index is not masked. Mask pixels having value zero are
+considered "don't care"; those having a 255 value are considered
+"care". All other mask pixel values are undefined.
+</param>
+            <param name="imageMaskOffsetXs">
+A collection of mask x offsets. Each x offset in imageMaskOffsetXs
+applies to the mask at the corresponding index in masks.
+</param>
+            <param name="imageMaskOffsetYs">
+A collection of mask y offsets. Each y offset in imageMaskOffsetYs
+applies to the mask at the corresponding index in masks.
+</param>
+            <returns>
+A <see cref="T:Cognex.VisionPro.LineMax.CogLineMaxResults" />
+containing the found results.
+</returns>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogSecurityViolationException">
+Required LineMax license not found.  Required LineMax and LineMaxMulti licenses 
+not found when MaxNumLines is greater than 1.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogOperatorNoInputImageException">
+                <paramref name="inputImages" /> is null, empty, or contains a null image.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogImageBadTypeException">
+                <paramref name="inputImages" /> are not all
+<see cref="T:Cognex.VisionPro.CogImage8Grey" /> or are not all
+<see cref="T:Cognex.VisionPro.CogImage16Grey" />.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogImageNoPixelsException">
+                <paramref name="inputImages" /> contains an unallocated image.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogOperatorInvalidRegionException">
+The selected space of a <paramref name="regions" /> clip region is not
+a valid space of the corresponding <paramref name="inputImages" />
+image.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogOperatorInvalidRegionException">
+One or more <paramref name="regions" /> items are completely outside of
+the corresponding <paramref name="inputImages" /> item.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogSpaceTreeNameNotInTreeException">
+                <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+has a <see cref="P:Cognex.VisionPro.CogCoordinateSpaceAngle.SelectedSpaceName" />
+that is not in one or more of the <paramref name="inputImages" /> coordinate space trees.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogSpaceTreeNameNotUniqueException">
+                <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+has a <see cref="P:Cognex.VisionPro.CogCoordinateSpaceAngle.SelectedSpaceName" />
+that is not unique in one or more of the <paramref name="inputImages" /> coordinate space trees.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogSpaceTreeInvalidNameSyntaxException">
+                <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+has a <see cref="P:Cognex.VisionPro.CogCoordinateSpaceAngle.SelectedSpaceName" />
+that is not a valid name format.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogOperatorNoRunParamsException">
+                <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.EdgeDetectionParams" /> is null.
+</exception>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMax.Execute(System.Collections.Generic.IEnumerable`1{Cognex.VisionPro.ICogImage},System.Collections.Generic.IEnumerable`1{Cognex.VisionPro.ICogRegion})">
+            <summary>
+Performs line finding on the supplied images. The inspection results are
+stored in a
+<see cref="T:Cognex.VisionPro.LineMax.CogLineMaxResults" />
+object.
+</summary>
+            <param name="inputImages">
+The images to process. Must contain one or more images and
+all images must be of type <see cref="T:Cognex.VisionPro.CogImage8Grey" />
+or <see cref="T:Cognex.VisionPro.CogImage16Grey" />, exclusive.
+</param>
+            <param name="regions">
+The regions of the <paramref name="inputImages" /> to process. A null
+collection means all pixels of all images are processed. A null
+collection item means all pixels of the corresponding image
+are processed.
+</param>
+            <returns>
+A <see cref="T:Cognex.VisionPro.LineMax.CogLineMaxResults" />
+containing the found results.
+</returns>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogSecurityViolationException">
+Required LineMax license not found.  Required LineMax and LineMaxMulti licenses 
+not found when MaxNumLines is greater than 1.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogOperatorNoInputImageException">
+                <paramref name="inputImages" /> is null, empty, or contains a null image.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogImageBadTypeException">
+                <paramref name="inputImages" /> are not all
+<see cref="T:Cognex.VisionPro.CogImage8Grey" /> or are not all
+<see cref="T:Cognex.VisionPro.CogImage16Grey" />.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogImageNoPixelsException">
+                <paramref name="inputImages" /> contains an unallocated image.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogOperatorInvalidRegionException">
+The selected space of a <paramref name="regions" /> clip region is not
+a valid space of the corresponding <paramref name="inputImages" />
+image.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogOperatorInvalidRegionException">
+One or more <paramref name="regions" /> items are completely outside of
+the corresponding <paramref name="inputImages" /> item.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogSpaceTreeNameNotInTreeException">
+                <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+has a <see cref="P:Cognex.VisionPro.CogCoordinateSpaceAngle.SelectedSpaceName" />
+that is not in one or more of the <paramref name="inputImages" /> coordinate space trees.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogSpaceTreeNameNotUniqueException">
+                <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+has a <see cref="P:Cognex.VisionPro.CogCoordinateSpaceAngle.SelectedSpaceName" />
+that is not unique in one or more of the <paramref name="inputImages" /> coordinate space trees.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogSpaceTreeInvalidNameSyntaxException">
+                <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+has a <see cref="P:Cognex.VisionPro.CogCoordinateSpaceAngle.SelectedSpaceName" />
+that is not a valid name format.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogOperatorNoRunParamsException">
+                <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.EdgeDetectionParams" /> is null.
+</exception>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMax.Execute(Cognex.VisionPro.ICogImage,Cognex.VisionPro.ICogRegion,Cognex.VisionPro.CogImage8Grey,System.Int32,System.Int32)">
+            <summary>
+Performs line finding on the supplied image. The inspection results are
+stored in a
+<see cref="T:Cognex.VisionPro.LineMax.CogLineMaxResults" />
+object.
+</summary>
+            <param name="inputImage">
+The input image to process. Must be a <see cref="T:Cognex.VisionPro.CogImage8Grey" />
+or a  <see cref="T:Cognex.VisionPro.CogImage16Grey" />.
+</param>
+            <param name="region">
+The region of <paramref name="inputImage" /> to process. Only the pixels
+which lie within this region (subject to the value of
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.RegionMode" />)
+will be considered. Supply null to process the entire image.
+</param>
+            <param name="imageMask">
+An optional <see cref="T:Cognex.VisionPro.CogImage8Grey" />. If supplied, 
+mask pixels having a zero value are considered "don't care"; those having a
+255 value are considered "care". All other mask pixel values are undefined.
+</param>
+            <param name="imageMaskOffsetX">
+The x offset used to align the <paramref name="imageMask" /> pixels to the
+corresponding <paramref name="inputImage" /> pixels.
+</param>
+            <param name="imageMaskOffsetY">
+The y offset used to align the <paramref name="imageMask" /> pixels to the
+corresponding <paramref name="inputImage" /> pixels.
+</param>
+            <returns>
+A <see cref="T:Cognex.VisionPro.LineMax.CogLineMaxResults" />
+containing the found results.
+</returns>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogSecurityViolationException">
+Required LineMax license not found.  Required LineMax and LineMaxMulti licenses 
+not found when MaxNumLines is greater than 1.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogOperatorNoInputImageException">
+                <paramref name="inputImage" /> is null.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogImageBadTypeException">
+                <paramref name="inputImage" /> is not a <see cref="T:Cognex.VisionPro.CogImage8Grey" />
+or a <see cref="T:Cognex.VisionPro.CogImage16Grey" />.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogImageNoPixelsException">
+                <paramref name="inputImage" /> is not allocated.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogOperatorInvalidRegionException">
+The selected space of <paramref name="region" /> is not
+a valid space in <paramref name="inputImage" />.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogOperatorInvalidRegionException">
+                <paramref name="region" /> is completely outside of
+<paramref name="inputImage" />.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogSpaceTreeNameNotInTreeException">
+                <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+has a <see cref="P:Cognex.VisionPro.CogCoordinateSpaceAngle.SelectedSpaceName" />
+that is not in the <paramref name="inputImage" /> coordinate space tree.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogSpaceTreeNameNotUniqueException">
+                <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+has a <see cref="P:Cognex.VisionPro.CogCoordinateSpaceAngle.SelectedSpaceName" />
+that is not unique in the <paramref name="inputImage" /> coordinate space tree.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogSpaceTreeInvalidNameSyntaxException">
+                <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+has a <see cref="P:Cognex.VisionPro.CogCoordinateSpaceAngle.SelectedSpaceName" />
+that is not a valid name format.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogOperatorNoRunParamsException">
+                <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.EdgeDetectionParams" /> is null.
+</exception>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMax.Execute(Cognex.VisionPro.ICogImage,Cognex.VisionPro.ICogRegion)">
+            <summary>
+Performs line finding on the supplied image. The inspection results are
+stored in a
+<see cref="T:Cognex.VisionPro.LineMax.CogLineMaxResults" />
+object.
+</summary>
+            <param name="inputImage">
+The input image to process. Must be a <see cref="T:Cognex.VisionPro.CogImage8Grey" />
+or a  <see cref="T:Cognex.VisionPro.CogImage16Grey" />.
+</param>
+            <param name="region">
+The region of <paramref name="inputImage" /> to process. Only the pixels
+which lie within this region (subject to the value of
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.RegionMode" />)
+will be considered. Supply null to process the entire image.
+</param>
+            <returns>
+A <see cref="T:Cognex.VisionPro.LineMax.CogLineMaxResults" />
+containing the found results.
+</returns>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogSecurityViolationException">
+Required LineMax license not found.  Required LineMax and LineMaxMulti licenses 
+not found when MaxNumLines is greater than 1.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogOperatorNoInputImageException">
+                <paramref name="inputImage" /> is null.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogImageBadTypeException">
+                <paramref name="inputImage" /> is not a <see cref="T:Cognex.VisionPro.CogImage8Grey" />
+or a <see cref="T:Cognex.VisionPro.CogImage16Grey" />.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogImageNoPixelsException">
+                <paramref name="inputImage" /> is an unallocated image.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogOperatorInvalidRegionException">
+The selected space of <paramref name="region" /> is not
+a valid space in <paramref name="inputImage" />.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogOperatorInvalidRegionException">
+                <paramref name="region" /> is completely outside of
+<paramref name="inputImage" />.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogSpaceTreeNameNotInTreeException">
+                <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+has a <see cref="P:Cognex.VisionPro.CogCoordinateSpaceAngle.SelectedSpaceName" />
+that is not in the <paramref name="inputImage" /> coordinate space tree.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogSpaceTreeNameNotUniqueException">
+                <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+has a <see cref="P:Cognex.VisionPro.CogCoordinateSpaceAngle.SelectedSpaceName" />
+that is not unique in the <paramref name="inputImage" /> coordinate space tree.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogSpaceTreeInvalidNameSyntaxException">
+                <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+has a <see cref="P:Cognex.VisionPro.CogCoordinateSpaceAngle.SelectedSpaceName" />
+that is not a valid name format.
+</exception>
+            <exception cref="T:Cognex.VisionPro.Exceptions.CogOperatorNoRunParamsException">
+                <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.EdgeDetectionParams" /> is null.
+</exception>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMax.Assurance">
+            <summary>
+Gets or sets the tradeoff between speed and reliability when
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.FittingMode" /> is set
+to <see cref="T:Cognex.VisionPro.LineMax.CogLineMaxFittingModeConstants">RANSAC</see>
+mode.
+</summary>
+            <remarks>
+                <para>
+Use this to tradeoff speed vs reliability of results. The assurance can
+be set to any value between 0 and 1, exclusive. Reducing the value makes
+the tool faster but less reliable, increasing the value makes the tool
+more reliable but slower. The default setting for the assurance parameter
+is 0.9999. This setting specifies that the user expects to receive an
+optimal result from the tool 9,999 times in 10,000, but is willing to
+accept a less than optimal result 1 time in 10,000. In other words, the
+assurance specifies the success rate one can settle for in order to avoid
+excessive runtimes. Those familiar will RANSAC methods will recognize
+that the internally calculated number of RANSAC iterations used to locate
+each line increases monotonically with the assurance setting.
+</para>
+                <para>
+This property only applies when
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.FittingMode" /> is set
+to <see cref="T:Cognex.VisionPro.LineMax.CogLineMaxFittingModeConstants">RANSAC</see>.
+</para>
+            </remarks>
+            <value>
+The assurance as a ratio of 1.0.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>Fires when this property changes.</para>
+                <para>The following state flag may be affected:</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMax.SfAssurance" />
+                    </item>
+                </list>
+            </event>
+            <exception cref="T:System.ArgumentOutOfRangeException"> 
+Thrown when you assign a value less than or equal to zero or greater than
+or equal to one.
+</exception>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMax.FittingMode">
+            <summary>
+Gets or sets the method to use when generating candidate lines. If you
+select <see cref="T:Cognex.VisionPro.LineMax.CogLineMaxFittingModeConstants">Exhaustive</see>
+mode, a candidate line will be generated for every possible pair of edge
+points. If you select <see cref="T:Cognex.VisionPro.LineMax.CogLineMaxFittingModeConstants">RANSAC</see>
+mode, a candidate line will be generated from a smaller number of
+randomly chosen point pairs.
+</summary>
+            <remarks>
+                <see cref="T:Cognex.VisionPro.LineMax.CogLineMaxFittingModeConstants">Exhaustive</see>
+mode ensures that every possible line will be considered, but is
+typically too slow for most applications. Typically you will use
+<see cref="T:Cognex.VisionPro.LineMax.CogLineMaxFittingModeConstants">RANSAC</see>
+mode, and make the tradeoff between speed and thoroughness using the
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.Assurance" /> value.
+</remarks>
+            <value>
+The point pair sampling method.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>Fires when this property changes.</para>
+                <para>The following state flag may be affected:</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMax.SfFittingMode" />
+                    </item>
+                </list>
+            </event>
+            <exception cref="T:System.ArgumentException">
+The supplied value is not a member of
+<see cref="T:Cognex.VisionPro.LineMax.CogLineMaxFittingModeConstants" /></exception>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMax.LengthThreshold">
+            <summary>
+Gets or sets the minimum acceptable length of a line segment. Line
+segments must meet this constraint to become results.
+</summary>
+            <value>
+The minimum acceptable length. A value of zero effectively disables this
+constraint.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>Fires when this property changes.</para>
+                <para>The following state flag may be affected:</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMax.SfLengthThreshold" />
+                    </item>
+                </list>
+            </event>
+            <exception cref="T:System.ArgumentOutOfRangeException"> 
+Thrown when assigned a value less than zero.
+</exception>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMax.CoverageThreshold">
+            <summary>
+Gets or sets the minimum acceptable proportion of inliers relative to
+the number of intersected projection regions. Line segments must meet 
+this constraint to become results.
+</summary>
+            <remarks>
+                <para>
+Use this property to ignore small gaps in lines or to consolidate
+collinear lines.
+</para>
+                <para>
+A value of 0.5 means allow for gaps, spans where edges were expected but 
+not detected, along fifty percent of a line. Whereas 1.0 means find only
+lines having no gaps.
+</para>
+                <para>
+Since only one inlier is allowed per projection region, the maximum
+possible number of inliers is defined by the number of projection regions
+intersected by the found line segment. I.e. maximum inliers is the number
+of projection regions under the total span of the found line segment. The
+coverage threshold respects masks; therefore, only edge points and
+projection regions in "care" regions effect the coverage measurement.
+</para>
+                <para>
+An iterative pruning step is applied if a candidate line does not meet
+the coverage threshold after RANSAC iterations and refinement. Projection
+regions under the span of the candidate line are grouped into runs
+(consecutive projection regions with inliers are encoded into runs of 1,
+and consecutive projection regions without inliers are encoded into runs
+of 0). Each pruning iteration attempts to remove one 1-run, choosing
+between two 1-runs at two ends of the found line segment:
+</para>
+                <list type="bullet">
+                    <item>
+If only one of two 1-runs, once removed, uniquely increases the
+coverage score to above CoverageThreshold, that 1-run is removed and the
+pruning iterations are terminated.
+</item>
+                    <item>
+If the two 1-runs, once removed, both increase the coverage score to
+above CoverageThreshold, the shorter 1-run is removed and the pruning
+iterations are terminated.
+</item>
+                    <item>
+If none of the two 1-runs, once removed, increases the coverage score
+to above CoverageThreshold, the 1-run resulting in a higher coverage
+score is removed and the pruning iterations are continued.
+</item>
+                </list>
+                <para>
+For example, consider a candidate line with 10 projection regions with
+three separate 1-runs: 1000010011 (where 1 indicates a projection region
+with one inlier and 0 indicates a projection region with no inliers). Its
+initial coverage score would be (1 + 1 + 2) / 10 = 4 / 10 = 0.4. If the
+CoverageThreshold is set to 0.5, pruning will be performed on the
+candidate line. The first pruning iteration looks at the 1-run at the left
+end and the 1-run at the right end (note the two ends of a found line
+segment should always be projection regions with inliers, i.e., 1's):
+</para>
+                <list type="bullet">
+                    <item>
+If the left 1-run is removed, the line becomes 10011 and the coverage
+score becomes (1 + 2) / 5 = 3 / 5 = 0.6.
+</item>
+                    <item>
+If the right 1-run is removed, the line becomes 100001 and the coverage
+score becomes (1 + 1) / 6 = 2 / 6 = 0.333.
+</item>
+                </list>
+                <para>
+With the CoverageThreshold set to 0.5, the left 1-run will be removed and
+the corresponding pruned line will be returned with coverage score of 0.6.
+In practice, the CoverageThreshold-based pruning loops continue until the
+pruned line result satisfies the CoverageThreshold constraint or until
+the number of remaining inliers becomes fewer than two and no valid line
+results can be found.
+</para>
+                <para>
+After exiting the CoverageThreshold-based pruning loops, an updated line
+model will be re-computed from remaining inliers. The edge point subset
+will be compared against the updated line model to obtain an updated
+inlier list and the edge point runs are re-encoded. Based on the updated
+line model, the inlier/outlier point subset will also be updated to
+discard points outside the span of the updated line segment. The updated
+line result is then examined against the
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.LineAngleTolerance" />
+constraint to see if it is necessary to prune for
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.LineAngleTolerance" />.
+</para>
+                <para>
+If the coverage score is still lower than CoverageThreshold after all
+1-runs are removed, no line is considered found and all associated
+inliers are placed into <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxResults.ConsideredOutliers" />;
+then line finding resumes using the updated considered outliers
+collection.
+</para>
+                <para>
+A larger CoverageThreshold results in lines with more inliers under its
+span, i.e., more 'solid' lines. The found lines may appear shorter in
+length, due to the internal pruning process in order to meet the
+CoverageThreshold requirement. A smaller CoverageThreshold allows lines
+with fewer inliers under its span. The found lines may appear longer in
+length but may sometimes be undesired lines consisting of very few
+inliers (e.g., only two or three inliers). It is advised that the user
+adjust the CoverageThreshold and
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.LengthThreshold" />
+simultaneously to meet the line finding requirements.
+</para>
+            </remarks>
+            <value>
+The coverage threshold. 
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>Fires when this property changes.</para>
+                <para>The following state flag may be affected:</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMax.SfCoverageThreshold" />
+                    </item>
+                </list>
+            </event>
+            <exception cref="T:System.ArgumentOutOfRangeException"> 
+Thrown when you assign a value less than zero or greater than one.
+</exception>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMax.DistanceTolerance">
+            <summary>
+Gets or sets the maximum allowable distance between a line and an inlier
+of the line. Edge points must meet this constraint to become inliers of
+the line.
+</summary>
+            <remarks>
+The DistanceTolerance should be adjusted to properly include a sufficient
+number of inliers and exclude interfering edge points from nearby edges.
+In particular, when adjacent lines are present, this parameter should be
+set to less than half the distance between the adjacent lines.
+</remarks>
+            <value>
+The distance measured in the <see cref="P:Cognex.VisionPro.ICogImage.SelectedSpaceName" />
+of the input image.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>Fires when this property changes.</para>
+                <para>The following state flag may be affected:</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMax.SfDistanceTolerance" />
+                    </item>
+                </list>
+            </event>
+            <exception cref="T:System.ArgumentOutOfRangeException"> 
+Thrown when you assign a value less than zero.
+</exception>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMax.EdgeAngleTolerance">
+            <summary>
+Gets or sets the maximum allowable angle between a line and an inlier of
+the line. Edge points must meet this constraint to become inliers of the
+line.
+</summary>
+            <remarks>
+In case of better image quality and cleaner edges, a smaller
+EdgeAngleTolerance helps increase the robustness of line finding. In case
+of noisier edges, edge points on the desired line may have noisy gradient
+directions, therefore a larger EdgeAngleTolerance is advised.
+</remarks>
+            <value>
+The bilateral angle in radians.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>Fires when this property changes.</para>
+                <para>The following state flag may be affected:</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMax.SfEdgeAngleTolerance" />
+                    </item>
+                </list>
+            </event>
+            <exception cref="T:System.ArgumentOutOfRangeException"> 
+Thrown when you assign a value less than zero or greater than PI/2.
+</exception>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMax.LineAngleTolerance">
+            <summary>
+Gets or sets the maximum allowable angle between the normal of a 
+line and the
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+value. Lines must meet this constraint to become results.
+</summary>
+            <remarks>
+                <para>
+An iterative pruning step is applied if a candidate line does not meet
+the line angle constraint after RANSAC iterations and refinement. Each
+pruning iteration attempts to remove one outmost inlier, choosing between
+two outmost inliers at two ends of the found line segment:
+</para>
+                <list type="bullet">
+                    <item>
+If only one of two outmost inliers, once removed, uniquely results in the
+found line satisfying the LineAngleTolerance constraint, that outmost
+inlier is removed and the pruning iterations are terminated.
+</item>
+                    <item>
+If the outmost inliers, once removed, both result in the found line
+satisfying the LineAngleTolerance constraint, the outmost inlier in the
+starting end of the found line segment is removed and the pruning
+iterations are terminated.
+</item>
+                    <item>
+If none of the two outmost inliers, once removed, results in the found
+line satisfying the LineAngleTolerance constraint, both outmost inliers
+are removed and the pruning iterations are continued.
+</item>
+                </list>
+                <para>
+In practice, the LineAngleTolerance-based pruning loops continue until
+the pruned line result satisfies the line angle constraint or until the
+number of remaining inliers becomes fewer than two and no valid line
+results can be found.
+</para>
+                <para>
+After pruning for LineAngleTolerance, an updated line will be recomputed
+from the remaining inliers. The edge point subset will be compared
+against the updated line model to obtain an updated inlier list and the
+edge point runs are re-encoded. Based on the updated line model, the
+inlier/outlier point subset will also be updated to discard points
+outside the span of the updated line segment. The updated line result is
+then examined against the <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.CoverageThreshold" />
+constraint to see if it is necessary to prune for coverage again.
+</para>
+                <para>
+If the found line angle still does not satisfy the LineAngleTolerance
+constraint when only two inliers are left, no line is considered to be
+found for the current candidate and all associated inliers are placed into
+the considered outliers collection; line finding resumes using the
+the updated considered outliers collection.
+</para>
+                <para>
+A larger LineAngleTolerance means the found lines are allowed to deviate
+more from the <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />,
+while a smaller LineAngleTolerance means less deviation is allowed.
+When looking for lines that are strictly parallel to each other, a
+smaller LineAngleTolerance is advised. When looking for lines at different
+directions at the same time, a larger LineAngleTolerance is advised.
+</para>
+            </remarks>
+            <value>
+The bilateral angle in radians.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>Fires when this property changes.</para>
+                <para>The following state flag may be affected:</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMax.SfLineAngleTolerance" />
+                    </item>
+                </list>
+            </event>
+            <exception cref="T:System.ArgumentOutOfRangeException"> 
+Thrown when you assign a value less than zero or greater than PI/2.
+</exception>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMax.Polarity">
+            <summary>
+Gets or sets the polarity constraint. Edge points must meet this
+constraint to become inliers.
+</summary>
+            <remarks>
+In the case of <see cref="T:Cognex.VisionPro.LineMax.CogLineMaxPolarityConstants">Either</see>
+polarity, the constraint requires that the edge point have the same
+polarity as the candidate line.
+</remarks>
+            <value>
+The polarity in the <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+direction.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>Fires when this property changes.</para>
+                <para>The following state flag may be affected:</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMax.SfPolarity" />
+                    </item>
+                </list>
+            </event>
+            <exception cref="T:System.ArgumentException">
+The supplied value is not a member of
+<see cref="T:Cognex.VisionPro.LineMax.CogLineMaxPolarityConstants" /></exception>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMax.MaxNumLines">
+            <summary>
+Gets or sets the maximum number of lines to be found.  A LineMaxMulti
+license must be available to execute the tool with MaxNumLines set
+to greater than or equal to 0.
+</summary>
+            <remarks>
+A LineMaxMulti license must be available to execute the tool with MaxNumLines set to greater than 1.
+If a LineMaxMulti license is not found, MaxNumLines can only be set to 0 or 1, or the tool will 
+generate a <see cref="T:Cognex.VisionPro.Exceptions.CogSecurityViolationException" />
+exception.  If MaxNumLines is set to 0, line segments will not be returned, but CogLineMaxResult.ConsideredOutliers 
+and CogLineMaxResults.UnconsideredOutliers will still be calculated.
+</remarks>
+            <value>
+If a LineMaxMulti license is not found, MaxNumLines must be set to 0 or 1.  
+If a LineMaxMulti license is found, there is no upper limit on MaxNumLines,
+though processing time will increase with larger values.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>Fires when this property changes.</para>
+                <para>The following state flag may be affected:</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMax.SfMaxNumLines" />
+                    </item>
+                </list>
+            </event>
+            <exception cref="T:System.ArgumentOutOfRangeException"> 
+Thrown when you assign a value less than zero.
+</exception>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMax.EdgeDetectionParams">
+            <summary>
+Gets or sets the parameters for generating edge points from image data.
+</summary>
+            <value>
+The edge detection parameters.
+</value>
+            <remarks>
+It is legal to set this property to null; however, invoking Execute when
+EdgeDetectionParams is null will generate a
+<see cref="T:Cognex.VisionPro.Exceptions.CogOperatorNoRunParamsException" />
+exception.
+</remarks>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>Fires when this property changes.</para>
+                <para>The following state flag may be affected:</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMax.SfEdgeDetectionParams" />
+                    </item>
+                </list>
+            </event>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal">
+            <summary>
+Gets or sets the expected line orientation.
+</summary>
+            <remarks>
+                <para>
+This property type is
+<see cref="T:Cognex.VisionPro.CogCoordinateSpaceAngle" />;
+therefore, it has a
+<see cref="P:Cognex.VisionPro.CogCoordinateSpaceAngle.SelectedSpaceName" />
+component as well as an
+<see cref="P:Cognex.VisionPro.CogCoordinateSpaceAngle.Angle" />
+component. The angle value is relative to the named space.
+</para>
+                <para>
+The following properties are measured relative to the ExpectedLineNormal value:
+</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.ProjectionLengthInPixels" />
+                    </item>
+                    <item>
+                        <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.LineAngleTolerance" />
+                    </item>
+                    <item>
+                        <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.Polarity" />
+                    </item>
+                </list>
+            </remarks>
+            <value>
+The angle, in radians, and its coordinate space.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>Fires when this property changes.</para>
+                <para>The following state flag may be affected:</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMax.SfExpectedLineNormal" />
+                    </item>
+                </list>
+            </event>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMax.Timeout">
+            <summary>
+Gets or sets the maximum amount of time that the inspection is allowed to
+execute.
+</summary>
+            <remarks>
+This property is ignored if 
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.TimeoutEnabled" />
+is false.
+</remarks>
+            <value>
+The timeout duration in milliseconds. The default value is 20000.0.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>Fires when this property changes.</para>
+                <para>The following state flag may be affected:</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMax.SfTimeout" />
+                    </item>
+                </list>
+            </event>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+Thrown if set to a value less than 0.0.
+</exception>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMax.TimeoutEnabled">
+            <summary>
+Get or set the applicability of <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.Timeout" />.
+</summary>
+            <value>
+When true the inspection duration is limited by <see cref="P:Cognex.VisionPro.LineMax.CogLineMax.Timeout" />; otherwise, it is not limited. The default value is true.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>Fires when this property changes.</para>
+                <para>The following state flag may be affected:</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMax.SfTimeoutEnabled" />
+                    </item>
+                </list>
+            </event>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMax.RegionMode">
+            <summary>
+Gets or sets the technique,
+<see cref="T:Cognex.VisionPro.CogRegionModeConstants">PixelAlignedBoundingBoxAdjustMask</see> 
+or
+<see cref="T:Cognex.VisionPro.CogRegionModeConstants">PixelAlignedBoundingBox</see>,
+used to apply the region to the inspection image. 
+</summary>
+            <remarks>
+If no region is used then this property is ignored.
+</remarks>
+            <value>
+The default is <see cref="T:Cognex.VisionPro.CogRegionModeConstants">PixelAlignedBoundingBoxAdjustMask</see></value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>
+Fires when the value of this property changes.
+</para>
+                <para>
+The following state flag may be affected:
+</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMax.SfRegionMode" />
+                    </item>
+                </list>
+            </event>
+            <exception cref="T:System.NotSupportedException">
+The property is set to
+<see cref="T:Cognex.VisionPro.CogRegionModeConstants">AffineTransform</see></exception>
+            <exception cref="T:System.ArgumentException">
+The supplied value is not a member of
+<see cref="T:Cognex.VisionPro.CogRegionModeConstants" /></exception>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMax.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+Serialization constructor.
+</summary>
+            <param name="info">
+The initialization data.
+</param>
+            <param name="ctxt">
+The initialization context.
+</param>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMax.#ctor(Cognex.VisionPro.LineMax.CogLineMax)">
+            <summary>
+Constructs a deep copy of the supplied instance.
+</summary>
+            <param name="other">
+The object to copy. Cannot be null.
+</param>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="other" /> is null.
+</exception>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMax.#ctor">
+            <summary>
+Constructs a new instance of this class.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMax.SfNextSf">
+            <summary>
+Next state flag to be used in derived classes.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMax.SfTimeout">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.Timeout" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMax.SfTimeoutEnabled">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.TimeoutEnabled" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMax.SfAssurance">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.Assurance" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMax.SfFittingMode">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.FittingMode" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMax.SfLengthThreshold">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.LengthThreshold" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMax.SfCoverageThreshold">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.CoverageThreshold" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMax.SfDistanceTolerance">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.DistanceTolerance" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMax.SfEdgeAngleTolerance">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.EdgeAngleTolerance" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMax.SfLineAngleTolerance">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.LineAngleTolerance" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMax.SfPolarity">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.Polarity" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMax.SfMaxNumLines">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.MaxNumLines" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMax.SfEdgeDetectionParams">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.EdgeDetectionParams" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMax.SfExpectedLineNormal">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMax.SfRegionMode">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.RegionMode" />
+may have changed.
+</summary>
+        </member>
+        <member name="T:Cognex.VisionPro.LineMax.CogLineMax">
+            <summary>
+This class provides functionality for finding lines in images. It will
+return candidate lines that meet the requirements specified by its
+properties.
+</summary>
+            <remarks>
+                <para>
+Line finding is accomplished in two phases. The first phase, edge detection,
+finds edge points within the image(s). The second phase, line fitting,
+creates lines from roughly collinear subsets of the found edge points.
+</para>
+                <para>
+The first phase, edge detection, finds edge points within the image(s)
+using parameters defined in the
+<see cref="T:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams" />
+class. First, the input image is smoothed and decimated, using 
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.GradientKernelSizeInPixels" />.
+Gradient vectors are then computed for each pixel in the decimated image.
+Both the gradient vectors and the input image are projected over many
+caliper-like projection regions, using
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.ProjectionLengthInPixels" />.
+A pixel is considered a candidate edge point if its projected gradient
+magnitude exceeds
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.ContrastThreshold" />
+and if the ratio of its projected gradient magnitude and its intensity
+exceeds
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.NormalizedContrastThreshold" />.
+</para>
+                <para>
+Only edge points with gradient directions sufficiently consistent with
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+can possibly constitute the expected lines at the angle
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+(where the gradient direction consistency is determined by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.LineAngleTolerance" />
+and
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.EdgeAngleTolerance" />).
+Therefore, only such edge points are included in the line fitting phase.
+Edge points with inconsistent gradient directions are excluded from the
+line fitting phase and placed into the
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxResults.UnconsideredOutliers" />
+collection.
+</para>
+                <para>
+The second phase, line fitting, creates lines from roughly collinear
+subsets of the found edge points, using parameters defined in the
+CogLineMax class. Lines are evaluated using a 
+<see cref="T:Cognex.VisionPro.LineMax.CogLineMaxFittingModeConstants">RANSAC</see>
+or an
+<see cref="T:Cognex.VisionPro.LineMax.CogLineMaxFittingModeConstants">Exhaustive</see>
+point selection methodology, depending on the
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.FittingMode" /> setting.
+Under <see cref="T:Cognex.VisionPro.LineMax.CogLineMaxFittingModeConstants">RANSAC</see>
+mode, the user may adjust
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.Assurance" />
+to fit the desired result optimality and operation speed.
+</para>
+                <para>
+Line fitting is performed by iteratively evaluating candidate lines created
+from the found edge points. During each iteration two points are randomly
+selected from the found edge points, a candidate line is modeled from the
+selected points, and the candidate line inliers are determined.
+</para>
+                <para>
+An edge point is assigned to the inlier list of a candidate line only if it
+is in the proximity of the candidate line (determined by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.DistanceTolerance" />)
+and if its gradient direction is consistent with the angle of the candidate
+line (determined by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.EdgeAngleTolerance" />).
+Each edge point can only be assigned to the inlier list of a single line
+and each line is only allowed to contain at most one edge point from each
+projection region.
+</para>
+                <para>
+When the RANSAC iterations reach the maximum, the inliers of the best found
+line candidate will be identified. Then the found line will be refined
+using a least squares regression fit to the inliers, and the set of inliers
+will be re-evaluated using the refined line. The refinement will be
+repeated a maximum of three times until the number of inliers ceases to
+further increase.
+</para>
+                <para>
+Any edge points that are not inliers of the found line are placed into the
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxResults.ConsideredOutliers" />
+collection.
+</para>
+            </remarks>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxResults.GetEnumerator">
+            <summary>
+Creates an enumerator for sequentially accessing the collection items.
+</summary>
+            <returns>
+The collection enumerator.
+</returns>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxResults.UnconsideredOutliers">
+            <summary>
+Get the set of edge points ruled out prior to the line finding algorithm.
+</summary>
+            <remarks>
+Unlike the edge points in <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxResults.ConsideredOutliers" />,
+the edge points in this collection are not processed by the line finding
+algorithm; therefore, they contribute very little to tool execution time.
+</remarks>
+            <value>
+The read only collection of edge points.
+</value>
+            <seealso cref="P:Cognex.VisionPro.LineMax.CogLineMaxResults.ConsideredOutliers" />
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxResults.ConsideredOutliers">
+            <summary>
+Get the set of outliers evaluated by the line finding algorithm, but
+ultimately not qualifying as an inlier of any of the line results.
+</summary>
+            <remarks>
+Unlike the edge points in <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxResults.UnconsideredOutliers" />,
+the edge points in this collection are processed by the line finding
+algorithm; therefore, they contribute more heavily to tool execution time.
+</remarks>
+            <value>
+The read only collection of edge points.
+</value>
+            <seealso cref="P:Cognex.VisionPro.LineMax.CogLineMaxResults.UnconsideredOutliers" />
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxResults.IndexOf(Cognex.VisionPro.LineMax.CogLineMaxResult)">
+            <summary>
+Determines the index of a result in the collection.
+</summary>
+            <param name="value">
+The result to locate.
+</param>
+            <returns>
+The zero-based index of value if found; otherwise, -1.
+</returns>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxResults.CopyTo(System.Array,System.Int32)">
+            <summary>
+Copies the contents of this collection to an array.
+</summary>
+            <param name="dest">
+The destination of the copy operation. The destination array must have 
+zero-based indexing.
+</param>
+            <param name="index">
+The zero-based index in dest at which copying begins.
+</param>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxResults.Item(System.Int32)">
+            <summary>
+Gets the item at the specified index. In C#, this property is the indexer
+for the collection.
+</summary>
+            <param name="index">
+The index of the item to get.
+</param>
+            <value>
+The <see cref="T:Cognex.VisionPro.LineMax.CogLineMaxResult" />.
+</value>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+If the supplied index parameter is not valid.
+</exception>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxResults.SyncRoot">
+            <summary>
+Gets an object that can be used to synchronize access to this collection.
+</summary>
+            <value>
+The synchronization object.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxResults.IsSynchronized">
+            <summary>
+Gets a value indicating whether access to this collection is synchronized
+(i.e. thread-safe).
+</summary>
+            <value>
+True if synchronized.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxResults.Count">
+            <summary>
+Gets the number of results contained in this collection.
+</summary>
+            <value>
+The count.
+</value>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxResults.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+Serialization constructor.
+</summary>
+            <param name="info">
+The initialization data.
+</param>
+            <param name="ctxt">
+The initialization context.
+</param>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxResults.#ctor(Cognex.VisionPro.LineMax.CogLineMaxResults)">
+            <summary>
+Constructs a deep copy of the supplied instance.
+</summary>
+            <param name="other">
+The object to copy.
+</param>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="other" /> is null.
+</exception>
+        </member>
+        <member name="T:Cognex.VisionPro.LineMax.CogLineMaxResults">
+            <summary>
+This class holds all of the result information from a LineMax
+operation.
+</summary>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxResult.CreateResultGraphics(Cognex.VisionPro.LineMax.CogLineMaxResultGraphicConstants)">
+            <summary>
+Creates a <see cref="T:Cognex.VisionPro.CogCompositeShape" /> containing
+the graphics specified in <paramref name="flags" />.
+</summary>
+            <param name="flags">
+The graphics options. Supply a value formed by ORing together one or 
+more of the
+<see cref="T:Cognex.VisionPro.LineMax.CogLineMaxResultGraphicConstants" />
+flags.
+</param>
+            <returns>
+                <see cref="T:Cognex.VisionPro.CogCompositeShape" /> containing the
+specified graphics.
+</returns>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxResult.GetLineSegment">
+            <summary>
+Creates a graphic of the line result.
+</summary>
+            <remarks>
+The normal direction of the <see cref="T:Cognex.VisionPro.CogLineSegment" />
+is in the same general direction as
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />.
+</remarks>
+            <returns>
+The <see cref="T:Cognex.VisionPro.CogLineSegment" />.
+</returns>
+            <seealso cref="M:Cognex.VisionPro.LineMax.CogLineMaxResult.GetLine" />
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxResult.GetLine">
+            <summary>
+Creates a graphic of the the line segment result.
+</summary>
+            <returns>
+The created <see cref="T:Cognex.VisionPro.CogLine" />.
+</returns>
+            <seealso cref="M:Cognex.VisionPro.LineMax.CogLineMaxResult.GetLineSegment" />
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxResult.NumProjectionRegions">
+            <summary>
+Gets the number of "care" projection regions along the line segment.
+</summary>
+            <remarks>
+The NumProjectionRegions measurement respects masks, only projection
+regions in "care" regions are included in the count.
+</remarks>
+            <value>
+The count.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxResult.Inliers">
+            <summary>
+Gets the set of edge points fitted to the line.
+</summary>
+            <value>
+The read only collection of edge points.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxResult.MaxError">
+            <summary>
+Gets the distance of the farthest inlier from the line.
+</summary>
+            <value>
+The inlier distance.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxResult.RMSError">
+            <summary>
+Gets the residual error in fitting the Inliers to the line segment.
+</summary>
+            <remarks>
+Use this value to assess how tightly, or loosely, the
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxResult.Inliers" /> 
+align collinearly with the line segment.
+</remarks>
+            <value>
+The RMS distance.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxResult.Coverage">
+            <summary>
+Gets the proportion of inliers relative to the maximum possible number of
+inliers.
+</summary>
+            <remarks>
+Since only one inlier is allowed per projection region, the maximum
+possible number of
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxResult.Inliers" /> is
+defined by the number of "care" projection
+regions intersected by the line segment, i.e., the number of "care"
+projection regions along the total span of the line segment.
+</remarks>
+            <value>
+The coverage proportion.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxResult.Intensity">
+            <summary>
+Gets the average intensity along the line segment.
+</summary>
+            <remarks>
+Intensity is computed using the average
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.Intensity" />
+of all the <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxResult.Inliers" />
+of the line segment.
+</remarks>
+            <value>
+The average pixel grey level.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxResult.NormalizedContrast">
+            <summary>
+Gets the normalized contrast across the line segment in the
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+direction.
+</summary>
+            <remarks>
+                <para>
+NormalizedContrast is computed using the average normalized contrast of all
+the <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxResult.Inliers" />
+of the line segment.
+</para>
+                <para>
+Unlike <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxResult.Contrast" />,
+which is a measure of absolute intensity difference, NormalizedContrast
+is a measure of relative intensity difference. It measures the contrast 
+relative to the local pixel intensity.
+</para>
+            </remarks>
+            <value>
+The normalized contrast ratio.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxResult.Contrast">
+            <summary>
+Gets the absolute contrast across the line segment in the 
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+direction.
+</summary>
+            <remarks>
+                <para>
+Contrast is computed using the average
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.GradientMagnitude" />
+of all the <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxResult.Inliers" />
+of the line segment.
+</para>
+                <para>
+Unlike <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxResult.NormalizedContrast" />,
+which is a measure of relative intensity difference, Contrast is a
+measure of absolute intensity difference.
+</para>
+            </remarks>
+            <value>
+The absolute grey level difference.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxResult.NormalAngle">
+            <summary>
+Gets the direction of the line segment along the <i>normal</i> direction.
+</summary>
+            <remarks>
+The normal is defined as <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxResult.TangentAngle" />
+plus <see cref="F:System.Math.PI" /> / 2.
+</remarks>
+            <value>
+The angle in radians.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxResult.TangentAngle">
+            <summary>
+Gets the direction of the line segment along the <i>tangent</i> direction.
+</summary>
+            <remarks>
+The tangent is defined as <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxResult.NormalAngle" />
+minus <see cref="F:System.Math.PI" /> / 2.
+</remarks>
+            <value>
+The angle in radians.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxResult.Polarity">
+            <summary>
+Gets the polarity across the line in the
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+direction.
+</summary>
+            <remarks>
+This value is computed from the
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.GradientDirection" />
+of the edge points in 
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxResult.Inliers" />. If
+all inliers are found to have the same polarity then that value is used;
+otherwise, the "mixed" value is used.
+</remarks>
+            <value>
+The line segment polarity.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxResult.ID">
+            <summary>
+Gets the unique ID used to identify this LineMax result.
+</summary>
+            <remarks>
+This ID also corresponds to the
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxResults.Item(System.Int32)">index</see>
+of this result in the <see cref="T:Cognex.VisionPro.LineMax.CogLineMaxResults" />.
+</remarks>
+            <value>
+The zero-based ID.
+</value>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxResult.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+Serialization constructor.
+</summary>
+            <param name="info">
+The initialization data.
+</param>
+            <param name="ctxt">
+The initialization context.
+</param>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxResult.#ctor(Cognex.VisionPro.LineMax.CogLineMaxResult)">
+            <summary>
+Constructs a deep copy of the supplied instance.
+</summary>
+            <param name="other">
+The object to copy.
+</param>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="other" /> is null.
+</exception>
+        </member>
+        <member name="T:Cognex.VisionPro.LineMax.CogLineMaxResult">
+            <summary>
+This class holds the result data for a LineMax line.
+</summary>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxEdgePointCollection.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+Serialization constructor.
+</summary>
+            <param name="info">
+The initialization data.
+</param>
+            <param name="ctxt">
+The initialization context.
+</param>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxEdgePointCollection.#ctor(Cognex.VisionPro.LineMax.CogLineMaxEdgePointCollection)">
+            <summary>
+Constructs a deep copy of the supplied collection.
+</summary>
+            <param name="other">
+The object to copy. Cannot be null.
+</param>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="other" /> is null.
+</exception>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxEdgePointCollection.#ctor(System.Collections.Generic.IEnumerable`1{Cognex.VisionPro.LineMax.CogLineMaxEdgePoint})">
+            <summary>
+Constructs a read only collection containing the objects in items. The
+items are not cloned.
+</summary>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxEdgePointCollection.CreateShallowCopy(System.Collections.Generic.IEnumerable`1{Cognex.VisionPro.LineMax.CogLineMaxEdgePoint})">
+            <summary>
+Creates a read only collection containing the objects in items.
+</summary>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxEdgePointCollection.#ctor(std.vector&lt;ccLineMaxEdgePoint,std.allocator&lt;ccLineMaxEdgePoint&gt;&gt;!System.Runtime.CompilerServices.IsConst*!System.Runtime.CompilerServices.IsImplicitlyDereferenced,System.Double,System.Double)">
+            <summary>
+Constructs a read only collection of 
+<see cref="T:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint">CogLineMaxEdgePoints</see>
+from a set of cvl edge points.
+</summary>
+        </member>
+        <member name="T:Cognex.VisionPro.LineMax.CogLineMaxEdgePointCollection">
+            <summary>
+Class containing a read-only set of edge points.
+</summary>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.FOVIndex">
+            <summary>
+For Cognex internal use only.
+</summary>
+            <value>
+The zero-based view index.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.ProjectionRegionIndex">
+            <summary>
+Gets the index of the projection region containing the edge point.
+</summary>
+            <remarks>
+                <para>
+Use this property to assess the continuity of inlier edge points along a
+line result. 
+</para>
+                <para>
+For example, consider a single line fit to the collinear stripes on a
+road. ProjectionRegionIndex values of the line inliers could be
+post-processed to find the approximate start and end points of each
+stripe, and perhaps estimate the average interval between stripes. Such
+post-processing might further be used to filter out false line results
+that do not correspond to stripes on the road.
+</para>
+            </remarks>
+            <value>
+The zero-based index.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.ProjectionLengthInPixels">
+            <summary>
+Gets the projection length used during edge point detection. This length 
+is along the expected line <i>tangent</i> direction.
+</summary>
+            <remarks>
+See <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.ProjectionLengthInPixels">CogLineMaxEdgeDetectionParams.ProjectionLengthInPixels</see>
+for more information.
+</remarks>
+            <value>
+The length in pixels.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.IntensityNormalizedGradientY">
+            <summary>
+Gets the y component of the intensity normalized gradient vector. This
+value is considered the normalized contrast measurement along the y
+direction.
+</summary>
+            <remarks>
+                <para>
+The y direction is the y-axis direction of the selected space of the
+input image.
+</para>
+                <para>
+See <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.NormalizedContrastThreshold" />
+for information on normalization behavior.
+</para>
+            </remarks>
+            <value>
+The relative contrast ratio.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.IntensityNormalizedGradientX">
+            <summary>
+Gets the x component of the intensity normalized gradient vector. This
+value is considered the normalized contrast measurement along the x
+direction.
+</summary>
+            <remarks>
+                <para>
+The x direction is the x-axis direction of the selected space of the
+input image.
+</para>
+                <para>
+See <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.NormalizedContrastThreshold" />
+for information on normalization behavior.
+</para>
+            </remarks>
+            <value>
+The relative contrast ratio.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.GradientY">
+            <summary>
+Gets the y component of the gradient vector. This value is considered the
+contrast measurement along the y direction.
+</summary>
+            <remarks>
+The y direction is the y-axis direction of the selected space of the
+input image.
+</remarks>
+            <value>
+The absolute intensity differential.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.GradientX">
+            <summary>
+Gets the x component of the gradient vector. This value is considered the
+contrast measurement along the x direction.
+</summary>
+            <remarks>
+The x direction is the x-axis direction of the selected space of the
+input image.
+</remarks>
+            <value>
+The absolute intensity differential.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.Intensity">
+            <summary>
+Gets the image intensity at the edge point location.
+</summary>
+            <remarks>
+                <para>
+The set of pixels used to compute
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.GradientX" />
+and <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.GradientY" />
+are similarly processed to compute intensity; except the pixel
+intensities rather than the pixel contrasts are manipulated.
+</para>
+            </remarks>
+            <value>
+The grey level intensity.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.GradientMagnitude">
+            <summary>
+Gets the gradient magnitude of the edge point. This value is considered
+the contrast measurement of the edge point.
+</summary>
+            <remarks>
+                <para>
+The gradient magnitude is computed using:
+</para>
+                <para>
+                    <math>
+sqrt(<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.GradientX" /><sup>2</sup> + <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.GradientY" /><sup>2</sup>)
+</math>
+                </para>
+                <para>
+The <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxResult.Contrast" />
+measurement of a line segment is computed using the average
+GradientMagnitude of all its
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxResult.Inliers" />.
+</para>
+            </remarks>
+            <value>
+The absolute gradient magnitude.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.GradientDirection">
+            <summary>
+Gets the dark to light gradient direction of the edge point.
+</summary>
+            <value>
+The angle, in radians, measured in the selected space of the input image.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.Y">
+            <summary>
+Gets the y coordinate of the edge point.
+</summary>
+            <value>
+The y coordinate in the selected space of the input image.
+</value>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.X">
+            <summary>
+Gets the x coordinate of the edge point.
+</summary>
+            <value>
+The x coordinate in the selected space of the input image.
+</value>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+Serialization constructor.
+</summary>
+            <param name="info">
+The initialization data.
+</param>
+            <param name="ctxt">
+The initialization context.
+</param>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.#ctor(Cognex.VisionPro.LineMax.CogLineMaxEdgePoint)">
+            <summary>
+Constructs a deep copy of the supplied instance.
+</summary>
+            <param name="other">
+The object to copy. Cannot be null.
+</param>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="other" /> is null.
+</exception>
+        </member>
+        <member name="T:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint">
+            <summary>
+Class containing LineMax edge point data.
+</summary>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.NormalizedContrastThreshold">
+            <summary>
+Gets or sets the minimum normalized contrast constraint. Edge points are
+not created for gradients with a normalized contrast below this value.
+</summary>
+            <remarks>
+                <para>
+Unlike contrast, which is a measure of absolute intensity difference,
+normalized contrast is a measure of relative intensity difference. It
+measures the contrast relative to the local pixel intensity. This is
+useful for suppressing noisy gradients found in bright areas. When noisy
+gradients in bright areas meet the
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.ContrastThreshold" />
+constraint, their normalized contrasts may still be below the
+NormalizedContrastThreshold constraint. If so, edge points will not be
+created for these noisy gradients.
+</para>
+                <para>
+For example, the normalized contrast for a gradient with contrast of
+50 and intensity of 100 would be 50/100=0.5; whereas the normalized
+contrast for a gradient with contrast of 50 and intensity of 200 would be
+50/200=0.25. In this scenario, a NormalizedContrastThreshold of 0.3 will
+create an edge point in the darker area (normalized contrast = 0.5) and
+not in the noisy brighter area (normalized contrast = 0.25).
+</para>
+                <para>
+The normalized contrast measurement is computed using:
+</para>
+                <para>
+                    <math>
+                        <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.GradientMagnitude">g</see> / (2.0 x <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.Intensity">I<sub>avg</sub></see>)</math>
+                </para>
+                <para>
+Where <math>g</math> is the gradient magnitude; and <math>I<sub>avg</sub></math>
+is the average pixel intensity at the gradient. 
+</para>
+            </remarks>
+            <value>
+The relative contrast in the range 0.0 to 1.0, inclusive. The default
+value is 0.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>Fires when this property changes.</para>
+                <para>The following state flag may be affected:</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.SfNormalizedContrastThreshold" />
+                    </item>
+                </list>
+            </event>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+Thrown if set to a value less than 0.0 or greater than 1.0.
+</exception>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.ContrastThreshold">
+            <summary>
+Gets or sets the minimum contrast constraint. Edge points are not created
+for gradients with a contrast below this value.
+</summary>
+            <remarks>
+                <para>
+Unlike normalized contrast, which is a measure of relative intensity
+difference, contrast is a measure of absolute intensity difference.
+See <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.NormalizedContrastThreshold" />
+for information on applying a constraint on the normalized contrast
+measurement.
+</para>
+                <para>
+The contrast measurement is computed using:
+</para>
+                <para>
+                    <math>sqrt(g<sub>x</sub><sup>2</sup> + g<sub>y</sub><sup>2</sup>)</math>
+                </para>
+                <para>
+Where <math>g<sub>x</sub></math> is the gradient contrast in the direction
+of the x-axis of the input image selected space; and <math>g<sub>y</sub></math>
+is the contrast in the direction of the y-axis.
+</para>
+                <para>
+Note that the <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgePoint.GradientMagnitude" />
+of an edge point is the contrast measurement of the edge point.
+</para>
+            </remarks>
+            <value>
+The absolute contrast in the range 0.0 to 255.0, inclusive. The default is 5.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>Fires when this property changes.</para>
+                <para>The following state flag may be affected:</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.SfContrastThreshold" />
+                    </item>
+                </list>
+            </event>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+Thrown if set to a value less than 0.
+</exception>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.ProjectionLengthInPixels">
+            <summary>
+Gets or sets the length of the 1D kernel used during gradient field
+projection. This length is along the expected line <i>tangent</i>
+direction.
+</summary>
+            <remarks>
+                <para>
+Decrease this value to improve accuracy and fidelity; increase this value
+to smooth out short edges and fill in gaps in long edges.
+</para>
+                <para>
+The ProjectionLengthInPixels value will be applied non-uniformly if the
+number of pixels per physical unit differs along the x and y axes of the
+image. In these cases the "pixel" unit is one pixel along the axis
+having more pixels per physical unit, and less than one pixel along the
+other axis. See <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.GradientKernelSizeInPixels" />
+for more information.
+</para>
+                <para>
+The 
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.ContrastThreshold" />
+and
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.NormalizedContrastThreshold" />
+constraints are applied to projection results, not image pixels or the
+gradient field gradients. Therefore, the number of edge points ultimately
+extracted is reduced by a factor of the projection length. This results
+in higher accuracy and longer execution times for smaller values; and
+lower accuracy and shorter execution times for larger values.
+</para>
+                <para>
+The <see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.GradientKernelSizeInPixels" />
+value serves as a lower limit for ProjectionLengthInPixels. Setting
+ProjectionLengthInPixels to a value smaller than the current
+GradientKernelSizeInPixels value will automatically update
+GradientKernelSizeInPixels to this smaller value. Likewise, setting
+GradientKernelSizeInPixels to a value larger than the current
+ProjectionLengthInPixels value will automatically set
+ProjectionLengthInPixels to that larger value.
+</para>
+            </remarks>
+            <value>
+The length in pixels. The default is 5.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>Fires when this property changes.</para>
+                <para>The following state flag may be affected:</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.SfProjectionLengthInPixels" />
+                    </item>
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.SfGradientKernelSizeInPixels" />
+                    </item>
+                </list>
+            </event>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+Thrown if set to a value less than 1.
+</exception>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.GradientKernelSizeInPixels">
+            <summary>
+Gets or sets size of the 2D kernel used to convert image pixels into
+image gradients.
+</summary>
+            <remarks>
+                <para>
+Decrease this value to improve accuracy and detect sharp edges; increase 
+this value to blur out sharp edges and detect gradual edges.
+</para>
+                <para>
+Each gradient is computed from a square region of image pixels. The
+GradientKernelSizeInPixels value specifies the size in pixels of one side
+of that square region. The entire image is tiled with squares of this
+size. For example, a value of one means the gradient field contains one
+gradient for every image pixel; whereas a value of four means the
+gradient field contains one gradient for every 16 pixels (i.e. 4x4 kernel
+size).
+</para>
+                <para>
+Note that the GradientKernelSizeInPixels value can be fractional. For
+example, a value of 3.25 means the gradient field contains a gradient for
+every 3.25x3.25 pixels. Applying this value to a 13x13 (pixels) image
+yields a 4x4 gradient field.
+</para>
+                <para>
+To maintain accuracy, each element of the gradient field must be computed
+from a precisely square patch of physical space.  This means that the
+GradientKernelSizeInPixels value will be applied non-uniformly if the
+number of pixels per physical unit differs along the x and y axes of the
+image.
+</para>
+                <para>
+For example, consider an image that has 4 pixels per millimeter along the
+image x axis, but only 3 pixels per millimeter along the image y axis. If
+you set the GradientKernelSizeInPixels to 4, a 4-by-3 rectangle of pixels
+will be used to compute the gradient vector for each square millimeter of
+physical space.
+</para>
+                <para>
+In other words, GradientKernelSizeInPixels specifies the _maximum_ kernel
+side length in pixels. One image axis may require a smaller value to
+ensure the kernel is square in physical units.
+</para>
+                <para>
+Further processing is done on the gradient field, not the image pixels.
+Therefore, the pixels to gradient field conversion can significantly
+reduce the amount of data to process. This results in higher accuracy
+and longer execution times for smaller GradientKernelSizeInPixels
+values; and lower accuracy and shorter execution times for larger ones.
+</para>
+                <para>
+The projection step operates on the gradient field: multiple gradients
+within the field are "projected" into a single gradient to average out
+noise and to reduce the amount of gradients to consider. The number of
+gradients combined during projection is controlled by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.ProjectionLengthInPixels" />.
+There is no benefit (in noise reduction, or data reduction) to having a
+projection length that is smaller than the GradientKernelSizeInPixels
+value. Therefore, GradientKernelSizeInPixels serves as a lower limit for
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.ProjectionLengthInPixels" />.
+</para>
+                <para>
+If you set GradientKernelSizeInPixels to a value that is larger than the
+current projection length value, 
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.ProjectionLengthInPixels" />
+will automatically be set to that larger value. Likewise, setting
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.ProjectionLengthInPixels" />
+to a value that is smaller than the current GradientKernelSizeInPixels
+value will automatically update the GradientKernelSizeInPixels to this
+smaller value.
+</para>
+            </remarks>
+            <value>
+The size of the 2D kernel sides in pixels. The default is 2.
+</value>
+            <event cref="E:Cognex.VisionPro.ICogChangedEvent.Changed">
+                <para>Fires when this property changes.</para>
+                <para>The following state flag may be affected:</para>
+                <list type="bullet">
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.SfGradientKernelSizeInPixels" />
+                    </item>
+                    <item>
+                        <see cref="F:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.SfProjectionLengthInPixels" />
+                    </item>
+                </list>
+            </event>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+Thrown if set to a value less than 1 or greater than 64.
+</exception>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+Serialization constructor.
+</summary>
+            <param name="info">
+The initialization data.
+</param>
+            <param name="ctxt">
+The initialization context.
+</param>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.#ctor(Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams)">
+            <summary>
+Constructs a deep copy of the supplied instance.
+</summary>
+            <param name="other">
+The object to copy. Cannot be null.
+</param>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="other" /> is null.
+</exception>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.#ctor">
+            <summary>
+Constructs a new instance of this class.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.SfNextSf">
+            <summary>
+Next state flag to be used in derived classes.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.SfNormalizedContrastThreshold">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every time the
+value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.NormalizedContrastThreshold" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.SfContrastThreshold">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every time the
+value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.ContrastThreshold" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.SfProjectionLengthInPixels">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every time the
+value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.ProjectionLengthInPixels" />
+may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.SfGradientKernelSizeInPixels">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every time the
+value returned by
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.GradientKernelSizeInPixels" />
+may have changed.
+</summary>
+        </member>
+        <member name="T:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams">
+            <summary>
+Class for configuring the edge detection behavior of CogLineMax.
+</summary>
+            <remarks>
+                <para>
+Edge detection operates by smoothing and decimating the input image, using
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.GradientKernelSizeInPixels" />.
+Gradient vectors are then computed for each pixel in the decimated image.
+Both the gradient vectors and the input image are projected over many
+caliper-like projection regions, using
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.ProjectionLengthInPixels" />.
+</para>
+                <para>
+A pixel is considered a candidate edge point if its projected gradient
+magnitude exceeds
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.ContrastThreshold" />
+and if the ratio of its projected gradient magnitude and its intensity exceeds
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMaxEdgeDetectionParams.NormalizedContrastThreshold" />.
+</para>
+                <para>
+See <see cref="T:Cognex.VisionPro.LineMax.CogLineMax" /> for information on
+how lines are created from the detected edge points.
+</para>
+            </remarks>
+        </member>
+        <member name="T:Cognex.VisionPro.LineMax.CogLineMaxLastRunRecordDiagConstants">
+            <summary>
+Enumeration of diagnostic data that can be included in the LastRunRecord.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxLastRunRecordDiagConstants.All">
+            <summary>
+Include all of the diagnostic data in the LastRunRecord.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxLastRunRecordDiagConstants.UnconsideredOutliers">
+            <summary>
+Include the unconsidered outlier edge points in the LastRunRecord. This
+graphic shows all edge points ruled out prior to line fitting.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxLastRunRecordDiagConstants.ConsideredOutliers">
+            <summary>
+Include the considered outlier edge points in the LastRunRecord. This
+graphic shows all edge points assessed during line fitting, but
+ultimately not used.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxLastRunRecordDiagConstants.InputImageMask">
+            <summary>
+Include a copy of the input image mask in the LastRunRecord.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxLastRunRecordDiagConstants.Region">
+            <summary>
+Include a copy of the region in the LastRunRecord.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxLastRunRecordDiagConstants.InputImageDeepCopy">
+            <summary>
+Include a deep copy of the input image in the LastRunRecord.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxLastRunRecordDiagConstants.InputImageByReference">
+            <summary>
+Include a reference to the input image in the LastRunRecord.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxLastRunRecordDiagConstants.None">
+            <summary>
+Do not include any of the diagnostic data in the LastRunRecord.
+</summary>
+        </member>
+        <member name="T:Cognex.VisionPro.LineMax.CogLineMaxLastRunRecordConstants">
+            <summary>
+Enumeration of result data that can be included in the LastRunRecord.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxLastRunRecordConstants.All">
+            <summary>
+Include all of the non-diagnostic data in the LastRunRecord.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxLastRunRecordConstants.Inliers">
+            <summary>
+Include the inlier edge points in the LastRunRecord.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxLastRunRecordConstants.FoundLineSegments">
+            <summary>
+Include the found line segments in the LastRunRecord.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxLastRunRecordConstants.FoundLines">
+            <summary>
+Include the found lines in the LastRunRecord.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxLastRunRecordConstants.None">
+            <summary>
+Do not include any of the non-diagnostic data in the LastRunRecord.
+</summary>
+        </member>
+        <member name="T:Cognex.VisionPro.LineMax.CogLineMaxCurrentRecordConstants">
+            <summary>
+Enumeration of data that can be included in the CurrentRecord.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxCurrentRecordConstants.All">
+            <summary>
+Include all possible records in the CurrentRecord.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxCurrentRecordConstants.ExpectedLineNormal">
+            <summary>
+Include the expected line normal in the CurrentRecord. This interactive
+graphic is used to configure the
+<see cref="P:Cognex.VisionPro.LineMax.CogLineMax.ExpectedLineNormal" />
+property. In addition to rotating, this graphic is scalable and
+translatable to enable precise alignment of the normal angle relative
+to an edge in the input image.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxCurrentRecordConstants.InputImageMask">
+            <summary>
+Include the input image mask in the CurrentRecord.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxCurrentRecordConstants.Region">
+            <summary>
+Include the interactive region in the CurrentRecord.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxCurrentRecordConstants.InputImage">
+            <summary>
+Include the input image in the CurrentRecord.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxCurrentRecordConstants.None">
+            <summary>
+Do not include any records in the CurrentRecord.
+</summary>
+        </member>
+        <member name="T:Cognex.VisionPro.LineMax.CogLineMaxResultGraphicConstants">
+            <summary>
+Enumeration of flags used for creating CogLineMax result graphics.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxResultGraphicConstants.All">
+            <summary>
+Draw all result graphics.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxResultGraphicConstants.TipText">
+            <summary>
+Turn on tip text for result graphics.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxResultGraphicConstants.Inliers">
+            <summary>
+Draw the inliers for this result.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxResultGraphicConstants.FoundLineSegment">
+            <summary>
+Draw the line segment for this result.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxResultGraphicConstants.FoundLine">
+            <summary>
+Draw the line for this result.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxResultGraphicConstants.None">
+            <summary>
+Draw no result graphics.
+</summary>
+        </member>
+        <member name="T:Cognex.VisionPro.LineMax.CogLineMaxPolarityConstants">
+            <summary>
+Enumeration of LineMax polarity values.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxPolarityConstants.Mixed">
+            <summary>
+The brightness transitions from dark to light and from light to dark,
+along the direction of the line normal.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxPolarityConstants.Either">
+            <summary>
+The brightness transitions from dark to light or from light to dark,
+but not both, along the direction of the line normal.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxPolarityConstants.LightToDark">
+            <summary>
+The brightness transitions from light to dark, along the direction of
+the line normal.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxPolarityConstants.DarkToLight">
+            <summary>
+The brightness transitions from dark to light, along the direction of
+the line normal.
+</summary>
+        </member>
+        <member name="T:Cognex.VisionPro.LineMax.CogLineMaxFittingModeConstants">
+            <summary>
+Enumeration of modes for fitting lines to edge points.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxFittingModeConstants.RANSAC">
+            <summary>
+Random Sample Consensus is used to select edge point combinations
+evaluated for line fitting.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.CogLineMaxFittingModeConstants.Exhaustive">
+            <summary>
+All edge point combinations are evaluated for line fitting.
+</summary>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.Implementation.Internal.CogLineNormalGraphicManager.GetTransformOrDefaults(Cognex.VisionPro.ICogImage,System.String,System.String,System.Boolean)">
+            <summary>
+Returns the requested destFromSrc transform or retrys using a fallback
+sequence. Fallback sequence starts with "." and, if "." doesn't evaluate
+to a valid space, then uses "@" which is guaranteed to succeed. 
+</summary>
+            <param name="xformProvider">
+                <remarks>
+This routine will fail if the non-defaulted space is invalid; otherwise,
+it is guaranteed to return a valid transform.
+</remarks>
+            </param>
+            <param name="dest">
+"To" space.
+</param>
+            <param name="src">
+"From" space.
+</param>
+            <param name="defaultsOnDestFail">
+true =&gt; <paramref name="dest" /> is the defaulted space; false =&gt;
+<paramref name="src" /> is the defaulted space.
+</param>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.Implementation.Internal.CogLineNormalGraphicManager.NormalAngle">
+            <summary>
+Get or set the NormalAngle of the graphic.
+</summary>
+            <value>
+The angle value and coordinate space name.
+</value>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.Implementation.Internal.CogLineNormalGraphicManager.OnDeserialization(System.Object)">
+            <summary>
+Implementation of IDeserializationCallback::OnDeserialization.
+</summary>
+            <param name="sender">
+Not used.
+</param>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.Implementation.Internal.CogLineNormalGraphicManager.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+Serialization constructor.
+</summary>
+            <param name="info">
+The deserialization store.
+</param>
+            <param name="ctxt">
+The deserialization context.
+</param>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.Implementation.Internal.CogLineNormalGraphicManager.SfNextSf">
+            <summary>
+Next state flag to be used in derived classes.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.Implementation.Internal.CogLineNormalGraphicManager.SfImage">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by Image may have changed.
+</summary>
+        </member>
+        <member name="F:Cognex.VisionPro.LineMax.Implementation.Internal.CogLineNormalGraphicManager.SfNormalAngle">
+            <summary>
+This bit will be set in the EventArgs of a Changed event every
+time the value returned by NormalAngle may have changed.
+</summary>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.Implementation.Internal.CogLineNormalGraphicManager.CogWeakDraggingEventDelegate.DraggingHandler(System.Object,Cognex.VisionPro.CogDraggingEventArgs)">
+            <summary>
+Triggers the event handling behavior implemented by the target object,
+if target object is alive.
+</summary>
+            <param name="sender">
+Source object that raised the event.
+</param>
+            <param name="e">
+Event arguments.
+</param>
+        </member>
+        <member name="P:Cognex.VisionPro.LineMax.Implementation.Internal.CogLineNormalGraphicManager.CogWeakDraggingEventDelegate.IsTargetAlive">
+            <summary>
+Indicates if the target object has been garbage collected and,
+therefore, not handling any registered events.
+</summary>
+        </member>
+        <member name="M:Cognex.VisionPro.LineMax.Implementation.Internal.CogLineNormalGraphicManager.CogWeakDraggingEventDelegate.#ctor(System.Object,System.Reflection.MethodInfo)">
+            <summary>
+Creates an event handler proxy that holds a weak reference to the
+actual handler.
+</summary>
+            <param name="handlerInstance">
+Target object that actually implements the handler. The constructed
+proxy retains a weak reference to targetInstance.
+</param>
+            <param name="handlerMethod">
+Method to be invoked on the target object when the event is raised.
+</param>
+        </member>
+    </members>
+</doc>

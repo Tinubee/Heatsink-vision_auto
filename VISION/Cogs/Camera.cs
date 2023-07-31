@@ -1,14 +1,6 @@
 ﻿using Cognex.VisionPro;
-using Cognex.VisionPro.Display;
-using Cognex.VisionPro.ImageProcessing;
 using Cognex.VisionPro.QuickBuild;
 using Cognex.VisionPro.ToolGroup;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VISION.Cogs
 {

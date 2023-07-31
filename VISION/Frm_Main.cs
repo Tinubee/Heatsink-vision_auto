@@ -7,22 +7,23 @@ using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
 using System.Threading;
-using Cognex.VisionPro;
+using System.Reflection;
+using System.Collections;
+using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using Cognex.VisionPro.Display;
 using System.IO.Ports;
+using Cognex.VisionPro;
+using Cognex.VisionPro.Display;
 using Cognex.VisionPro.ImageFile;
 using Cognex.VisionPro.ImageProcessing;
 using Cognex.VisionPro.Dimensioning;
-using System.Reflection;
-using KimLib;
 using Cognex.VisionPro.FGGigE;
+using KimLib;
 using VISION.Cogs;
-using System.Collections;
 using VISION.UI;
 using Euresys.clseremc;
 using Microsoft.Win32;
-using System.Drawing.Imaging;
+
 using VISION.Class;
 
 namespace VISION
@@ -38,7 +39,7 @@ namespace VISION
         internal Frm_ToolSetUp frm_toolsetup; //툴셋업창 화면
         internal Frm_SystemSetUp frm_systemsetup; //시스템셋업창 화면
 
-        private CogImage8Grey Fiximage; //PMAlign툴의 결과이미지(픽스쳐이미지)
+        private Cognex.VisionPro.CogImage8Grey Fiximage; //PMAlign툴의 결과이미지(픽스쳐이미지)
         private string FimageSpace; //PMAlign툴 SpaceName(보정하기위해)
 
         public HeatSinkMainDisplay HeatSinkMainDisplay = new HeatSinkMainDisplay();

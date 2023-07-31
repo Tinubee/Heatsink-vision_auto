@@ -1,7 +1,6 @@
 ﻿using Cognex.VisionPro;
 using Cognex.VisionPro.Display;
 using Cognex.VisionPro.ImageProcessing;
-using Cognex.VisionPro.Interop;
 using Cognex.VisionPro.QuickBuild;
 using Cognex.VisionPro.ToolGroup;
 using System;
