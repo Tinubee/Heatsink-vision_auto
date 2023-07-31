@@ -40,7 +40,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="KittenLib">
-      <HintPath>..\..\..\bin\x64\Debug\KittenLib.dll</HintPath>
+      <HintPath>..\..\..\dll\KittenLib.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
