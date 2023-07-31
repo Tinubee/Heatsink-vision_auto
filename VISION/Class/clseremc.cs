@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Euresys
 {
-    class clSerialException : System.Exception
+    class clSerialException : Exception
     {
         public clSerialException(Int32 status, String error) : base(error) { Status = status; }
         public Int32 Status;
