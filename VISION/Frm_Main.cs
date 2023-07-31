@@ -95,7 +95,6 @@ namespace VISION
         //List<string> availablePort = new List<string>();
         List<string> baudRates = new List<string>();
 
-
         // Trigger
         private Boolean IO_DoWork = false;
 
@@ -118,6 +117,8 @@ namespace VISION
 
         [DllImport("KERNEL32", EntryPoint = "SetEvent", SetLastError = true, CharSet = CharSet.Unicode)]
         private static extern bool SetEvent(long hEvent);
+
+        public Inspection 비전검사;
 
         public void SubFormRun()
         {
@@ -149,6 +150,9 @@ namespace VISION
             CamSet();
             Glob.RunnModel = new Model(); //코그넥스 모델 초기화.
             log.AddLogMessage(LogType.Result, 0, "Cognex 모델 초기화 완료.");
+            비전검사 = new Inspection();
+            비전검사.Init();
+            log.AddLogMessage(LogType.Result, 0, "비전검사로직 초기화 완료.");
         }
         public void StandFirst()
         {
