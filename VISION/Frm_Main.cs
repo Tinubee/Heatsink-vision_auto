@@ -273,17 +273,17 @@ namespace VISION
             }
         }
 
-        public void 라인스캔카메라설정파일읽어오기()
+        public void 라인스캔카메라설정파일읽어오기(string modelname)
         {
-            INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{Glob.CurruntModelName}\\CamSet.ini");
+            INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{modelname}\\CamSet.ini");
 
             for (int lop = 0; lop < Glob.LineCameraOption.Length; lop++)
             {
                 if (CamSet.ReadData($"LineCamera{lop}", "Exposure") == "")
-                    CamSet.WriteData($"LineCamera{lop}", "Exposure", Glob.CurruntModelName == "shield" ? "38" : "76");
+                    CamSet.WriteData($"LineCamera{lop}", "Exposure", modelname == "shield" ? "38" : "76");
 
                 if (CamSet.ReadData($"LineCamera{lop}", "Gain") == "")
-                    CamSet.WriteData($"LineCamera{lop}", "Gain", Glob.CurruntModelName == "shield" ? "200" : "50");
+                    CamSet.WriteData($"LineCamera{lop}", "Gain", modelname == "shield" ? "200" : "50");
 
                 Glob.LineCameraOption[lop].Exposure = Convert.ToDouble(CamSet.ReadData($"LineCamera{lop}", "Exposure"));
                 Glob.LineCameraOption[lop].Gain = Convert.ToDouble(CamSet.ReadData($"LineCamera{lop}", "Gain"));
@@ -297,7 +297,7 @@ namespace VISION
             //DualBase #1 Port A & B A=CAM2 B=CAM3
             try
             {
-                라인스캔카메라설정파일읽어오기();
+                라인스캔카메라설정파일읽어오기(modelName);
                 // 0= CAM1 , 1=CAM2 , 2=CAM6 , 3=CAM3
                 for (int lop = 0; lop < Glob.LineCameraOption.Count(); lop++)
                 {
@@ -782,7 +782,7 @@ namespace VISION
                 Glob.NGContainUIImageSave = setting.ReadData("SYSTEM", "NG CONTAIN UI IMAGE SAVE", true) == "1" ? true : false;
 
                 DriveInfo = new DriveInfo(Path.GetPathRoot(Glob.ImageSaveRoot));
-                라인스캔카메라설정파일읽어오기();
+                라인스캔카메라설정파일읽어오기(LastModel);
                 수량체크불러오기();
                 //frm_Information.infolog = new Log();
 
