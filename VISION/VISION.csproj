@@ -98,172 +98,138 @@
     <Reference Include="Cognex.VisionPro, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.Blob, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.Blob.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.Blob.Controls, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.Blob.Controls.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.CalibFix, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.CalibFix.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.CalibFix.Controls, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.CalibFix.Controls.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.CalibFixPlus, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.CalibFixPlus.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.Caliper, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.Caliper.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.Caliper.Controls, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.Caliper.Controls.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.Controls, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.Controls.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.Core, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.Core.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.CorePlus, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.CorePlus.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.Database, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.Database.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.Dimensioning, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.Dimensioning.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.Dimensioning.Controls, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.Dimensioning.Controls.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.Display.Controls, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.Display.Controls.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.FG1394DCAM, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.FG1394DCAM.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.FGGigE, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.FGGigE.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.ImageFile, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.ImageFile.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.ImageFile.Controls, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.ImageFile.Controls.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.ImageProcessing, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.ImageProcessing.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.ImageProcessing.Controls, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.ImageProcessing.Controls.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.ImagingDevice, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.ImagingDevice.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.Inspection, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.Inspection.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.Inspection.Controls, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.Inspection.Controls.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.LineMax, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.LineMax.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.LineMax.Controls, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.LineMax.Controls.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.PMAlign, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.PMAlign.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.PMAlign.Controls, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.PMAlign.Controls.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.QuickBuild.Controls, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.QuickBuild.Controls.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.QuickBuild.Core, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.QuickBuild.Core.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.QuickBuild.IO, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.QuickBuild.IO.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.ResultsAnalysis, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.ResultsAnalysis.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.ToolGroup, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.ToolGroup.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Cognex.VisionPro.ToolGroup.Controls, Version=73.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Cognex.VisionPro.ToolGroup.Controls.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="KittenLib">
       <HintPath>dll\KittenLib.dll</HintPath>
