@@ -1009,8 +1009,8 @@ namespace VISION
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
 
                 //조명꺼주기
-                LCP_100DC(LightControl[1], "1", "f", "0000");
-                LCP_100DC(LightControl[1], "2", "f", "0000");
+                //LCP_100DC(LightControl[1], "1", "f", "0000");
+                //LCP_100DC(LightControl[1], "2", "f", "0000");
 
                 ScratchErrorInit();
 
@@ -1078,7 +1078,7 @@ namespace VISION
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
 
-                LCP_100DC(LightControl[0], "1", "f", "0000");
+                //LCP_100DC(LightControl[0], "1", "f", "0000");
 
                 if (TempCogDisplay[funCamNumber].Image == null)
                 {
@@ -1144,7 +1144,7 @@ namespace VISION
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
 
-                LCP_100DC(LightControl[0], "2", "f", "0000");
+                //LCP_100DC(LightControl[0], "2", "f", "0000");
 
                 if (TempCogDisplay[funCamNumber].Image == null)
                 {
@@ -1264,8 +1264,8 @@ namespace VISION
                         });
                     }
                     log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
-                    LCP_100DC(LightControl[2], "1", "f", "0000");
-                    LCP_100DC(LightControl[2], "2", "f", "0000");
+                    //LCP_100DC(LightControl[2], "1", "f", "0000");
+                    //LCP_100DC(LightControl[2], "2", "f", "0000");
                 }
                 Thread.Sleep(100);
             }
@@ -1380,7 +1380,7 @@ namespace VISION
                 cdy.InteractiveGraphics.Clear();
                 cdy.StaticGraphics.Clear();
 
-                LCP24_150DC(LightControl[3], "0", "0000");
+                //LCP24_150DC(LightControl[3], "0", "0000");
 
                 if (cdy.Image == null)
                 {
@@ -1527,20 +1527,46 @@ namespace VISION
             Glob.firstInspection[0] = false;
             Glob.firstInspection[1] = false;
             //전체 조명 꺼주기.
-            for (int lop = 0; lop < LightControl.Count(); lop++)
-            {
-                if (lop == 3)
-                {
-                    LCP24_150DC(LightControl[lop], "0", "0000");
-                }
-                else
-                {
-                    LCP_100DC(LightControl[lop], "1", "f", "0000");
-                    LCP_100DC(LightControl[lop], "2", "f", "0000");
-                }
-            }
+            조명온오프제어(false);
             log.AddLogMessage(LogType.Infomation, 0, "AUTO MODE START");
         }
+
+        public void 조명온오프제어(bool 상태)
+        {
+            if (상태)
+            {
+                for (int lop = 0; lop < LightControl.Count(); lop++)
+                {
+                    if (lop == 3)
+                    {
+                        LCP24_150DC(LightControl[lop], "0", Glob.LightChAndValue[lop, 0].ToString("D4"));
+                    }
+                    else
+                    {
+                        LCP_100DC(LightControl[lop], "1", "o", "0000");
+                        LCP_100DC(LightControl[lop], "2", "o", "0000");
+                        LCP_100DC(LightControl[lop], "1", "d", Glob.LightChAndValue[lop, 0].ToString("D4"));
+                        LCP_100DC(LightControl[lop], "2", "d", Glob.LightChAndValue[lop, 1].ToString("D4"));
+                    }
+                }
+            }
+            else
+            {
+                for (int lop = 0; lop < LightControl.Count(); lop++)
+                {
+                    if (lop == 3)
+                    {
+                        LCP24_150DC(LightControl[lop], "0", "0000");
+                    }
+                    else
+                    {
+                        LCP_100DC(LightControl[lop], "1", "f", "0000");
+                        LCP_100DC(LightControl[lop], "2", "f", "0000");
+                    }
+                }
+            }
+        }
+
         public void CognexModelLoad()
         {
             Glob.코그넥스파일.모델 = Glob.RunnModel;
@@ -2623,7 +2649,17 @@ namespace VISION
                         this.TrigTime[i] = DateTime.Now;
                         gbool_di[i] = fired;
                         inputBtn[i].BackColor = fired ? Color.Lime : SystemColors.Control;
-                        if (!fired) continue;
+                        if (!fired)
+                        {
+                            switch (i)
+                            {
+                                case 8:
+                                    log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Light Off Trigger");
+                                    조명온오프제어(false);
+                                    break;
+                            }
+                            continue;
+                        }
 
                         switch (i)
                         {
@@ -2683,20 +2719,7 @@ namespace VISION
                             case 8:
                                 log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Light On Trigger");
                                 //조명 켜주기.
-                                for (int lop = 0; lop < LightControl.Count(); lop++)
-                                {
-                                    if (lop == 3)
-                                    {
-                                        LCP24_150DC(LightControl[lop], "0", Glob.LightChAndValue[lop, 0].ToString("D4"));
-                                    }
-                                    else
-                                    {
-                                        LCP_100DC(LightControl[lop], "1", "o", "0000");
-                                        LCP_100DC(LightControl[lop], "2", "o", "0000");
-                                        LCP_100DC(LightControl[lop], "1", "d", Glob.LightChAndValue[lop, 0].ToString("D4"));
-                                        LCP_100DC(LightControl[lop], "2", "d", Glob.LightChAndValue[lop, 1].ToString("D4"));
-                                    }
-                                }
+                                조명온오프제어(true);
                                 break;
                         }
                     }
