@@ -23,7 +23,7 @@ namespace VISION.Cogs
         private string Name; // 모델 명
         private int Number; // 모델 번호
 
-        public const int CAMERACOUNT = 6;
+        public const int CAMERACOUNT = 8;
         public const int BLOBTOOLMAX = 30;
         public const int LINETOOLMAX = 30;
         public const int OCRTOOLMAX = 30;
@@ -74,7 +74,7 @@ namespace VISION.Cogs
             int DistanceMax = DISTANCEMAX - 1;
             int CalipersMax = CALIPERMAX - 1;
 
-            for (int lop = 0; lop < 6; lop++) //Glob.allCameraCount 에서 6으로 임시 변경.
+            for (int lop = 0; lop < CAMERACOUNT; lop++) //Glob.allCameraCount 에서 6으로 임시 변경.
             {
                 Camera[lop] = new Camera(lop);
                 for (int lop2 = 0; lop2 < 3; lop2++)

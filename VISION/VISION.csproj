@@ -341,6 +341,12 @@
     <Compile Include="UI\Display\HeatSinkMainDisplay.Designer.cs">
       <DependentUpon>HeatSinkMainDisplay.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Display\NutDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Display\NutDisplay.Designer.cs">
+      <DependentUpon>NutDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ResultCount\AllResultCount.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -401,6 +407,9 @@
     </Compile>
     <EmbeddedResource Include="UI\Display\HeatSinkMainDisplay.resx">
       <DependentUpon>HeatSinkMainDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Display\NutDisplay.resx">
+      <DependentUpon>NutDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ResultCount\AllResultCount.resx">
       <DependentUpon>AllResultCount.cs</DependentUpon>

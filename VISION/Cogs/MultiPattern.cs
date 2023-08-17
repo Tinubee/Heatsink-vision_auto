@@ -110,7 +110,7 @@ namespace VISION.Cogs
             }
             catch (Exception ee)
             {
-                cm.info(ee.Message);
+                //cm.info(ee.Message);
                 return false;
             }
         }

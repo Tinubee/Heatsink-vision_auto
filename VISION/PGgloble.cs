@@ -47,7 +47,7 @@ namespace VISION
 
         public readonly string PROGRAM_VERSION = "1.0.0"; //Program Version
         // 시스템
-        public int CamCount = 6;
+        public int CamCount = 8;
         //public List<string> availablePort = new List<string>();
         public Model RunnModel = null;
         public CogIPOneImageTool[] FlipImageTool = new CogIPOneImageTool[6];

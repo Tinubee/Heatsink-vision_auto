@@ -193,6 +193,8 @@
             this.label45 = new System.Windows.Forms.Label();
             this.num_GlobOrderNumber = new System.Windows.Forms.NumericUpDown();
             this.btn_MaskAreaSet = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).BeginInit();
             this.tableLayoutPanel23.SuspendLayout();
@@ -425,7 +427,7 @@
             this.cdyDisplay.MouseWheelSensitivity = 1D;
             this.cdyDisplay.Name = "cdyDisplay";
             this.cdyDisplay.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay.OcxState")));
-            this.cdyDisplay.Size = new System.Drawing.Size(1123, 872);
+            this.cdyDisplay.Size = new System.Drawing.Size(1123, 868);
             this.cdyDisplay.TabIndex = 6;
             // 
             // ImageList
@@ -484,11 +486,11 @@
             this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
             this.tableLayoutPanel23.Controls.Add(this.lb_Tool_InspectResult, 0, 0);
             this.tableLayoutPanel23.Controls.Add(this.tableLayoutPanel45, 1, 0);
-            this.tableLayoutPanel23.Location = new System.Drawing.Point(694, 124);
+            this.tableLayoutPanel23.Location = new System.Drawing.Point(699, 77);
             this.tableLayoutPanel23.Name = "tableLayoutPanel23";
             this.tableLayoutPanel23.RowCount = 1;
             this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel23.Size = new System.Drawing.Size(430, 78);
+            this.tableLayoutPanel23.Size = new System.Drawing.Size(426, 56);
             this.tableLayoutPanel23.TabIndex = 13;
             // 
             // lb_Tool_InspectResult
@@ -499,7 +501,7 @@
             this.lb_Tool_InspectResult.ForeColor = System.Drawing.Color.White;
             this.lb_Tool_InspectResult.Location = new System.Drawing.Point(4, 1);
             this.lb_Tool_InspectResult.Name = "lb_Tool_InspectResult";
-            this.lb_Tool_InspectResult.Size = new System.Drawing.Size(100, 76);
+            this.lb_Tool_InspectResult.Size = new System.Drawing.Size(99, 54);
             this.lb_Tool_InspectResult.TabIndex = 0;
             this.lb_Tool_InspectResult.Text = "검사 결과";
             this.lb_Tool_InspectResult.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -513,12 +515,12 @@
             this.tableLayoutPanel45.Controls.Add(this.btn_OpenMaster, 0, 0);
             this.tableLayoutPanel45.Controls.Add(this.btn_ApplyMaster, 0, 0);
             this.tableLayoutPanel45.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel45.Location = new System.Drawing.Point(108, 1);
+            this.tableLayoutPanel45.Location = new System.Drawing.Point(107, 1);
             this.tableLayoutPanel45.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel45.Name = "tableLayoutPanel45";
             this.tableLayoutPanel45.RowCount = 1;
             this.tableLayoutPanel45.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel45.Size = new System.Drawing.Size(321, 76);
+            this.tableLayoutPanel45.Size = new System.Drawing.Size(318, 54);
             this.tableLayoutPanel45.TabIndex = 1;
             // 
             // btn_OpenMaster
@@ -526,9 +528,9 @@
             this.btn_OpenMaster.BackColor = System.Drawing.Color.Silver;
             this.btn_OpenMaster.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_OpenMaster.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_OpenMaster.Location = new System.Drawing.Point(164, 4);
+            this.btn_OpenMaster.Location = new System.Drawing.Point(162, 4);
             this.btn_OpenMaster.Name = "btn_OpenMaster";
-            this.btn_OpenMaster.Size = new System.Drawing.Size(153, 68);
+            this.btn_OpenMaster.Size = new System.Drawing.Size(152, 46);
             this.btn_OpenMaster.TabIndex = 19;
             this.btn_OpenMaster.Tag = "7";
             this.btn_OpenMaster.Text = "마스터이미지 불러오기";
@@ -542,7 +544,7 @@
             this.btn_ApplyMaster.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btn_ApplyMaster.Location = new System.Drawing.Point(4, 4);
             this.btn_ApplyMaster.Name = "btn_ApplyMaster";
-            this.btn_ApplyMaster.Size = new System.Drawing.Size(153, 68);
+            this.btn_ApplyMaster.Size = new System.Drawing.Size(151, 46);
             this.btn_ApplyMaster.TabIndex = 18;
             this.btn_ApplyMaster.Tag = "7";
             this.btn_ApplyMaster.Text = "마스터이미지 등록";
@@ -556,7 +558,7 @@
             this.btn_Cam1.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btn_Cam1.Location = new System.Drawing.Point(4, 4);
             this.btn_Cam1.Name = "btn_Cam1";
-            this.btn_Cam1.Size = new System.Drawing.Size(87, 70);
+            this.btn_Cam1.Size = new System.Drawing.Size(94, 59);
             this.btn_Cam1.TabIndex = 15;
             this.btn_Cam1.Tag = "0";
             this.btn_Cam1.Text = "CAM1";
@@ -566,24 +568,28 @@
             // tableLayoutPanel29
             // 
             this.tableLayoutPanel29.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.tableLayoutPanel29.ColumnCount = 6;
-            this.tableLayoutPanel29.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.49938F));
-            this.tableLayoutPanel29.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.49938F));
-            this.tableLayoutPanel29.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.49938F));
-            this.tableLayoutPanel29.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.49938F));
-            this.tableLayoutPanel29.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.49938F));
-            this.tableLayoutPanel29.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.49938F));
-            this.tableLayoutPanel29.Controls.Add(this.btn_Cam3, 0, 0);
-            this.tableLayoutPanel29.Controls.Add(this.btn_Cam2, 0, 0);
-            this.tableLayoutPanel29.Controls.Add(this.btn_Cam4, 1, 0);
+            this.tableLayoutPanel29.ColumnCount = 8;
+            this.tableLayoutPanel29.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.49984F));
+            this.tableLayoutPanel29.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.49984F));
+            this.tableLayoutPanel29.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.49984F));
+            this.tableLayoutPanel29.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.49984F));
+            this.tableLayoutPanel29.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.49984F));
+            this.tableLayoutPanel29.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.49984F));
+            this.tableLayoutPanel29.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.50046F));
+            this.tableLayoutPanel29.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.50046F));
+            this.tableLayoutPanel29.Controls.Add(this.button1, 6, 0);
+            this.tableLayoutPanel29.Controls.Add(this.button2, 7, 0);
+            this.tableLayoutPanel29.Controls.Add(this.btn_Cam6, 5, 0);
+            this.tableLayoutPanel29.Controls.Add(this.btn_Cam5, 4, 0);
+            this.tableLayoutPanel29.Controls.Add(this.btn_Cam4, 3, 0);
             this.tableLayoutPanel29.Controls.Add(this.btn_Cam1, 0, 0);
-            this.tableLayoutPanel29.Controls.Add(this.btn_Cam5, 2, 0);
-            this.tableLayoutPanel29.Controls.Add(this.btn_Cam6, 3, 0);
-            this.tableLayoutPanel29.Location = new System.Drawing.Point(1, 124);
+            this.tableLayoutPanel29.Controls.Add(this.btn_Cam3, 2, 0);
+            this.tableLayoutPanel29.Controls.Add(this.btn_Cam2, 1, 0);
+            this.tableLayoutPanel29.Location = new System.Drawing.Point(1, 135);
             this.tableLayoutPanel29.Name = "tableLayoutPanel29";
             this.tableLayoutPanel29.RowCount = 1;
             this.tableLayoutPanel29.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel29.Size = new System.Drawing.Size(568, 78);
+            this.tableLayoutPanel29.Size = new System.Drawing.Size(810, 67);
             this.tableLayoutPanel29.TabIndex = 20;
             // 
             // btn_Cam3
@@ -591,9 +597,9 @@
             this.btn_Cam3.BackColor = System.Drawing.Color.Silver;
             this.btn_Cam3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Cam3.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Cam3.Location = new System.Drawing.Point(192, 4);
+            this.btn_Cam3.Location = new System.Drawing.Point(206, 4);
             this.btn_Cam3.Name = "btn_Cam3";
-            this.btn_Cam3.Size = new System.Drawing.Size(87, 70);
+            this.btn_Cam3.Size = new System.Drawing.Size(94, 59);
             this.btn_Cam3.TabIndex = 21;
             this.btn_Cam3.Tag = "2";
             this.btn_Cam3.Text = "CAM3 (L)";
@@ -605,9 +611,9 @@
             this.btn_Cam2.BackColor = System.Drawing.Color.Silver;
             this.btn_Cam2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Cam2.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Cam2.Location = new System.Drawing.Point(98, 4);
+            this.btn_Cam2.Location = new System.Drawing.Point(105, 4);
             this.btn_Cam2.Name = "btn_Cam2";
-            this.btn_Cam2.Size = new System.Drawing.Size(87, 70);
+            this.btn_Cam2.Size = new System.Drawing.Size(94, 59);
             this.btn_Cam2.TabIndex = 20;
             this.btn_Cam2.Tag = "1";
             this.btn_Cam2.Text = "CAM2 (R)";
@@ -619,9 +625,9 @@
             this.btn_Cam4.BackColor = System.Drawing.Color.Silver;
             this.btn_Cam4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Cam4.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Cam4.Location = new System.Drawing.Point(286, 4);
+            this.btn_Cam4.Location = new System.Drawing.Point(307, 4);
             this.btn_Cam4.Name = "btn_Cam4";
-            this.btn_Cam4.Size = new System.Drawing.Size(87, 70);
+            this.btn_Cam4.Size = new System.Drawing.Size(94, 59);
             this.btn_Cam4.TabIndex = 14;
             this.btn_Cam4.Tag = "3";
             this.btn_Cam4.Text = "CAM4";
@@ -633,9 +639,9 @@
             this.btn_Cam5.BackColor = System.Drawing.Color.Silver;
             this.btn_Cam5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Cam5.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Cam5.Location = new System.Drawing.Point(380, 4);
+            this.btn_Cam5.Location = new System.Drawing.Point(408, 4);
             this.btn_Cam5.Name = "btn_Cam5";
-            this.btn_Cam5.Size = new System.Drawing.Size(87, 70);
+            this.btn_Cam5.Size = new System.Drawing.Size(94, 59);
             this.btn_Cam5.TabIndex = 19;
             this.btn_Cam5.Tag = "4";
             this.btn_Cam5.Text = "CAM5";
@@ -647,9 +653,9 @@
             this.btn_Cam6.BackColor = System.Drawing.Color.Silver;
             this.btn_Cam6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn_Cam6.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.btn_Cam6.Location = new System.Drawing.Point(474, 4);
+            this.btn_Cam6.Location = new System.Drawing.Point(509, 4);
             this.btn_Cam6.Name = "btn_Cam6";
-            this.btn_Cam6.Size = new System.Drawing.Size(90, 70);
+            this.btn_Cam6.Size = new System.Drawing.Size(94, 59);
             this.btn_Cam6.TabIndex = 18;
             this.btn_Cam6.Tag = "5";
             this.btn_Cam6.Text = "CAM6";
@@ -2674,17 +2680,17 @@
             // tableLayoutPanel13
             // 
             this.tableLayoutPanel13.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.tableLayoutPanel13.ColumnCount = 1;
-            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel13.ColumnCount = 2;
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel13.Controls.Add(this.label45, 0, 0);
-            this.tableLayoutPanel13.Controls.Add(this.num_GlobOrderNumber, 0, 1);
-            this.tableLayoutPanel13.Location = new System.Drawing.Point(575, 123);
+            this.tableLayoutPanel13.Controls.Add(this.num_GlobOrderNumber, 1, 0);
+            this.tableLayoutPanel13.Location = new System.Drawing.Point(435, 77);
             this.tableLayoutPanel13.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tableLayoutPanel13.Name = "tableLayoutPanel13";
-            this.tableLayoutPanel13.RowCount = 2;
-            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel13.Size = new System.Drawing.Size(117, 78);
+            this.tableLayoutPanel13.RowCount = 1;
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel13.Size = new System.Drawing.Size(262, 55);
             this.tableLayoutPanel13.TabIndex = 28;
             // 
             // label45
@@ -2695,15 +2701,16 @@
             this.label45.ForeColor = System.Drawing.Color.White;
             this.label45.Location = new System.Drawing.Point(4, 1);
             this.label45.Name = "label45";
-            this.label45.Size = new System.Drawing.Size(109, 37);
+            this.label45.Size = new System.Drawing.Size(123, 53);
             this.label45.TabIndex = 0;
             this.label45.Text = "검사 순서";
             this.label45.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // num_GlobOrderNumber
             // 
-            this.num_GlobOrderNumber.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.num_GlobOrderNumber.Location = new System.Drawing.Point(1, 39);
+            this.num_GlobOrderNumber.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.num_GlobOrderNumber.Font = new System.Drawing.Font("맑은 고딕", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.num_GlobOrderNumber.Location = new System.Drawing.Point(131, 1);
             this.num_GlobOrderNumber.Margin = new System.Windows.Forms.Padding(0);
             this.num_GlobOrderNumber.Maximum = new decimal(new int[] {
             10,
@@ -2716,7 +2723,7 @@
             0,
             0});
             this.num_GlobOrderNumber.Name = "num_GlobOrderNumber";
-            this.num_GlobOrderNumber.Size = new System.Drawing.Size(115, 35);
+            this.num_GlobOrderNumber.Size = new System.Drawing.Size(130, 54);
             this.num_GlobOrderNumber.TabIndex = 2;
             this.num_GlobOrderNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.num_GlobOrderNumber.Value = new decimal(new int[] {
@@ -2736,6 +2743,32 @@
             this.btn_MaskAreaSet.Text = "검사제외영역 설정";
             this.btn_MaskAreaSet.UseVisualStyleBackColor = true;
             this.btn_MaskAreaSet.Click += new System.EventHandler(this.btn_MaskAreaSet_Click);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Silver;
+            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button1.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button1.Location = new System.Drawing.Point(610, 4);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(94, 59);
+            this.button1.TabIndex = 30;
+            this.button1.Tag = "5";
+            this.button1.Text = "CAM7";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.Silver;
+            this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button2.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button2.Location = new System.Drawing.Point(711, 4);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(95, 59);
+            this.button2.TabIndex = 31;
+            this.button2.Tag = "5";
+            this.button2.Text = "CAM8";
+            this.button2.UseVisualStyleBackColor = false;
             // 
             // Frm_ToolSetUp
             // 
@@ -3024,5 +3057,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btn블롭설정값일괄적용;
         private System.Windows.Forms.CheckBox cb조명사용여부;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }

@@ -25,6 +25,7 @@ using Euresys.clseremc;
 using Microsoft.Win32;
 
 using VISION.Class;
+using VISION.UI.Display;
 
 namespace VISION
 {
@@ -44,10 +45,16 @@ namespace VISION
 
         public HeatSinkMainDisplay HeatSinkMainDisplay = new HeatSinkMainDisplay();
         public ShieldMainDisplay ShieldMainDisplay = new ShieldMainDisplay();
+        public NutDisplay NutDisplay = new NutDisplay();
         private ResultCountDisplay ResultCountDisplay = new ResultCountDisplay();
 
         public CogDisplay[] TempCogDisplay;
         public CogDisplay[] TempCogMasterDisplay;
+        public CogDisplay[] TempCogNutDisplay;
+
+        public Label[] lb너트카메라검사결과;
+        public Label[] lb너트검사시간;
+
         public Label[] lb개별카메라검사결과;
         public Label[] lb검사시간;
         public Label[] lb최종결과;
@@ -189,6 +196,17 @@ namespace VISION
 
         public void MainUIDisplaySetting(string modelName)
         {
+            if (!p너트검사.Controls.Contains(NutDisplay))
+            {
+                p너트검사.Controls.Clear();
+                p너트검사.Controls.Add(NutDisplay);
+                NutDisplay.Dock = DockStyle.Fill;
+
+                TempCogNutDisplay = new CogDisplay[2] { NutDisplay.cogDisplay1, NutDisplay.cogDisplay2 };
+                lb너트카메라검사결과 = new Label[2] { NutDisplay.lb_Cam1_Result, NutDisplay.lb_Cam2_Result };
+                lb너트검사시간 = new Label[2] { NutDisplay.lb_Cam1_InsTime, NutDisplay.lb_Cam2_InsTime };
+            }
+
             if (modelName == "shield")
             {
                 if (MainPanel.Controls.Contains(ShieldMainDisplay)) return;
@@ -466,7 +484,7 @@ namespace VISION
             }
         }
 
-        //LCP-100DC 모델 포트, 채널번호,데이터값(4자리숫자 0~1023)
+        //LCP24_150DC 모델 포트, 채널번호,데이터값(4자리숫자 0~1023)
         public void LCP24_150DC(SerialPort control, string channel, string lightValue)
         {
             try
