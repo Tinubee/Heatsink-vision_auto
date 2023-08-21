@@ -323,36 +323,13 @@ namespace VISION
         {
             if (cdyDisplay.Image == null)
                 return;
-            INIControl setting = new INIControl(Glob.SETTING);
+            bool 검사결과 = false;
             ImageClear();
             Pattern_Train();
-            switch (Glob.CamNumber) //CAM 별 INSPECT 함수 나눠놈 - 20200205 김형민.
-            {
-                case 0:
-                    lb_Tool_InspectResult.Text = Main.Inspect_Cam1(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
-                    lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
-                    break;
-                case 1:
-                    lb_Tool_InspectResult.Text = Main.Inspect_Cam2(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
-                    lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
-                    break;
-                case 2:
-                    lb_Tool_InspectResult.Text = Main.Inspect_Cam3(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
-                    lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
-                    break;
-                case 3:
-                    lb_Tool_InspectResult.Text = Main.Inspect_Cam4(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
-                    lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
-                    break;
-                case 4:
-                    lb_Tool_InspectResult.Text = Main.Inspect_Cam5(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
-                    lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
-                    break;
-                case 5:
-                    lb_Tool_InspectResult.Text = Main.Inspect_Cam6(cdyDisplay, Glob.InspectOrder) ? "O K" : "N G";
-                    lb_Tool_InspectResult.BackColor = lb_Tool_InspectResult.Text == "O K" ? Color.Lime : Color.Red;
-                    break;
-            }
+            검사결과 = Main.비전검사.Run(cdyDisplay, Glob.CamNumber, Glob.InspectOrder);
+            lb_Tool_InspectResult.Text = 검사결과 ? "O K" : "N G";
+            lb_Tool_InspectResult.BackColor = 검사결과 ? Color.Lime : Color.Red;
+            
             Invoke(new Action(delegate ()
             {
                 Main.DgvResult(dgv_ToolSetUp, Glob.CamNumber, 1); //-추가된함수
