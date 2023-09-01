@@ -20,6 +20,8 @@ namespace VISION.Cogs
         /// <param name="Toolnumber">툴의 이름.</param>
         public Blob(int Toolnumber = 0)
         {
+            
+
             Tool = new Cognex.VisionPro.Blob.CogBlobTool();
             Tool.Name = "Blob - " + Toolnumber.ToString();
 
