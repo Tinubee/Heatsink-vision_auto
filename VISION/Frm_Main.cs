@@ -23,7 +23,6 @@ using VISION.Cogs;
 using VISION.UI;
 using Euresys.clseremc;
 using Microsoft.Win32;
-
 using VISION.Class;
 using VISION.UI.Display;
 
@@ -61,14 +60,14 @@ namespace VISION
 
         private PGgloble Glob; //전역변수 - CLASS "PGgloble" 참고.
 
-        public bool[] InspectResult = new bool[6]; //검사결과.
+        public bool[] InspectResult = new bool[8]; //검사결과.
         public bool Modelchange = false; //모델체인지
 
-        public Stopwatch[] InspectTime = new Stopwatch[6]; //검사시간
-        public double[] OK_Count = new double[6]; //각 카메라 별 양품개수
-        public double[] NG_Count = new double[6]; //각 카메라 별 NG품개수
-        public double[] TOTAL_Count = new double[6]; //각 카메라 별 총개수
-        public double[] NG_Rate = new double[6]; //각 카메라 별 불량률
+        public Stopwatch[] InspectTime = new Stopwatch[8]; //검사시간
+        public double[] OK_Count = new double[8]; //각 카메라 별 양품개수
+        public double[] NG_Count = new double[8]; //각 카메라 별 NG품개수
+        public double[] TOTAL_Count = new double[8]; //각 카메라 별 총개수
+        public double[] NG_Rate = new double[8]; //각 카메라 별 불량률
 
         public double AllOK_Count = 0; //종합 판정 OK 개수
         public double AllNG_Count = 0; //종합 판정 NG 개수
@@ -114,9 +113,10 @@ namespace VISION
         public readonly static uint STATUS_WAIT_0 = 0x00000000;
         public readonly static uint WAIT_OBJECT_0 = ((STATUS_WAIT_0) + 0);
 
-        private DateTime[] TrigTime = new DateTime[12];
-        public bool[] gbool_di = new bool[12];
-        public bool[] re_gbool_di = new bool[12];
+        private int IONumber = 32;
+        private DateTime[] TrigTime = new DateTime[32];
+        public bool[] gbool_di = new bool[32];
+        public bool[] re_gbool_di = new bool[32];
 
         public SerialPort[] LightControl; //조명컨트롤러
 
@@ -585,7 +585,7 @@ namespace VISION
                         CAXD.AxdoReadOutportWord(1, 0, ref uDataHigh);
                         CAXD.AxdoReadOutportWord(1, 1, ref uDataLow);
 
-                        for (nIndex = 0; nIndex < 12; nIndex++)
+                        for (nIndex = 0; nIndex < IONumber; nIndex++)
                         {
                             // Verify the last bit value of data read
                             uFlagHigh = uDataHigh & 0x0001;
@@ -598,14 +598,30 @@ namespace VISION
                             // Updat bit value in control
                             if (uFlagHigh == 1)
                             {
-                                outputBtn[nIndex].BackColor = Color.Lime;
-                                gbool_di[nIndex] = true;
+                                if (nIndex > 11)
+                                {
+                                    gbool_di[nIndex] = true;
+                                }
+                                else
+                                {
+                                    outputBtn[nIndex].BackColor = Color.Lime;
+                                    gbool_di[nIndex] = true;
+                                }
+
                             }
 
                             else
                             {
-                                outputBtn[nIndex].BackColor = SystemColors.Control;
-                                gbool_di[nIndex] = false;
+                                if (nIndex > 11)
+                                {
+                                    gbool_di[nIndex] = true;
+                                }
+                                else
+                                {
+                                    outputBtn[nIndex].BackColor = SystemColors.Control;
+                                    gbool_di[nIndex] = false;
+                                }
+
                             }
                         }
                         break;
@@ -623,7 +639,7 @@ namespace VISION
                         // Read outputting signal in WORD
                         CAXD.AxdoReadOutportWord(0, 0, ref uDataLow);
 
-                        for (nIndex = 0; nIndex < 12; nIndex++)
+                        for (nIndex = 0; nIndex < IONumber; nIndex++)
                         {
                             // Verify the last bit value of data read
                             uFlagLow = uDataLow & 0x0001;
@@ -632,10 +648,18 @@ namespace VISION
                             uDataLow >>= 1;
 
                             // Updat bit value in control
-                            if (uFlagLow == 1)
-                                inputBtn[nIndex].BackColor = Color.Lime;
+                            if (nIndex > 11)
+                            {
+
+                            }
                             else
-                                inputBtn[nIndex].BackColor = SystemColors.Control;
+                            {
+                                if (uFlagLow == 1)
+                                    inputBtn[nIndex].BackColor = Color.Lime;
+                                else
+                                    inputBtn[nIndex].BackColor = SystemColors.Control;
+                            }
+
                         }
                         break;
                 }
@@ -778,6 +802,12 @@ namespace VISION
                 INIControl CamSet = new INIControl($"{Glob.MODELROOT}\\{LastModel}\\CamSet.ini");
                 for (int i = 0; i < Glob.CamCount; i++)
                 {
+                    if (!File.Exists(Glob.MODELROOT + $"\\{LastModel}\\Cam{i}\\FlipImage.vpp"))
+                    {
+                        CogIPOneImageTool filterTool = new CogIPOneImageTool();
+                        CogSerializer.SaveObjectToFile(filterTool, Glob.MODELROOT + $"\\{LastModel}\\Cam{i}\\FlipImage.vpp");
+                    }
+
                     Glob.FlipImageTool[i] = (CogIPOneImageTool)CogSerializer.LoadObjectFromFile(Glob.MODELROOT + $"\\{LastModel}\\Cam{i}\\FlipImage.vpp");
                     Glob.RunnModel.Loadmodel(LastModel, Glob.MODELROOT, i); //VISION TOOL LOAD
                 }
@@ -805,13 +835,14 @@ namespace VISION
 
                 DriveInfo = new DriveInfo(Path.GetPathRoot(Glob.ImageSaveRoot));
                 라인스캔카메라설정파일읽어오기(LastModel);
-                수량체크불러오기();
+                //수량체크불러오기();
                 //frm_Information.infolog = new Log();
 
                 log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
             }
             catch (Exception ee)
             {
+                Debug.WriteLine($"{ee.Message}");
                 log.AddLogMessage(LogType.Error, 0, $"{MethodBase.GetCurrentMethod().Name} - {ee.Message}");
             }
         }
@@ -823,6 +854,11 @@ namespace VISION
             수량체크시작시간 = setting.ReadData("Count", "stDate");
             for (int lop = 0; lop < OK_Count.Length; lop++)
             {
+                if (setting.ReadData("Count", $"OK_Count[{lop + 1}]") == "")
+                    setting.WriteData("Count", $"OK_Count[{lop + 1}]", "0");
+                if (setting.ReadData("Count", $"NG_Count[{lop + 1}]") == "")
+                    setting.WriteData("Count", $"NG_Count[{lop + 1}]", "0");
+
                 OK_Count[lop] = Convert.ToDouble(setting.ReadData($"Count", $"OK_Count[{lop + 1}]"));
                 NG_Count[lop] = Convert.ToDouble(setting.ReadData($"Count", $"NG_Count[{lop + 1}]"));
             }
@@ -856,15 +892,15 @@ namespace VISION
 
         private void DisplayDiskCapacity()
         {
-            long availableCapacityBytes = DriveInfo.AvailableFreeSpace;
-            double availableCapacityGB = availableCapacityBytes / (1024 * 1024 * 1024); // Convert bytes to GB
-            int usedPercent = 100 - (int)((availableCapacityBytes * 100) / DriveInfo.TotalSize);
+            //long availableCapacityBytes = DriveInfo.AvailableFreeSpace;
+            //double availableCapacityGB = availableCapacityBytes / (1024 * 1024 * 1024); // Convert bytes to GB
+            //int usedPercent = 100 - (int)((availableCapacityBytes * 100) / DriveInfo.TotalSize);
 
-            lb저장공간.Text = $"{FormatSize(DriveInfo.TotalSize)} 중 {availableCapacityGB}GB 사용 가능";
-            lb저장공간.ForeColor = usedPercent > 80 ? Color.Tomato : usedPercent > 50 ? Color.Gold : Color.Lime;
+            //lb저장공간.Text = $"{FormatSize(DriveInfo.TotalSize)} 중 {availableCapacityGB}GB 사용 가능";
+            //lb저장공간.ForeColor = usedPercent > 80 ? Color.Tomato : usedPercent > 50 ? Color.Gold : Color.Lime;
 
-            // Update the progress bar value
-            pb저장공간.Value = usedPercent;
+            //// Update the progress bar value
+            //pb저장공간.Value = usedPercent;
         }
 
         private string FormatSize(long bytes)
@@ -1451,6 +1487,224 @@ namespace VISION
             }
         }
         #endregion
+
+        #region Shot CAM7
+        public void ShotAndInspect_Cam7(CogDisplay cdy, int shotNumber)
+        {
+            int funCamNumber = 6;
+            string result = "";
+            try
+            {
+                InspectTime[funCamNumber] = new Stopwatch();
+                InspectTime[funCamNumber].Reset();
+                InspectTime[funCamNumber].Start();
+
+                cdy.Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
+                cdy.Fit();
+                cdy.InteractiveGraphics.Clear();
+                cdy.StaticGraphics.Clear();
+
+                //LCP24_150DC(LightControl[3], "0", "0000");
+
+                if (cdy.Image == null)
+                {
+                    log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
+                    return;
+                }
+                if (Inspect_Cam7(cdy, shotNumber) == true) // 검사 결과
+                {
+                    //검사 결과 OK
+                    BeginInvoke((Action)delegate
+                    {
+                        result = "O K";
+                        //DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
+                        OK_Count[funCamNumber]++;
+                        if (Glob.OKImageSave)
+                            ImageSave7("OK", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, cdy);
+                    });
+                }
+                else
+                {
+                    BeginInvoke((Action)delegate
+                    {
+                        result = "N G";
+                        //DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
+                        NG_Count[funCamNumber]++;
+                        if (Glob.NGImageSave)
+                            ImageSave7("NG", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, cdy);
+                    });
+                }
+
+                Press1NutErrorCheckAndSendPLC();
+
+                InspectTime[funCamNumber].Stop();
+                InspectFlag[funCamNumber] = false;
+                log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+                Thread.Sleep(100);
+            }
+            catch (Exception ee)
+            {
+                log.AddLogMessage(LogType.Error, 0, $"Camera - {funCamNumber + 1} Error : {ee.Message}");
+            }
+        }
+        #endregion
+
+        #region Shot CAM8
+        public void ShotAndInspect_Cam8(CogDisplay cdy, int shotNumber)
+        {
+            int funCamNumber = 7;
+            string result = "";
+            try
+            {
+                InspectTime[funCamNumber] = new Stopwatch();
+                InspectTime[funCamNumber].Reset();
+                InspectTime[funCamNumber].Start();
+
+                cdy.Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
+                cdy.Fit();
+                cdy.InteractiveGraphics.Clear();
+                cdy.StaticGraphics.Clear();
+
+                //LCP24_150DC(LightControl[3], "0", "0000");
+
+                if (cdy.Image == null)
+                {
+                    log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
+                    return;
+                }
+                if (Inspect_Cam8(cdy, shotNumber) == true) // 검사 결과
+                {
+                    //검사 결과 OK
+                    BeginInvoke((Action)delegate
+                    {
+                        result = "O K";
+                        //DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
+                        OK_Count[funCamNumber]++;
+                        if (Glob.OKImageSave)
+                            ImageSave8("OK", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, cdy);
+                    });
+                }
+                else
+                {
+                    BeginInvoke((Action)delegate
+                    {
+                        result = "N G";
+                        //DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
+                        NG_Count[funCamNumber]++;
+                        if (Glob.NGImageSave)
+                            ImageSave8("NG", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, cdy);
+                    });
+                }
+
+                Press2NutErrorCheckAndSendPLC();
+
+                InspectTime[funCamNumber].Stop();
+                InspectFlag[funCamNumber] = false;
+                log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+                Thread.Sleep(100);
+            }
+            catch (Exception ee)
+            {
+                log.AddLogMessage(LogType.Error, 0, $"Camera - {funCamNumber + 1} Error : {ee.Message}");
+            }
+        }
+        #endregion
+
+        public async void Press2NutErrorCheckAndSendPLC()
+        {
+
+            for (int lop = 0; lop < Glob.press2PinResult.Length; lop++)
+            {
+                if (Glob.press2PinResult[lop] == "OK")
+                {
+                    switch (lop)
+                    {
+                        case 0:
+                            SelectHighIndex(9, 1);
+                            await Task.Delay(2000);
+                            SelectHighIndex(9, 0);
+                            break;
+                        case 1:
+                            SelectHighIndex(11, 1);
+                            await Task.Delay(2000);
+                            SelectHighIndex(11, 0);
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (lop)
+                    {
+                        case 0:
+                            SelectHighIndex(10, 1);
+                            await Task.Delay(2000);
+                            SelectHighIndex(10, 0);
+                            break;
+                        case 1:
+                            SelectHighIndex(12, 1);
+                            await Task.Delay(2000);
+                            SelectHighIndex(12, 0);
+                            break;
+                    }
+                }
+            }
+
+
+
+        }
+
+        public async void Press1NutErrorCheckAndSendPLC()
+        {
+
+            for (int lop = 0; lop < Glob.press1PinResult.Length; lop++)
+            {
+                if (Glob.press1PinResult[lop] == "OK")
+                {
+                    switch (lop)
+                    {
+                        case 0:
+                            SelectHighIndex(3, 1);
+                            await Task.Delay(2000);
+                            SelectHighIndex(3, 0);
+                            break;
+                        case 1:
+                            SelectHighIndex(5, 1);
+                            await Task.Delay(2000);
+                            SelectHighIndex(5, 0);
+                            break;
+                        case 2:
+                            SelectHighIndex(7, 1);
+                            await Task.Delay(2000);
+                            SelectHighIndex(7, 0);
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (lop)
+                    {
+                        case 0:
+                            SelectHighIndex(4, 1);
+                            await Task.Delay(2000);
+                            SelectHighIndex(4, 0);
+                            break;
+                        case 1:
+                            SelectHighIndex(6, 1);
+                            await Task.Delay(2000);
+                            SelectHighIndex(6, 0);
+                            break;
+                        case 2:
+                            SelectHighIndex(6, 1);
+                            await Task.Delay(2000);
+                            SelectHighIndex(6, 0);
+                            break;
+                    }
+                }
+            }
+
+
+           
+        }
 
         public async void ErrorCheckAndSendPLC()
         {
@@ -2338,6 +2592,215 @@ namespace VISION
         }
         #endregion
 
+        #region Inpection CAM7
+        public bool Inspect_Cam7(CogDisplay cog, int shotNumber)
+        {
+            int CameraNumber = 6;
+            for (int lop = 0; lop < Glob.press1PinResult.Length; lop++)
+                Glob.press1PinResult[lop] = string.Empty;
+
+            Glob.PatternResult[CameraNumber] = true;
+            Glob.BlobResult[CameraNumber] = true;
+            Glob.MeasureResult[CameraNumber] = true;
+
+            InspectResult[CameraNumber] = true; //검사 결과는 초기에 무조건 true로 되어있다.
+            CogGraphicCollection Collection = new CogGraphicCollection();
+            CogGraphicCollection Collection2 = new CogGraphicCollection(); // 패턴
+            CogGraphicCollection Collection3 = new CogGraphicCollection(); // 블롭
+
+            string[] temp = new string[30];
+            int FixPatternNumber = FindFirstPatternNumber4(CameraNumber, shotNumber);
+            if (Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
+            {
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.FixtureImage((CogImage8Grey)cog.Image, Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].ToolName(), CameraNumber, out FimageSpace, usePatternNumber, FixPatternNumber);
+            }
+            //*******************************MultiPattern Tool Run******************************//
+            if (Glob.코그넥스파일.모델.MultiPattern_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber, 0)) //검사결과가 true 일때
+            {
+                for (int lop = 0; lop < 30; lop++)
+                {
+                    if (Glob.코그넥스파일.패턴툴사용여부[CameraNumber, lop] == true && Glob.코그넥스파일.패턴툴검사순서번호[CameraNumber, lop] == shotNumber)
+                    {
+                        if (Glob.코그넥스파일.패턴툴[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
+                        {
+                            InspectResult[CameraNumber] = false;
+                            Glob.PatternResult[CameraNumber] = false;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                InspectResult[CameraNumber] = false;
+                Glob.PatternResult[CameraNumber] = false;
+            }
+            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
+            //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
+            for (int toolnum = 0; toolnum < 29; toolnum++)
+            {
+                if (Glob.코그넥스파일.블롭툴사용여부[CameraNumber, toolnum])
+                {
+                    Bolb_Train1(cog, CameraNumber, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum]);
+                    Glob.코그넥스파일.블롭툴[CameraNumber, toolnum].Area_Affine_Main1(ref cog, (CogImage8Grey)cog.Image, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum].ToString());
+                }
+            }
+            //******************************Blob Tool Run******************************//
+            if (Glob.코그넥스파일.모델.Blob_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber))
+            {
+
+            }
+            else
+            {
+                //BLOB 검사 FAIL
+                InspectResult[CameraNumber] = false;
+                Glob.BlobResult[CameraNumber] = false;
+            }
+
+            for (int lop = 0; lop < Glob.press1PinResult.Length; lop++)
+            {
+                Glob.press1PinResult[lop] = temp[lop];
+            }
+
+            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
+
+
+            if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, 0, "PATTERN OK"); }
+            else { DisplayLabelShow(Collection2, cog, 600, 100, 0, "PATTERN NG"); };
+
+            if (Glob.BlobResult[CameraNumber]) { DisplayLabelShow(Collection3, cog, 600, 170, 0, "BLOB OK"); }
+            else { DisplayLabelShow(Collection3, cog, 600, 170, 0, "BLOB NG"); };
+
+            for (int i = 0; i < Collection.Count; i++)
+            {
+                if (Collection[i] == null)
+                {
+                    continue;
+                }
+                if (Collection[i].ToString() == "Cognex.VisionPro.CogGraphicLabel")
+                    Collection[i].Color = CogColorConstants.Blue;
+            }
+
+            for (int i = 0; i < Collection2.Count; i++)
+                Collection2[i].Color = Glob.PatternResult[CameraNumber] == true ? CogColorConstants.Green : CogColorConstants.Red;
+            for (int i = 0; i < Collection3.Count; i++)
+                Collection3[i].Color = Glob.BlobResult[CameraNumber] == true ? CogColorConstants.Green : CogColorConstants.Red;
+
+            cog.StaticGraphics.AddList(Collection, "");
+            cog.StaticGraphics.AddList(Collection2, "");
+            cog.StaticGraphics.AddList(Collection3, "");
+
+            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+
+            return InspectResult[CameraNumber];
+        }
+        #endregion
+
+        #region Inpection CAM8
+        public bool Inspect_Cam8(CogDisplay cog, int shotNumber)
+        {
+            int CameraNumber = 7;
+            for (int lop = 0; lop < Glob.press2PinResult.Length; lop++)
+                Glob.press2PinResult[lop] = string.Empty;
+
+            Glob.PatternResult[CameraNumber] = true;
+            Glob.BlobResult[CameraNumber] = true;
+            Glob.MeasureResult[CameraNumber] = true;
+
+            InspectResult[CameraNumber] = true; //검사 결과는 초기에 무조건 true로 되어있다.
+            CogGraphicCollection Collection = new CogGraphicCollection();
+            CogGraphicCollection Collection2 = new CogGraphicCollection(); // 패턴
+            CogGraphicCollection Collection3 = new CogGraphicCollection(); // 블롭
+
+            string[] temp = new string[30];
+            int FixPatternNumber = FindFirstPatternNumber4(CameraNumber, shotNumber);
+            if (Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].Run((CogImage8Grey)cog.Image))
+            {
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.FixtureImage((CogImage8Grey)cog.Image, Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].ToolName(), CameraNumber, out FimageSpace, usePatternNumber, FixPatternNumber);
+            }
+            //*******************************MultiPattern Tool Run******************************//
+            if (Glob.코그넥스파일.모델.MultiPattern_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber, 0)) //검사결과가 true 일때
+            {
+                for (int lop = 0; lop < 30; lop++)
+                {
+                    if (Glob.코그넥스파일.패턴툴사용여부[CameraNumber, lop] == true && Glob.코그넥스파일.패턴툴검사순서번호[CameraNumber, lop] == shotNumber)
+                    {
+                        if (Glob.코그넥스파일.패턴툴[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
+                        {
+                            InspectResult[CameraNumber] = false;
+                            Glob.PatternResult[CameraNumber] = false;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                InspectResult[CameraNumber] = false;
+                Glob.PatternResult[CameraNumber] = false;
+            }
+            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
+            //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
+            for (int toolnum = 0; toolnum < 29; toolnum++)
+            {
+                if (Glob.코그넥스파일.블롭툴사용여부[CameraNumber, toolnum])
+                {
+                    Bolb_Train1(cog, CameraNumber, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum]);
+                    Glob.코그넥스파일.블롭툴[CameraNumber, toolnum].Area_Affine_Main1(ref cog, (CogImage8Grey)cog.Image, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum].ToString());
+                }
+            }
+            //******************************Blob Tool Run******************************//
+            if (Glob.코그넥스파일.모델.Blob_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber))
+            {
+
+            }
+            else
+            {
+                //BLOB 검사 FAIL
+                InspectResult[CameraNumber] = false;
+                Glob.BlobResult[CameraNumber] = false;
+            }
+
+            for (int lop = 0; lop < Glob.press2PinResult.Length; lop++)
+            {
+                Glob.press2PinResult[lop] = temp[lop];
+            }
+
+            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
+
+
+            if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, 0, "PATTERN OK"); }
+            else { DisplayLabelShow(Collection2, cog, 600, 100, 0, "PATTERN NG"); };
+
+            if (Glob.BlobResult[CameraNumber]) { DisplayLabelShow(Collection3, cog, 600, 170, 0, "BLOB OK"); }
+            else { DisplayLabelShow(Collection3, cog, 600, 170, 0, "BLOB NG"); };
+
+            for (int i = 0; i < Collection.Count; i++)
+            {
+                if (Collection[i] == null)
+                {
+                    continue;
+                }
+                if (Collection[i].ToString() == "Cognex.VisionPro.CogGraphicLabel")
+                    Collection[i].Color = CogColorConstants.Blue;
+            }
+
+            for (int i = 0; i < Collection2.Count; i++)
+                Collection2[i].Color = Glob.PatternResult[CameraNumber] == true ? CogColorConstants.Green : CogColorConstants.Red;
+            for (int i = 0; i < Collection3.Count; i++)
+                Collection3[i].Color = Glob.BlobResult[CameraNumber] == true ? CogColorConstants.Green : CogColorConstants.Red;
+
+            cog.StaticGraphics.AddList(Collection, "");
+            cog.StaticGraphics.AddList(Collection2, "");
+            cog.StaticGraphics.AddList(Collection3, "");
+
+            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+
+            return InspectResult[CameraNumber];
+        }
+        #endregion
+
+
 
         public void DgvResult(DataGridView dgv, int camnumber, int cellnumber)
         {
@@ -2589,6 +3052,70 @@ namespace VISION
                 log.AddLogMessage(LogType.Error, 0, $"{ee.Message}");
             }
         }
+        public void ImageSave7(string Result, int CamNumber, CogImage8Grey image, CogDisplay cog)
+        {
+            try
+            {
+                CogImageFileJPEG ImageSave = new CogImageFileJPEG();
+                DateTime dt = DateTime.Now;
+                string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}";
+
+                if (!Directory.Exists(Root))
+                {
+                    Directory.CreateDirectory(Root);
+                }
+
+                ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
+                ImageSave.Append(image);
+                ImageSave.Close();
+
+                if (Glob.NGContainUIImageSave)
+                {
+                    string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+                    if (!Directory.Exists(Root2))
+                    {
+                        Directory.CreateDirectory(Root2);
+                    }
+                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}.bmp", ImageFormat.Jpeg);
+                }
+            }
+            catch (Exception ee)
+            {
+                log.AddLogMessage(LogType.Error, 0, $"{ee.Message}");
+            }
+        }
+        public void ImageSave8(string Result, int CamNumber, CogImage8Grey image, CogDisplay cog)
+        {
+            try
+            {
+                CogImageFileJPEG ImageSave = new CogImageFileJPEG();
+                DateTime dt = DateTime.Now;
+                string Root = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}";
+
+                if (!Directory.Exists(Root))
+                {
+                    Directory.CreateDirectory(Root);
+                }
+
+                ImageSave.Open(Root + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}" + ".jpg", CogImageFileModeConstants.Write);
+                ImageSave.Append(image);
+                ImageSave.Close();
+
+                if (Glob.NGContainUIImageSave)
+                {
+                    string Root2 = Glob.ImageSaveRoot + $@"\{Glob.CurruntModelName}\{dt.ToString("yyyyMMdd")}\CAM{CamNumber}\{Result}Display";
+                    if (!Directory.Exists(Root2))
+                    {
+                        Directory.CreateDirectory(Root2);
+                    }
+                    cog.CreateContentBitmap(CogDisplayContentBitmapConstants.Custom).Save(Root2 + $@"\{dt.ToString("yyyyMMdd-HH mm ss")}" + $"_{Result}.bmp", ImageFormat.Jpeg);
+                }
+            }
+            catch (Exception ee)
+            {
+                log.AddLogMessage(LogType.Error, 0, $"{ee.Message}");
+            }
+        }
 
         private void btn_Stop_Click(object sender, EventArgs e)
         {
@@ -2670,9 +3197,11 @@ namespace VISION
                         if ((DateTime.Now - this.TrigTime[i]).TotalMilliseconds < 1000) continue; // 1000ms 이내에 Trig되면 패스
                         this.TrigTime[i] = DateTime.Now;
                         gbool_di[i] = fired;
-                        inputBtn[i].BackColor = fired ? Color.Lime : SystemColors.Control;
+                        if (i < 11) inputBtn[i].BackColor = fired ? Color.Lime : SystemColors.Control;
+
                         if (!fired)
                         {
+                            log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i} Off");
                             switch (i)
                             {
                                 case 8:
@@ -2683,6 +3212,8 @@ namespace VISION
                             continue;
                         }
 
+
+                        log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i} On");
                         switch (i)
                         {
                             case 0: //1번째 라인스캔 카메라 촬영 신호 Cam 1
@@ -2742,6 +3273,14 @@ namespace VISION
                                 log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Light On Trigger");
                                 //조명 켜주기.
                                 조명온오프제어(true);
+                                break;
+                            case 9: //1 프레스 트리거 3Point
+                                log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : 1 Press Trigger");
+                                Task.Run(() => { ShotAndInspect_Cam7(TempCogNutDisplay[0], 1); });
+                                break;
+                            case 10: //2 프레스 트리거 2Point
+                                log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : 2 Press Trigger");
+                                Task.Run(() => { ShotAndInspect_Cam8(TempCogNutDisplay[1], 1); });
                                 break;
                         }
                     }
@@ -2803,9 +3342,13 @@ namespace VISION
 
         private void AllCameraOneShot()
         {
+            //012345 67
             for (int lop = 0; lop < Glob.CamCount; lop++)
             {
-                SnapShot(lop, TempCogDisplay[lop]);
+                if (lop > 5)
+                    SnapShot(lop, TempCogNutDisplay[lop - 6]);
+                else
+                    SnapShot(lop, TempCogDisplay[lop]);
             }
             log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
         }

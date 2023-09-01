@@ -77,8 +77,8 @@
             this.lb_Cam1_Result = new System.Windows.Forms.Label();
             this.lb_Cam1_InsTime = new System.Windows.Forms.Label();
             this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
-            this.cdyDisplay = new Cognex.VisionPro.Display.CogDisplay();
             this.cdy마스터이미지 = new Cognex.VisionPro.Display.CogDisplay();
+            this.cdyDisplay = new Cognex.VisionPro.Display.CogDisplay();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.tableLayoutPanel19.SuspendLayout();
@@ -107,8 +107,8 @@
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
             this.tableLayoutPanel14.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cdy마스터이미지)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel19
@@ -191,10 +191,10 @@
             this.tableLayoutPanel12.BackColor = System.Drawing.Color.Black;
             this.tableLayoutPanel12.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel12.ColumnCount = 4;
-            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.38461F));
-            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.46154F));
-            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23.07692F));
-            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23.07692F));
+            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.84686F));
+            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.11717F));
+            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.51799F));
+            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.51799F));
             this.tableLayoutPanel12.Controls.Add(this.lb_Cam6_Result, 1, 0);
             this.tableLayoutPanel12.Controls.Add(this.label9, 0, 0);
             this.tableLayoutPanel12.Controls.Add(this.lb_Cam6_InsTime, 2, 0);
@@ -862,25 +862,6 @@
             this.tableLayoutPanel14.Size = new System.Drawing.Size(617, 894);
             this.tableLayoutPanel14.TabIndex = 10;
             // 
-            // cdyDisplay
-            // 
-            this.cdyDisplay.ColorMapLowerClipColor = System.Drawing.Color.Black;
-            this.cdyDisplay.ColorMapLowerRoiLimit = 0D;
-            this.cdyDisplay.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
-            this.cdyDisplay.ColorMapUpperClipColor = System.Drawing.Color.Black;
-            this.cdyDisplay.ColorMapUpperRoiLimit = 1D;
-            this.cdyDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cdyDisplay.DoubleTapZoomCycleLength = 2;
-            this.cdyDisplay.DoubleTapZoomSensitivity = 2.5D;
-            this.cdyDisplay.Location = new System.Drawing.Point(309, 46);
-            this.cdyDisplay.Margin = new System.Windows.Forms.Padding(0);
-            this.cdyDisplay.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
-            this.cdyDisplay.MouseWheelSensitivity = 1D;
-            this.cdyDisplay.Name = "cdyDisplay";
-            this.cdyDisplay.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay.OcxState")));
-            this.cdyDisplay.Size = new System.Drawing.Size(307, 847);
-            this.cdyDisplay.TabIndex = 9;
-            // 
             // cdy마스터이미지
             // 
             this.cdy마스터이미지.ColorMapLowerClipColor = System.Drawing.Color.Black;
@@ -899,6 +880,25 @@
             this.cdy마스터이미지.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdy마스터이미지.OcxState")));
             this.cdy마스터이미지.Size = new System.Drawing.Size(307, 847);
             this.cdy마스터이미지.TabIndex = 10;
+            // 
+            // cdyDisplay
+            // 
+            this.cdyDisplay.ColorMapLowerClipColor = System.Drawing.Color.Black;
+            this.cdyDisplay.ColorMapLowerRoiLimit = 0D;
+            this.cdyDisplay.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
+            this.cdyDisplay.ColorMapUpperClipColor = System.Drawing.Color.Black;
+            this.cdyDisplay.ColorMapUpperRoiLimit = 1D;
+            this.cdyDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cdyDisplay.DoubleTapZoomCycleLength = 2;
+            this.cdyDisplay.DoubleTapZoomSensitivity = 2.5D;
+            this.cdyDisplay.Location = new System.Drawing.Point(309, 46);
+            this.cdyDisplay.Margin = new System.Windows.Forms.Padding(0);
+            this.cdyDisplay.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
+            this.cdyDisplay.MouseWheelSensitivity = 1D;
+            this.cdyDisplay.Name = "cdyDisplay";
+            this.cdyDisplay.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cdyDisplay.OcxState")));
+            this.cdyDisplay.Size = new System.Drawing.Size(307, 847);
+            this.cdyDisplay.TabIndex = 9;
             // 
             // label2
             // 
@@ -970,8 +970,8 @@
             this.tableLayoutPanel10.PerformLayout();
             this.tableLayoutPanel14.ResumeLayout(false);
             this.tableLayoutPanel14.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cdy마스터이미지)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).EndInit();
             this.ResumeLayout(false);
 
         }

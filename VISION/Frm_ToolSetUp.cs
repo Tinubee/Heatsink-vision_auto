@@ -126,6 +126,9 @@ namespace VISION
                 Dataset = false;
                 for (int i = 0; i < Glob.CamCount; i++)
                 {
+                    if (CamSet.ReadData($"Camera{i}", "Exposure") == "") CamSet.WriteData($"Camera{i}", "Exposure", "0.1");
+                    if (CamSet.ReadData($"Camera{i}", "Gain") == "") CamSet.WriteData($"Camera{i}", "Gain", "0");
+
                     gainvalue[i] = Convert.ToDouble(CamSet.ReadData($"Camera{i}", "Exposure"));
                     exposurevalue[i] = Convert.ToDouble(CamSet.ReadData($"Camera{i}", "Gain"));
                 }
@@ -597,6 +600,8 @@ namespace VISION
             btn_Cam4.BackColor = Glob.CamNumber == 3 ? Color.Lime : Color.Silver;
             btn_Cam5.BackColor = Glob.CamNumber == 4 ? Color.Lime : Color.Silver;
             btn_Cam6.BackColor = Glob.CamNumber == 5 ? Color.Lime : Color.Silver;
+            btn_Cam7.BackColor = Glob.CamNumber == 6 ? Color.Lime : Color.Silver;
+            btn_Cam8.BackColor = Glob.CamNumber == 7 ? Color.Lime : Color.Silver;
         }
         private void UpdateCameraSet()
         {

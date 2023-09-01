@@ -50,7 +50,7 @@ namespace VISION
         public int CamCount = 8;
         //public List<string> availablePort = new List<string>();
         public Model RunnModel = null;
-        public CogIPOneImageTool[] FlipImageTool = new CogIPOneImageTool[6];
+        public CogIPOneImageTool[] FlipImageTool = new CogIPOneImageTool[8];
         public Frm_Main G_MainForm;
 
         public string CurruntModelName;
@@ -86,13 +86,13 @@ namespace VISION
         public bool NGImageSave = true;
         public bool NGContainUIImageSave = false;
 
-        public double[,] InsPat_Result = new double[6, 30];
-        public double[,] MultiInsPat_Result = new double[6, 30];
+        public double[,] InsPat_Result = new double[8, 30];
+        public double[,] MultiInsPat_Result = new double[8, 30];
 
-        public bool[] PatternResult = new bool[6];
-        public bool[] BlobResult = new bool[6];
-        public bool[] CaliperResult = new bool[6];
-        public bool[] MeasureResult = new bool[6];
+        public bool[] PatternResult = new bool[8];
+        public bool[] BlobResult = new bool[8];
+        public bool[] CaliperResult = new bool[8];
+        public bool[] MeasureResult = new bool[8];
 
         public bool[] BlobResult4 = new bool[3];
         public bool[] BlobResult5 = new bool[2];
@@ -100,7 +100,7 @@ namespace VISION
         public double StandPoint_X;
         public double StandPoint_Y;
 
-        public double[,] MultiPatternResultData = new double[6, 30];
+        public double[,] MultiPatternResultData = new double[8, 30];
         public int allCameraCount;
 
         public bool[] scratchError = new bool[2]; //동시에 촬영 진행으로 인해, 앞 뒤 불량유형 나누어 놓았음.
@@ -112,11 +112,15 @@ namespace VISION
         public bool statsOK = false;
 
         //마스크 툴 관련
-        public CogMaskCreatorTool[] curruntMaskTool = new CogMaskCreatorTool[6];
+        public CogMaskCreatorTool[] curruntMaskTool = new CogMaskCreatorTool[8];
         public string curruntMaskToolPath;
 
         public bool[] Inspect4 = new bool[3];
         public bool[] Inspect5 = new bool[2];
+
+
+        public string[] press1PinResult = new string[3];
+        public string[] press2PinResult = new string[2];
 
         public 코그넥스파일 코그넥스파일;
     }

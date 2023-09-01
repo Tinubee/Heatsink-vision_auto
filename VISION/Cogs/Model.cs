@@ -41,7 +41,7 @@ namespace VISION.Cogs
         private bool[,] LineEnable = new bool[CAMERACOUNT, LINETOOLMAX];
 
         private Blob[,] Blobs = new Blob[CAMERACOUNT, BLOBTOOLMAX];
-        private bool[,] BlobEnable = new bool[6, BLOBTOOLMAX];
+        private bool[,] BlobEnable = new bool[CAMERACOUNT, BLOBTOOLMAX];
         private bool[,] BlobNGOKChange = new bool[CAMERACOUNT, BLOBTOOLMAX];
         private int[,] BlobOKCount = new int[CAMERACOUNT, BLOBTOOLMAX];
         private int[,] BlobFixPatternNumber = new int[CAMERACOUNT, BLOBTOOLMAX];
@@ -136,7 +136,9 @@ namespace VISION.Cogs
 
             if (Directory.Exists(ModelRoot) == false)
             {
-                return false;
+                Directory.CreateDirectory(ModelRoot);
+                //Debug.WriteLine($"{ModelRoot} 경로에 폴더 없음.");
+                //return false;
             }
 
             ModelRoot += "\\" + CHKName + $"\\Cam{camnumber}"; //각 Camera별 Vision Tool .vpp 파일 경로.

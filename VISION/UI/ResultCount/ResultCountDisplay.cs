@@ -37,7 +37,7 @@ namespace VISION.UI
             TOTAL_Label = new Label[6] { eachCamResultDisplay.lb_CAM1_TOTAL, eachCamResultDisplay.lb_CAM2_TOTAL, eachCamResultDisplay.lb_CAM3_TOTAL, eachCamResultDisplay.lb_CAM4_TOTAL, eachCamResultDisplay.lb_CAM5_TOTAL, eachCamResultDisplay.lb_CAM6_TOTAL };
             NGRATE_Label = new Label[6] { eachCamResultDisplay.lb_CAM1_NGRATE, eachCamResultDisplay.lb_CAM2_NGRATE, eachCamResultDisplay.lb_CAM3_NGRATE, eachCamResultDisplay.lb_CAM4_NGRATE, eachCamResultDisplay.lb_CAM5_NGRATE, eachCamResultDisplay.lb_CAM6_NGRATE };
             btn_종합결과.PerformClick();
-            timer1.Start();
+            //timer1.Start();
         }
 
         public void 검사결과표시설정(object sender, EventArgs e)
