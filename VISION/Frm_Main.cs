@@ -79,7 +79,7 @@ namespace VISION
         //public double AllNG_Rate = 0; //종합 판정 불량률
         public string 수량체크시작시간;
 
-        public bool[] InspectFlag = new bool[6]; //검사 플래그
+        public bool[] InspectFlag = new bool[8]; //검사 플래그
 
         //유레시스 보드 시리얼포트 연결 관련.
         // Handle to the serial port
@@ -1520,7 +1520,7 @@ namespace VISION
                         //DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                         OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
-                            ImageSave7("OK", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, cdy);
+                            ImageSave7("OK", funCamNumber + 1, (CogImage8Grey)cdy.Image, cdy);
                     });
                 }
                 else
@@ -1531,7 +1531,7 @@ namespace VISION
                         //DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                         NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
-                            ImageSave7("NG", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, cdy);
+                            ImageSave7("NG", funCamNumber + 1, (CogImage8Grey)cdy.Image, cdy);
                     });
                 }
 
@@ -1581,7 +1581,7 @@ namespace VISION
                         //DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                         OK_Count[funCamNumber]++;
                         if (Glob.OKImageSave)
-                            ImageSave8("OK", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, cdy);
+                            ImageSave8("OK", funCamNumber + 1, (CogImage8Grey)cdy.Image, cdy);
                     });
                 }
                 else
@@ -1592,7 +1592,7 @@ namespace VISION
                         //DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                         NG_Count[funCamNumber]++;
                         if (Glob.NGImageSave)
-                            ImageSave8("NG", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, cdy);
+                            ImageSave8("NG", funCamNumber + 1, (CogImage8Grey)cdy.Image, cdy);
                     });
                 }
 
@@ -1612,7 +1612,7 @@ namespace VISION
 
         public async void Press2NutErrorCheckAndSendPLC()
         {
-
+            Debug.WriteLine("Press 2 Error Check to PLC Start");
             for (int lop = 0; lop < Glob.press2PinResult.Length; lop++)
             {
                 if (Glob.press2PinResult[lop] == "OK")
@@ -1621,13 +1621,13 @@ namespace VISION
                     {
                         case 0:
                             SelectHighIndex(9, 1);
-                            await Task.Delay(2000);
-                            SelectHighIndex(9, 0);
+                            //await Task.Delay(2000);
+                            //SelectHighIndex(9, 0);
                             break;
                         case 1:
                             SelectHighIndex(11, 1);
-                            await Task.Delay(2000);
-                            SelectHighIndex(11, 0);
+                            //await Task.Delay(2000);
+                            //SelectHighIndex(11, 0);
                             break;
                     }
                 }
@@ -1637,45 +1637,49 @@ namespace VISION
                     {
                         case 0:
                             SelectHighIndex(10, 1);
-                            await Task.Delay(2000);
-                            SelectHighIndex(10, 0);
+                            //await Task.Delay(2000);
+                            //SelectHighIndex(10, 0);
                             break;
                         case 1:
                             SelectHighIndex(12, 1);
-                            await Task.Delay(2000);
-                            SelectHighIndex(12, 0);
+                            //await Task.Delay(2000);
+                            //SelectHighIndex(12, 0);
                             break;
                     }
                 }
             }
-
-
-
+            await Task.Delay(1500);
+            for (int lop = 9; lop < 13; lop++)
+            {
+                SelectHighIndex(lop, 0);
+            }
+            Debug.WriteLine("Press 2 Error Check to PLC End");
         }
 
         public async void Press1NutErrorCheckAndSendPLC()
         {
-
+            Debug.WriteLine("Press 1 Error Check to PLC Start");
             for (int lop = 0; lop < Glob.press1PinResult.Length; lop++)
             {
+                Debug.WriteLine(Glob.press1PinResult[lop]);
                 if (Glob.press1PinResult[lop] == "OK")
                 {
                     switch (lop)
                     {
                         case 0:
                             SelectHighIndex(3, 1);
-                            await Task.Delay(2000);
-                            SelectHighIndex(3, 0);
+                            //await Task.Delay(2000);
+                            //SelectHighIndex(3, 0);
                             break;
                         case 1:
                             SelectHighIndex(5, 1);
-                            await Task.Delay(2000);
-                            SelectHighIndex(5, 0);
+                            //await Task.Delay(2000);
+                            //SelectHighIndex(5, 0);
                             break;
                         case 2:
                             SelectHighIndex(7, 1);
-                            await Task.Delay(2000);
-                            SelectHighIndex(7, 0);
+                            //await Task.Delay(2000);
+                            //SelectHighIndex(7, 0);
                             break;
                     }
                 }
@@ -1685,25 +1689,34 @@ namespace VISION
                     {
                         case 0:
                             SelectHighIndex(4, 1);
-                            await Task.Delay(2000);
-                            SelectHighIndex(4, 0);
+                            //await Task.Delay(2000);
+                            //SelectHighIndex(4, 0);
                             break;
                         case 1:
                             SelectHighIndex(6, 1);
-                            await Task.Delay(2000);
-                            SelectHighIndex(6, 0);
+                            //await Task.Delay(2000);
+                            //SelectHighIndex(6, 0);
                             break;
                         case 2:
-                            SelectHighIndex(6, 1);
-                            await Task.Delay(2000);
-                            SelectHighIndex(6, 0);
+                            SelectHighIndex(8, 1);
+                            //await Task.Delay(2000);
+                            //SelectHighIndex(8, 0);
                             break;
                     }
                 }
             }
-
-
-           
+            await Task.Delay(1500);
+            for (int lop = 3; lop < 9; lop++)
+            {
+                SelectHighIndex(lop, 0);
+            }
+            Debug.WriteLine("Press 1 Error Check to PLC End");
+            //SelectHighIndex(3, 0);
+            //SelectHighIndex(4, 0);
+            //SelectHighIndex(5, 0);
+            //SelectHighIndex(6, 0);
+            //SelectHighIndex(7, 0);
+            //SelectHighIndex(8, 0);
         }
 
         public async void ErrorCheckAndSendPLC()
