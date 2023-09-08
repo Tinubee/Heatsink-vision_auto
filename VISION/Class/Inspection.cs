@@ -46,7 +46,7 @@ namespace VISION.Class
             {
                 for (int lop = 0; lop < 30; lop++)
                 {
-                    if (Glob.코그넥스파일.패턴툴사용여부[CameraNumber, lop] == true)
+                    if (Glob.코그넥스파일.패턴툴사용여부[CameraNumber, lop] == true && Glob.코그넥스파일.패턴툴검사순서번호[CameraNumber, lop] == shotNumber)
                     {
                         if (Glob.코그넥스파일.패턴툴[CameraNumber, lop].Threshold() * 100 > Glob.MultiInsPat_Result[CameraNumber, lop])
                         {
