@@ -61,7 +61,7 @@ namespace VISION.Class
                 Glob.G_MainForm.InspectResult[CameraNumber] = false;
                 Glob.PatternResult[CameraNumber] = false;
             }
-            Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
+            //Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
             //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
             for (int toolnum = 0; toolnum < 29; toolnum++)
             {
@@ -82,7 +82,7 @@ namespace VISION.Class
                 Glob.G_MainForm.InspectResult[CameraNumber] = false;
                 Glob.BlobResult[CameraNumber] = false;
             }
-            Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
+            //Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
 
 
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, 0, "PATTERN OK"); }
@@ -110,7 +110,7 @@ namespace VISION.Class
             cog.StaticGraphics.AddList(Collection2, "");
             cog.StaticGraphics.AddList(Collection3, "");
 
-            Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+            //Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
 
             return Glob.G_MainForm.InspectResult[CameraNumber];
         }

@@ -1,4 +1,5 @@
 ﻿using Cognex.VisionPro;
+using Cognex.VisionPro.Blob;
 using Cognex.VisionPro.Display;
 using System;
 using System.Collections.Generic;
@@ -684,6 +685,13 @@ namespace VISION.Cogs
                 OKResultRegion.LineWidthInScreenPixels = 1;
                 Collection.Add(OKResultRegion);
                 return;
+            }
+            else
+            {
+                //BlobBox Add Area
+                //CogPolygon BlobBox;
+
+                //BlobBox = (CogPolygon)Tool.Results.GetBlobs()[0].GetBoundingBox(CogBlobAxisConstants.SelectedSpace);
             }
 
             Count--;

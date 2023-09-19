@@ -189,6 +189,7 @@ namespace VISION.Cogs
             int MultiPatternMax = MULTIPATTERNMAX - 1;
             int DistanceMax = DISTANCEMAX - 1;
 
+            //if (Glob.G_MainForm.frm_toolsetup == null)
             Camera[cam].Loadtool(path + $"\\cam - {cam}.vpp");
 
             for (int lop = 0; lop < 3; lop++)

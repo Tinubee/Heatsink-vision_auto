@@ -475,12 +475,14 @@ namespace VISION
         {
             try
             {
+                //log.AddLogMessage(LogType.Infomation, 0, $"SerialPort : {control.PortName} channel : {channel}, lightValue : {lightValue}");
                 string STX = $"{Convert.ToChar(2)}";
                 string ETX = $"{Convert.ToChar(3)}";
 
                 string sandCmd = $"{STX}{channel}{dataType}{lightValue}{ETX}";
 
                 control.WriteLine(sandCmd);
+                Debug.WriteLine($"Light Control : {control.PortName} / sendCommand : {sandCmd} finished");
             }
             catch (Exception ee)
             {
@@ -493,12 +495,14 @@ namespace VISION
         {
             try
             {
+                //log.AddLogMessage(LogType.Infomation, 0, $"SerialPort : {control.PortName} channel : {channel}, lightValue : {lightValue}");
                 string STX = $"{Convert.ToChar(2)}";
                 string ETX = $"{Convert.ToChar(3)}";
 
                 string sandCmd = $"{STX}{channel}w{lightValue}{ETX}";
 
                 control.WriteLine(sandCmd);
+                Debug.WriteLine($"Light Control : {control.PortName} / sendCommand : {sandCmd} finished");
             }
             catch (Exception ee)
             {
@@ -522,7 +526,6 @@ namespace VISION
             {
                 log.AddLogMessage(LogType.Error, 0, ee.Message);
             }
-
         }
 
         private bool SelectModule()
@@ -923,7 +926,7 @@ namespace VISION
             if (FromOpenCheck(frm_toolsetup)) return;
 
             frm_toolsetup = new Frm_ToolSetUp(this);
-            frm_toolsetup.Show();
+            frm_toolsetup.Show(this);
         }
         private void 프로그램종료_Click(object sender, EventArgs e)
         {
@@ -942,7 +945,7 @@ namespace VISION
             if (FromOpenCheck(frm_systemsetup)) return;
 
             frm_systemsetup = new Frm_SystemSetUp(this);
-            frm_systemsetup.Show();
+            frm_systemsetup.Show(this);
         }
 
         private void timer_Setting_Tick(object sender, EventArgs e)
@@ -1062,6 +1065,7 @@ namespace VISION
                 InspectTime[funCamNumber].Start();
 
                 TempCogDisplay[funCamNumber].Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
+                log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
                 TempCogDisplay[funCamNumber].Fit();
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
@@ -1107,7 +1111,7 @@ namespace VISION
 
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
-                log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+                //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
                 Thread.Sleep(100);
             }
             catch (Exception ee)
@@ -1129,6 +1133,7 @@ namespace VISION
                 InspectTime[funCamNumber].Start();
 
                 Glob.FlipImageTool[funCamNumber].InputImage = Glob.코그넥스파일.카메라[funCamNumber].Run();
+                log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
                 Glob.FlipImageTool[funCamNumber].Run();
 
                 TempCogDisplay[funCamNumber].Image = Glob.FlipImageTool[funCamNumber].OutputImage;
@@ -1174,7 +1179,7 @@ namespace VISION
 
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
-                log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+                //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
                 Thread.Sleep(100);
             }
             catch (Exception ee)
@@ -1195,6 +1200,7 @@ namespace VISION
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
                 Glob.FlipImageTool[funCamNumber].InputImage = Glob.코그넥스파일.카메라[funCamNumber].Run();
+                log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
                 Glob.FlipImageTool[funCamNumber].Run();
 
                 TempCogDisplay[funCamNumber].Image = Glob.FlipImageTool[funCamNumber].OutputImage;
@@ -1202,7 +1208,7 @@ namespace VISION
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
 
-                //LCP_100DC(LightControl[0], "2", "f", "0000");
+                LCP_100DC(LightControl[0], "2", "f", "0000");
 
                 if (TempCogDisplay[funCamNumber].Image == null)
                 {
@@ -1240,7 +1246,7 @@ namespace VISION
 
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
-                log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+                //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
                 Thread.Sleep(100);
             }
             catch (Exception ee)
@@ -1264,6 +1270,7 @@ namespace VISION
                 NoScratchErrorInit();
 
                 cdy.Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
+                log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
                 cdy.Fit();
                 cdy.InteractiveGraphics.Clear();
                 cdy.StaticGraphics.Clear();
@@ -1304,7 +1311,7 @@ namespace VISION
                     InspectFlag[funCamNumber] = false;
                     if (Glob.Inspect4[0] == false || Glob.Inspect4[1] == false || Glob.Inspect4[2] == false)
                     {
-                        log.AddLogMessage(LogType.Result, 0, $"Cam - 4 No Tab Error : 1:{Glob.Inspect4[0]} / 2:{Glob.Inspect4[1]} / 3:{Glob.Inspect4[2]}");
+                        //log.AddLogMessage(LogType.Result, 0, $"Cam - 4 No Tab Error : 1:{Glob.Inspect4[0]} / 2:{Glob.Inspect4[1]} / 3:{Glob.Inspect4[2]}");
                         BeginInvoke((Action)delegate
                         {
                             result = "N G";
@@ -1321,9 +1328,9 @@ namespace VISION
                             OK_Count[funCamNumber]++;
                         });
                     }
-                    log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
-                    //LCP_100DC(LightControl[2], "1", "f", "0000");
-                    //LCP_100DC(LightControl[2], "2", "f", "0000");
+                    //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+                    LCP_100DC(LightControl[2], "1", "f", "0000");
+                    LCP_100DC(LightControl[2], "2", "f", "0000");
                 }
                 Thread.Sleep(100);
             }
@@ -1346,6 +1353,7 @@ namespace VISION
                 InspectTime[funCamNumber].Start();
 
                 cdy.Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
+                log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
                 cdy.Fit();
                 cdy.InteractiveGraphics.Clear();
                 cdy.StaticGraphics.Clear();
@@ -1386,7 +1394,7 @@ namespace VISION
                     InspectFlag[funCamNumber] = false;
                     if (Glob.Inspect5[0] == false || Glob.Inspect5[1] == false)
                     {
-                        log.AddLogMessage(LogType.Result, 0, $"Cam - 5 No Tab Error : 1:{Glob.Inspect5[0]} / 2:{Glob.Inspect5[1]}");
+                        //log.AddLogMessage(LogType.Result, 0, $"Cam - 5 No Tab Error : 1:{Glob.Inspect5[0]} / 2:{Glob.Inspect5[1]}");
                         BeginInvoke((Action)delegate
                         {
                             result = "N G";
@@ -1403,7 +1411,7 @@ namespace VISION
                             OK_Count[funCamNumber]++;
                         });
                     }
-                    log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+                    //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
                 }
                 Thread.Sleep(100);
             }
@@ -1431,6 +1439,7 @@ namespace VISION
                 }
 
                 Glob.FlipImageTool[funCamNumber].InputImage = Glob.코그넥스파일.카메라[funCamNumber].Run();
+                log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
                 Glob.FlipImageTool[funCamNumber].Run();
 
                 cdy.Image = Glob.FlipImageTool[funCamNumber].OutputImage;
@@ -1478,7 +1487,7 @@ namespace VISION
                 }
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
-                log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+                //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
                 Thread.Sleep(100);
             }
             catch (Exception ee)
@@ -1509,6 +1518,7 @@ namespace VISION
                 if (cdy.Image == null)
                 {
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
+                    Press1NutErrorCheckAndSendPLC();
                     return;
                 }
                 if (Inspect_Cam7(cdy, shotNumber) == true) // 검사 결과
@@ -1539,7 +1549,7 @@ namespace VISION
 
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
-                log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+                //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
                 Thread.Sleep(100);
             }
             catch (Exception ee)
@@ -1570,6 +1580,7 @@ namespace VISION
                 if (cdy.Image == null)
                 {
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
+                    Press2NutErrorCheckAndSendPLC();
                     return;
                 }
                 if (Inspect_Cam8(cdy, shotNumber) == true) // 검사 결과
@@ -1600,7 +1611,7 @@ namespace VISION
 
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
-                log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+                //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
                 Thread.Sleep(100);
             }
             catch (Exception ee)
@@ -1612,7 +1623,7 @@ namespace VISION
 
         public async void Press2NutErrorCheckAndSendPLC()
         {
-            Debug.WriteLine("Press 2 Error Check to PLC Start");
+            //Debug.WriteLine("Press 2 Error Check to PLC Start");
             for (int lop = 0; lop < Glob.press2PinResult.Length; lop++)
             {
                 if (Glob.press2PinResult[lop] == "OK")
@@ -1653,12 +1664,12 @@ namespace VISION
             {
                 SelectHighIndex(lop, 0);
             }
-            Debug.WriteLine("Press 2 Error Check to PLC End");
+            //Debug.WriteLine("Press 2 Error Check to PLC End");
         }
 
         public async void Press1NutErrorCheckAndSendPLC()
         {
-            Debug.WriteLine("Press 1 Error Check to PLC Start");
+            //Debug.WriteLine("Press 1 Error Check to PLC Start");
             for (int lop = 0; lop < Glob.press1PinResult.Length; lop++)
             {
                 Debug.WriteLine(Glob.press1PinResult[lop]);
@@ -1710,7 +1721,7 @@ namespace VISION
             {
                 SelectHighIndex(lop, 0);
             }
-            Debug.WriteLine("Press 1 Error Check to PLC End");
+            //Debug.WriteLine("Press 1 Error Check to PLC End");
             //SelectHighIndex(3, 0);
             //SelectHighIndex(4, 0);
             //SelectHighIndex(5, 0);
@@ -1810,7 +1821,7 @@ namespace VISION
             btn_Stop.Enabled = true;
             tlpUnder.Visible = false;
             this.IO_DoWork = true;
-            new Thread(ReadInputSignal).Start();
+            new Thread(ReadInputSignal) { Priority = ThreadPriority.Highest }.Start();
             CognexModelLoad();
             //AllCameraOneShot();
             Glob.firstInspection[0] = false;
@@ -2070,7 +2081,7 @@ namespace VISION
                 InspectResult[CameraNumber] = false;
                 Glob.PatternResult[CameraNumber] = false;
             }
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
             //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
             for (int toolnum = 0; toolnum < 29; toolnum++)
             {
@@ -2091,7 +2102,7 @@ namespace VISION
                 InspectResult[CameraNumber] = false;
                 Glob.BlobResult[CameraNumber] = false;
             }
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
 
 
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, 0, "PATTERN OK"); }
@@ -2119,7 +2130,7 @@ namespace VISION
             cog.StaticGraphics.AddList(Collection2, "");
             cog.StaticGraphics.AddList(Collection3, "");
 
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
 
             return InspectResult[CameraNumber];
         }
@@ -2166,7 +2177,7 @@ namespace VISION
                 InspectResult[CameraNumber] = false;
                 Glob.PatternResult[CameraNumber] = false;
             }
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
             //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
             for (int toolnum = 0; toolnum < 29; toolnum++)
             {
@@ -2187,7 +2198,7 @@ namespace VISION
                 InspectResult[CameraNumber] = false;
                 Glob.BlobResult[CameraNumber] = false;
             }
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
 
 
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, 이미지회전각도, "PATTERN OK"); }
@@ -2215,7 +2226,7 @@ namespace VISION
             cog.StaticGraphics.AddList(Collection2, "");
             cog.StaticGraphics.AddList(Collection3, "");
 
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
 
             return InspectResult[CameraNumber];
         }
@@ -2262,7 +2273,7 @@ namespace VISION
                 InspectResult[CameraNumber] = false;
                 Glob.PatternResult[CameraNumber] = false;
             }
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
             //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
             for (int toolnum = 0; toolnum < 29; toolnum++)
             {
@@ -2283,7 +2294,7 @@ namespace VISION
                 InspectResult[CameraNumber] = false;
                 Glob.BlobResult[CameraNumber] = false;
             }
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
 
 
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, 이미지회전각도, "PATTERN OK"); }
@@ -2311,7 +2322,7 @@ namespace VISION
             cog.StaticGraphics.AddList(Collection2, "");
             cog.StaticGraphics.AddList(Collection3, "");
 
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
 
             return InspectResult[CameraNumber];
         }
@@ -2357,7 +2368,7 @@ namespace VISION
                 InspectResult[CameraNumber] = false;
                 Glob.PatternResult[CameraNumber] = false;
             }
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
             //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
             for (int toolnum = 0; toolnum < 29; toolnum++)
             {
@@ -2378,7 +2389,7 @@ namespace VISION
                 InspectResult[CameraNumber] = false;
                 Glob.BlobResult[CameraNumber] = false;
             }
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
 
 
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, 0, "PATTERN OK"); }
@@ -2406,7 +2417,7 @@ namespace VISION
             cog.StaticGraphics.AddList(Collection2, "");
             cog.StaticGraphics.AddList(Collection3, "");
 
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
 
             return InspectResult[CameraNumber];
         }
@@ -2452,7 +2463,7 @@ namespace VISION
                 InspectResult[CameraNumber] = false;
                 Glob.PatternResult[CameraNumber] = false;
             }
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
             //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
             for (int toolnum = 0; toolnum < 29; toolnum++)
             {
@@ -2473,7 +2484,7 @@ namespace VISION
                 InspectResult[CameraNumber] = false;
                 Glob.BlobResult[CameraNumber] = false;
             }
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
 
 
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, 0, "PATTERN OK"); }
@@ -2501,7 +2512,7 @@ namespace VISION
             cog.StaticGraphics.AddList(Collection2, "");
             cog.StaticGraphics.AddList(Collection3, "");
 
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
 
             return InspectResult[CameraNumber];
         }
@@ -2548,7 +2559,7 @@ namespace VISION
                 InspectResult[CameraNumber] = false;
                 Glob.PatternResult[CameraNumber] = false;
             }
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
             //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
             for (int toolnum = 0; toolnum < 29; toolnum++)
             {
@@ -2569,7 +2580,7 @@ namespace VISION
                 InspectResult[CameraNumber] = false;
                 Glob.BlobResult[CameraNumber] = false;
             }
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
 
 
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, 이미지회전각도, "PATTERN OK"); }
@@ -2599,7 +2610,7 @@ namespace VISION
             cog.StaticGraphics.AddList(Collection2, "");
             cog.StaticGraphics.AddList(Collection3, "");
 
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
 
             return InspectResult[CameraNumber];
         }
@@ -2648,7 +2659,7 @@ namespace VISION
                 InspectResult[CameraNumber] = false;
                 Glob.PatternResult[CameraNumber] = false;
             }
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
             //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
             for (int toolnum = 0; toolnum < 29; toolnum++)
             {
@@ -2675,7 +2686,7 @@ namespace VISION
                 Glob.press1PinResult[lop] = temp[lop];
             }
 
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
 
 
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, 0, "PATTERN OK"); }
@@ -2703,7 +2714,7 @@ namespace VISION
             cog.StaticGraphics.AddList(Collection2, "");
             cog.StaticGraphics.AddList(Collection3, "");
 
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
 
             return InspectResult[CameraNumber];
         }
@@ -2752,7 +2763,7 @@ namespace VISION
                 InspectResult[CameraNumber] = false;
                 Glob.PatternResult[CameraNumber] = false;
             }
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
             //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
             for (int toolnum = 0; toolnum < 29; toolnum++)
             {
@@ -2779,7 +2790,7 @@ namespace VISION
                 Glob.press2PinResult[lop] = temp[lop];
             }
 
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
 
 
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, 0, "PATTERN OK"); }
@@ -2807,7 +2818,7 @@ namespace VISION
             cog.StaticGraphics.AddList(Collection2, "");
             cog.StaticGraphics.AddList(Collection3, "");
 
-            log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
+            //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
 
             return InspectResult[CameraNumber];
         }
@@ -3149,7 +3160,7 @@ namespace VISION
         {
             //MODEL FORM 열기.
             Frm_Model frm_model = new Frm_Model(Glob.RunnModel.Modelname(), this);
-            frm_model.Show();
+            frm_model.Show(this);
         }
 
         private void Frm_Main_KeyDown(object sender, KeyEventArgs e)
@@ -3173,7 +3184,6 @@ namespace VISION
                 {
                     Glob.FlipImageTool[camNumber].InputImage = Glob.코그넥스파일.카메라[camNumber].Run();
                     Glob.FlipImageTool[camNumber].Run();
-
                     cdy.Image = Glob.FlipImageTool[camNumber].OutputImage;
                 }
                 else
@@ -3189,16 +3199,19 @@ namespace VISION
         }
         private void ReadInputSignal()
         {
-            try
+            Glob.InspectOrder = 1818;
+
+            //// 시간 체크
+            //Int32 count = 10000;
+            //DateTime time = DateTime.Now;
+            //List<Double> times = new List<Double>();
+
+            while (IO_DoWork)
             {
-                Glob.InspectOrder = 1818;
-                int check = 0;
-                while (IO_DoWork)
+                //time = DateTime.Now;
+
+                try
                 {
-                    if (check == 0)
-                    {
-                        check++;
-                    }
                     UInt32 iVal = 0;
                     CAXD.AxdiReadInportDword(0, 0, ref iVal);  // 입력신호 32점
                     BitArray Inputs = new BitArray(BitConverter.GetBytes(iVal));
@@ -3214,19 +3227,32 @@ namespace VISION
 
                         if (!fired)
                         {
-                            log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i} Off");
+                            //log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i} Off");
                             switch (i)
                             {
                                 case 8:
                                     log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Light Off Trigger");
-                                    조명온오프제어(false);
+                                    for (int lop = 0; lop < LightControl.Count(); lop++)
+                                    {
+                                        if (lop == 3)
+                                        {
+                                            LCP24_150DC(LightControl[lop], "0", "0000");
+                                        }
+                                        else
+                                        {
+                                            LCP_100DC(LightControl[lop], "1", "f", "0000");
+                                            LCP_100DC(LightControl[lop], "2", "f", "0000");
+                                        }
+                                    }
+                                    //조명온오프제어(false);
+                                    //Task.Run(() => { 조명온오프제어(false); });
                                     break;
                             }
                             continue;
                         }
 
 
-                        log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i} On");
+                        //log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i} On");
                         switch (i)
                         {
                             case 0: //1번째 라인스캔 카메라 촬영 신호 Cam 1
@@ -3284,8 +3310,24 @@ namespace VISION
                                 break;
                             case 8:
                                 log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Light On Trigger");
+
                                 //조명 켜주기.
-                                조명온오프제어(true);
+                                for (int lop = 0; lop < LightControl.Count(); lop++)
+                                {
+                                    if (lop == 3)
+                                    {
+                                        LCP24_150DC(LightControl[lop], "0", Glob.LightChAndValue[lop, 0].ToString("D4"));
+                                    }
+                                    else
+                                    {
+                                        //Debug.WriteLine($"{lop}");
+                                        LCP_100DC(LightControl[lop], "1", "o", "0000");
+                                        LCP_100DC(LightControl[lop], "2", "o", "0000");
+                                        LCP_100DC(LightControl[lop], "1", "d", Glob.LightChAndValue[lop, 0].ToString("D4"));
+                                        LCP_100DC(LightControl[lop], "2", "d", Glob.LightChAndValue[lop, 1].ToString("D4"));
+                                    }
+                                }
+                                //조명온오프제어(true);
                                 break;
                             case 9: //1 프레스 트리거 3Point
                                 log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : 1 Press Trigger");
@@ -3297,14 +3339,22 @@ namespace VISION
                                 break;
                         }
                     }
-
-                    Thread.Sleep(1);
                 }
+                catch (Exception ee)
+                {
+                    log.AddLogMessage(LogType.Error, 0, $"PLC Read Error : {ee.Message}");
+                }
+                Thread.Sleep(1);
+
+                //times.Add((DateTime.Now - time).TotalMilliseconds);
+                //if (times.Count >= count)
+                //{
+                //    Debug.WriteLine($"Work Time: AVG={Math.Round(times.Average(), 2)}, MIN={Math.Round(times.Min(), 2)}, MAX={Math.Round(times.Max(), 2)}");
+                //    times.Clear();
+                //}
             }
-            catch (Exception ee)
-            {
-                log.AddLogMessage(LogType.Error, 0, $"PLC Read Error : {ee.Message}");
-            }
+
+            //times.Clear();
         }
 
         private bool SelectHighIndex(int nIndex, uint uValue)
@@ -3314,7 +3364,7 @@ namespace VISION
             CAXD.AxdInfoGetModuleCount(ref nModuleCount);
 
             string txt = uValue == 1 ? "On" : "Off";
-            log.AddLogMessage(LogType.Result, 0, $"PC -> PLC Output {nIndex}번 {txt}");
+            //log.AddLogMessage(LogType.Result, 0, $"PC -> PLC Output {nIndex}번 {txt}");
 
             if (nModuleCount > 0)
             {
@@ -3385,7 +3435,7 @@ namespace VISION
         {
             //캠파일 ReLoading.
             Frm_CamSet frm_CamSet = new Frm_CamSet();
-            frm_CamSet.ShowDialog();
+            frm_CamSet.ShowDialog(this);
         }
     }
 }

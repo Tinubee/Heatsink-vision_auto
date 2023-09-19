@@ -87,5 +87,10 @@ namespace VISION
 
             this.Close();
         }
+
+        private void btn저장_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

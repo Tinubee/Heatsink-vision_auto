@@ -89,6 +89,7 @@
             this.btn저장.Size = new System.Drawing.Size(135, 56);
             this.btn저장.TabIndex = 0;
             this.btn저장.UseVisualStyleBackColor = true;
+            this.btn저장.Click += new System.EventHandler(this.btn저장_Click);
             // 
             // btn종료
             // 
