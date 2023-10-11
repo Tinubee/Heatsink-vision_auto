@@ -21,7 +21,11 @@ namespace VISION.Cogs
             Tool = new CogPMAlignMultiTool();
             Tool.Name = "MultiPattern - " + Toolnumber.ToString();
         }
-
+        public CogPMAlignMultiTool PMTool()
+        {
+            this.Tool.InputImage = null;
+            return this.Tool;
+        }
         public string ToolName()
         {
             return this.Tool.Name;
@@ -104,7 +108,7 @@ namespace VISION.Cogs
                     return false;
                 }
 
-                Tool = (CogPMAlignMultiTool)Cognex.VisionPro.CogSerializer.LoadObjectFromFile(Savepath);
+                Tool = (CogPMAlignMultiTool)CogSerializer.LoadObjectFromFile(Savepath);
 
                 return true;
             }
@@ -421,6 +425,8 @@ namespace VISION.Cogs
                 display.InteractiveGraphics.Add(lb_Score.GetOutputGraphicLabel(), null, false);
             }
         }
+
+    
 
         public void ToolSetup()
         {

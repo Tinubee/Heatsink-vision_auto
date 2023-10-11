@@ -354,15 +354,18 @@ namespace VISION
 
                     sendCommandToBoard("");
                     string first = readBuffer(serialRef);
-                    log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Receive Data : {first}");
+                    Debug.WriteLine($"{MethodBase.GetCurrentMethod().Name} - Receive Data : {first}");
+                    //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Receive Data : {first}");
 
                     sendCommandToBoard(setExposureCommand);
                     string second = readBuffer(serialRef);
-                    log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Receive Data : {second}");
+                    Debug.WriteLine($"{MethodBase.GetCurrentMethod().Name} - Receive Data : {second}");
+                    //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Receive Data : {second}");
 
                     sendCommandToBoard(setGainCommand);
                     string third = readBuffer(serialRef);
-                    log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Receive Data : {third}");
+                    Debug.WriteLine($"{MethodBase.GetCurrentMethod().Name} - Receive Data : {third}");
+                    //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Receive Data : {third}");
 
                     //close port
                     CL.SerialClose(serialRef);
@@ -458,8 +461,10 @@ namespace VISION
                     }
                     else
                     {
-                        LCP_100DC(LightControl[i], "1", "f", "0000");
-                        LCP_100DC(LightControl[i], "2", "f", "0000");
+                        LCP_100DC(LightControl[i], "1", "o", "0000");
+                        LCP_100DC(LightControl[i], "2", "o", "0000");
+                        LCP_100DC(LightControl[i], "1", "d", "0000");
+                        LCP_100DC(LightControl[i], "2", "d", "0000");
                     }
                 }
                 log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
@@ -686,7 +691,6 @@ namespace VISION
 
         private bool OpenDevice()
         {
-            //++
             // Initialize library 
             if (CAXL.AxlOpen(7) == (uint)AXT_FUNC_RESULT.AXT_RT_SUCCESS)
             {
@@ -792,9 +796,6 @@ namespace VISION
         {
             try
             {
-                //tabPage5.Controls.Add(ResultCountDisplay);
-                //ResultCountDisplay.Dock = DockStyle.Fill;
-
                 INIControl Modellist = new INIControl(Glob.MODELLIST); ;
                 INIControl CFGFILE = new INIControl(Glob.CONFIGFILE); ;
 
@@ -870,8 +871,6 @@ namespace VISION
             AllNG_2_Count = Convert.ToDouble(setting.ReadData($"Count", "AllNG1_Count"));
             AllNG_1_Count = Convert.ToDouble(setting.ReadData($"Count", "AllNG2_Count"));
             AllNG_Count = Convert.ToDouble(setting.ReadData($"Count", "AllNG_Count"));
-            //AllTotal_Count = Convert.ToDouble(setting.ReadData($"Count", "AllTOTAL_Count"));
-            //AllNG_Rate = Convert.ToDouble(setting.ReadData($"Count", "AllNGRATE_Count"));
         }
 
         public void CountSave()
@@ -889,8 +888,6 @@ namespace VISION
             setting.WriteData("Count", "AllNG1_Count", AllOK_Count.ToString());
             setting.WriteData("Count", "AllNG2_Count", AllOK_Count.ToString());
             setting.WriteData("Count", "AllNG_Count", AllOK_Count.ToString());
-            //setting.WriteData("Count", "AllTOTAL_Count", AllOK_Count.ToString());
-            //setting.WriteData("Count", "AllNGRATE_Count", AllOK_Count.ToString());
         }
 
         private void DisplayDiskCapacity()
@@ -1059,7 +1056,7 @@ namespace VISION
             try
             {
                 int funCamNumber = 0;
-                string result = "";
+                string result = string.Empty;
                 InspectTime[funCamNumber] = new Stopwatch();
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
@@ -1069,10 +1066,6 @@ namespace VISION
                 TempCogDisplay[funCamNumber].Fit();
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
-
-                //조명꺼주기
-                //LCP_100DC(LightControl[1], "1", "f", "0000");
-                //LCP_100DC(LightControl[1], "2", "f", "0000");
 
                 ScratchErrorInit();
 
@@ -1125,7 +1118,7 @@ namespace VISION
         public void ShotAndInspect_Cam2(int shotNumber)
         {
             int funCamNumber = 1;
-            string result = "";
+            string result = string.Empty;
             try
             {
                 InspectTime[funCamNumber] = new Stopwatch();
@@ -1193,7 +1186,7 @@ namespace VISION
         public void ShotAndInspect_Cam3(int shotNumber)
         {
             int funCamNumber = 2;
-            string result = "";
+            string result = string.Empty;
             try
             {
                 InspectTime[funCamNumber] = new Stopwatch();
@@ -1260,7 +1253,7 @@ namespace VISION
         public void ShotAndInspect_Cam4(CogDisplay cdy, int shotNumber)
         {
             int funCamNumber = 3;
-            string result = "";
+            string result = string.Empty;
             try
             {
                 InspectTime[funCamNumber] = new Stopwatch();
@@ -1345,7 +1338,7 @@ namespace VISION
         public void ShotAndInspect_Cam5(CogDisplay cdy, int shotNumber)
         {
             int funCamNumber = 4;
-            string result = "";
+            string result = string.Empty;
             try
             {
                 InspectTime[funCamNumber] = new Stopwatch();
@@ -1411,7 +1404,6 @@ namespace VISION
                             OK_Count[funCamNumber]++;
                         });
                     }
-                    //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
                 }
                 Thread.Sleep(100);
             }
@@ -1426,7 +1418,7 @@ namespace VISION
         public void ShotAndInspect_Cam6(CogDisplay cdy, int shotNumber)
         {
             int funCamNumber = 5;
-            string result = "";
+            string result = string.Empty;
             try
             {
                 InspectTime[funCamNumber] = new Stopwatch();
@@ -1501,7 +1493,7 @@ namespace VISION
         public void ShotAndInspect_Cam7(CogDisplay cdy, int shotNumber)
         {
             int funCamNumber = 6;
-            string result = "";
+            string result = string.Empty;
             try
             {
                 InspectTime[funCamNumber] = new Stopwatch();
@@ -1563,7 +1555,7 @@ namespace VISION
         public void ShotAndInspect_Cam8(CogDisplay cdy, int shotNumber)
         {
             int funCamNumber = 7;
-            string result = "";
+            string result = string.Empty;
             try
             {
                 InspectTime[funCamNumber] = new Stopwatch();
@@ -1679,18 +1671,12 @@ namespace VISION
                     {
                         case 0:
                             SelectHighIndex(3, 1);
-                            //await Task.Delay(2000);
-                            //SelectHighIndex(3, 0);
                             break;
                         case 1:
                             SelectHighIndex(5, 1);
-                            //await Task.Delay(2000);
-                            //SelectHighIndex(5, 0);
                             break;
                         case 2:
                             SelectHighIndex(7, 1);
-                            //await Task.Delay(2000);
-                            //SelectHighIndex(7, 0);
                             break;
                     }
                 }
@@ -1700,18 +1686,12 @@ namespace VISION
                     {
                         case 0:
                             SelectHighIndex(4, 1);
-                            //await Task.Delay(2000);
-                            //SelectHighIndex(4, 0);
                             break;
                         case 1:
                             SelectHighIndex(6, 1);
-                            //await Task.Delay(2000);
-                            //SelectHighIndex(6, 0);
                             break;
                         case 2:
                             SelectHighIndex(8, 1);
-                            //await Task.Delay(2000);
-                            //SelectHighIndex(8, 0);
                             break;
                     }
                 }
@@ -1721,13 +1701,6 @@ namespace VISION
             {
                 SelectHighIndex(lop, 0);
             }
-            //Debug.WriteLine("Press 1 Error Check to PLC End");
-            //SelectHighIndex(3, 0);
-            //SelectHighIndex(4, 0);
-            //SelectHighIndex(5, 0);
-            //SelectHighIndex(6, 0);
-            //SelectHighIndex(7, 0);
-            //SelectHighIndex(8, 0);
         }
 
         public async void ErrorCheckAndSendPLC()
@@ -1843,8 +1816,8 @@ namespace VISION
                     }
                     else
                     {
-                        LCP_100DC(LightControl[lop], "1", "o", "0000");
-                        LCP_100DC(LightControl[lop], "2", "o", "0000");
+                        //LCP_100DC(LightControl[lop], "1", "o", "0000");
+                        //LCP_100DC(LightControl[lop], "2", "o", "0000");
                         LCP_100DC(LightControl[lop], "1", "d", Glob.LightChAndValue[lop, 0].ToString("D4"));
                         LCP_100DC(LightControl[lop], "2", "d", Glob.LightChAndValue[lop, 1].ToString("D4"));
                     }
@@ -1860,8 +1833,8 @@ namespace VISION
                     }
                     else
                     {
-                        LCP_100DC(LightControl[lop], "1", "f", "0000");
-                        LCP_100DC(LightControl[lop], "2", "f", "0000");
+                        LCP_100DC(LightControl[lop], "1", "d", "0000");
+                        LCP_100DC(LightControl[lop], "2", "d", "0000");
                     }
                 }
             }
@@ -2131,7 +2104,7 @@ namespace VISION
             cog.StaticGraphics.AddList(Collection3, "");
 
             //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
-
+            //GC.Collect();
             return InspectResult[CameraNumber];
         }
         #endregion
@@ -3205,7 +3178,6 @@ namespace VISION
             //Int32 count = 10000;
             //DateTime time = DateTime.Now;
             //List<Double> times = new List<Double>();
-
             while (IO_DoWork)
             {
                 //time = DateTime.Now;
@@ -3231,27 +3203,26 @@ namespace VISION
                             switch (i)
                             {
                                 case 8:
-                                    log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Light Off Trigger");
-                                    for (int lop = 0; lop < LightControl.Count(); lop++)
-                                    {
-                                        if (lop == 3)
-                                        {
-                                            LCP24_150DC(LightControl[lop], "0", "0000");
-                                        }
-                                        else
-                                        {
-                                            LCP_100DC(LightControl[lop], "1", "f", "0000");
-                                            LCP_100DC(LightControl[lop], "2", "f", "0000");
-                                        }
-                                    }
-                                    //조명온오프제어(false);
+                                    //log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Light Off Trigger");
+                                    //for (int lop = 0; lop < LightControl.Count(); lop++)
+                                    //{
+                                    //    if (lop == 3)
+                                    //    {
+                                    //        LCP24_150DC(LightControl[lop], "0", "0000");
+                                    //    }
+                                    //    else
+                                    //    {
+                                    //        LCP_100DC(LightControl[lop], "1", "f", "0000");
+                                    //        LCP_100DC(LightControl[lop], "2", "f", "0000");
+                                    //    }
+                                    //}
+                                    조명온오프제어(false);
+                                    //GC.Collect();
                                     //Task.Run(() => { 조명온오프제어(false); });
                                     break;
                             }
                             continue;
                         }
-
-
                         //log.AddLogMessage(LogType.Infomation, 0, $"PLC 신호 : {i} On");
                         switch (i)
                         {
@@ -3310,24 +3281,28 @@ namespace VISION
                                 break;
                             case 8:
                                 log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Light On Trigger");
-
-                                //조명 켜주기.
-                                for (int lop = 0; lop < LightControl.Count(); lop++)
-                                {
-                                    if (lop == 3)
-                                    {
-                                        LCP24_150DC(LightControl[lop], "0", Glob.LightChAndValue[lop, 0].ToString("D4"));
-                                    }
-                                    else
-                                    {
-                                        //Debug.WriteLine($"{lop}");
-                                        LCP_100DC(LightControl[lop], "1", "o", "0000");
-                                        LCP_100DC(LightControl[lop], "2", "o", "0000");
-                                        LCP_100DC(LightControl[lop], "1", "d", Glob.LightChAndValue[lop, 0].ToString("D4"));
-                                        LCP_100DC(LightControl[lop], "2", "d", Glob.LightChAndValue[lop, 1].ToString("D4"));
-                                    }
-                                }
-                                //조명온오프제어(true);
+                                //int LightCount = LightControl.Count();
+                                //Debug.WriteLine($"조명컨트롤러 개수 : {LightCount}개");
+                                ////조명 켜주기.
+                                //for (int lop = 0; lop < 4; lop++)
+                                //{
+                                //    if (lop == 3)
+                                //    {
+                                //        //Task.Run(() => { LCP24_150DC(LightControl[lop], "0", Glob.LightChAndValue[lop, 0].ToString("D4")); });
+                                //        LCP24_150DC(LightControl[lop], "0", Glob.LightChAndValue[lop, 0].ToString("D4"));
+                                //    }
+                                //    else
+                                //    {
+                                //        //Debug.WriteLine($"{lop}");
+                                //        LCP_100DC(LightControl[lop], "1", "o", "0000");
+                                //        LCP_100DC(LightControl[lop], "2", "o", "0000");
+                                //        //Task.Run(() => { LCP_100DC(LightControl[lop], "1", "d", Glob.LightChAndValue[lop, 0].ToString("D4")); });
+                                //        //Task.Run(() => { LCP_100DC(LightControl[lop], "2", "d", Glob.LightChAndValue[lop, 1].ToString("D4")); });
+                                //        LCP_100DC(LightControl[lop], "1", "d", Glob.LightChAndValue[lop, 0].ToString("D4"));
+                                //        LCP_100DC(LightControl[lop], "2", "d", Glob.LightChAndValue[lop, 1].ToString("D4"));
+                                //    }
+                                //}
+                                조명온오프제어(true);
                                 break;
                             case 9: //1 프레스 트리거 3Point
                                 log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : 1 Press Trigger");
@@ -3353,7 +3328,6 @@ namespace VISION
                 //    times.Clear();
                 //}
             }
-
             //times.Clear();
         }
 

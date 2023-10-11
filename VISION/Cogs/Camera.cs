@@ -1,21 +1,81 @@
 ﻿using Cognex.VisionPro;
+using Cognex.VisionPro.Blob;
+using Cognex.VisionPro.PMAlign;
 using Cognex.VisionPro.QuickBuild;
+using Cognex.VisionPro.ToolBlock;
 using Cognex.VisionPro.ToolGroup;
+using System;
 using System.Diagnostics;
 
 namespace VISION.Cogs
 {
     public class Camera
     {
-        //private PGgloble Glob = PGgloble.getInstance;
-        //private CogJobManager manager = new CogJobManager();
-        //private CogJob job = new CogJob();
-        //private CogToolGroup toolGroup = new CogToolGroup();
+        private CogToolBlock toolBlock;
+
         //private CogAcqFifoTool camTool = new CogAcqFifoTool();
         private PGgloble Glob = PGgloble.getInstance;
         private CogJobManager jobManager = new CogJobManager();
         private CogJob job = new CogJob();
         private CogAcqFifoTool camTool = new CogAcqFifoTool();
+        public string savePath = string.Empty;
+
+        public int 카메라번호 { get; set; } = 0;
+        public CogImage8Grey InputImage { get => this.GetInput<CogImage8Grey>("InputImage"); set => this.SetInput("InputImage", value); }
+        public CogImage8Grey OutputImage { get { return GetOutput<CogImage8Grey>(this.toolBlock, "OutputImage"); } }
+
+        public T GetInput<T>(String name) { return GetInput<T>(this.toolBlock, name); }
+        public Boolean SetInput(String name, Object value) { return SetInput(this.toolBlock, name, value); }
+
+        public T GetOutput<T>(String name) { return GetOutput<T>(this.toolBlock, name); }
+
+
+        public static T GetInput<T>(CogToolBlock tool, String name)
+        {
+            if (tool == null) return default(T);
+            if (tool.Inputs.Contains(name)) return (T)tool.Inputs[name].Value;
+            return default(T);
+        }
+        public static Boolean SetInput(CogToolBlock tool, String name, Object value)
+        {
+            if (tool == null) return false;
+            if (!tool.Inputs.Contains(name)) return false;
+            tool.Inputs[name].Value = value;
+            return true;
+        }
+        public static T GetOutput<T>(CogToolBlock tool, String name)
+        {
+            if (tool == null) return default(T);
+            if (tool.Outputs.Contains(name)) return (T)tool.Outputs[name].Value;
+            return default(T);
+        }
+
+        public void 패턴툴추가(CogPMAlignMultiTool Tool)
+        {
+            if (this.toolBlock.Tools.Contains(Tool)) return;
+
+            //Tool.InputImage = this.InputImage;
+            this.toolBlock.Tools.Add(Tool);
+        }
+
+        public void 블롭툴추가(CogBlobTool Tool)
+        {
+            if (this.toolBlock.Tools.Contains(Tool)) return;
+
+            Tool.InputImage = this.InputImage;
+            this.toolBlock.Tools.Add(Tool);
+        }
+
+        public CogToolBlock OpenToolBlock()
+        {
+            this.InputImage = this.InputImage;
+            return this.toolBlock;
+        }
+
+        public CogJob JobFile()
+        {
+            return this.job;
+        }
 
         public Camera(int Toolnumber = 0)
         {
@@ -23,31 +83,31 @@ namespace VISION.Cogs
             jobManager.JobAdd(job);
             camTool = new CogAcqFifoTool();
             camTool.Name = "cam - " + Toolnumber.ToString();
-            //this.manager = new CogJobManager() { GarbageCollection = true };
-            //this.job = new CogJob();
-            //this.manager.JobAdd(job);
-            //this.job.VisionTool = this.toolGroup; //??
-            //camTool.Name = "cam - " + Toolnumber.ToString();
         }
 
-        public bool Loadtool(string path)
+        public bool Loadtool(string path, string originPath, int camNumber)
         {
+            this.카메라번호 = camNumber;
             if (System.IO.File.Exists(path) == false)
             {
                 CogSerializer.SaveObjectToFile(this.camTool, path);
             }
             camTool = (CogAcqFifoTool)CogSerializer.LoadObjectFromFile(path);
+
             CogToolGroup group = new CogToolGroup();
             job.VisionTool = group;
             group.Tools.Add(camTool);
+
+            //CogToolGroup group = new CogToolGroup() { Name = $"GroupTool-{this.카메라번호}" }; ;
+            //this.toolBlock = new CogToolBlock();
+            //this.toolBlock.Name = this.camTool.Name;
+            //this.toolBlock.Tools.Add(camTool);
+            //this.toolBlock.Inputs.Add(new CogToolBlockTerminal("InputImage", typeof(CogImage8Grey)));
+            //this.toolBlock.Outputs.Add(new CogToolBlockTerminal("OutputImage", typeof(CogImage8Grey)));
+            //group.Tools.Add(this.toolBlock);
+            //this.job.VisionTool = group;
+            //this.savePath = originPath + $"\\cam{this.카메라번호}-GroupTool.vpp";
             return true;
-            //if (System.IO.File.Exists(path) == false)
-            //{
-            //    CogSerializer.SaveObjectToFile(this.camTool, path);
-            //}
-            //camTool = (CogAcqFifoTool)CogSerializer.LoadObjectFromFile(path);
-            //this.toolGroup.Tools.Add(camTool);
-            //return true;
         }
 
         public CogImage8Grey Run()
@@ -55,6 +115,12 @@ namespace VISION.Cogs
             this.camTool.Run(); //Tool실행.
             CogImage8Grey Image = (CogImage8Grey)camTool.OutputImage; //Tool 출력이미지.
             return Image;
+        }
+
+        public Boolean ToolBlockRun()
+        {
+            this.toolBlock.Run();
+            return true;
         }
 
         public void SetBrightness(double value)

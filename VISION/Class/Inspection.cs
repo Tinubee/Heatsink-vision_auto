@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using VISION.Cogs;
@@ -111,7 +112,7 @@ namespace VISION.Class
             cog.StaticGraphics.AddList(Collection3, "");
 
             //Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
-
+            GC.Collect();
             return Glob.G_MainForm.InspectResult[CameraNumber];
         }
 

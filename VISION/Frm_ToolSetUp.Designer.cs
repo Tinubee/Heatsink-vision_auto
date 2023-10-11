@@ -195,6 +195,10 @@
             this.label45 = new System.Windows.Forms.Label();
             this.num_GlobOrderNumber = new System.Windows.Forms.NumericUpDown();
             this.btn_MaskAreaSet = new System.Windows.Forms.Button();
+            this.btn_MakeToolGroup = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.tableLayoutPanel17 = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_ToolGroupSave = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cdyDisplay)).BeginInit();
             this.tableLayoutPanel23.SuspendLayout();
@@ -259,6 +263,7 @@
             this.tab_Menu.SuspendLayout();
             this.tableLayoutPanel13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_GlobOrderNumber)).BeginInit();
+            this.tableLayoutPanel17.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel2
@@ -2772,12 +2777,65 @@
             this.btn_MaskAreaSet.UseVisualStyleBackColor = true;
             this.btn_MaskAreaSet.Click += new System.EventHandler(this.btn_MaskAreaSet_Click);
             // 
+            // btn_MakeToolGroup
+            // 
+            this.btn_MakeToolGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_MakeToolGroup.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn_MakeToolGroup.Location = new System.Drawing.Point(3, 3);
+            this.btn_MakeToolGroup.Name = "btn_MakeToolGroup";
+            this.btn_MakeToolGroup.Size = new System.Drawing.Size(134, 51);
+            this.btn_MakeToolGroup.TabIndex = 30;
+            this.btn_MakeToolGroup.Text = "Tool그룹 만들기";
+            this.btn_MakeToolGroup.UseVisualStyleBackColor = true;
+            this.btn_MakeToolGroup.Click += new System.EventHandler(this.btn_MakeToolGroup_Click);
+            // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button1.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button1.Location = new System.Drawing.Point(143, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(134, 51);
+            this.button1.TabIndex = 31;
+            this.button1.Text = "Tool그룹 열기";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // tableLayoutPanel17
+            // 
+            this.tableLayoutPanel17.ColumnCount = 3;
+            this.tableLayoutPanel17.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel17.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel17.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel17.Controls.Add(this.btn_ToolGroupSave, 2, 0);
+            this.tableLayoutPanel17.Controls.Add(this.button1, 1, 0);
+            this.tableLayoutPanel17.Controls.Add(this.btn_MakeToolGroup, 0, 0);
+            this.tableLayoutPanel17.Location = new System.Drawing.Point(0, 75);
+            this.tableLayoutPanel17.Name = "tableLayoutPanel17";
+            this.tableLayoutPanel17.RowCount = 1;
+            this.tableLayoutPanel17.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel17.Size = new System.Drawing.Size(421, 57);
+            this.tableLayoutPanel17.TabIndex = 32;
+            // 
+            // btn_ToolGroupSave
+            // 
+            this.btn_ToolGroupSave.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_ToolGroupSave.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn_ToolGroupSave.Location = new System.Drawing.Point(283, 3);
+            this.btn_ToolGroupSave.Name = "btn_ToolGroupSave";
+            this.btn_ToolGroupSave.Size = new System.Drawing.Size(135, 51);
+            this.btn_ToolGroupSave.TabIndex = 32;
+            this.btn_ToolGroupSave.Text = "Tool그룹 저장";
+            this.btn_ToolGroupSave.UseVisualStyleBackColor = true;
+            this.btn_ToolGroupSave.Click += new System.EventHandler(this.btn_ToolGroupSave_Click);
+            // 
             // Frm_ToolSetUp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(1920, 1080);
+            this.Controls.Add(this.tableLayoutPanel17);
             this.Controls.Add(this.btn_MaskAreaSet);
             this.Controls.Add(this.tableLayoutPanel13);
             this.Controls.Add(this.dgv_ToolSetUp);
@@ -2894,6 +2952,7 @@
             this.tableLayoutPanel13.ResumeLayout(false);
             this.tableLayoutPanel13.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_GlobOrderNumber)).EndInit();
+            this.tableLayoutPanel17.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -3061,5 +3120,9 @@
         private System.Windows.Forms.CheckBox cb조명사용여부;
         private System.Windows.Forms.Button btn_Cam7;
         private System.Windows.Forms.Button btn_Cam8;
+        private System.Windows.Forms.Button btn_MakeToolGroup;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel17;
+        private System.Windows.Forms.Button btn_ToolGroupSave;
     }
 }

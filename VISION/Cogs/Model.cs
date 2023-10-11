@@ -167,7 +167,7 @@ namespace VISION.Cogs
 
         private bool ReadCamera(string path, int cam)
         {
-            return Camera[cam].Loadtool(path + $"\\cam - {cam.ToString()}.vpp");
+            return Camera[cam].Loadtool(path + $"\\cam - {cam.ToString()}.vpp", path, cam);
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace VISION.Cogs
             int DistanceMax = DISTANCEMAX - 1;
 
             //if (Glob.G_MainForm.frm_toolsetup == null)
-            Camera[cam].Loadtool(path + $"\\cam - {cam}.vpp");
+            Camera[cam].Loadtool(path + $"\\cam - {cam}.vpp", path, cam);
 
             for (int lop = 0; lop < 3; lop++)
             {
@@ -658,9 +658,10 @@ namespace VISION.Cogs
                 {
                     if (MultiPatternEnable[CamNumber, lop] == true && (MultiPatternOrderNumber[CamNumber, lop] == Glob.InspectOrder || MultiPatternOrderNumber[CamNumber, lop] == shotNumber))
                     {
-                        MultiPattern[CamNumber, lop].ResultDisplay(Display, Collection, MultiPattern[CamNumber, lop].HighestResultToolNumber(), lop, 이미지회전각도);
+                        int HighestResultToolNumber = MultiPattern[CamNumber, lop].HighestResultToolNumber();
+                        MultiPattern[CamNumber, lop].ResultDisplay(Display, Collection, HighestResultToolNumber, lop, 이미지회전각도);
                         //SCORE 표시.
-                        Glob.MultiInsPat_Result[CamNumber, lop] = MultiPattern[CamNumber, lop].ResultScore(MultiPattern[CamNumber, lop].HighestResultToolNumber());
+                        Glob.MultiInsPat_Result[CamNumber, lop] = MultiPattern[CamNumber, lop].ResultScore(HighestResultToolNumber);
                     }
                     else
                     {
@@ -732,7 +733,6 @@ namespace VISION.Cogs
                                 {
                                     Blobs[CamNumber, lop].ResultAllBlobDisplayPLT(Collection, true);
                                 }
-
                             }
                         }
                     }

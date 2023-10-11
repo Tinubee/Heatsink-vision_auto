@@ -18,6 +18,10 @@ using KimLib;
 using System.Reflection;
 using Microsoft.VisualBasic.Logging;
 using VISION.Class;
+using Microsoft.VisualBasic;
+using Cognex.VisionPro.ToolBlock;
+using System.Runtime.Serialization.Formatters.Binary;
+using Cognex.VisionPro.QuickBuild;
 
 namespace VISION
 {
@@ -326,13 +330,15 @@ namespace VISION
         {
             if (cdyDisplay.Image == null)
                 return;
+
+            //Glob.코그넥스파일.카메라[Glob.CamNumber].ToolBlockRun();
             bool 검사결과 = false;
             ImageClear();
             Pattern_Train();
             검사결과 = Main.비전검사.Run(cdyDisplay, Glob.CamNumber, Glob.InspectOrder);
             lb_Tool_InspectResult.Text = 검사결과 ? "O K" : "N G";
             lb_Tool_InspectResult.BackColor = 검사결과 ? Color.Lime : Color.Red;
-            
+
             Invoke(new Action(delegate ()
             {
                 Main.DgvResult(dgv_ToolSetUp, Glob.CamNumber, 1); //-추가된함수
@@ -343,6 +349,7 @@ namespace VISION
         {
             try
             {
+                Glob.G_MainForm.조명온오프제어(true);
                 cdyDisplay.Image = null;
                 cdyDisplay.InteractiveGraphics.Clear();
                 cdyDisplay.StaticGraphics.Clear();
@@ -1169,7 +1176,7 @@ namespace VISION
             }
             //cdyDisplay.Image = (CogImage8Grey)curimage.OutputImage;
             cdyDisplay.Fit();
-            GC.Collect();
+            //GC.Collect();
         }
 
         private void btn_OpenCamSetfile_Click(object sender, EventArgs e)
@@ -1301,6 +1308,49 @@ namespace VISION
         {
             Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].InputImage((CogImage8Grey)cdyDisplay.Image);
             Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].ToolSetup();
+        }
+
+        private void btn_MakeToolGroup_Click(object sender, EventArgs e)
+        {
+            int CameraNumber = Glob.CamNumber;
+            CogImage8Grey image = (CogImage8Grey)cdyDisplay.Image;
+            for (int lop = 0; lop < 30; lop++)
+            {
+                if (Glob.코그넥스파일.패턴툴사용여부[CameraNumber, lop] == true && Glob.코그넥스파일.패턴툴검사순서번호[CameraNumber, lop] == Glob.InspectOrder)
+                {
+                    Glob.코그넥스파일.카메라[CameraNumber].패턴툴추가(Glob.코그넥스파일.패턴툴[CameraNumber, lop].PMTool());
+                }
+            }
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CogImage8Grey image = (CogImage8Grey)cdyDisplay.Image;
+            Glob.코그넥스파일.카메라[Glob.CamNumber].InputImage = image;
+            Form Window = new Form();
+            CogToolBlockEditV2 viewForm = new CogToolBlockEditV2() { Subject = Glob.코그넥스파일.카메라[Glob.CamNumber].OpenToolBlock(), Dock = DockStyle.Fill };
+
+            Window.Controls.Add(viewForm); // 폼에 에디트 추가.
+
+            Window.Width = 800;
+            Window.Height = 600;
+
+            Window.ShowDialog(); // 폼 실행
+            //viewForm.Init(도구);
+            //viewForm.Show(Global.MainForm);
+        }
+
+        private void btn_ToolGroupSave_Click(object sender, EventArgs e)
+        {
+            CogJob Job = new CogJob();
+            string savePath = string.Empty;
+
+            Job = Glob.코그넥스파일.카메라[Glob.CamNumber].JobFile();
+            savePath = Glob.코그넥스파일.카메라[Glob.CamNumber].savePath;
+
+            CogSerializer.SaveObjectToFile(Job, savePath, typeof(BinaryFormatter), CogSerializationOptionsConstants.Minimum);
+            //Debug.WriteLine(this.도구경로, "도구저장");
         }
     }
 }
