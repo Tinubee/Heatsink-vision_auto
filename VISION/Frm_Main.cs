@@ -1030,7 +1030,7 @@ namespace VISION
 
         public void DisplayLabelSet(string Model, string Result, int camNumber)
         {
-            log.AddLogMessage(LogType.Infomation, 0, $"Cam - {camNumber + 1} : {Result}");
+            //log.AddLogMessage(LogType.Infomation, 0, $"Cam - {camNumber + 1} : {Result}");
             try
             {
                 if (Model == "shield")
@@ -1205,7 +1205,7 @@ namespace VISION
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
 
-                LCP_100DC(LightControl[0], "2", "f", "0000");
+                //LCP_100DC(LightControl[0], "2", "d", "0000");
 
                 if (TempCogDisplay[funCamNumber].Image == null)
                 {
@@ -1311,9 +1311,9 @@ namespace VISION
 
                     r = 비전검사.Run(TempCogDisplay[3], funCamNumber, 1);
                     Glob.Inspect4[0] = r;
-                    r = 비전검사.Run(HeatSinkMainDisplay.cdyDisplay4_2, funCamNumber, 1);
+                    r = 비전검사.Run(HeatSinkMainDisplay.cdyDisplay4_2, funCamNumber, 2);
                     Glob.Inspect4[1] = r;
-                    r = 비전검사.Run(HeatSinkMainDisplay.cdyDisplay4_3, funCamNumber, 1);
+                    r = 비전검사.Run(HeatSinkMainDisplay.cdyDisplay4_3, funCamNumber, 3);
                     Glob.Inspect4[2] = r;
 
                     InspectTime[funCamNumber].Stop();
@@ -1324,6 +1324,14 @@ namespace VISION
                         BeginInvoke((Action)delegate
                         {
                             result = "N G";
+
+                            if (Glob.NGImageSave)
+                            {
+                                ImageSave4("NG", funCamNumber + 1, TempCogDisplay[3], 1);
+                                ImageSave4("NG", funCamNumber + 1, HeatSinkMainDisplay.cdyDisplay4_2, 2);
+                                ImageSave4("NG", funCamNumber + 1, HeatSinkMainDisplay.cdyDisplay4_3, 3);
+                            }
+
                             DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                             NG_Count[funCamNumber]++;
                         });
@@ -1337,9 +1345,6 @@ namespace VISION
                             OK_Count[funCamNumber]++;
                         });
                     }
-                    //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
-                    //LCP_100DC(LightControl[2], "1", "f", "0000");
-                    //LCP_100DC(LightControl[2], "2", "f", "0000");
                 }
                 Thread.Sleep(100);
             }
@@ -1363,7 +1368,7 @@ namespace VISION
 
 
                 Cam5너트검사이미지[shotNumber - 1] = Glob.코그넥스파일.카메라[funCamNumber].Run();
-                cdy.Image = Cam4너트검사이미지[shotNumber - 1];
+                cdy.Image = Cam5너트검사이미지[shotNumber - 1];
                 //cdy.Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
                 log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
                 cdy.Fit();
@@ -1406,9 +1411,14 @@ namespace VISION
 
                     r = 비전검사.Run(TempCogDisplay[4], funCamNumber, 1);
                     Glob.Inspect5[0] = r;
-                    r = 비전검사.Run(HeatSinkMainDisplay.cdyDisplay5_1, funCamNumber, 1);
+
+                    r = 비전검사.Run(HeatSinkMainDisplay.cdyDisplay5_1, funCamNumber, 2);
                     Glob.Inspect5[1] = r;
 
+                    BeginInvoke((Action)delegate
+                    {
+                       
+                    });
 
                     InspectTime[funCamNumber].Stop();
                     InspectFlag[funCamNumber] = false;
@@ -1418,9 +1428,20 @@ namespace VISION
                         BeginInvoke((Action)delegate
                         {
                             result = "N G";
+
+                            if (Glob.NGImageSave)
+                            {
+                                ImageSave5("NG", funCamNumber + 1, TempCogDisplay[4], 1);
+                                ImageSave5("NG", funCamNumber + 1, HeatSinkMainDisplay.cdyDisplay5_1, 2);
+                            }
+
                             DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                             NG_Count[funCamNumber]++;
                         });
+                        if (!Glob.statsOK)
+                        {
+                            NoScratchErrorSet();
+                        }
                     }
                     else
                     {
@@ -1732,13 +1753,15 @@ namespace VISION
 
         public async void ErrorCheckAndSendPLC()
         {
-
             if (Glob.firstInspection[1])
             {
                 string[] res = new string[2];
                 res[0] = Glob.scratchError[1] ? "NG" : "OK";
                 res[1] = Glob.noScratchError[0] ? "NG" : "OK";
                 최종결과표시(Glob.scratchError[1], Glob.noScratchError[0], res);
+
+                Debug.WriteLine($"Glob.firstInspection[1] : 스크레치 - {res[0]} / 스크레치아닌불량 - {res[1]}");
+                log.AddLogMessage(LogType.Infomation, 0, $"Glob.firstInspection[1] : 스크레치 - {res[0]} / 스크레치아닌불량 - {res[1]}");
                 if (Glob.scratchError[1])
                 {
                     SelectHighIndex(1, 1);
@@ -1767,6 +1790,9 @@ namespace VISION
                 res[1] = Glob.noScratchError[1] ? "NG" : "OK";
 
                 최종결과표시(Glob.scratchError[0], Glob.noScratchError[1], res);
+
+                Debug.WriteLine($"Glob.firstInspection[0] : 스크레치 - {res[0]} / 스크레치아닌불량 - {res[1]}");
+                log.AddLogMessage(LogType.Infomation, 0, $"Glob.firstInspection[0] : 스크레치 - {res[0]} / 스크레치아닌불량 - {res[1]}");
                 if (Glob.scratchError[0])
                 {
                     SelectHighIndex(1, 1);
@@ -3365,6 +3391,7 @@ namespace VISION
             CAXD.AxdInfoGetModuleCount(ref nModuleCount);
 
             string txt = uValue == 1 ? "On" : "Off";
+            Debug.WriteLine($"PC -> PLC Output {nIndex}번 {txt}");
             //log.AddLogMessage(LogType.Result, 0, $"PC -> PLC Output {nIndex}번 {txt}");
 
             if (nModuleCount > 0)

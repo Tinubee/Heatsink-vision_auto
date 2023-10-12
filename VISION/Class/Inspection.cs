@@ -16,12 +16,21 @@ namespace VISION.Class
     public class Inspection
     {
         private PGgloble Glob;
+        private CogImage8Grey OriginImage;
         private CogImage8Grey Fiximage;
         private string FimageSpace;
 
         public void Init()
         {
             Glob = PGgloble.getInstance;
+            OriginImage= new CogImage8Grey();
+        }
+
+        public CogImage8Grey CamShot(int CamNumber)
+        {
+
+
+            return OriginImage;
         }
 
         public bool Run(CogDisplay cog, int CameraNumber, int shotNumber)
