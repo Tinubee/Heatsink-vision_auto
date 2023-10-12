@@ -25,6 +25,7 @@ using Euresys.clseremc;
 using Microsoft.Win32;
 using VISION.Class;
 using VISION.UI.Display;
+using System.Security.Cryptography.X509Certificates;
 
 namespace VISION
 {
@@ -127,6 +128,9 @@ namespace VISION
         private static extern bool SetEvent(long hEvent);
 
         public Inspection 비전검사;
+
+        public CogImage8Grey[] Cam4너트검사이미지 = new CogImage8Grey[3];
+        public CogImage8Grey[] Cam5너트검사이미지 = new CogImage8Grey[2];
 
         public void SubFormRun()
         {
@@ -1262,7 +1266,9 @@ namespace VISION
 
                 NoScratchErrorInit();
 
-                cdy.Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
+                Cam4너트검사이미지[shotNumber - 1] = Glob.코그넥스파일.카메라[funCamNumber].Run();
+                cdy.Image = Cam4너트검사이미지[shotNumber - 1];
+                //cdy.Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
                 log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
                 cdy.Fit();
                 cdy.InteractiveGraphics.Clear();
@@ -1273,33 +1279,43 @@ namespace VISION
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
                     return;
                 }
-                if (Inspect_Cam4(cdy, shotNumber) == true) // 검사 결과
-                {
-                    Glob.Inspect4[shotNumber - 1] = true;
-                    //검사 결과 OK
-                    BeginInvoke((Action)delegate
-                    {
-                        if (Glob.OKImageSave)
-                            ImageSave4("OK", funCamNumber + 1, cdy, shotNumber);
-                    });
-                }
-                else
-                {
-                    Glob.Inspect4[shotNumber - 1] = false;
 
-                    BeginInvoke((Action)delegate
-                    {
-                        if (Glob.NGImageSave)
-                            ImageSave4("NG", funCamNumber + 1, cdy, shotNumber);
-                    });
-                    if (!Glob.statsOK)
-                    {
-                        NoScratchErrorSet();
-                    }
+                //if (Inspect_Cam4(cdy, shotNumber) == true) // 검사 결과
+                //{
+                //    Glob.Inspect4[shotNumber - 1] = true;
+                //    //검사 결과 OK
+                //    BeginInvoke((Action)delegate
+                //    {
+                //        if (Glob.OKImageSave)
+                //            ImageSave4("OK", funCamNumber + 1, cdy, shotNumber);
+                //    });
+                //}
+                //else
+                //{
+                //    Glob.Inspect4[shotNumber - 1] = false;
 
-                }
+                //    BeginInvoke((Action)delegate
+                //    {
+                //        if (Glob.NGImageSave)
+                //            ImageSave4("NG", funCamNumber + 1, cdy, shotNumber);
+                //    });
+                //    if (!Glob.statsOK)
+                //    {
+                //        NoScratchErrorSet();
+                //    }
+
+                //}
                 if (shotNumber == 3)
                 {
+                    bool r = false;
+
+                    r = 비전검사.Run(TempCogDisplay[3], funCamNumber, 1);
+                    Glob.Inspect4[0] = r;
+                    r = 비전검사.Run(HeatSinkMainDisplay.cdyDisplay4_2, funCamNumber, 1);
+                    Glob.Inspect4[1] = r;
+                    r = 비전검사.Run(HeatSinkMainDisplay.cdyDisplay4_3, funCamNumber, 1);
+                    Glob.Inspect4[2] = r;
+
                     InspectTime[funCamNumber].Stop();
                     InspectFlag[funCamNumber] = false;
                     if (Glob.Inspect4[0] == false || Glob.Inspect4[1] == false || Glob.Inspect4[2] == false)
@@ -1322,8 +1338,8 @@ namespace VISION
                         });
                     }
                     //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
-                    LCP_100DC(LightControl[2], "1", "f", "0000");
-                    LCP_100DC(LightControl[2], "2", "f", "0000");
+                    //LCP_100DC(LightControl[2], "1", "f", "0000");
+                    //LCP_100DC(LightControl[2], "2", "f", "0000");
                 }
                 Thread.Sleep(100);
             }
@@ -1345,7 +1361,10 @@ namespace VISION
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
 
-                cdy.Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
+
+                Cam5너트검사이미지[shotNumber - 1] = Glob.코그넥스파일.카메라[funCamNumber].Run();
+                cdy.Image = Cam4너트검사이미지[shotNumber - 1];
+                //cdy.Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
                 log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
                 cdy.Fit();
                 cdy.InteractiveGraphics.Clear();
@@ -1357,32 +1376,40 @@ namespace VISION
                     return;
                 }
 
-                if (Inspect_Cam5(cdy, shotNumber) == true) // 검사 결과
-                {
-                    Glob.Inspect5[shotNumber - 1] = true;
-                    //검사 결과 OK
-                    BeginInvoke((Action)delegate
-                    {
-                        if (Glob.OKImageSave)
-                            ImageSave5("OK", funCamNumber + 1, cdy, shotNumber);
-                    });
-                }
-                else
-                {
-                    Glob.Inspect5[shotNumber - 1] = false;
-                    BeginInvoke((Action)delegate
-                    {
-                        if (Glob.NGImageSave)
-                            ImageSave5("NG", funCamNumber + 1, cdy, shotNumber);
-                    });
-                    if (!Glob.statsOK)
-                    {
-                        NoScratchErrorSet();
-                    }
-                }
+                //if (Inspect_Cam5(cdy, shotNumber) == true) // 검사 결과
+                //{
+                //    Glob.Inspect5[shotNumber - 1] = true;
+                //    //검사 결과 OK
+                //    BeginInvoke((Action)delegate
+                //    {
+                //        if (Glob.OKImageSave)
+                //            ImageSave5("OK", funCamNumber + 1, cdy, shotNumber);
+                //    });
+                //}
+                //else
+                //{
+                //    Glob.Inspect5[shotNumber - 1] = false;
+                //    BeginInvoke((Action)delegate
+                //    {
+                //        if (Glob.NGImageSave)
+                //            ImageSave5("NG", funCamNumber + 1, cdy, shotNumber);
+                //    });
+                //    if (!Glob.statsOK)
+                //    {
+                //        NoScratchErrorSet();
+                //    }
+                //}
 
                 if (shotNumber == 2)
                 {
+                    bool r = false;
+
+                    r = 비전검사.Run(TempCogDisplay[4], funCamNumber, 1);
+                    Glob.Inspect5[0] = r;
+                    r = 비전검사.Run(HeatSinkMainDisplay.cdyDisplay5_1, funCamNumber, 1);
+                    Glob.Inspect5[1] = r;
+
+
                     InspectTime[funCamNumber].Stop();
                     InspectFlag[funCamNumber] = false;
                     if (Glob.Inspect5[0] == false || Glob.Inspect5[1] == false)
