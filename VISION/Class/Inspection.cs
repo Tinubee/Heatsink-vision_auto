@@ -2,6 +2,7 @@
 using Cognex.VisionPro.Dimensioning;
 using Cognex.VisionPro.Display;
 using KimLib;
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,22 +20,33 @@ namespace VISION.Class
         private CogImage8Grey OriginImage;
         private CogImage8Grey Fiximage;
         private string FimageSpace;
+        private double 이미지회전각도;
 
         public void Init()
         {
             Glob = PGgloble.getInstance;
-            OriginImage= new CogImage8Grey();
+            OriginImage = new CogImage8Grey();
+            이미지회전각도 = 0;
         }
 
-        public CogImage8Grey CamShot(int CamNumber)
+        public CogImage8Grey CamShot(int funCamNumber)
         {
-
+            OriginImage =  Glob.코그넥스파일.카메라[funCamNumber].Run();
+            Glob.G_MainForm.TempCogDisplay[funCamNumber].Image = OriginImage;
+            //log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
+            Glob.G_MainForm.TempCogDisplay[funCamNumber].Fit();
+            Glob.G_MainForm.TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
+            Glob.G_MainForm.TempCogDisplay[funCamNumber].StaticGraphics.Clear();
 
             return OriginImage;
         }
 
         public bool Run(CogDisplay cog, int CameraNumber, int shotNumber)
         {
+            if (CameraNumber == 1 || CameraNumber == 2 || CameraNumber == 5)
+                이미지회전각도 = Glob.G_MainForm.frm_toolsetup == null ? 1.5708 : 0;
+            else 이미지회전각도 = 0;
+
             Glob.PatternResult[CameraNumber] = true;
             Glob.BlobResult[CameraNumber] = true;
             Glob.MeasureResult[CameraNumber] = true;
@@ -52,7 +64,7 @@ namespace VISION.Class
                 Fiximage = Glob.코그넥스파일.모델.FixtureImage((CogImage8Grey)cog.Image, Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, FixPatternNumber].ToolName(), CameraNumber, out FimageSpace, usePatternNumber, FixPatternNumber);
             }
             //*******************************MultiPattern Tool Run******************************//
-            if (Glob.코그넥스파일.모델.MultiPattern_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber, 0)) //검사결과가 true 일때
+            if (Glob.코그넥스파일.모델.MultiPattern_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber, 이미지회전각도)) //검사결과가 true 일때
             {
                 for (int lop = 0; lop < 30; lop++)
                 {
@@ -95,11 +107,11 @@ namespace VISION.Class
             //Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
 
 
-            if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, 0, "PATTERN OK"); }
-            else { DisplayLabelShow(Collection2, cog, 600, 100, 0, "PATTERN NG"); };
+            if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, 이미지회전각도, "PATTERN OK"); }
+            else { DisplayLabelShow(Collection2, cog, 600, 100, 이미지회전각도, "PATTERN NG"); };
 
-            if (Glob.BlobResult[CameraNumber]) { DisplayLabelShow(Collection3, cog, 600, 170, 0, "BLOB OK"); }
-            else { DisplayLabelShow(Collection3, cog, 600, 170, 0, "BLOB NG"); };
+            if (Glob.BlobResult[CameraNumber]) { DisplayLabelShow(Collection3, cog, 600, 170, 이미지회전각도, "BLOB OK"); }
+            else { DisplayLabelShow(Collection3, cog, 600, 170, 이미지회전각도, "BLOB NG"); };
 
             for (int i = 0; i < Collection.Count; i++)
             {
