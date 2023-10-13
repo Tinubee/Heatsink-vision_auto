@@ -491,7 +491,7 @@ namespace VISION
                 string sandCmd = $"{STX}{channel}{dataType}{lightValue}{ETX}";
 
                 control.WriteLine(sandCmd);
-                Debug.WriteLine($"Light Control : {control.PortName} / sendCommand : {sandCmd} finished");
+                //Debug.WriteLine($"Light Control : {control.PortName} / sendCommand : {sandCmd} finished");
             }
             catch (Exception ee)
             {
@@ -511,7 +511,7 @@ namespace VISION
                 string sandCmd = $"{STX}{channel}w{lightValue}{ETX}";
 
                 control.WriteLine(sandCmd);
-                Debug.WriteLine($"Light Control : {control.PortName} / sendCommand : {sandCmd} finished");
+                //Debug.WriteLine($"Light Control : {control.PortName} / sendCommand : {sandCmd} finished");
             }
             catch (Exception ee)
             {
@@ -1033,19 +1033,28 @@ namespace VISION
             //log.AddLogMessage(LogType.Infomation, 0, $"Cam - {camNumber + 1} : {Result}");
             try
             {
-                if (Model == "shield")
+                if (Result == string.Empty)
                 {
-                    lb개별카메라검사결과[camNumber].BackColor = Result == "O K" ? Color.Lime : Color.Red;
-                    lb개별카메라검사결과[camNumber].Text = Result;
                     lb개별카메라검사결과[camNumber].ForeColor = Color.White;
-                    lb검사시간[camNumber].Text = InspectTime[camNumber].ElapsedMilliseconds.ToString() + "msec";
+                    lb개별카메라검사결과[camNumber].Text = "Wait";
+                    lb검사시간[camNumber].Text = "0msec";
                 }
                 else
                 {
-                    lb개별카메라검사결과[camNumber].BackColor = Result == "O K" ? Color.Lime : Color.Red;
+                    //if (Model == "shield")
+                    //{
+                    //    lb개별카메라검사결과[camNumber].ForeColor = Result == "O K" ? Color.Lime : Color.Red;
+                    //    lb개별카메라검사결과[camNumber].Text = Result;
+                    //    //lb개별카메라검사결과[camNumber].ForeColor = Color.White;
+                    //    lb검사시간[camNumber].Text = InspectTime[camNumber].ElapsedMilliseconds.ToString() + "msec";
+                    //}
+                    //else
+                    //{
+                    lb개별카메라검사결과[camNumber].ForeColor = Result == "O K" ? Color.Lime : Color.Red;
                     lb개별카메라검사결과[camNumber].Text = Result;
-                    lb개별카메라검사결과[camNumber].ForeColor = Color.White;
+                    //lb개별카메라검사결과[camNumber].ForeColor = Color.White;
                     lb검사시간[camNumber].Text = InspectTime[camNumber].ElapsedMilliseconds.ToString() + "msec";
+                    //}
                 }
             }
             catch (Exception ee)
@@ -1061,6 +1070,8 @@ namespace VISION
             {
                 int funCamNumber = 0;
                 string result = string.Empty;
+                //DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
+
                 InspectTime[funCamNumber] = new Stopwatch();
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
@@ -1121,10 +1132,12 @@ namespace VISION
         #region Shot CAM2 
         public void ShotAndInspect_Cam2(int shotNumber)
         {
-            int funCamNumber = 1;
-            string result = string.Empty;
             try
             {
+                int funCamNumber = 1;
+                string result = string.Empty;
+                //DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
+
                 InspectTime[funCamNumber] = new Stopwatch();
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
@@ -1190,9 +1203,11 @@ namespace VISION
         public void ShotAndInspect_Cam3(int shotNumber)
         {
             int funCamNumber = 2;
-            string result = string.Empty;
             try
             {
+                string result = string.Empty;
+                //DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
+
                 InspectTime[funCamNumber] = new Stopwatch();
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
@@ -1257,9 +1272,12 @@ namespace VISION
         public void ShotAndInspect_Cam4(CogDisplay cdy, int shotNumber)
         {
             int funCamNumber = 3;
-            string result = string.Empty;
             try
             {
+                string result = string.Empty;
+
+                //DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
+
                 InspectTime[funCamNumber] = new Stopwatch();
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
@@ -1362,6 +1380,8 @@ namespace VISION
             string result = string.Empty;
             try
             {
+                //DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
+                
                 InspectTime[funCamNumber] = new Stopwatch();
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
@@ -1417,7 +1437,7 @@ namespace VISION
 
                     BeginInvoke((Action)delegate
                     {
-                       
+
                     });
 
                     InspectTime[funCamNumber].Stop();
@@ -1469,6 +1489,8 @@ namespace VISION
             string result = string.Empty;
             try
             {
+                //DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
+
                 InspectTime[funCamNumber] = new Stopwatch();
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
@@ -1544,6 +1566,8 @@ namespace VISION
             string result = string.Empty;
             try
             {
+                //DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
+
                 InspectTime[funCamNumber] = new Stopwatch();
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
@@ -1606,6 +1630,8 @@ namespace VISION
             string result = string.Empty;
             try
             {
+                //DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
+
                 InspectTime[funCamNumber] = new Stopwatch();
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
@@ -1712,7 +1738,7 @@ namespace VISION
             //Debug.WriteLine("Press 1 Error Check to PLC Start");
             for (int lop = 0; lop < Glob.press1PinResult.Length; lop++)
             {
-                Debug.WriteLine(Glob.press1PinResult[lop]);
+                //Debug.WriteLine(Glob.press1PinResult[lop]);
                 if (Glob.press1PinResult[lop] == "OK")
                 {
                     switch (lop)
@@ -1761,7 +1787,7 @@ namespace VISION
                 최종결과표시(Glob.scratchError[1], Glob.noScratchError[0], res);
 
                 Debug.WriteLine($"Glob.firstInspection[1] : 스크레치 - {res[0]} / 스크레치아닌불량 - {res[1]}");
-                log.AddLogMessage(LogType.Infomation, 0, $"Glob.firstInspection[1] : 스크레치 - {res[0]} / 스크레치아닌불량 - {res[1]}");
+                //log.AddLogMessage(LogType.Infomation, 0, $"Glob.firstInspection[1] : 스크레치 - {res[0]} / 스크레치아닌불량 - {res[1]}");
                 if (Glob.scratchError[1])
                 {
                     SelectHighIndex(1, 1);
@@ -1792,7 +1818,7 @@ namespace VISION
                 최종결과표시(Glob.scratchError[0], Glob.noScratchError[1], res);
 
                 Debug.WriteLine($"Glob.firstInspection[0] : 스크레치 - {res[0]} / 스크레치아닌불량 - {res[1]}");
-                log.AddLogMessage(LogType.Infomation, 0, $"Glob.firstInspection[0] : 스크레치 - {res[0]} / 스크레치아닌불량 - {res[1]}");
+                //log.AddLogMessage(LogType.Infomation, 0, $"Glob.firstInspection[0] : 스크레치 - {res[0]} / 스크레치아닌불량 - {res[1]}");
                 if (Glob.scratchError[0])
                 {
                     SelectHighIndex(1, 1);
@@ -1834,6 +1860,7 @@ namespace VISION
 
         private void btn_Status_Click(object sender, EventArgs e)
         {
+            //조명온오프제어(true);
             if (frm_toolsetup != null)
             {
                 cm.info("Tool SetUp 화면이 열려 있습니다. \n변경사항이 있으면 저장 후 Tool Set Up화면을 닫아 주세요.");
@@ -3391,7 +3418,7 @@ namespace VISION
             CAXD.AxdInfoGetModuleCount(ref nModuleCount);
 
             string txt = uValue == 1 ? "On" : "Off";
-            Debug.WriteLine($"PC -> PLC Output {nIndex}번 {txt}");
+            //Debug.WriteLine($"PC -> PLC Output {nIndex}번 {txt}");
             //log.AddLogMessage(LogType.Result, 0, $"PC -> PLC Output {nIndex}번 {txt}");
 
             if (nModuleCount > 0)
