@@ -941,7 +941,7 @@ namespace VISION
 
         private void btn_SystemSetup_Click(object sender, EventArgs e)
         {
-            if (FromOpenCheck(frm_systemsetup)) return;
+            //if (FromOpenCheck(frm_systemsetup)) return;
 
             frm_systemsetup = new Frm_SystemSetUp(this);
             frm_systemsetup.Show(this);
@@ -1063,6 +1063,9 @@ namespace VISION
 
         public void 이미지저장(int funCamNumber, string strResult)
         {
+            if (strResult == "O K")
+                Debug.WriteLine($"Cam - {funCamNumber} / {strResult} ImageSave");
+
             if (funCamNumber == 1 || funCamNumber == 2 || funCamNumber == 5)
                 ImageSave2(strResult, funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, TempCogDisplay[funCamNumber]);
             else
@@ -1329,7 +1332,7 @@ namespace VISION
                     return;
                 }
 
-                if (shotNumber == 3) 
+                if (shotNumber == 3)
                 {
                     bool r = false;
                     r = 비전검사.Run(TempCogDisplay[3], funCamNumber, 1);

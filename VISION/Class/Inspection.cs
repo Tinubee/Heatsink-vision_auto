@@ -137,7 +137,7 @@ namespace VISION.Class
             cog.StaticGraphics.AddList(Collection3, "");
 
             //Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
-            GC.Collect();
+            //GC.Collect();
             return Glob.G_MainForm.InspectResult[CameraNumber];
         }
 

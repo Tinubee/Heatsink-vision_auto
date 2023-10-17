@@ -684,6 +684,8 @@ namespace VISION.Cogs
                 bool Result = true;
                 CogGraphicCollection CollectionNG = new CogGraphicCollection();
                 int BlobMax = BLOBTOOLMAX - 1;
+                Masks[CamNumber, shotNumber - 1].Run(Image);
+                //Blobs[CamNumber, lop].MaskAreaSet(Masks[CamNumber, shotNumber - 1].MaskArea());
                 // 검사 툴 작동
                 for (int lop = 0; lop <= BlobMax; lop++)
                 {
@@ -691,7 +693,7 @@ namespace VISION.Cogs
                     //pattern 4 
                     if (BlobEnable[CamNumber, lop] == true && (MultiPatternOrderNumber[CamNumber, patternIndex] == Glob.InspectOrder || MultiPatternOrderNumber[CamNumber, patternIndex] == shotNumber))
                     {
-                        Masks[CamNumber, shotNumber - 1].Run(Image);
+                        //Masks[CamNumber, shotNumber - 1].Run(Image);
                         Blobs[CamNumber, lop].MaskAreaSet(Masks[CamNumber, shotNumber - 1].MaskArea());
                         Blobs[CamNumber, lop].Run(Image);
                         ResultString[lop] = "OK";
