@@ -1,13 +1,13 @@
-﻿namespace VISION.UI
+﻿namespace VISION.UI.Controls
 {
-    partial class CogToolEdit
+    partial class DeviceLamp
     {
-        /// <summary>
+        /// <summary> 
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
+        /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -20,25 +20,16 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Component Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // CogToolEdit
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(856, 541);
-            this.Name = "CogToolEdit";
-            this.Text = "CogToolEdit";
-            this.ResumeLayout(false);
-
         }
 
         #endregion

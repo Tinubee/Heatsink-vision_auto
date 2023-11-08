@@ -12,15 +12,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 
-namespace VISION.Utils
+namespace VISION
 {
-    //public enum EXECUTION_STATE : uint
-    //{
-    //    ES_AWAYMODE_REQUIRED = 0x00000040,
-    //    ES_CONTINUOUS = 0x80000000,
-    //    ES_DISPLAY_REQUIRED = 0x00000002,
-    //}
-
     public static class Common
     {
         [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]

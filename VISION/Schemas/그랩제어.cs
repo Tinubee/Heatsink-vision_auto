@@ -123,7 +123,7 @@ namespace VISION.Schemas
         [JsonIgnore]
         private const string 로그영역 = "카메라";
         [JsonIgnore]
-        //private string 저장파일 { get { return Path.Combine(Global.환경설정.기본경로, "카메라설정.json"); } }
+        private string 저장파일 { get { return Path.Combine(Global.환경설정.기본경로, "카메라설정.json"); } }
         //[JsonIgnore]
         //public Boolean 정상여부 { get { return !this.Values.Any(e => !e.상태); } }
 
@@ -192,14 +192,13 @@ namespace VISION.Schemas
 
         private List<카메라장치> Load()
         {
-            return null;
-            //if (!File.Exists(this.저장파일)) return null;
-            //return JsonConvert.DeserializeObject<List<카메라장치>>(File.ReadAllText(this.저장파일), IvmUtils.Utils.JsonSetting());
+            if (!File.Exists(this.저장파일)) return null;
+            return JsonConvert.DeserializeObject<List<카메라장치>>(File.ReadAllText(this.저장파일), MvUtils.Utils.JsonSetting());
         }
 
         public void Save()
         {
-           // if (!IvmUtils.Utils.WriteAllText(저장파일, JsonConvert.SerializeObject(this.Values, IvmUtils.Utils.JsonSetting())))
+            // if (!IvmUtils.Utils.WriteAllText(저장파일, JsonConvert.SerializeObject(this.Values, IvmUtils.Utils.JsonSetting())))
             //    Global.오류로그(로그영역, "카메라 설정 저장", "카메라 설정 저장에 실패하였습니다.", true);
         }
 
@@ -219,7 +218,7 @@ namespace VISION.Schemas
 
         public void 그랩완료(CameraType 카메라, List<Mat> 이미지)
         {
-          
+
             this.그랩완료보고2?.Invoke(카메라, 이미지);
         }
 
@@ -304,10 +303,10 @@ namespace VISION.Schemas
         public virtual String 설명 { get; set; } = String.Empty;
         [JsonProperty("IpAddress")]
         public virtual String 주소 { get; set; } = String.Empty;
-        //[JsonProperty("Timeout"), Description("Timeout"), Translation("Timeout", "제한시간", "Čas vypršal")]
-        //public virtual Double 시간 { get; set; } = 1000;
-        //[JsonProperty("Exposure"), Description("Exposure"), Translation("Exposure", "노출", "Vystavenie")]
-        //public virtual Single 노출 { get; set; } = 300;
+        [JsonProperty("Timeout"), Description("Timeout")]
+        public virtual Double 시간 { get; set; } = 1000;
+        [JsonProperty("Exposure"), Description("Exposure")]
+        public virtual Single 노출 { get; set; } = 300;
         [JsonProperty("BlackLevel"), Description("Black Level")]
         public virtual UInt32 밝기 { get; set; } = 0;
         [JsonProperty("Contrast"), Description("Contrast")]
@@ -331,9 +330,9 @@ namespace VISION.Schemas
             if (장치 == null) return;
             this.코드 = 장치.코드;
             this.설명 = 장치.설명;
-            //this.시간 = 장치.시간;
-            //this.노출 = 장치.노출;
-            //this.대비 = 장치.대비;
+            this.시간 = 장치.시간;
+            this.노출 = 장치.노출;
+            this.대비 = 장치.대비;
             this.밝기 = 장치.밝기;
             this.가로 = 장치.가로;
             this.세로 = 장치.세로;
@@ -380,14 +379,13 @@ namespace VISION.Schemas
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 this.상태 = false;
             }
 
             Debug.WriteLine($"{this.명칭}, {this.코드}, {this.주소}, {this.상태}");
             return this.상태;
         }
-
-        //private Boolean RequireSet(CIntValue val, Int32 current) => val.CurValue != current && val.Min >= current && val.Max <= current;
         public override Boolean Init()
         {
             Int32 nRet = this.Camera.CreateHandle(ref Device);
@@ -399,7 +397,7 @@ namespace VISION.Schemas
             그랩제어.Validate("", this.Camera.SetBoolValue("BlackLevelEnable", true), false);
 
             this.Camera.SetImageNodeNum(ImageCount);
-            //this.옵션적용();
+            this.옵션적용();
 
             그랩제어.Validate("RegisterImageCallBackEx", this.Camera.RegisterImageCallBackEx(this.ImageCallBackDelegate, IntPtr.Zero), false);
             return true;
@@ -407,31 +405,31 @@ namespace VISION.Schemas
 
         private void 옵션적용()
         {
-            //this.노출적용();
-            //this.대비적용();
-            //this.밝기적용();
+            this.노출적용();
+            this.대비적용();
+            this.밝기적용();
         }
 
-        //public void 밝기적용() // Black Level : 0 ~ 4095
-        //{
-        //    if (this.Camera == null) return;
-        //    Int32 nRet = this.Camera.SetIntValue("BlackLevel", this.밝기); //this.Camera.SetBrightness(this.밝기);
-        //    그랩제어.Validate($"[{this.구분}] 밝기 설정에 실패하였습니다.", nRet, true);
-        //}
+        public void 밝기적용() // Black Level : 0 ~ 4095
+        {
+            if (this.Camera == null) return;
+            Int32 nRet = this.Camera.SetIntValue("BlackLevel", this.밝기); //this.Camera.SetBrightness(this.밝기);
+            그랩제어.Validate($"[{this.구분}] 밝기 설정에 실패하였습니다.", nRet, true);
+        }
 
-        ////public void 노출적용()
-        //{
-        //    if (this.Camera == null) return;
-        //    Int32 nRet = this.Camera.SetFloatValue("ExposureTime", this.노출);
-        //    그랩제어.Validate($"[{this.구분}] 노출 설정에 실패하였습니다.", nRet, true);
-        //}
+        public void 노출적용()
+        {
+            if (this.Camera == null) return;
+            Int32 nRet = this.Camera.SetFloatValue("ExposureTime", this.노출);
+            그랩제어.Validate($"[{this.구분}] 노출 설정에 실패하였습니다.", nRet, true);
+        }
 
-        //public void 대비적용() // Gain
-        //{
-        //    if (this.Camera == null) return;
-        //    Int32 nRet = this.Camera.SetFloatValue("Gain", this.대비);
-        //    그랩제어.Validate($"[{this.구분}] 대비 설정에 실패하였습니다.", nRet, true);
-        //}
+        public void 대비적용() // Gain
+        {
+            if (this.Camera == null) return;
+            Int32 nRet = this.Camera.SetFloatValue("Gain", this.대비);
+            그랩제어.Validate($"[{this.구분}] 대비 설정에 실패하였습니다.", nRet, true);
+        }
 
         public override Boolean Start()
         {

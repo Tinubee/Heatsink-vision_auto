@@ -8,6 +8,7 @@ using Cognex.VisionPro.Dimensioning;
 using Cognex.VisionPro.PMAlign;
 using Cognex.VisionPro.Display;
 using VISION.Class;
+using System.Diagnostics;
 
 namespace VISION.Cogs
 {
@@ -114,7 +115,7 @@ namespace VISION.Cogs
             }
             catch (Exception ee)
             {
-                //cm.info(ee.Message);
+                Debug.WriteLine(ee.Message);
                 return false;
             }
         }

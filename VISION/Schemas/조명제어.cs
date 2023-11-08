@@ -82,6 +82,7 @@ namespace VISION.Schemas
             {
                 통신포트.Dispose();
                 통신포트 = null;
+                Debug.WriteLine(ex.Message);
                 //Global.오류로그(로그영역, "장치연결", "조명 제어 포트에 연결할 수 없습니다.\n" + ex.Message, true);
                 return false;
             }
@@ -129,6 +130,7 @@ namespace VISION.Schemas
             catch (Exception ex)
             {
                 //Global.오류로그(로그영역, 구분, ex.Message, true);
+                Debug.WriteLine(ex.Message);
                 return false;
             }
         }
@@ -222,6 +224,7 @@ namespace VISION.Schemas
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 //Global.오류로그(로그영역, "조명 설정 로드", ex.Message, false);
             }
         }

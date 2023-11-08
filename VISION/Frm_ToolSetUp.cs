@@ -45,7 +45,7 @@ namespace VISION
 
         private bool Dataset = false;
         public bool liveflag = false;
-        bool FormLoad = false;
+        public bool FormLoad = false;
         bool ImageDelete = false;
         int SelectNumber;
 

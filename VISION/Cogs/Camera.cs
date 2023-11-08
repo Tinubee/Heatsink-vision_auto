@@ -11,7 +11,7 @@ namespace VISION.Cogs
 {
     public class Camera
     {
-        private CogToolBlock toolBlock;
+        private CogToolBlock toolBlock = null;
 
         //private CogAcqFifoTool camTool = new CogAcqFifoTool();
         private PGgloble Glob = PGgloble.getInstance;
