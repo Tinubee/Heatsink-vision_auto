@@ -67,122 +67,18 @@ namespace VISION.Schemas
     {
         [Description("None"), Translation("None", "없음")]
         None,
-        [Description("CTQ"), Translation("CTQ")]
-        CTQ,
         [Description("Suface"), Translation("Suface", "외관검사")]
         Suface,
+        [Description("Pattern"), Translation("Pattern","형상검사")]
+        Pattern,
+        [Description("Blob"), Translation("Blob", "블롭검사")]
+        Blob,
     }
 
     public enum 검사항목 : Int32
     {
         [Result(), ListBindable(false)]
         None = 0,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Flatness)]
-        바닥평면도,
-        [Result(검사그룹.CTQ, 결과분류.Detail, 장치구분.Flatness)]
-        데이텀A1,
-        [Result(검사그룹.CTQ, 결과분류.Detail, 장치구분.Flatness)]
-        데이텀A2,
-        [Result(검사그룹.CTQ, 결과분류.Detail, 장치구분.Flatness)]
-        데이텀A3,
-        [Result(검사그룹.CTQ, 결과분류.Detail, 장치구분.Flatness)]
-        데이텀A4,
-        [Result(검사그룹.CTQ, 결과분류.Detail, 장치구분.Flatness)]
-        변위측정a1,
-        [Result(검사그룹.CTQ, 결과분류.Detail, 장치구분.Flatness)]
-        변위측정a2,
-        [Result(검사그룹.CTQ, 결과분류.Detail, 장치구분.Flatness)]
-        변위측정a3,
-        [Result(검사그룹.CTQ, 결과분류.Detail, 장치구분.Flatness)]
-        변위측정a4,
-        [Result(검사그룹.CTQ, 결과분류.Detail, 장치구분.Flatness)]
-        변위측정a5,
-        [Result(검사그룹.CTQ, 결과분류.Detail, 장치구분.Flatness)]
-        변위측정a6,
-        [Result(검사그룹.CTQ, 결과분류.Detail, 장치구분.Flatness)]
-        변위측정a7,
-        [Result(검사그룹.CTQ, 결과분류.Detail, 장치구분.Flatness)]
-        변위측정a8,
-
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam03)]
-        형합면1,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam03)]
-        형합면2,
-        [Result(검사그룹.CTQ, 결과분류.Detail, 장치구분.Cam03)]
-        거리측정H1,
-        [Result(검사그룹.CTQ, 결과분류.Detail, 장치구분.Cam03)]
-        거리측정H2,
-        [Result(검사그룹.CTQ, 결과분류.Detail, 장치구분.Cam03)]
-        거리측정H3,
-        [Result(검사그룹.CTQ, 결과분류.Detail, 장치구분.Cam03)]
-        거리측정H4,
-
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam03)]
-        측면부폭1,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam03)]
-        측면부폭2,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam03)]
-        측면부폭3,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam03)]
-        측면부폭4,
-
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam01)]
-        가공부높이1,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam01)]
-        가공부높이2,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam01)]
-        가공부높이3,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam01)]
-        가공부높이4,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam01)]
-        가공부높이5,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam01)]
-        가공부높이6,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam01)]
-        가공부높이7,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam01)]
-        가공부높이8,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam01)]
-        가공부높이9,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam02)]
-        가공부높이10,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam02)]
-        가공부높이11,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam02)]
-        가공부높이12,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam02)]
-        가공부높이13,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam02)]
-        가공부높이14,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam02)]
-        가공부높이15,
-        [Result(검사그룹.CTQ, 결과분류.Summary, 장치구분.Cam02)]
-        가공부높이16,
-
-        [Result(검사그룹.Suface, 결과분류.Summary, 장치구분.Spacing)]
-        커버높이,
-        [Result(검사그룹.Suface, 결과분류.Detail, 장치구분.Spacing)]
-        커버상m1,
-        [Result(검사그룹.Suface, 결과분류.Detail, 장치구분.Spacing)]
-        커버상m2,
-        [Result(검사그룹.Suface, 결과분류.Detail, 장치구분.Spacing)]
-        커버상m3,
-        [Result(검사그룹.Suface, 결과분류.Detail, 장치구분.Spacing)]
-        커버뜸s1,
-        [Result(검사그룹.Suface, 결과분류.Detail, 장치구분.Spacing)]
-        커버뜸s2,
-        [Result(검사그룹.Suface, 결과분류.Detail, 장치구분.Spacing)]
-        커버뜸s3,
-        [Result(검사그룹.Suface, 결과분류.Detail, 장치구분.Spacing)]
-        커버뜸s4,
-
-        [Result(검사그룹.Suface, 결과분류.Summary, 장치구분.Cam04)]
-        노말미러,
-        [Result(검사그룹.Suface, 결과분류.Summary, 장치구분.QrCode)]
-        큐알코드,
-        [Result(검사그룹.Suface, 결과분류.Summary, 장치구분.QrMark)]
-        각인코드,
-
         [Result(검사그룹.Suface, 결과분류.Summary, 장치구분.None)]
         찍힘불량,
         [Result(검사그룹.Suface, 결과분류.Summary, 장치구분.None)]
@@ -402,8 +298,6 @@ namespace VISION.Schemas
 
         public 결과구분 결과계산()
         {
-            this.SetResult(검사항목.큐알코드, String.IsNullOrEmpty(this.큐알코드) ? 0 : 1);
-            this.SetResult(검사항목.각인코드, (Int32)this.큐알등급);
             // 임시
             this.SetResult(검사항목.찍힘불량, 0);
             this.SetResult(검사항목.스크레치, 0);
@@ -418,8 +312,6 @@ namespace VISION.Schemas
             }
             else
             {
-                if (this.검사내역.Any(e => e.검사그룹 == 검사그룹.CTQ && e.측정결과 == 결과구분.ER)) this.CTQ결과 = 결과구분.ER;
-                else this.CTQ결과 = 결과구분.NG;
                 if (this.검사내역.Any(e => e.검사그룹 == 검사그룹.Suface && e.측정결과 == 결과구분.ER)) this.외관결과 = 결과구분.ER;
                 else this.외관결과 = 결과구분.NG;
             }

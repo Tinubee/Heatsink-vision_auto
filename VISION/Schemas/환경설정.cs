@@ -30,15 +30,15 @@ namespace VISION.Schemas
         [Description("NG 이미지 저장"), JsonProperty("SaveNG")]
         public Boolean 사진저장NG { get; set; } = false;
         [JsonProperty("CurrentModel")]
-        public 모델구분 선택모델 { get; set; } = 모델구분.None;
+        public 모델구분 선택모델 { get; set; } = 모델구분.HeatSink0023;
         [Translation("Model Image Path", "제품 사진 경로")] 
         public String 사진경로 { get { return Path.Combine(기본경로, "Items"); } } // = @"C:\IVM\VDA590\Config\Items";
         [Description("검사결과 보관일수"), JsonProperty("DaysToKeepResults")]
         public int 결과보관 { get; set; } = 180;
-        [Description("비젼 Tools"), JsonIgnore]
+        [Description("비젼 Tools"), JsonProperty("VisionToolPath")]
         public String 도구경로 { get { return Path.Combine(기본경로, "Tools"); } }
-        [Description("마스터 이미지"), JsonIgnore]
-        public String 마스터사진 { get { return Path.Combine(기본경로, "Masters"); } }
+        [Description("마스터 이미지"), JsonProperty("MasterImagePath")]
+        public String 마스터사진 { get { return Path.Combine(기본경로, "MasterImages"); } }
         [JsonIgnore]
         private string 저장파일 { get { return Path.Combine(this.기본경로, "환경설정.json"); } }
         [JsonIgnore]

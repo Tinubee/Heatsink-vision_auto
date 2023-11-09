@@ -115,7 +115,7 @@ namespace VISION.Schemas
     public class 모델자료 : BindingList<모델정보>
     {
         public static TranslationAttribute 로그영역 = new TranslationAttribute("Models", "모델관리");
-        private String 저장파일 { get { return Path.Combine(Global.환경설정.기본경로, $"Models.json"); } }
+        private String 저장파일 { get { return Path.Combine(Global.환경설정.모델저장경로, $"Models.json"); } }
         public 모델정보 선택모델 { get { return this.GetItem(Global.환경설정.선택모델); } }
         public event Global.BaseEvent 검사수량변경;
 
@@ -242,7 +242,7 @@ namespace VISION.Schemas
         private 모델정보 모델정보;
         private 모델구분 모델구분 { get { return 모델정보.모델구분; } }
         private Int32 모델번호 { get { return 모델정보.모델번호; } }
-        private String 저장파일 { get { return Path.Combine(Global.환경설정.기본경로, $"Model.{모델번호.ToString("d2")}.json"); } }
+        private String 저장파일 { get { return Path.Combine(Global.환경설정.기본경로, $"Model.{모델구분}.json"); } }
         public 검사설정자료(모델정보 모델) { this.모델정보 = 모델; }
 
         public void Init() { this.Load(); }

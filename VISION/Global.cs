@@ -22,6 +22,7 @@ namespace VISION
         public static 조명제어 조명제어;
         public static 환경설정 환경설정;
         public static 모델자료 모델자료;
+        public static 코그넥스 코그넥스;
 
         public static Boolean Init()
         {
@@ -31,6 +32,13 @@ namespace VISION
                 조명제어 = new 조명제어();
                 환경설정 = new 환경설정();
                 모델자료 = new 모델자료();
+                코그넥스 = new 코그넥스();
+
+                //그랩제어.Init();
+                환경설정.Init();
+                //조명제어.Init();
+                모델자료.Init();
+                코그넥스.Init();
 
                 Initialized?.Invoke(null, true);
                 return true;
@@ -56,9 +64,8 @@ namespace VISION
                 //유저자료.Close();
                 환경설정.Close();
                 //로그자료.Close();
-
                 그랩제어.Close();
-                //모델자료.Close();
+                모델자료.Close();
                 Properties.Settings.Default.Save();
                 Debug.WriteLine("시스템 종료");
                 return true;

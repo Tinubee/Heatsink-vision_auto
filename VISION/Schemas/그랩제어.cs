@@ -358,8 +358,6 @@ namespace VISION.Schemas
 
         public uint ImageCount = 6;
         public List<Mat> MatImage = new List<Mat>();
-        //public List<IntPtr> MatImageData = new List<IntPtr>();
-        //public int grabCount = 0;
 
         public Boolean Init(CGigECameraInfo info)
         {
@@ -470,7 +468,8 @@ namespace VISION.Schemas
             try
             {
                 Mat image = new Mat(frameInfo.nHeight, frameInfo.nWidth, MatType.CV_8U, data);
-
+                Global.그랩제어.그랩완료(this.구분, image);
+                this.Stop();
                 //if (this.구분 == CameraType.Cam02)
                 //{
                 //    Global.그랩제어.그랩완료(this.구분, image);
