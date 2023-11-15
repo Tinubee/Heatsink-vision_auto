@@ -14,10 +14,10 @@ using VISION.Schemas;
 
 namespace VISION.UI
 {
-    public partial class MainForm : DevExpress.XtraEditors.XtraForm
+    public partial class MainForm : DevExpress.XtraBars.TabForm
     {
         private LocalizationMain 번역 = new LocalizationMain();
-        private UI.Form.WaitForm WaitForm;
+        private Form.WaitForm WaitForm;
 
         public MainForm()
         {
@@ -79,14 +79,15 @@ namespace VISION.UI
         }
         private void Init()
         {
-
+            this.e상태뷰어.Init();
+            this.e로그내역.Init();
         }
 
         private void CloseForm()
         {
             //this.e장치설정.Close();
-            //this.e로그내역.Close();
-            //this.e상태뷰어.Close();
+            this.e로그내역.Close();
+            this.e상태뷰어.Close();
             Global.Close();
         }
 

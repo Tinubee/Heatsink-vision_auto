@@ -3266,7 +3266,6 @@ namespace VISION
         private void ReadInputSignal()
         {
             Glob.InspectOrder = 1818;
-
             //// 시간 체크
             //Int32 count = 10000;
             //DateTime time = DateTime.Now;
@@ -3274,7 +3273,6 @@ namespace VISION
             while (IO_DoWork)
             {
                 //time = DateTime.Now;
-
                 try
                 {
                     UInt32 iVal = 0;

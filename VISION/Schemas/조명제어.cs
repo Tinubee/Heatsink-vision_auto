@@ -29,6 +29,9 @@ namespace VISION.Schemas
         COM4,
         COM5,
         COM6,
+        COM7,
+        COM8,
+        COM9
     }
     public enum 조명채널
     {
@@ -165,20 +168,20 @@ namespace VISION.Schemas
         [JsonIgnore]
         private string 저장파일 { get { return Path.Combine(Global.환경설정.기본경로, "조명설정.json"); } }
         [JsonIgnore]
-        private LCP_100DC 컨트롤러1;
+        private LCP24_150DC 컨트롤러1;
         [JsonIgnore]
-        private LCP_100DC 컨트롤러2;
+        private LCP24_150DC 컨트롤러2;
         [JsonIgnore]
-        private LCP_100DC 컨트롤러3;
+        private LCP24_150DC 컨트롤러3;
         [JsonIgnore]
-        private LCP24_150DC 컨트롤러4;
+        private LCP_100DC 컨트롤러4;
 
         public void Init()
         {
-            this.컨트롤러1 = new LCP_100DC() { 포트 = 조명포트.COM3 };
-            this.컨트롤러2 = new LCP_100DC() { 포트 = 조명포트.COM4 };
-            this.컨트롤러3 = new LCP_100DC() { 포트 = 조명포트.COM5 };
-            this.컨트롤러4 = new LCP24_150DC() { 포트 = 조명포트.COM6 };
+            this.컨트롤러1 = new LCP24_150DC() { 포트 = 조명포트.COM6 };
+            this.컨트롤러2 = new LCP24_150DC() { 포트 = 조명포트.COM7 };
+            this.컨트롤러3 = new LCP24_150DC() { 포트 = 조명포트.COM8 };
+            this.컨트롤러4 = new LCP_100DC() { 포트 = 조명포트.COM9 };
 
             this.컨트롤러1.Init();
             this.컨트롤러2.Init();

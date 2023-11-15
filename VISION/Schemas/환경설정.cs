@@ -1,5 +1,6 @@
 ﻿using MvUtils;
 using Newtonsoft.Json;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,6 +26,8 @@ namespace VISION.Schemas
         public string 데이터저장경로 { get; set; } = @"C:\HKC\HeatSink\SaveData"; 
         [Description("결과 저장위치"), JsonProperty("ModelSavePath")]
         public string 모델저장경로 { get; set; } = @"C:\HKC\HeatSink\Models";
+        [Translation("Decimals", "검사 결과 자릿수"), JsonProperty("Decimals")]
+        public Int32 결과자릿수 { get; set; } = 3;
         [Description("OK 이미지 저장"), JsonProperty("SaveOK")]
         public Boolean 사진저장OK { get; set; } = false;
         [Description("NG 이미지 저장"), JsonProperty("SaveNG")]
@@ -35,6 +38,8 @@ namespace VISION.Schemas
         public String 사진경로 { get { return Path.Combine(기본경로, "Items"); } } // = @"C:\IVM\VDA590\Config\Items";
         [Description("검사결과 보관일수"), JsonProperty("DaysToKeepResults")]
         public int 결과보관 { get; set; } = 180;
+        [Translation("Logs Storage Days", "로그 보관일"), JsonProperty("DaysToKeepLogs")]
+        public Int32 로그보관 { get; set; } = 60;
         [Description("비젼 Tools"), JsonProperty("VisionToolPath")]
         public String 도구경로 { get { return Path.Combine(기본경로, "Tools"); } }
         [Description("마스터 이미지"), JsonProperty("MasterImagePath")]
@@ -45,10 +50,41 @@ namespace VISION.Schemas
         public String OK이미지저장경로 { get { return Path.Combine(this.이미지저장경로, "OK"); } }
         [JsonIgnore]
         public String NG이미지저장경로 { get { return Path.Combine(this.이미지저장경로, "NG"); } }
+        [JsonIgnore, Description("검사여부"), Translation("Use Inspect", "검사여부")]
+        public Boolean 검사여부 { get; set; } = true; // 검사로직 활성화 여부
         [JsonIgnore, Description("사용자명")]
         public String 사용자명 { get; set; } = String.Empty;
         [JsonIgnore, Description("권한구분")]
         public 유저권한구분 사용권한 { get; set; } = 유저권한구분.없음;
+
+
+        public static NpgsqlConnection CreateDbConnection()
+        {
+            NpgsqlConnectionStringBuilder b = new NpgsqlConnectionStringBuilder() { Host = "localhost", Port = 5432, Username = "postgres", Password = "ivmadmin", Database = "heatsink" };
+            return new NpgsqlConnection(b.ConnectionString);
+        }
+
+        public Boolean CanDbConnect()
+        {
+            Boolean can = false;
+            try
+            {
+                NpgsqlConnection conn = CreateDbConnection();
+                conn.Open();
+                can = conn.ProcessID > 0;
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                //Global.오류로그(로그영역.GetString(), "데이터베이스 연결실패", ex.Message, true);
+            }
+            return can;
+        }
+
+
+
         public bool Init()
         {
             return this.Load();
@@ -118,7 +154,7 @@ namespace VISION.Schemas
 
         public void Save()
         {
-            if (!MvUtils.Utils.WriteAllText(저장파일, JsonConvert.SerializeObject(this, MvUtils.Utils.JsonSetting())))
+            if (!Utils.WriteAllText(저장파일, JsonConvert.SerializeObject(this, MvUtils.Utils.JsonSetting())))
             {
                 //Global.오류로그(로그영역.GetString(), "환경설정 저장", "환경설정 저장에 실패하였습니다.", true);
             }

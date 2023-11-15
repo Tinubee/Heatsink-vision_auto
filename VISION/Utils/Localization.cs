@@ -1,5 +1,7 @@
 ﻿using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraGrid.Columns;
+using DevExpress.XtraGrid.Views.Grid;
 //using DevExpress.XtraGrid.Columns;
 //using DevExpress.XtraGrid.Views.Grid;
 using System;
@@ -61,22 +63,22 @@ namespace VISION
             return a.GetString(lang);
         }
 
-        //public static void SetColumnCaption(GridView view, Type source)
-        //{
-        //    foreach (GridColumn col in view.Columns)
-        //    {
-        //        try
-        //        {
-        //            PropertyInfo p = source.GetProperty(col.FieldName);
-        //            if (p == null) continue;
-        //            col.Caption = GetString(p);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            Debug.WriteLine($"[{source.Name}, {col.FieldName}] {ex.Message}", "SetColumnCaption");
-        //        }
-        //    }
-        //}
+        public static void SetColumnCaption(GridView view, Type source)
+        {
+            foreach (GridColumn col in view.Columns)
+            {
+                try
+                {
+                    PropertyInfo p = source.GetProperty(col.FieldName);
+                    if (p == null) continue;
+                    col.Caption = GetString(p);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"[{source.Name}, {col.FieldName}] {ex.Message}", "SetColumnCaption");
+                }
+            }
+        }
 
         public static void SetColumnCaption(LookUpEdit edit, Type source)
         {
