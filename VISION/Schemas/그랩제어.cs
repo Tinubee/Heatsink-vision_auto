@@ -174,7 +174,7 @@ namespace VISION.Schemas
             }
 
             List<CCameraInfo> 카메라들 = new List<CCameraInfo>();
-            Int32 nRet = CSystem.EnumDevices(CSystem.MV_GIGE_DEVICE, ref 카메라들);// | CSystem.MV_USB_DEVICE
+            Int32 nRet = CSystem.EnumDevices(CSystem.MV_GIGE_DEVICE, ref 카메라들); // | CSystem.MV_USB_DEVICE
             if (!Validate("Enumerate devices fail!", nRet, true)) return false;
 
             for (int i = 0; i < 카메라들.Count; i++)

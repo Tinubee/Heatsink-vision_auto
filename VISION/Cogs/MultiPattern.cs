@@ -9,6 +9,7 @@ using Cognex.VisionPro.PMAlign;
 using Cognex.VisionPro.Display;
 using VISION.Class;
 using System.Diagnostics;
+using DevExpress.Drawing.Internal.Fonts.Interop;
 
 namespace VISION.Cogs
 {
@@ -228,11 +229,54 @@ namespace VISION.Cogs
 
             SearchRegion.Interactive = true;
             SearchRegion.GraphicDOFEnable = CogRectangleAffineDOFConstants.All;
-          
+
             Tool.SearchRegion = SearchRegion;
 
             display.InteractiveGraphics.Add((ICogGraphicInteractive)Tool.SearchRegion, null, false);
         }
+
+        public void dd()
+        {
+            var pmTool = new CogPMAlignTool();
+            var rawImage = ImageFileTool.OutputImage;
+            CogRectangle trainRect = new CogRectangle() { X = 980, Y = 1100, Width = 100, Height = 100 };
+            pmTool.InputImage = rawImage;
+            pmTool.Pattern.TrainImage = rawImage;
+            pmTool.Pattern.TrainMode = CogPMAlignTrainModeConstants.Image;
+            pmTool.Pattern.TrainRegion = trainRect;
+            //pmTool.Pattern.TrainRegion = new CogRectangle()
+            //{ X = 980, Y = 1100, Width = 100, Height = 100 };
+
+            pmTool.Pattern.TrainRegionMode = CogRegionModeConstants.PixelAlignedBoundingBoxAdjustMask;
+            pmTool.Pattern.TrainAlgorithm = CogPMAlignTrainAlgorithmConstants.PatMaxAndPatQuick;
+            pmTool.Pattern.Train();
+
+            //pmTool.InputImage = rawImage;
+            pmTool.RunParams.ApproximateNumberToFind = 1;
+            pmTool.RunParams.RunAlgorithm = CogPMAlignRunAlgorithmConstants.BestTrained;
+            pmTool.RunParams.SearchRegionMode = CogRegionModeConstants.PixelAlignedBoundingBox;
+            pmTool.RunParams.ScoreUsingClutter = false;
+            pmTool.RunParams.RunMode = CogPMAlignRunModeConstants.SearchImage;
+            pmTool.RunParams.ZoneAngle.High = 0.1 * (Math.PI / 180);
+            pmTool.RunParams.ZoneAngle.Low = -0.1 * (Math.PI / 180);
+            pmTool.RunParams.ZoneAngle.Configuration = CogPMAlignZoneConstants.LowHigh;
+            pmTool.RunParams.AcceptThreshold = 0.8;
+
+            pmTool.Run();
+            if (pmTool.Results?.Count == 0 || pmTool.Results == null)
+                return;
+            var result = pmTool.Results[0];
+
+
+
+            var x = result.GetPose().TranslationX;
+            var y = result.GetPose().TranslationY;
+
+            lb_MatchPointX.Text = $"{x:f3}";
+            lb_MatchPointY.Text = $"{y:f3}";
+            lb_MatchPointS.Text = $"{result.Score:f3}";
+        }
+
 
         public bool Run(CogImage8Grey image)
         {
@@ -427,7 +471,7 @@ namespace VISION.Cogs
             }
         }
 
-    
+
 
         public void ToolSetup()
         {

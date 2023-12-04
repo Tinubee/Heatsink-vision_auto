@@ -481,6 +481,12 @@
     <Compile Include="UI\Controls\CiView.Designer.cs">
       <DependentUpon>CiView.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Controls\CogDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\CogDisplay.Designer.cs">
+      <DependentUpon>CogDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Controls\Config.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -669,6 +675,9 @@
     <EmbeddedResource Include="UI\Controls\CiView.resx">
       <DependentUpon>CiView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\CogDisplay.resx">
+      <DependentUpon>CogDisplay.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\Config.resx">
       <DependentUpon>Config.cs</DependentUpon>
     </EmbeddedResource>
@@ -680,6 +689,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\DeviceSettings.resx">
       <DependentUpon>DeviceSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\InspectDisplay\HeatSinkDisplay.resx">
+      <DependentUpon>HeatSinkDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\SetInspection.resx">
       <DependentUpon>SetInspection.cs</DependentUpon>
