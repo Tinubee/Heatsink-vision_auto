@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VISION.Cogs;
+using VISION.Schemas;
 
 namespace VISION
 {
@@ -123,6 +124,7 @@ namespace VISION
         public string[] press2PinResult = new string[2];
 
         public 코그넥스파일 코그넥스파일;
+        public static 그랩제어 그랩제어;
     }
     public struct LineCamSets
     {

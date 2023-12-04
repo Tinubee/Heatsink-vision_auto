@@ -1,27 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.IO;
-using Cognex.VisionPro;
-using System.Threading;
-using System.Diagnostics;
-using Cognex.VisionPro.ImageFile;
+﻿using Cognex.VisionPro;
 using Cognex.VisionPro.Dimensioning;
+using Cognex.VisionPro.ImageFile;
 using Cognex.VisionPro.ImageProcessing;
-using KimLib;
-using System.Reflection;
-using Microsoft.VisualBasic.Logging;
-using VISION.Class;
-using Microsoft.VisualBasic;
-using Cognex.VisionPro.ToolBlock;
-using System.Runtime.Serialization.Formatters.Binary;
 using Cognex.VisionPro.QuickBuild;
+using Cognex.VisionPro.ToolBlock;
+using KimLib;
+using System;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows.Forms;
+using VISION.Class;
 
 namespace VISION
 {
@@ -391,7 +382,7 @@ namespace VISION
         {
             if (Glob.CamNumber == 3 || Glob.CamNumber == 4)
             {
-                Glob.코그넥스파일.카메라[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
+                //Glob.코그넥스파일.카메라[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
             }
         }
 
@@ -622,8 +613,8 @@ namespace VISION
                     num_Exposure.Value = Convert.ToDecimal(CamSet.ReadData($"Camera{Glob.CamNumber}", "Exposure"));
                     num_Gain.Value = Convert.ToDecimal(CamSet.ReadData($"Camera{Glob.CamNumber}", "Gain"));
 
-                    Glob.코그넥스파일.카메라[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
-                    Glob.코그넥스파일.카메라[Glob.CamNumber].SetBrightness((double)num_Gain.Value);
+                    //Glob.코그넥스파일.카메라[Glob.CamNumber].SetExposure((double)num_Exposure.Value);
+                    //Glob.코그넥스파일.카메라[Glob.CamNumber].SetBrightness((double)num_Gain.Value);
                 }
                 else
                 {

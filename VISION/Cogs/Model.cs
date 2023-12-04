@@ -76,7 +76,9 @@ namespace VISION.Cogs
 
             for (int lop = 0; lop < CAMERACOUNT; lop++) //Glob.allCameraCount 에서 6으로 임시 변경.
             {
-                Camera[lop] = new Camera(lop);
+                if (lop != 3 || lop != 4)
+                    Camera[lop] = new Camera(lop);
+
                 for (int lop2 = 0; lop2 < 3; lop2++)
                 {
                     Masks[lop, lop2] = new Mask(lop);

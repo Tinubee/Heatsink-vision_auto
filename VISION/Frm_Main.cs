@@ -162,6 +162,8 @@ namespace VISION
             log.AddLogMessage(LogType.Result, 0, "Cognex 모델 초기화 완료.");
             비전검사 = new Inspection();
             비전검사.Init();
+            PGgloble.그랩제어 = new Schemas.그랩제어();
+            PGgloble.그랩제어.Init();
             log.AddLogMessage(LogType.Result, 0, "비전검사로직 초기화 완료.");
         }
         public void StandFirst()
@@ -1318,9 +1320,8 @@ namespace VISION
 
                 NoScratchErrorInit();
 
-                Cam4너트검사이미지[shotNumber - 1] = Glob.코그넥스파일.카메라[funCamNumber].Run();
-                cdy.Image = Cam4너트검사이미지[shotNumber - 1];
-                //cdy.Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
+                //Cam4너트검사이미지[shotNumber - 1] = Glob.코그넥스파일.카메라[funCamNumber].Run();
+                //cdy.Image = Cam4너트검사이미지[shotNumber - 1];
                 log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
                 cdy.Fit();
                 cdy.InteractiveGraphics.Clear();
@@ -1399,9 +1400,8 @@ namespace VISION
                 InspectTime[funCamNumber].Start();
 
 
-                Cam5너트검사이미지[shotNumber - 1] = Glob.코그넥스파일.카메라[funCamNumber].Run();
-                cdy.Image = Cam5너트검사이미지[shotNumber - 1];
-                //cdy.Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
+                //Cam5너트검사이미지[shotNumber - 1] = Glob.코그넥스파일.카메라[funCamNumber].Run();
+                //cdy.Image = Cam5너트검사이미지[shotNumber - 1];
                 log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
                 cdy.Fit();
                 cdy.InteractiveGraphics.Clear();
@@ -1412,30 +1412,6 @@ namespace VISION
                     log.AddLogMessage(LogType.Error, 0, $"이미지 획들을 하지 못하였습니다. CAM - {funCamNumber + 1}");
                     return;
                 }
-
-                //if (Inspect_Cam5(cdy, shotNumber) == true) // 검사 결과
-                //{
-                //    Glob.Inspect5[shotNumber - 1] = true;
-                //    //검사 결과 OK
-                //    BeginInvoke((Action)delegate
-                //    {
-                //        if (Glob.OKImageSave)
-                //            ImageSave5("OK", funCamNumber + 1, cdy, shotNumber);
-                //    });
-                //}
-                //else
-                //{
-                //    Glob.Inspect5[shotNumber - 1] = false;
-                //    BeginInvoke((Action)delegate
-                //    {
-                //        if (Glob.NGImageSave)
-                //            ImageSave5("NG", funCamNumber + 1, cdy, shotNumber);
-                //    });
-                //    if (!Glob.statsOK)
-                //    {
-                //        NoScratchErrorSet();
-                //    }
-                //}
 
                 if (shotNumber == 2)
                 {
@@ -1860,6 +1836,8 @@ namespace VISION
         {
             this.IO_DoWork = false;
             this.ResultCountDisplay.timer1.Dispose();
+
+            PGgloble.그랩제어?.Close();
 
             for (int i = 0; i < Glob.코그넥스파일.카메라.Count(); i++)
             {
@@ -3319,38 +3297,42 @@ namespace VISION
                                 Glob.firstInspection[1] = Glob.firstInspection[1] ? false : true;
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
-                                    log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam4-1 Trigger");
-                                    Task.Run(() => { ShotAndInspect_Cam4(TempCogDisplay[3], 1); });
+                                    PGgloble.그랩제어.좌측너트검사카메라.MatImage.Clear();
+                                    PGgloble.그랩제어.좌측너트검사카메라.Ready();
+                                    log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam4 Trigger");
+                                    //Task.Run(() => { ShotAndInspect_Cam4(TempCogDisplay[3], 1); });
                                 }
                                 break;
-                            case 3: //4번촬영
-                                if ((Glob.CurruntModelName == "shield") == false)
-                                {
-                                    log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam4-2 Trigger");
-                                    Task.Run(() => { ShotAndInspect_Cam4(HeatSinkMainDisplay.cdyDisplay4_2, 2); });
-                                }
-                                break;
-                            case 4: //4번촬영
-                                if ((Glob.CurruntModelName == "shield") == false)
-                                {
-                                    log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam4-3 Trigger");
-                                    Task.Run(() => { ShotAndInspect_Cam4(HeatSinkMainDisplay.cdyDisplay4_3, 3); });
-                                }
-                                break;
+                            //case 3: //4번촬영
+                            //    if ((Glob.CurruntModelName == "shield") == false)
+                            //    {
+                            //        log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam4-2 Trigger");
+                            //        Task.Run(() => { ShotAndInspect_Cam4(HeatSinkMainDisplay.cdyDisplay4_2, 2); });
+                            //    }
+                            //    break;
+                            //case 4: //4번촬영
+                            //    if ((Glob.CurruntModelName == "shield") == false)
+                            //    {
+                            //        log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam4-3 Trigger");
+                            //        Task.Run(() => { ShotAndInspect_Cam4(HeatSinkMainDisplay.cdyDisplay4_3, 3); });
+                            //    }
+                            //    break;
                             case 5: //5번촬영
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
-                                    log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam5-1 Trigger");
-                                    Task.Run(() => { ShotAndInspect_Cam5(TempCogDisplay[4], 1); });
+                                    PGgloble.그랩제어.우측너트검사카메라.MatImage.Clear();
+                                    PGgloble.그랩제어.우측너트검사카메라.Ready();
+                                    log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam5 Trigger");
+                                    //Task.Run(() => { ShotAndInspect_Cam5(TempCogDisplay[4], 1); });
                                 }
                                 break;
-                            case 6: //5번촬영
-                                if ((Glob.CurruntModelName == "shield") == false)
-                                {
-                                    log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam5-2 Trigger");
-                                    Task.Run(() => { ShotAndInspect_Cam5(HeatSinkMainDisplay.cdyDisplay5_1, 2); });
-                                }
-                                break;
+                            //case 6: //5번촬영
+                            //    if ((Glob.CurruntModelName == "shield") == false)
+                            //    {
+                            //        log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam5-2 Trigger");
+                            //        Task.Run(() => { ShotAndInspect_Cam5(HeatSinkMainDisplay.cdyDisplay5_1, 2); });
+                            //    }
+                            //    break;
                             case 7://6번촬영
                                 log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam6 Trigger");
                                 Task.Run(() => { ShotAndInspect_Cam6(TempCogDisplay[5], 1); });
