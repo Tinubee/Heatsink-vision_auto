@@ -89,14 +89,22 @@ namespace VISION.Class
             }
             //Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
             //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
-            for (int toolnum = 0; toolnum < 29; toolnum++)
+            if(CameraNumber == 3 || CameraNumber == 4)
             {
-                if (Glob.코그넥스파일.블롭툴사용여부[CameraNumber, toolnum])
+
+            }
+            else
+            {
+                for (int toolnum = 0; toolnum < 29; toolnum++)
                 {
-                    Bolb_Train(cog, CameraNumber, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum]);
-                    Glob.코그넥스파일.블롭툴[CameraNumber, toolnum].Area_Affine_Main1(ref cog, (CogImage8Grey)cog.Image, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum].ToString());
+                    if (Glob.코그넥스파일.블롭툴사용여부[CameraNumber, toolnum])
+                    {
+                        Bolb_Train(cog, CameraNumber, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum]);
+                        Glob.코그넥스파일.블롭툴[CameraNumber, toolnum].Area_Affine_Main1(ref cog, (CogImage8Grey)cog.Image, Glob.코그넥스파일.블롭툴픽스쳐번호[CameraNumber, toolnum].ToString());
+                    }
                 }
             }
+           
             //******************************Blob Tool Run******************************//
             if (Glob.코그넥스파일.모델.Blob_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection, shotNumber))
             {

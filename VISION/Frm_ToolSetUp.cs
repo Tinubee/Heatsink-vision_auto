@@ -460,6 +460,7 @@ namespace VISION
         private void btn_BlobInspectionArea_Click(object sender, EventArgs e)
         {
             ImageClear();
+            if (Glob.CamNumber == 3 || Glob.CamNumber == 4) return;
             Bolb_Train((int)num_BlobToolNum.Value);
             Glob.코그넥스파일.블롭툴[Glob.CamNumber, (int)num_BlobToolNum.Value].Area_Affine(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, cb_MultiPatternName.SelectedIndex.ToString());
         }
@@ -467,7 +468,15 @@ namespace VISION
         private void btn_BlobInspection_Click(object sender, EventArgs e)
         {
             ImageClear();
-            Bolb_Train((int)num_BlobToolNum.Value);
+            if(Glob.CamNumber == 3 || Glob.CamNumber == 4)
+            {
+
+            }
+            else
+            {
+                Bolb_Train((int)num_BlobToolNum.Value);
+            }
+            
             CogGraphicCollection Collection = new CogGraphicCollection();
 
             Glob.코그넥스파일.마스크툴[Glob.CamNumber, Glob.InspectOrder - 1].Run((CogImage8Grey)cdyDisplay.Image); //MaskTool Run
@@ -804,6 +813,7 @@ namespace VISION
 
         private void cb_MultiPatternName_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (Glob.CamNumber == 3 || Glob.CamNumber == 4) return;
             int toolnum = cb_MultiPatternName.SelectedIndex;
             Glob.코그넥스파일.블롭툴픽스쳐번호[Glob.CamNumber, (int)num_BlobToolNum.Value] = toolnum;
             ImageClear();

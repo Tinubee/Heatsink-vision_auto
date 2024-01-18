@@ -133,6 +133,8 @@ namespace VISION.Schemas
 
         public void 그랩완료(CameraType 카메라, Mat 이미지)
         {
+            Glob.G_MainForm.HeatSinkMainDisplay.cdyDisplay4.Image = new CogImage8Grey(OpenCvSharp.Extensions.BitmapConverter.ToBitmap(이미지));
+
             this.그랩완료보고?.Invoke(카메라, 이미지);
         }
 
@@ -152,7 +154,6 @@ namespace VISION.Schemas
 
             if (카메라 == CameraType.Cam04) //좌측 2개
             {
-
                 Glob.G_MainForm.HeatSinkMainDisplay.cdyDisplay5.Image = ConvertMatToCogImage(이미지[0]);
                 Glob.G_MainForm.HeatSinkMainDisplay.cdyDisplay5_1.Image = ConvertMatToCogImage(이미지[1]);
 
@@ -164,13 +165,13 @@ namespace VISION.Schemas
             }
             else if (카메라 == CameraType.Cam05) //우측 3개
             {
-                Glob.G_MainForm.HeatSinkMainDisplay.cdyDisplay4.Image = ConvertMatToCogImage(이미지[0]);
-                Glob.G_MainForm.HeatSinkMainDisplay.cdyDisplay4_2.Image = ConvertMatToCogImage(이미지[1]);
-                Glob.G_MainForm.HeatSinkMainDisplay.cdyDisplay4_3.Image = ConvertMatToCogImage(이미지[2]);
+                //Glob.G_MainForm.HeatSinkMainDisplay.cdyDisplay4.Image = new CogImage8Grey(OpenCvSharp.Extensions.BitmapConverter.ToBitmap(이미지[0]));
+                Glob.G_MainForm.HeatSinkMainDisplay.cdyDisplay4_2.Image = new CogImage8Grey(OpenCvSharp.Extensions.BitmapConverter.ToBitmap(이미지[1]));
+                Glob.G_MainForm.HeatSinkMainDisplay.cdyDisplay4_3.Image = new CogImage8Grey(OpenCvSharp.Extensions.BitmapConverter.ToBitmap(이미지[2]));
 
                 Task.Run(() =>
                 {
-                    Glob.G_MainForm.ShotAndInspect_Cam4(Glob.G_MainForm.HeatSinkMainDisplay.cdyDisplay4, 1);
+                    //Glob.G_MainForm.ShotAndInspect_Cam4(Glob.G_MainForm.HeatSinkMainDisplay.cdyDisplay4, 1);
                     Glob.G_MainForm.ShotAndInspect_Cam4(Glob.G_MainForm.HeatSinkMainDisplay.cdyDisplay4_2, 2);
                     Glob.G_MainForm.ShotAndInspect_Cam4(Glob.G_MainForm.HeatSinkMainDisplay.cdyDisplay4_3, 3);
                 });
@@ -286,8 +287,13 @@ namespace VISION.Schemas
         [JsonIgnore]
         private cbOutputExdelegate ImageCallBackDelegate;
 
-        public uint ImageCount = 10;
-        public List<Mat> MatImage = new List<Mat>();
+        public uint ImageCount = 3;
+        public List<Mat> MatImage2 = new List<Mat>();
+        public List<Mat> MatImage3 = new List<Mat>();
+
+        //public Mat FirstImage = new Mat();
+        //public Mat MiddleImage = new Mat();
+        //public Mat LastImage = new Mat();
 
         public Boolean Init(CGigECameraInfo info)
         {
@@ -397,29 +403,34 @@ namespace VISION.Schemas
         {
             try
             {
-
                 Mat image = new Mat(frameInfo.nHeight, frameInfo.nWidth, MatType.CV_8U, data);
                 if (this.구분 == CameraType.Cam04)
                 {
                     Debug.WriteLine("4번캠 그랩완료");
-                    this.MatImage.Add(image);
-                    Debug.WriteLine($"4번카메라 이미지 개수 : {this.MatImage.Count}");
-                    if (PGgloble.그랩제어.좌측너트검사카메라.MatImage.Count == 2)
+                    this.MatImage2.Add(image);
+                    Debug.WriteLine($"4번카메라 이미지 개수 : {this.MatImage2.Count}");
+                    if (PGgloble.그랩제어.좌측너트검사카메라.MatImage2.Count == 2)
                     {
-                        PGgloble.그랩제어.그랩완료(this.구분, this.MatImage);
                         this.Stop();
+                        PGgloble.그랩제어.그랩완료(this.구분, this.MatImage2);
+                        this.MatImage2.Clear();
                     }
                 }
                 else if (this.구분 == CameraType.Cam05)
                 {
                     Debug.WriteLine("5번캠 그랩완료");
-                    this.MatImage.Add(image);
-                    Debug.WriteLine($"5번카메라 이미지 개수 : {this.MatImage.Count}");
-                    if (PGgloble.그랩제어.우측너트검사카메라.MatImage.Count == 3)
+
+                    this.MatImage3.Add(image);
+                    if (this.MatImage3.Count == 1)
+                        PGgloble.그랩제어.그랩완료(this.구분, image);
+
+                    Debug.WriteLine($"5번카메라 이미지 개수 : {this.MatImage3.Count}");
+                    if (PGgloble.그랩제어.우측너트검사카메라.MatImage3.Count == 3)
                     {
                         Debug.WriteLine("그랩완료");
-                        PGgloble.그랩제어.그랩완료(this.구분, this.MatImage);
-                        this.Stop();
+                        //this.Stop();
+                        PGgloble.그랩제어.그랩완료(this.구분, this.MatImage3);
+                        this.MatImage3.Clear();
                     }
                 }
             }
