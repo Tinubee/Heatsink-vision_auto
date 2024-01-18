@@ -135,6 +135,7 @@ namespace VISION.Schemas
         {
             Glob.G_MainForm.HeatSinkMainDisplay.cdyDisplay4.Image = new CogImage8Grey(OpenCvSharp.Extensions.BitmapConverter.ToBitmap(이미지));
 
+            Glob.G_MainForm.ShotAndInspect_Cam4(Glob.G_MainForm.HeatSinkMainDisplay.cdyDisplay4, 1);
             this.그랩완료보고?.Invoke(카메라, 이미지);
         }
 
@@ -428,7 +429,7 @@ namespace VISION.Schemas
                     if (PGgloble.그랩제어.우측너트검사카메라.MatImage3.Count == 3)
                     {
                         Debug.WriteLine("그랩완료");
-                        //this.Stop();
+                        this.Stop();
                         PGgloble.그랩제어.그랩완료(this.구분, this.MatImage3);
                         this.MatImage3.Clear();
                     }

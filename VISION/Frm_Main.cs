@@ -1466,6 +1466,12 @@ namespace VISION
                             result = "O K";
                             DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                             OK_Count[funCamNumber]++;
+
+                            if (Glob.OKImageSave)
+                            {
+                                ImageSave5("OK", funCamNumber + 1, HeatSinkMainDisplay.cdyDisplay5, 1);
+                                ImageSave5("OK", funCamNumber + 1, HeatSinkMainDisplay.cdyDisplay5_1, 2);
+                            }
                         });
                     }
                 }
