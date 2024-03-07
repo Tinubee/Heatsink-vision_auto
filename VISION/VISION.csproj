@@ -380,6 +380,12 @@
     <Compile Include="UI\CogToolEdit.Designer.cs">
       <DependentUpon>CogToolEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Display\HeatSinkMainDisplay2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Display\HeatSinkMainDisplay2.Designer.cs">
+      <DependentUpon>HeatSinkMainDisplay2.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Display\HeatSinkMainDisplay.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -452,6 +458,9 @@
     </Compile>
     <EmbeddedResource Include="UI\CogToolEdit.resx">
       <DependentUpon>CogToolEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Display\HeatSinkMainDisplay2.resx">
+      <DependentUpon>HeatSinkMainDisplay2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Display\HeatSinkMainDisplay.resx">
       <DependentUpon>HeatSinkMainDisplay.cs</DependentUpon>

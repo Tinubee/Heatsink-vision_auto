@@ -44,6 +44,7 @@ namespace VISION
         private string FimageSpace; //PMAlign툴 SpaceName(보정하기위해)
 
         public HeatSinkMainDisplay HeatSinkMainDisplay = new HeatSinkMainDisplay();
+        public HeatSinkMainDisplay2 HeatSinkMainDisplay2 = new HeatSinkMainDisplay2();
         public ShieldMainDisplay ShieldMainDisplay = new ShieldMainDisplay();
         public NutDisplay NutDisplay = new NutDisplay();
         private ResultCountDisplay ResultCountDisplay = new ResultCountDisplay();
@@ -220,7 +221,9 @@ namespace VISION
                 if (MainPanel.Controls.Contains(ShieldMainDisplay)) return;
 
                 MainPanel.Controls.Clear();
+                p최종결과.Controls.Clear();
                 MainPanel.Controls.Add(ShieldMainDisplay);
+                p최종결과.Controls.Add(HeatSinkMainDisplay2);
                 ShieldMainDisplay.Dock = DockStyle.Fill;
                 TempCogDisplay = new CogDisplay[6] { ShieldMainDisplay.cdyDisplay, null, null, null, null, ShieldMainDisplay.cdyDisplay6 };
                 TempCogMasterDisplay = new CogDisplay[6] { ShieldMainDisplay.cdy마스터이미지, null, null, null, null, null };
@@ -238,13 +241,15 @@ namespace VISION
                 if (MainPanel.Controls.Contains(HeatSinkMainDisplay)) return;
 
                 MainPanel.Controls.Clear();
+                p최종결과.Controls.Clear();
                 MainPanel.Controls.Add(HeatSinkMainDisplay);
+                p최종결과.Controls.Add(HeatSinkMainDisplay2);
                 HeatSinkMainDisplay.Dock = DockStyle.Fill;
-                TempCogDisplay = new CogDisplay[6] { HeatSinkMainDisplay.cdyDisplay, HeatSinkMainDisplay.cdyDisplay2, HeatSinkMainDisplay.cdyDisplay3, HeatSinkMainDisplay.cdyDisplay4, HeatSinkMainDisplay.cdyDisplay5, HeatSinkMainDisplay.cdyDisplay6 };
+                TempCogDisplay = new CogDisplay[6] { HeatSinkMainDisplay.cdyDisplay, HeatSinkMainDisplay.cdyDisplay2, HeatSinkMainDisplay.cdyDisplay3, HeatSinkMainDisplay.cdyDisplay4, HeatSinkMainDisplay.cdyDisplay5, HeatSinkMainDisplay2.cdyDisplay6 };
                 TempCogMasterDisplay = new CogDisplay[6] { HeatSinkMainDisplay.cdy마스터이미지, null, null, null, null, null };
-                lb개별카메라검사결과 = new Label[6] { HeatSinkMainDisplay.lb_Cam1_Result, HeatSinkMainDisplay.lb_Cam2_Result, HeatSinkMainDisplay.lb_Cam3_Result, HeatSinkMainDisplay.lb_Cam4_Result, HeatSinkMainDisplay.lb_Cam5_Result, HeatSinkMainDisplay.lb_Cam6_Result };
-                lb검사시간 = new Label[6] { HeatSinkMainDisplay.lb_Cam1_InsTime, HeatSinkMainDisplay.lb_Cam2_InsTime, HeatSinkMainDisplay.lb_Cam3_InsTime, HeatSinkMainDisplay.lb_Cam4_InsTime, HeatSinkMainDisplay.lb_Cam5_InsTime, HeatSinkMainDisplay.lb_Cam6_InsTime, };
-                lb최종결과 = new Label[2] { HeatSinkMainDisplay.lb_최종결과, HeatSinkMainDisplay.lb_최종결과2 };
+                lb개별카메라검사결과 = new Label[6] { HeatSinkMainDisplay.lb_Cam1_Result, HeatSinkMainDisplay.lb_Cam2_Result, HeatSinkMainDisplay.lb_Cam3_Result, HeatSinkMainDisplay.lb_Cam4_Result, HeatSinkMainDisplay.lb_Cam5_Result, HeatSinkMainDisplay2.lb_Cam6_Result };
+                lb검사시간 = new Label[6] { HeatSinkMainDisplay.lb_Cam1_InsTime, HeatSinkMainDisplay.lb_Cam2_InsTime, HeatSinkMainDisplay.lb_Cam3_InsTime, HeatSinkMainDisplay.lb_Cam4_InsTime, HeatSinkMainDisplay.lb_Cam5_InsTime, HeatSinkMainDisplay2.lb_Cam6_InsTime, };
+                lb최종결과 = new Label[2] { HeatSinkMainDisplay2.lb_최종결과, HeatSinkMainDisplay2.lb_최종결과2 };
                 for (int lop = 0; lop < TempCogMasterDisplay.Length; lop++)
                 {
                     if (TempCogMasterDisplay[lop] != null)
@@ -1520,37 +1525,10 @@ namespace VISION
                 r = 비전검사.Run(TempCogDisplay[funCamNumber], funCamNumber, shotNumber);
                 result = r ? "O K" : "N G";
                 BeginInvoke((Action)delegate { 검사결과체크(r, result, funCamNumber); });
-
-                //if (Inspect_Cam6(cdy, shotNumber) == true) // 검사 결과
-                //{
-                //    //검사 결과 OK
-                //    BeginInvoke((Action)delegate
-                //    {
-                //        result = "O K";
-                //        DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
-                //        OK_Count[funCamNumber]++;
-                //        if (Glob.OKImageSave)
-                //            ImageSave6("OK", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, cdy);
-                //    });
-                //}
-                //else
-                //{
-                //    BeginInvoke((Action)delegate
-                //    {
-                //        result = "N G";
-                //        DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
-                //        NG_Count[funCamNumber]++;
-                //        if (Glob.NGImageSave)
-                //            ImageSave6("NG", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, cdy);
-                //    });
-                //    if (!Glob.statsOK)
-                //    {
-                //        NoScratchErrorSet();
-                //    }
-                //}
+                               
                 if (shotNumber == 1)
                 {
-                    ErrorCheckAndSendPLC();
+                    //ErrorCheckAndSendPLC();
                 }
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
@@ -1794,21 +1772,21 @@ namespace VISION
                 if (Glob.scratchError[1])
                 {
                     SelectHighIndex(1, 1);
-                    await Task.Delay(2000);
+                    await Task.Delay(1000);
                     SelectHighIndex(1, 0);
                     return;
                 }
                 else if (Glob.noScratchError[0])
                 {
                     SelectHighIndex(2, 1);
-                    await Task.Delay(2000);
+                    await Task.Delay(1000);
                     SelectHighIndex(2, 0);
                     return;
                 }
                 else
                 {
                     SelectHighIndex(0, 1);
-                    await Task.Delay(2000);
+                    await Task.Delay(1000);
                     SelectHighIndex(0, 0);
                 }
             }
@@ -3364,6 +3342,9 @@ namespace VISION
                             case 10: //2 프레스 트리거 2Point
                                 log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : 2 Press Trigger");
                                 Task.Run(() => { ShotAndInspect_Cam8(TempCogNutDisplay[1], 1); });
+                                break;
+                            case 14: //검사결과 요청신호
+                                ErrorCheckAndSendPLC();
                                 break;
                         }
                     }

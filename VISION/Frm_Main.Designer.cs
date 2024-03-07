@@ -95,6 +95,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.MainPanel = new System.Windows.Forms.Panel();
+            this.p최종결과 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.p너트검사 = new System.Windows.Forms.Panel();
             this.LightControl4 = new System.IO.Ports.SerialPort(this.components);
@@ -1069,6 +1070,7 @@
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.p최종결과);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(1, 1);
@@ -1099,6 +1101,16 @@
             this.MainPanel.Size = new System.Drawing.Size(1621, 886);
             this.MainPanel.TabIndex = 35;
             // 
+            // p최종결과
+            // 
+            this.p최종결과.BackColor = System.Drawing.Color.DimGray;
+            this.p최종결과.Location = new System.Drawing.Point(4, 22);
+            this.p최종결과.Name = "p최종결과";
+            this.p최종결과.Padding = new System.Windows.Forms.Padding(3);
+            this.p최종결과.Size = new System.Drawing.Size(1621, 886);
+            this.p최종결과.TabIndex = 2;
+            this.p최종결과.Text = "최종결과";
+            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.p너트검사);
@@ -1112,6 +1124,7 @@
             // 
             // p너트검사
             // 
+            this.p너트검사.BackColor = System.Drawing.Color.DimGray;
             this.p너트검사.Dock = System.Windows.Forms.DockStyle.Fill;
             this.p너트검사.Location = new System.Drawing.Point(0, 0);
             this.p너트검사.Name = "p너트검사";
@@ -1233,6 +1246,7 @@
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.Panel p너트검사;
         public System.IO.Ports.SerialPort LightControl4;
+        private System.Windows.Forms.TabPage p최종결과;
     }
 }
 
