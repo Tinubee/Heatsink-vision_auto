@@ -26,6 +26,7 @@ using Microsoft.Win32;
 using VISION.Class;
 using VISION.UI.Display;
 using System.Security.Cryptography.X509Certificates;
+using System.Web.UI;
 
 namespace VISION
 {
@@ -255,6 +256,14 @@ namespace VISION
                     if (TempCogMasterDisplay[lop] != null)
                         메인화면마스터이미지셋팅(lop, TempCogMasterDisplay[lop], modelName);
                 }
+
+                //int newX = (p최종결과.Width - HeatSinkMainDisplay2.Width) / 2;
+                //int newY = (p최종결과.Height - HeatSinkMainDisplay2.Height) / 2;
+                //
+                //// Set the control's Location to the new position
+                //HeatSinkMainDisplay2.Location = new Point(newX, newY);
+                HeatSinkMainDisplay2.Dock = DockStyle.Fill;
+
             }
             log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
         }
