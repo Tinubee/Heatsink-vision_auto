@@ -27,6 +27,7 @@ using VISION.Class;
 using VISION.UI.Display;
 using System.Security.Cryptography.X509Certificates;
 using System.Web.UI;
+using static OpenCvSharp.ConnectedComponents;
 
 namespace VISION
 {
@@ -200,8 +201,36 @@ namespace VISION
             DigitalIO_Load(); //IO Load
             SelectModule(); //IO Board Module Select
             AllCameraOneShot(); //All Camera One Shot.
+            검사결과및인덱스초기화();
             log.AddLogMessage(LogType.Infomation, 0, "Vision Program Start");
             SubFromClose();
+        }
+
+        public void 검사결과및인덱스초기화()
+        {
+            Glob.카메라1검사결과[0] = false;
+            Glob.카메라1검사결과[1] = false;
+            Glob.카메라2검사결과[0] = false;
+            Glob.카메라2검사결과[1] = false;
+            Glob.카메라3검사결과[0] = false;
+            Glob.카메라3검사결과[1] = false;
+            Glob.카메라4검사결과[0] = false;
+            Glob.카메라4검사결과[1] = false;
+            Glob.카메라5검사결과[0] = false;
+            Glob.카메라5검사결과[1] = false;
+            Glob.카메라6검사결과[0] = false;
+            Glob.카메라6검사결과[1] = false;
+
+            Glob.카메라별인덱스[0] = 0;
+            Glob.카메라별인덱스[1] = 0;
+            Glob.카메라별인덱스[2] = 0;
+            Glob.카메라별인덱스[3] = 0;
+            Glob.카메라별인덱스[4] = 0;
+            Glob.카메라별인덱스[5] = 0;
+
+            Glob.검사결과확인인덱스번호 = 0;
+
+            log.AddLogMessage(LogType.Infomation, 0, "검사결과 초기화 및 인덱스 초기화 완료.");
         }
 
         public void MainUIDisplaySetting(string modelName)
@@ -701,6 +730,7 @@ namespace VISION
 
             if (OpenDevice())
             {
+                Debug.WriteLine("PLC Open");
                 log.AddLogMessage(LogType.Result, 0, $"PLC Module Open Complete.");
             }
             CheckForIllegalCrossThreadCalls = false;
@@ -987,8 +1017,9 @@ namespace VISION
             }
         }
 
-        public void ScratchErrorSet()
+        public void ScratchErrorSet() //1,2,3
         {
+            //Glob.불량유형1검사결과.Enqueue(true);
             if (Glob.firstInspection[0])
             {
                 Glob.scratchError[0] = true;
@@ -1014,8 +1045,9 @@ namespace VISION
             }
         }
 
-        public void NoScratchErrorSet()
+        public void NoScratchErrorSet() // 4,5,6
         {
+            //Glob.불량유형2검사결과.Enqueue(true);
             if (Glob.firstInspection[1])
             {
                 Glob.noScratchError[0] = true;
@@ -1026,20 +1058,29 @@ namespace VISION
             }
         }
 
-        public void 최종결과표시(bool 스크레치검사결과, bool 패턴블롭검사결과, string[] res)
+        public void 최종결과표시(bool 최종결과, int 인덱스번호)
         {
-            for (int lop = 0; lop < lb최종결과.Count(); lop++)
-            {
-                lb최종결과[lop].Text = $"{lop + 1}-{res[lop]}";
-                lb최종결과[lop].ForeColor = res[lop] == "OK" ? Color.Lime : Color.Red;
-                if (lop == 1)
-                {
-                    AllOK_Count = (!스크레치검사결과 && !패턴블롭검사결과) ? AllOK_Count + 1 : AllOK_Count;
-                    AllNG_1_Count = (스크레치검사결과 && !패턴블롭검사결과) ? AllNG_1_Count + 1 : AllNG_1_Count;
-                    AllNG_2_Count = (!스크레치검사결과 && 패턴블롭검사결과) ? AllNG_2_Count + 1 : AllNG_2_Count;
-                    AllNG_Count = (스크레치검사결과 || 패턴블롭검사결과) ? AllNG_Count + 1 : AllNG_Count;
-                }
-            }
+            lb최종결과[0].Text = $"{인덱스번호}";
+            if (최종결과)
+                lb최종결과[1].Text = $"OK";
+            else
+                lb최종결과[1].Text = $"NG";
+
+            lb최종결과[0].ForeColor = 최종결과 ? Color.Lime : Color.Red;
+            lb최종결과[1].ForeColor = 최종결과 ? Color.Lime : Color.Red;
+
+            //for (int lop = 0; lop < lb최종결과.Count(); lop++)
+            //{
+            //    lb최종결과[lop].Text = $"{lop + 1}-{res[lop]}";
+            //    lb최종결과[lop].ForeColor = res[lop] == "OK" ? Color.Lime : Color.Red;
+            //    if (lop == 1)
+            //    {
+            //        AllOK_Count = (!스크레치검사결과 && !패턴블롭검사결과) ? AllOK_Count + 1 : AllOK_Count;
+            //        AllNG_1_Count = (스크레치검사결과 && !패턴블롭검사결과) ? AllNG_1_Count + 1 : AllNG_1_Count;
+            //        AllNG_2_Count = (!스크레치검사결과 && 패턴블롭검사결과) ? AllNG_2_Count + 1 : AllNG_2_Count;
+            //        AllNG_Count = (스크레치검사결과 || 패턴블롭검사결과) ? AllNG_Count + 1 : AllNG_Count;
+            //    }
+            //}
         }
 
         public void DisplayLabelSet(string Model, string Result, int camNumber)
@@ -1100,13 +1141,18 @@ namespace VISION
             {
                 NG_Count[funCamNumber]++;
                 if (Glob.NGImageSave) 이미지저장(funCamNumber, strResult);
-                if (!Glob.statsOK)
-                {
-                    if (funCamNumber == 0 || funCamNumber == 1 || funCamNumber == 2)
-                        ScratchErrorSet();
-                    else
-                        NoScratchErrorSet();
-                }
+                //if (!Glob.statsOK)
+                //{
+                //    if (funCamNumber == 0 || funCamNumber == 1 || funCamNumber == 2)
+                //    {
+                //        ScratchErrorSet();
+                //    }
+                //    else
+                //    {
+                //        NoScratchErrorSet();
+                //    }
+
+                //}
             }
         }
 
@@ -1139,28 +1185,14 @@ namespace VISION
                 bool r = false;
                 r = 비전검사.Run(TempCogDisplay[funCamNumber], funCamNumber, 1);
                 result = r ? "O K" : "N G";
-                BeginInvoke((Action)delegate { 검사결과체크(r, result, funCamNumber); });
-                //if (Inspect_Cam1(TempCogDisplay[funCamNumber], shotNumber) == true) // 검사 결과
-                //{
-                //    //검사 결과 OK
-                //    BeginInvoke((Action)delegate { 검사결과양품(result, funCamNumber); });
-                //    //DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
-                //    //OK_Count[funCamNumber]++;
-                //    //if (Glob.OKImageSave)
-                //    //    ImageSave1(result, funCamNumber + 1, TempCogDisplay[funCamNumber]);
-                //}
-                //else
-                //{
-                //    BeginInvoke((Action)delegate { 검사결과불량(result, funCamNumber); });
-                //    //BeginInvoke((Action)delegate
-                //    //{
 
-                //    //    DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
-                //    //    NG_Count[funCamNumber]++;
-                //    //    if (Glob.NGImageSave)
-                //    //        ImageSave1(result, funCamNumber + 1, TempCogDisplay[funCamNumber]);
-                //    //});
-                //}
+                if (Glob.카메라별인덱스[funCamNumber] == 1)
+                    Glob.카메라1검사결과[0] = r;
+                else if (Glob.카메라별인덱스[funCamNumber] == 2)
+                    Glob.카메라1검사결과[1] = r;
+
+                BeginInvoke((Action)delegate { 검사결과체크(r, result, funCamNumber); });
+
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
                 //log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
@@ -1203,36 +1235,13 @@ namespace VISION
                 bool r = false;
                 r = 비전검사.Run(TempCogDisplay[funCamNumber], funCamNumber, 1);
                 result = r ? "O K" : "N G";
-                BeginInvoke((Action)delegate { 검사결과체크(r, result, funCamNumber); });
 
-                //if (Inspect_Cam2(TempCogDisplay[funCamNumber], shotNumber) == true) // 검사 결과
-                //{
-                //    //검사 결과 OK
-                //    BeginInvoke((Action)delegate
-                //    {
-                //        result = "O K";
-                //        OK_Count[funCamNumber]++;
-                //        DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
-                //        if (Glob.OKImageSave)
-                //            ImageSave2("OK", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, TempCogDisplay[funCamNumber]);
-                //    });
-                //}
-                //else
-                //{
-                //    BeginInvoke((Action)delegate
-                //    {
-                //        result = "N G";
-                //        NG_Count[funCamNumber]++;
-                //        DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
-                //        if (Glob.NGImageSave)
-                //            ImageSave2("NG", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, TempCogDisplay[funCamNumber]);
-                //    });
-                //    if (!Glob.statsOK)
-                //    {
-                //        ScratchErrorSet();
-                //    }
-                //    //검사 결과 NG
-                //}
+                if (Glob.카메라별인덱스[funCamNumber] == 1)
+                    Glob.카메라2검사결과[0] = r;
+                else if (Glob.카메라별인덱스[funCamNumber] == 2)
+                    Glob.카메라2검사결과[1] = r;
+
+                BeginInvoke((Action)delegate { 검사결과체크(r, result, funCamNumber); });
 
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
@@ -1277,36 +1286,13 @@ namespace VISION
                 bool r = false;
                 r = 비전검사.Run(TempCogDisplay[funCamNumber], funCamNumber, shotNumber);
                 result = r ? "O K" : "N G";
+
+                if (Glob.카메라별인덱스[funCamNumber] == 1)
+                    Glob.카메라3검사결과[0] = r;
+                else if (Glob.카메라별인덱스[funCamNumber] == 2)
+                    Glob.카메라3검사결과[1] = r;
+
                 BeginInvoke((Action)delegate { 검사결과체크(r, result, funCamNumber); });
-
-                //if (Inspect_Cam3(TempCogDisplay[funCamNumber], shotNumber) == true) // 검사 결과
-                //{
-                //    //검사 결과 OK
-                //    BeginInvoke((Action)delegate
-                //    {
-                //        result = "O K";
-                //        DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
-                //        OK_Count[funCamNumber]++;
-                //        if (Glob.OKImageSave)
-                //            ImageSave3("OK", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, TempCogDisplay[funCamNumber]);
-                //    });
-                //}
-                //else
-                //{
-                //    BeginInvoke((Action)delegate
-                //    {
-                //        result = "N G";
-                //        DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
-                //        NG_Count[funCamNumber]++;
-                //        if (Glob.NGImageSave)
-                //            ImageSave3("NG", funCamNumber + 1, (CogImage8Grey)Glob.FlipImageTool[funCamNumber].InputImage, TempCogDisplay[funCamNumber]);
-
-                //        if (!Glob.statsOK)
-                //        {
-                //            ScratchErrorSet();
-                //        }
-                //    });
-                //}
 
                 InspectTime[funCamNumber].Stop();
                 InspectFlag[funCamNumber] = false;
@@ -1357,10 +1343,17 @@ namespace VISION
                     r = 비전검사.Run(HeatSinkMainDisplay.cdyDisplay4_3, funCamNumber, 3);
                     Glob.Inspect4[2] = r;
 
+                    //Boolean 최종검사결과 = false;
+
                     InspectTime[funCamNumber].Stop();
                     InspectFlag[funCamNumber] = false;
                     if (Glob.Inspect4[0] == false || Glob.Inspect4[1] == false || Glob.Inspect4[2] == false)
                     {
+                        if (Glob.카메라별인덱스[funCamNumber] == 1)
+                            Glob.카메라4검사결과[0] = false;
+                        else if (Glob.카메라별인덱스[funCamNumber] == 2)
+                            Glob.카메라4검사결과[1] = false;
+                        //최종검사결과 = false;
                         //log.AddLogMessage(LogType.Result, 0, $"Cam - 4 No Tab Error : 1:{Glob.Inspect4[0]} / 2:{Glob.Inspect4[1]} / 3:{Glob.Inspect4[2]}");
                         BeginInvoke((Action)delegate
                         {
@@ -1376,14 +1369,19 @@ namespace VISION
                             DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                             NG_Count[funCamNumber]++;
 
-                            if (!Glob.statsOK)
-                            {
-                                NoScratchErrorSet();
-                            }
+                            //if (!Glob.statsOK)
+                            //{
+                            //    NoScratchErrorSet();
+                            //}
                         });
                     }
                     else
                     {
+                        if (Glob.카메라별인덱스[funCamNumber] == 1)
+                            Glob.카메라4검사결과[0] = true;
+                        else if (Glob.카메라별인덱스[funCamNumber] == 2)
+                            Glob.카메라4검사결과[1] = true;
+                        //최종검사결과 = true;
                         BeginInvoke((Action)delegate
                         {
                             result = "O K";
@@ -1399,6 +1397,8 @@ namespace VISION
                             OK_Count[funCamNumber]++;
                         });
                     }
+
+                    //BeginInvoke((Action)delegate { 검사결과체크(최종검사결과, result, funCamNumber); });
                 }
                 Thread.Sleep(100);
             }
@@ -1445,15 +1445,19 @@ namespace VISION
                     r = 비전검사.Run(HeatSinkMainDisplay.cdyDisplay5_1, funCamNumber, 2);
                     Glob.Inspect5[1] = r;
 
-                    BeginInvoke((Action)delegate
-                    {
+                    //BeginInvoke((Action)delegate
+                    //{
 
-                    });
+                    //});
 
                     InspectTime[funCamNumber].Stop();
                     InspectFlag[funCamNumber] = false;
                     if (Glob.Inspect5[0] == false || Glob.Inspect5[1] == false)
                     {
+                        if (Glob.카메라별인덱스[funCamNumber] == 1)
+                            Glob.카메라5검사결과[0] = false;
+                        else if (Glob.카메라별인덱스[funCamNumber] == 2)
+                            Glob.카메라5검사결과[1] = false;
                         //log.AddLogMessage(LogType.Result, 0, $"Cam - 5 No Tab Error : 1:{Glob.Inspect5[0]} / 2:{Glob.Inspect5[1]}");
                         BeginInvoke((Action)delegate
                         {
@@ -1468,13 +1472,18 @@ namespace VISION
                             DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                             NG_Count[funCamNumber]++;
                         });
-                        if (!Glob.statsOK)
-                        {
-                            NoScratchErrorSet();
-                        }
+                        //if (!Glob.statsOK)
+                        //{
+                        //    NoScratchErrorSet();
+                        //}
                     }
                     else
                     {
+                        if (Glob.카메라별인덱스[funCamNumber] == 1)
+                            Glob.카메라5검사결과[0] = true;
+                        else if (Glob.카메라별인덱스[funCamNumber] == 2)
+                            Glob.카메라5검사결과[1] = true;
+
                         BeginInvoke((Action)delegate
                         {
                             result = "O K";
@@ -1533,8 +1542,17 @@ namespace VISION
                 bool r = false;
                 r = 비전검사.Run(TempCogDisplay[funCamNumber], funCamNumber, shotNumber);
                 result = r ? "O K" : "N G";
+
+
+                if (Glob.카메라별인덱스[funCamNumber] == 1)
+                    Glob.카메라6검사결과[0] = r;
+                else if (Glob.카메라별인덱스[funCamNumber] == 2)
+                    Glob.카메라6검사결과[1] = r;
+
+                Glob.최종검사중 = false;
+
                 BeginInvoke((Action)delegate { 검사결과체크(r, result, funCamNumber); });
-                               
+
                 if (shotNumber == 1)
                 {
                     //ErrorCheckAndSendPLC();
@@ -1769,67 +1787,148 @@ namespace VISION
 
         public async void ErrorCheckAndSendPLC()
         {
-            if (Glob.firstInspection[1])
+            if (Glob.검사결과확인인덱스번호 == 1)
             {
-                string[] res = new string[2];
-                res[0] = Glob.scratchError[1] ? "NG" : "OK";
-                res[1] = Glob.noScratchError[0] ? "NG" : "OK";
-                최종결과표시(Glob.scratchError[1], Glob.noScratchError[0], res);
+                Boolean 인덱스1최종결과 = false;
 
-                Debug.WriteLine($"Glob.firstInspection[1] : 스크레치 - {res[0]} / 스크레치아닌불량 - {res[1]}");
-                //log.AddLogMessage(LogType.Infomation, 0, $"Glob.firstInspection[1] : 스크레치 - {res[0]} / 스크레치아닌불량 - {res[1]}");
-                if (Glob.scratchError[1])
+                //각 카메라별 배열 첫번째 검사결과확인.
+                if (Glob.카메라1검사결과[0] == false || Glob.카메라2검사결과[0] == false || Glob.카메라3검사결과[0] == false)
                 {
+                    log.AddLogMessage(LogType.Result, 0, $"인덱스1 검사결과 불량유형1 on 및 전송 {Glob.카메라1검사결과[0]} {Glob.카메라2검사결과[0]} {Glob.카메라3검사결과[0]}");
+                    인덱스1최종결과 = false;
                     SelectHighIndex(1, 1);
                     await Task.Delay(1000);
                     SelectHighIndex(1, 0);
-                    return;
                 }
-                else if (Glob.noScratchError[0])
+                else if (Glob.카메라4검사결과[0] == false || Glob.카메라5검사결과[0] == false || Glob.카메라6검사결과[0] == false)
                 {
+                    log.AddLogMessage(LogType.Result, 0, $"인덱스1 검사결과 불량유형2 on 및 전송 {Glob.카메라4검사결과[0]} {Glob.카메라5검사결과[0]} {Glob.카메라6검사결과[0]}");
+                    인덱스1최종결과 = false;
                     SelectHighIndex(2, 1);
                     await Task.Delay(1000);
                     SelectHighIndex(2, 0);
-                    return;
+                }
+                else
+                {
+                    인덱스1최종결과 = true;
+                    SelectHighIndex(0, 1);
+                    await Task.Delay(1000);
+                    SelectHighIndex(0, 0);
+                }
+
+                Glob.카메라1검사결과[0] = false;
+                Glob.카메라2검사결과[0] = false;
+                Glob.카메라3검사결과[0] = false;
+                Glob.카메라4검사결과[0] = false;
+                Glob.카메라5검사결과[0] = false;
+                Glob.카메라6검사결과[0] = false;
+                BeginInvoke((Action)delegate { 최종결과표시(인덱스1최종결과, 1); });
+
+            }
+            else if (Glob.검사결과확인인덱스번호 == 2)
+            {
+                Boolean 인덱스2최종결과 = false;
+                //각 카메라별 배열 두버너째 검사결과확인.
+                //각 카메라별 배열 첫번째 검사결과확인.
+                if (Glob.카메라1검사결과[1] == false || Glob.카메라2검사결과[1] == false || Glob.카메라3검사결과[1] == false)
+                {
+                    log.AddLogMessage(LogType.Result, 0, $"인덱스2 검사결과 불량유형1 on 및 전송 {Glob.카메라1검사결과[1]} {Glob.카메라2검사결과[1]} {Glob.카메라3검사결과[1]}");
+                    SelectHighIndex(1, 1);
+                    await Task.Delay(1000);
+                    SelectHighIndex(1, 0);
+
+                    인덱스2최종결과 = false;
+                }
+                else if (Glob.카메라4검사결과[1] == false || Glob.카메라5검사결과[1] == false || Glob.카메라6검사결과[1] == false)
+                {
+                    log.AddLogMessage(LogType.Result, 0, $"인덱스2 검사결과 불량유형1 on 및 전송 {Glob.카메라1검사결과[1]} {Glob.카메라2검사결과[1]} {Glob.카메라3검사결과[1]}");
+                    SelectHighIndex(2, 1);
+                    await Task.Delay(1000);
+                    SelectHighIndex(2, 0);
+
+                    인덱스2최종결과 = false;
                 }
                 else
                 {
                     SelectHighIndex(0, 1);
                     await Task.Delay(1000);
                     SelectHighIndex(0, 0);
+                    인덱스2최종결과 = true;
                 }
-            }
-            else
-            {
-                string[] res = new string[2];
-                res[0] = Glob.scratchError[0] ? "NG" : "OK";
-                res[1] = Glob.noScratchError[1] ? "NG" : "OK";
+                BeginInvoke((Action)delegate { 최종결과표시(인덱스2최종결과, 2); });
 
-                최종결과표시(Glob.scratchError[0], Glob.noScratchError[1], res);
-
-                Debug.WriteLine($"Glob.firstInspection[0] : 스크레치 - {res[0]} / 스크레치아닌불량 - {res[1]}");
-                //log.AddLogMessage(LogType.Infomation, 0, $"Glob.firstInspection[0] : 스크레치 - {res[0]} / 스크레치아닌불량 - {res[1]}");
-                if (Glob.scratchError[0])
-                {
-                    SelectHighIndex(1, 1);
-                    await Task.Delay(2000);
-                    SelectHighIndex(1, 0);
-                    return;
-                }
-                else if (Glob.noScratchError[1])
-                {
-                    SelectHighIndex(2, 1);
-                    await Task.Delay(2000);
-                    SelectHighIndex(2, 0);
-                    return;
-                }
-                else
-                {
-                    SelectHighIndex(0, 1);
-                    await Task.Delay(2000);
-                    SelectHighIndex(0, 0);
-                }
+                Glob.카메라1검사결과[1] = false;
+                Glob.카메라2검사결과[1] = false;
+                Glob.카메라3검사결과[1] = false;
+                Glob.카메라4검사결과[1] = false;
+                Glob.카메라5검사결과[1] = false;
+                Glob.카메라6검사결과[1] = false;
             }
+
+
+            //if (Glob.firstInspection[1])
+            //{
+            //    string[] res = new string[2];
+            //    res[0] = Glob.scratchError[1] ? "NG" : "OK";
+            //    res[1] = Glob.noScratchError[0] ? "NG" : "OK";
+            //    최종결과표시(Glob.scratchError[1], Glob.noScratchError[0], res);
+
+            //    if (Glob.scratchError[1])
+            //    {
+            //        log.AddLogMessage(LogType.Result, 0, $"검사결과 불량유형1 on 및 전송");
+            //        SelectHighIndex(1, 1);
+            //        await Task.Delay(1000);
+            //        SelectHighIndex(1, 0);
+            //        return;
+            //    }
+            //    else if (Glob.noScratchError[0])
+            //    {
+            //        log.AddLogMessage(LogType.Result, 0, $"검사결과 불량유형2 on 및 전송");
+            //        SelectHighIndex(2, 1);
+            //        await Task.Delay(1000);
+            //        SelectHighIndex(2, 0);
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        log.AddLogMessage(LogType.Result, 0, $"검사결과 양품 on 및 전송");
+            //        SelectHighIndex(0, 1);
+            //        await Task.Delay(1000);
+            //        SelectHighIndex(0, 0);
+            //    }
+            //}
+            //else
+            //{
+            //    string[] res = new string[2];
+            //    res[0] = Glob.scratchError[0] ? "NG" : "OK";
+            //    res[1] = Glob.noScratchError[1] ? "NG" : "OK";
+
+            //    최종결과표시(Glob.scratchError[0], Glob.noScratchError[1], res);
+
+            //    if (Glob.scratchError[0])
+            //    {
+            //        log.AddLogMessage(LogType.Result, 0, $"검사결과 불량유형1 on 및 전송");
+            //        SelectHighIndex(1, 1);
+            //        await Task.Delay(2000);
+            //        SelectHighIndex(1, 0);
+            //        return;
+            //    }
+            //    else if (Glob.noScratchError[1])
+            //    {
+            //        log.AddLogMessage(LogType.Result, 0, $"검사결과 불량유형2 on 및 전송");
+            //        SelectHighIndex(2, 1);
+            //        await Task.Delay(2000);
+            //        SelectHighIndex(2, 0);
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        log.AddLogMessage(LogType.Result, 0, $"검사결과 양품 on 및 전송");
+            //        SelectHighIndex(0, 1);
+            //        await Task.Delay(2000);
+            //        SelectHighIndex(0, 0);
+            //    }
+            //}
         }
 
 
@@ -1871,6 +1970,9 @@ namespace VISION
             //AllCameraOneShot();
             Glob.firstInspection[0] = false;
             Glob.firstInspection[1] = false;
+            검사결과및인덱스초기화();
+            //Glob.불량유형1검사결과.Clear();
+            //Glob.불량유형2검사결과.Clear();
             //전체 조명 꺼주기.
             조명온오프제어(false);
             //PGgloble.그랩제어.GetItem(Schemas.CameraType.Cam05).Ready();
@@ -3285,12 +3387,24 @@ namespace VISION
                         {
                             case 0: //1번째 라인스캔 카메라 촬영 신호 Cam 1
                                 log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam1 Trigger");
-                                Glob.firstInspection[0] = Glob.firstInspection[0] ? false : true;
+                                //Glob.firstInspection[0] = Glob.firstInspection[0] ? false : true;
+                                if (Glob.카메라별인덱스[0] >= 2) Glob.카메라별인덱스[0] = 0;
+
+                                Glob.카메라별인덱스[0]++;
+
                                 Task.Run(() => { ShotAndInspect_Cam1(1); });
                                 break;
                             case 1: //사이드 라인스캔 카메라 촬영신호 Cam 2 & Cam 3
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
+                                    if (Glob.카메라별인덱스[1] >= 2) Glob.카메라별인덱스[1] = 0;
+
+                                    Glob.카메라별인덱스[1]++;
+
+                                    if (Glob.카메라별인덱스[2] >= 2) Glob.카메라별인덱스[2] = 0;
+
+                                    Glob.카메라별인덱스[2]++;
+
                                     log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam2 & Cam3 Trigger");
                                     Task.Run(() => { ShotAndInspect_Cam2(1); });
                                     Task.Run(() => { ShotAndInspect_Cam3(1); });
@@ -3300,44 +3414,44 @@ namespace VISION
                                 Glob.firstInspection[1] = Glob.firstInspection[1] ? false : true;
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
+                                    if (Glob.카메라별인덱스[3] >= 2) Glob.카메라별인덱스[3] = 0;
+
+                                    Glob.카메라별인덱스[3]++;
+
                                     PGgloble.그랩제어.좌측너트검사카메라.MatImage2.Clear();
                                     PGgloble.그랩제어.좌측너트검사카메라.Ready();
                                     log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam4 Trigger");
                                     //Task.Run(() => { ShotAndInspect_Cam4(TempCogDisplay[3], 1); });
                                 }
                                 break;
-                            //case 3: //4번촬영
-                            //    if ((Glob.CurruntModelName == "shield") == false)
-                            //    {
-                            //        log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam4-2 Trigger");
-                            //        Task.Run(() => { ShotAndInspect_Cam4(HeatSinkMainDisplay.cdyDisplay4_2, 2); });
-                            //    }
-                            //    break;
-                            //case 4: //4번촬영
-                            //    if ((Glob.CurruntModelName == "shield") == false)
-                            //    {
-                            //        log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam4-3 Trigger");
-                            //        Task.Run(() => { ShotAndInspect_Cam4(HeatSinkMainDisplay.cdyDisplay4_3, 3); });
-                            //    }
-                            //    break;
+                            case 4: //원점복귀할때.
+                                log.AddLogMessage(LogType.Infomation, 0, "원점복귀신호 들어옴.");
+                                //Task.Run(() =>
+                                //{
+                                검사결과및인덱스초기화();
+                                조명온오프제어(false);
+                                //});
+                                break;
                             case 5: //5번촬영
                                 if ((Glob.CurruntModelName == "shield") == false)
                                 {
+                                    if (Glob.카메라별인덱스[4] >= 2) Glob.카메라별인덱스[4] = 0;
+
+                                    Glob.카메라별인덱스[4]++;
+
                                     PGgloble.그랩제어.우측너트검사카메라.MatImage3.Clear();
                                     PGgloble.그랩제어.우측너트검사카메라.Ready();
                                     log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam5 Trigger");
                                     //Task.Run(() => { ShotAndInspect_Cam5(TempCogDisplay[4], 1); });
                                 }
                                 break;
-                            //case 6: //5번촬영
-                            //    if ((Glob.CurruntModelName == "shield") == false)
-                            //    {
-                            //        log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam5-2 Trigger");
-                            //        Task.Run(() => { ShotAndInspect_Cam5(HeatSinkMainDisplay.cdyDisplay5_1, 2); });
-                            //    }
-                            //    break;
                             case 7://6번촬영
+                                Glob.최종검사중 = true;
                                 log.AddLogMessage(LogType.Result, 0, $"PLC 신호 : Cam6 Trigger");
+                                if (Glob.카메라별인덱스[5] >= 2) Glob.카메라별인덱스[5] = 0;
+
+                                Glob.카메라별인덱스[5]++;
+
                                 Task.Run(() => { ShotAndInspect_Cam6(TempCogDisplay[5], 1); });
                                 break;
                             case 8:
@@ -3353,6 +3467,8 @@ namespace VISION
                                 Task.Run(() => { ShotAndInspect_Cam8(TempCogNutDisplay[1], 1); });
                                 break;
                             case 14: //검사결과 요청신호
+                                if (Glob.검사결과확인인덱스번호 >= 2) Glob.검사결과확인인덱스번호 = 0;
+                                Glob.검사결과확인인덱스번호++;
                                 ErrorCheckAndSendPLC();
                                 break;
                         }

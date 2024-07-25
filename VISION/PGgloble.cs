@@ -125,6 +125,22 @@ namespace VISION
 
         public 코그넥스파일 코그넥스파일;
         public static 그랩제어 그랩제어;
+
+        public Boolean[] 카메라1검사결과 = new Boolean[2];
+        public Boolean[] 카메라2검사결과 = new Boolean[2];
+        public Boolean[] 카메라3검사결과 = new Boolean[2];
+        public Boolean[] 카메라4검사결과 = new Boolean[2];
+        public Boolean[] 카메라5검사결과 = new Boolean[2];
+        public Boolean[] 카메라6검사결과 = new Boolean[2];
+
+        public Int32[] 카메라별인덱스 = new int[6];
+
+        public Int32 검사결과확인인덱스번호 = 0;
+
+        public Boolean 최종검사중 = false;
+
+        //public Queue<Boolean> 불량유형1검사결과 = new Queue<Boolean>();
+        //public Queue<Boolean> 불량유형2검사결과 = new Queue<Boolean>();
     }
     public struct LineCamSets
     {
