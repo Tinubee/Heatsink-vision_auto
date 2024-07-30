@@ -99,6 +99,7 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.p너트검사 = new System.Windows.Forms.Panel();
             this.LightControl4 = new System.IO.Ports.SerialPort(this.components);
+            this.B너트검사수동확인 = new System.Windows.Forms.Button();
             this.tlpUnder.SuspendLayout();
             this.tableLayoutPanel32.SuspendLayout();
             this.tlpTopSide.SuspendLayout();
@@ -131,6 +132,7 @@
             this.tlpUnder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.302063F));
             this.tlpUnder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.302063F));
             this.tlpUnder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 7.302063F));
+            this.tlpUnder.Controls.Add(this.B너트검사수동확인, 0, 0);
             this.tlpUnder.Controls.Add(this.btn카메라리로드, 0, 0);
             this.tlpUnder.Controls.Add(this.btn_SystemSetup, 11, 0);
             this.tlpUnder.Controls.Add(this.btn_Model, 8, 0);
@@ -251,12 +253,12 @@
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(399, 1);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(657, 1);
             this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(257, 87);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(139, 87);
             this.tableLayoutPanel4.TabIndex = 55;
             // 
             // btn_ToolSetUp
@@ -1135,6 +1137,24 @@
             // 
             this.LightControl4.PortName = "COM9";
             // 
+            // B너트검사수동확인
+            // 
+            this.B너트검사수동확인.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.B너트검사수동확인.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.B너트검사수동확인.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.B너트검사수동확인.Image = global::VISION.Properties.Resources.OneShot;
+            this.B너트검사수동확인.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.B너트검사수동확인.Location = new System.Drawing.Point(399, 1);
+            this.B너트검사수동확인.Margin = new System.Windows.Forms.Padding(0);
+            this.B너트검사수동확인.Name = "B너트검사수동확인";
+            this.B너트검사수동확인.Size = new System.Drawing.Size(257, 87);
+            this.B너트검사수동확인.TabIndex = 58;
+            this.B너트검사수동확인.Tag = "Front";
+            this.B너트검사수동확인.Text = "너트검사 수동확인";
+            this.B너트검사수동확인.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.B너트검사수동확인.UseVisualStyleBackColor = true;
+            this.B너트검사수동확인.Click += new System.EventHandler(this.B너트검사수동확인_Click);
+            // 
             // Frm_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -1247,6 +1267,7 @@
         private System.Windows.Forms.Panel p너트검사;
         public System.IO.Ports.SerialPort LightControl4;
         private System.Windows.Forms.TabPage p최종결과;
+        private System.Windows.Forms.Button B너트검사수동확인;
     }
 }
 

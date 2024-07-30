@@ -139,6 +139,8 @@ namespace VISION
 
         public Boolean 최종검사중 = false;
 
+
+        public Boolean 너트검사수동확인모드 = false;
         //public Queue<Boolean> 불량유형1검사결과 = new Queue<Boolean>();
         //public Queue<Boolean> 불량유형2검사결과 = new Queue<Boolean>();
     }

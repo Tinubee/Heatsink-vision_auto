@@ -49,7 +49,7 @@ namespace VISION.Class
             else
                 이미지회전각도[CameraNumber] = 0;
 
-            Debug.WriteLine($"Cam - {CameraNumber} 회전각도 : {이미지회전각도[CameraNumber]}");
+            //Debug.WriteLine($"Cam - {CameraNumber} 회전각도 : {이미지회전각도[CameraNumber]}");
 
             Glob.PatternResult[CameraNumber] = true;
             Glob.BlobResult[CameraNumber] = true;

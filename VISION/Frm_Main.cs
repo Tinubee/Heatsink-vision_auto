@@ -1060,7 +1060,7 @@ namespace VISION
 
         public void 최종결과표시(bool 최종결과, int 인덱스번호)
         {
-            lb최종결과[0].Text = $"{인덱스번호}";
+            lb최종결과[0].Text = $"Index => {인덱스번호}";
             if (최종결과)
                 lb최종결과[1].Text = $"OK";
             else
@@ -1105,8 +1105,8 @@ namespace VISION
                     //}
                     //else
                     //{
-                    lb개별카메라검사결과[camNumber].ForeColor = Result == "O K" ? Color.Lime : Color.Red;
-                    lb개별카메라검사결과[camNumber].Text = Result;
+                    lb개별카메라검사결과[camNumber].ForeColor = Result == $"O K" ? Color.Lime : Color.Red;
+                    lb개별카메라검사결과[camNumber].Text = $"{Glob.카메라별인덱스[camNumber]} - {Result}";
                     //lb개별카메라검사결과[camNumber].ForeColor = Color.White;
                     lb검사시간[camNumber].Text = InspectTime[camNumber].ElapsedMilliseconds.ToString() + "msec";
                     //}
@@ -1338,10 +1338,13 @@ namespace VISION
                     bool r = false;
                     r = 비전검사.Run(HeatSinkMainDisplay.cdyDisplay4, funCamNumber, 1);
                     Glob.Inspect4[0] = r;
+                    log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} 1번 결과 : {r}");
                     r = 비전검사.Run(HeatSinkMainDisplay.cdyDisplay4_2, funCamNumber, 2);
                     Glob.Inspect4[1] = r;
+                    log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} 2번 결과 : {r}");
                     r = 비전검사.Run(HeatSinkMainDisplay.cdyDisplay4_3, funCamNumber, 3);
                     Glob.Inspect4[2] = r;
+                    log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} 3번 결과 : {r}");
 
                     //Boolean 최종검사결과 = false;
 
@@ -1441,10 +1444,11 @@ namespace VISION
 
                     r = 비전검사.Run(HeatSinkMainDisplay.cdyDisplay5, funCamNumber, 1);
                     Glob.Inspect5[0] = r;
+                    log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} 1번 결과 : {r}");
 
                     r = 비전검사.Run(HeatSinkMainDisplay.cdyDisplay5_1, funCamNumber, 2);
                     Glob.Inspect5[1] = r;
-
+                    log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} 2번 결과 : {r}");
                     //BeginInvoke((Action)delegate
                     //{
 
@@ -1472,10 +1476,7 @@ namespace VISION
                             DisplayLabelSet(Glob.CurruntModelName, result, funCamNumber);
                             NG_Count[funCamNumber]++;
                         });
-                        //if (!Glob.statsOK)
-                        //{
-                        //    NoScratchErrorSet();
-                        //}
+                        
                     }
                     else
                     {
@@ -1618,6 +1619,7 @@ namespace VISION
                     });
                 }
 
+                //if (Glob.너트검사수동확인모드 == false)
                 Press1NutErrorCheckAndSendPLC();
 
                 InspectTime[funCamNumber].Stop();
@@ -1680,7 +1682,7 @@ namespace VISION
                             ImageSave8("NG", funCamNumber + 1, (CogImage8Grey)cdy.Image, cdy);
                     });
                 }
-
+                //if (Glob.너트검사수동확인모드 == false)
                 Press2NutErrorCheckAndSendPLC();
 
                 InspectTime[funCamNumber].Stop();
@@ -1700,36 +1702,54 @@ namespace VISION
             //Debug.WriteLine("Press 2 Error Check to PLC Start");
             for (int lop = 0; lop < Glob.press2PinResult.Length; lop++)
             {
-                if (Glob.press2PinResult[lop] == "OK")
+                if (Glob.너트검사수동확인모드)
                 {
-                    switch (lop)
+                    if (lop == Glob.press2PinResult.Length - 1)
                     {
-                        case 0:
-                            SelectHighIndex(9, 1);
-                            //await Task.Delay(2000);
-                            //SelectHighIndex(9, 0);
-                            break;
-                        case 1:
-                            SelectHighIndex(11, 1);
-                            //await Task.Delay(2000);
-                            //SelectHighIndex(11, 0);
-                            break;
+                        if (Glob.press2PinResult[0] == "NG" && Glob.press2PinResult[1] == "NG")
+                        {
+                            //수동검사 정상.
+                        }
+                        else
+                        {
+                            //수동검사 비정상.
+                            cm.info("2번 Press 너트 안착 핀  Vision 이상");
+                        }
                     }
                 }
                 else
                 {
-                    switch (lop)
+                    if (Glob.press2PinResult[lop] == "OK")
                     {
-                        case 0:
-                            SelectHighIndex(10, 1);
-                            //await Task.Delay(2000);
-                            //SelectHighIndex(10, 0);
-                            break;
-                        case 1:
-                            SelectHighIndex(12, 1);
-                            //await Task.Delay(2000);
-                            //SelectHighIndex(12, 0);
-                            break;
+                        switch (lop)
+                        {
+                            case 0:
+                                SelectHighIndex(9, 1);
+                                //await Task.Delay(2000);
+                                //SelectHighIndex(9, 0);
+                                break;
+                            case 1:
+                                SelectHighIndex(11, 1);
+                                //await Task.Delay(2000);
+                                //SelectHighIndex(11, 0);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (lop)
+                        {
+                            case 0:
+                                SelectHighIndex(10, 1);
+                                //await Task.Delay(2000);
+                                //SelectHighIndex(10, 0);
+                                break;
+                            case 1:
+                                SelectHighIndex(12, 1);
+                                //await Task.Delay(2000);
+                                //SelectHighIndex(12, 0);
+                                break;
+                        }
                     }
                 }
             }
@@ -1746,35 +1766,52 @@ namespace VISION
             //Debug.WriteLine("Press 1 Error Check to PLC Start");
             for (int lop = 0; lop < Glob.press1PinResult.Length; lop++)
             {
-                //Debug.WriteLine(Glob.press1PinResult[lop]);
-                if (Glob.press1PinResult[lop] == "OK")
+                if (Glob.너트검사수동확인모드)
                 {
-                    switch (lop)
+                    if (lop == Glob.press1PinResult.Length - 1)
                     {
-                        case 0:
-                            SelectHighIndex(3, 1);
-                            break;
-                        case 1:
-                            SelectHighIndex(5, 1);
-                            break;
-                        case 2:
-                            SelectHighIndex(7, 1);
-                            break;
+                        if (Glob.press1PinResult[0] == "NG" && Glob.press1PinResult[1] == "NG" && Glob.press1PinResult[2] == "NG")
+                        {
+                            //수동검사 정상.
+                        }
+                        else
+                        {
+                            //수동검사 비정상.
+                            cm.info("1번 Press 너트 안착 핀  Vision 이상");
+                        }
                     }
                 }
                 else
                 {
-                    switch (lop)
+                    if (Glob.press1PinResult[lop] == "OK")
                     {
-                        case 0:
-                            SelectHighIndex(4, 1);
-                            break;
-                        case 1:
-                            SelectHighIndex(6, 1);
-                            break;
-                        case 2:
-                            SelectHighIndex(8, 1);
-                            break;
+                        switch (lop)
+                        {
+                            case 0:
+                                SelectHighIndex(3, 1);
+                                break;
+                            case 1:
+                                SelectHighIndex(5, 1);
+                                break;
+                            case 2:
+                                SelectHighIndex(7, 1);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (lop)
+                        {
+                            case 0:
+                                SelectHighIndex(4, 1);
+                                break;
+                            case 1:
+                                SelectHighIndex(6, 1);
+                                break;
+                            case 2:
+                                SelectHighIndex(8, 1);
+                                break;
+                        }
                     }
                 }
             }
@@ -1810,6 +1847,7 @@ namespace VISION
                 }
                 else
                 {
+                    log.AddLogMessage(LogType.Result, 0, $"인덱스1 검사결과 양품 on 및 전송 {Glob.카메라1검사결과[0]} {Glob.카메라2검사결과[0]} {Glob.카메라3검사결과[0]} {Glob.카메라4검사결과[0]} {Glob.카메라5검사결과[0]} {Glob.카메라6검사결과[0]}");
                     인덱스1최종결과 = true;
                     SelectHighIndex(0, 1);
                     await Task.Delay(1000);
@@ -1832,7 +1870,7 @@ namespace VISION
                 //각 카메라별 배열 첫번째 검사결과확인.
                 if (Glob.카메라1검사결과[1] == false || Glob.카메라2검사결과[1] == false || Glob.카메라3검사결과[1] == false)
                 {
-                    log.AddLogMessage(LogType.Result, 0, $"인덱스2 검사결과 불량유형1 on 및 전송 {Glob.카메라1검사결과[1]} {Glob.카메라2검사결과[1]} {Glob.카메라3검사결과[1]}");
+                    log.AddLogMessage(LogType.Result, 0, $"인덱스2 검사결과 불량유형1 on 및 전송 {Glob.카메라4검사결과[1]} {Glob.카메라5검사결과[1]} {Glob.카메라6검사결과[1]}");
                     SelectHighIndex(1, 1);
                     await Task.Delay(1000);
                     SelectHighIndex(1, 0);
@@ -1841,7 +1879,7 @@ namespace VISION
                 }
                 else if (Glob.카메라4검사결과[1] == false || Glob.카메라5검사결과[1] == false || Glob.카메라6검사결과[1] == false)
                 {
-                    log.AddLogMessage(LogType.Result, 0, $"인덱스2 검사결과 불량유형1 on 및 전송 {Glob.카메라1검사결과[1]} {Glob.카메라2검사결과[1]} {Glob.카메라3검사결과[1]}");
+                    log.AddLogMessage(LogType.Result, 0, $"인덱스2 검사결과 불량유형1 on 및 전송 {Glob.카메라4검사결과[1]} {Glob.카메라5검사결과[1]} {Glob.카메라6검사결과[1]}");
                     SelectHighIndex(2, 1);
                     await Task.Delay(1000);
                     SelectHighIndex(2, 0);
@@ -1850,12 +1888,13 @@ namespace VISION
                 }
                 else
                 {
+                    log.AddLogMessage(LogType.Result, 0, $"인덱스2 검사결과 양품 on 및 전송 {Glob.카메라1검사결과[1]} {Glob.카메라2검사결과[1]} {Glob.카메라3검사결과[1]} {Glob.카메라4검사결과[1]} {Glob.카메라5검사결과[1]} {Glob.카메라6검사결과[1]}");
                     SelectHighIndex(0, 1);
                     await Task.Delay(1000);
                     SelectHighIndex(0, 0);
                     인덱스2최종결과 = true;
                 }
-                BeginInvoke((Action)delegate { 최종결과표시(인덱스2최종결과, 2); });
+
 
                 Glob.카메라1검사결과[1] = false;
                 Glob.카메라2검사결과[1] = false;
@@ -1863,6 +1902,9 @@ namespace VISION
                 Glob.카메라4검사결과[1] = false;
                 Glob.카메라5검사결과[1] = false;
                 Glob.카메라6검사결과[1] = false;
+
+                BeginInvoke((Action)delegate { 최종결과표시(인덱스2최종결과, 2); });
+
             }
 
 
@@ -1975,6 +2017,7 @@ namespace VISION
             //Glob.불량유형2검사결과.Clear();
             //전체 조명 꺼주기.
             조명온오프제어(false);
+            Glob.너트검사수동확인모드 = false;
             //PGgloble.그랩제어.GetItem(Schemas.CameraType.Cam05).Ready();
             log.AddLogMessage(LogType.Infomation, 0, "AUTO MODE START");
         }
@@ -3382,7 +3425,7 @@ namespace VISION
                             }
                             continue;
                         }
-                        Debug.WriteLine($"{i} 번신호");
+                        //Debug.WriteLine($"{i} 번신호");
                         switch (i)
                         {
                             case 0: //1번째 라인스캔 카메라 촬영 신호 Cam 1
@@ -3469,6 +3512,9 @@ namespace VISION
                             case 14: //검사결과 요청신호
                                 if (Glob.검사결과확인인덱스번호 >= 2) Glob.검사결과확인인덱스번호 = 0;
                                 Glob.검사결과확인인덱스번호++;
+
+                                log.AddLogMessage(LogType.Result, 0, $"Index => {Glob.검사결과확인인덱스번호}");
+                                //Task.Delay(100);
                                 ErrorCheckAndSendPLC();
                                 break;
                         }
@@ -3561,6 +3607,17 @@ namespace VISION
             //캠파일 ReLoading.
             Frm_CamSet frm_CamSet = new Frm_CamSet();
             frm_CamSet.ShowDialog(this);
+        }
+
+        private void B너트검사수동확인_Click(object sender, EventArgs e)
+        {
+            Glob.너트검사수동확인모드 = true;
+            Task.Run(() =>
+            {
+                ShotAndInspect_Cam7(TempCogNutDisplay[0], 1);
+                ShotAndInspect_Cam8(TempCogNutDisplay[1], 1);
+            });
+
         }
     }
 }
