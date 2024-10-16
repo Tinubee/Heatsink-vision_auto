@@ -59,6 +59,7 @@ namespace VISION.Class
             CogGraphicCollection Collection = new CogGraphicCollection();
             CogGraphicCollection Collection2 = new CogGraphicCollection(); // 패턴
             CogGraphicCollection Collection3 = new CogGraphicCollection(); // 블롭
+            CogGraphicCollection Collection4 = new CogGraphicCollection(); //치수
 
             string[] temp = new string[30];
             int FixPatternNumber = FindFirstPatternNumber1(CameraNumber, shotNumber);
@@ -87,14 +88,7 @@ namespace VISION.Class
                 Glob.G_MainForm.InspectResult[CameraNumber] = false;
                 Glob.PatternResult[CameraNumber] = false;
             }
-            //Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Pattern Tool 완료.");
-            //블롭툴 넘버와 패턴툴넘버 맞추는 작업.
-            //if(CameraNumber == 3 || CameraNumber == 4)
-            //{
-
-            //}
-            //else
-            //{
+           
             for (int toolnum = 0; toolnum < 29; toolnum++)
             {
                 if (Glob.코그넥스파일.블롭툴사용여부[CameraNumber, toolnum])
@@ -116,7 +110,68 @@ namespace VISION.Class
                 Glob.G_MainForm.InspectResult[CameraNumber] = false;
                 Glob.BlobResult[CameraNumber] = false;
             }
-            //Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} - Blob Tool 완료.");
+
+
+            /////////////////////////////////////////////////////////////////////////////////////////////
+
+            for (int toolnum = 0; toolnum < 9; toolnum++)
+            {
+                if (Glob.코그넥스파일.거리측정툴사용여부[CameraNumber, toolnum])
+                {
+                    Line_Train(cog, CameraNumber, toolnum);
+                    Glob.코그넥스파일.라인툴[CameraNumber, toolnum].Area_Affine_Main1(ref cog, (CogImage8Grey)cog.Image, toolnum.ToString());
+                    Glob.코그넥스파일.써클툴[CameraNumber, toolnum].Area_Affine_Main1(ref cog, (CogImage8Grey)cog.Image, toolnum.ToString());
+                }
+            }
+
+            if (Glob.코그넥스파일.모델.Dimension_Inspection(ref cog, (CogImage8Grey)cog.Image, ref temp, CameraNumber, Collection))
+            {
+                CogCreateGraphicLabelTool[] Point_Label = new CogCreateGraphicLabelTool[10];
+                CogCreateGraphicLabelTool[] Label = new CogCreateGraphicLabelTool[10];
+
+                for (int lop = 1; lop < Glob.코그넥스파일.거리측정툴.Length / Glob.코그넥스파일.카메라.Count(); lop++)
+                {
+                    if (Glob.코그넥스파일.거리측정툴사용여부[CameraNumber, lop])
+                    {
+                        double ResultValue = 0;
+                        ResultValue = Glob.코그넥스파일.거리측정툴[CameraNumber, lop].DistanceValue(lop) * Glob.코그넥스파일.보정값[CameraNumber, lop];
+
+                        Point_Label[lop] = new CogCreateGraphicLabelTool();
+                        Point_Label[lop].InputImage = cog.Image;
+                        Point_Label[lop].InputGraphicLabel.X = Glob.코그넥스파일.거리측정툴[CameraNumber, lop].GetX(lop);
+                        Point_Label[lop].InputGraphicLabel.Y = Glob.코그넥스파일.거리측정툴[CameraNumber, lop].GetY(lop);
+                        Point_Label[lop].InputGraphicLabel.Text = ResultValue.ToString("F3");
+
+                        Label[lop] = new CogCreateGraphicLabelTool();
+                        Label[lop].InputImage = cog.Image;
+                        Label[lop].InputGraphicLabel.X = 600;
+                        Label[lop].InputGraphicLabel.Y = 170 + (80 * lop);
+                        Label[lop].InputGraphicLabel.Text = $"{Glob.코그넥스파일.거리측정툴[CameraNumber, lop].ToolName(lop)} : {ResultValue.ToString("F3")}";
+                        Label[lop].Run();
+                        Collection4.Add(Label[lop].GetOutputGraphicLabel());
+
+                        if (Glob.코그넥스파일.최소값[CameraNumber, lop] <= ResultValue && Glob.코그넥스파일.최대값[CameraNumber, lop] >= ResultValue)
+                        {
+                            Point_Label[lop].OutputColor = CogColorConstants.Green;
+                            Collection4[lop - 1].Color = CogColorConstants.Green;
+                        }
+                        else
+                        {
+                            Point_Label[lop].OutputColor = CogColorConstants.Red;
+                            Collection4[lop - 1].Color = CogColorConstants.Red;
+                            Glob.G_MainForm.InspectResult[CameraNumber] = false;
+                            Glob.MeasureResult[CameraNumber] = false;
+                        }
+
+                        Point_Label[lop].Run();
+                        cog.StaticGraphics.Add(Point_Label[lop].GetOutputGraphicLabel(), "");
+                    }
+                }
+            }
+            else
+            {
+                Glob.G_MainForm.InspectResult[CameraNumber] = false;
+            }
 
 
             if (Glob.PatternResult[CameraNumber]) { DisplayLabelShow(Collection2, cog, 600, 100, 이미지회전각도[CameraNumber], "PATTERN OK"); }
@@ -143,6 +198,7 @@ namespace VISION.Class
             cog.StaticGraphics.AddList(Collection, "");
             cog.StaticGraphics.AddList(Collection2, "");
             cog.StaticGraphics.AddList(Collection3, "");
+            cog.StaticGraphics.AddList(Collection4, "");
 
             //Glob.G_MainForm.log.AddLogMessage(LogType.Result, 0, $"{MethodBase.GetCurrentMethod().Name} 완료.");
             //GC.Collect();
@@ -169,6 +225,25 @@ namespace VISION.Class
                 Fiximage = Glob.코그넥스파일.모델.Blob_FixtureImage1((CogImage8Grey)cdy.Image, Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, usePatternNumber);
             }
         }
+
+        public void Line_Train(CogDisplay cdy, int CameraNumber, int toolnumber)
+        {
+            if (Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
+            {
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.LINE_FixtureImage((CogImage8Grey)cdy.Image, Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, usePatternNumber);
+            }
+        }
+
+        public void Circle_Train(CogDisplay cdy, int CameraNumber, int toolnumber)
+        {
+            if (Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].Run((CogImage8Grey)cdy.Image) == true)
+            {
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.LINE_FixtureImage((CogImage8Grey)cdy.Image, Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[CameraNumber, toolnumber].ToolName(), CameraNumber, toolnumber, out FimageSpace, usePatternNumber);
+            }
+        }
+
 
         public void DisplayLabelShow(CogGraphicCollection Collection, CogDisplay cog, int X, int Y, double rotate, string Text)
         {

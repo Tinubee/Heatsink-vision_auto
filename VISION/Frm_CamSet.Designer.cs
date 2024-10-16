@@ -171,6 +171,7 @@
             this.tb노출값.TabIndex = 2;
             this.tb노출값.Text = "0";
             this.tb노출값.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tb노출값.TextChanged += new System.EventHandler(this.tb노출값_TextChanged);
             // 
             // tb감도값
             // 
@@ -183,6 +184,7 @@
             this.tb감도값.TabIndex = 3;
             this.tb감도값.Text = "0";
             this.tb감도값.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tb감도값.TextChanged += new System.EventHandler(this.tb감도값_TextChanged);
             // 
             // Frm_CamSet
             // 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Cognex.VisionPro.Display;
+using Cognex.VisionPro;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -81,7 +83,7 @@ namespace VISION.Cogs
             }
 
             Tool = (Cognex.VisionPro.Caliper.CogFindLineTool)Cognex.VisionPro.CogSerializer.LoadObjectFromFile(Savepath);
-
+            //ImageSpace = $"MultiPattern - {ImageSpace}";
             return true;
         }
 
@@ -121,13 +123,38 @@ namespace VISION.Cogs
             this.Tool.InputImage = image;
             return true;
         }
+        public void Area_Affine_Main1(ref CogDisplay display, CogImage8Grey image, string ImageSpace)
+        {
+            ImageSpace = $"MultiPattern - {ImageSpace}";
+            if (InputImage(image) == false)
+            {
+                return;
+            }
 
+            if (this.Tool.RunParams.ExpectedLineSegment == null)
+            {
+                this.NewTool();
+            }
+
+            CogLineSegment area = (CogLineSegment)Tool.RunParams.ExpectedLineSegment; 
+            area.Interactive = true;
+            area.GraphicDOFEnable = CogLineSegmentDOFConstants.All; //CogPolygonDOFConstants.All;
+            area.SelectedSpaceName = ImageSpace;
+            area.Color = CogColorConstants.Green;
+            Tool.RunParams.ExpectedLineSegment = area;
+        }
         public bool Run(Cognex.VisionPro.CogImage8Grey image)
         {
             if (!InputImage(image))
             {
                 return false;
             }
+
+            //string name = this.ToolName();
+            //string[] namesplit = name.Split(',');
+            //Int32 number = Convert.ToInt32(namesplit[1]);
+
+            //string ImageSpace = $"MultiPattern - {number}";
 
             this.Tool.Run();
 
@@ -336,7 +363,7 @@ namespace VISION.Cogs
             Collection.Add(Tool.Results.GetLine());
             Collection.Add(Tool.Results.GetLineSegment());
         }
-        public void ResultDisplay(Cognex.VisionPro.Display.CogDisplay display, Cognex.VisionPro.CogGraphicCollection Collection)
+        public void ResultDisplay(CogDisplay display, Cognex.VisionPro.CogGraphicCollection Collection)
         {
             try
             {
@@ -344,7 +371,7 @@ namespace VISION.Cogs
                 {
                     return;
                 }
-                Collection.Add(Tool.Results.GetLine());
+                Collection.Add(Tool.Results.GetLineSegment());
                 display.StaticGraphics.AddList(Collection, "");
             }
             catch (Exception)

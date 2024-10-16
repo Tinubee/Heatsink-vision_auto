@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Main));
             this.tlpUnder = new System.Windows.Forms.TableLayoutPanel();
+            this.B너트검사수동확인 = new System.Windows.Forms.Button();
             this.btn카메라리로드 = new System.Windows.Forms.Button();
             this.btn_SystemSetup = new System.Windows.Forms.Button();
             this.btn_Model = new System.Windows.Forms.Button();
@@ -99,7 +100,6 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.p너트검사 = new System.Windows.Forms.Panel();
             this.LightControl4 = new System.IO.Ports.SerialPort(this.components);
-            this.B너트검사수동확인 = new System.Windows.Forms.Button();
             this.tlpUnder.SuspendLayout();
             this.tableLayoutPanel32.SuspendLayout();
             this.tlpTopSide.SuspendLayout();
@@ -146,6 +146,24 @@
             this.tlpUnder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpUnder.Size = new System.Drawing.Size(1920, 89);
             this.tlpUnder.TabIndex = 1;
+            // 
+            // B너트검사수동확인
+            // 
+            this.B너트검사수동확인.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.B너트검사수동확인.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.B너트검사수동확인.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.B너트검사수동확인.Image = global::VISION.Properties.Resources.OneShot;
+            this.B너트검사수동확인.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.B너트검사수동확인.Location = new System.Drawing.Point(399, 1);
+            this.B너트검사수동확인.Margin = new System.Windows.Forms.Padding(0);
+            this.B너트검사수동확인.Name = "B너트검사수동확인";
+            this.B너트검사수동확인.Size = new System.Drawing.Size(257, 87);
+            this.B너트검사수동확인.TabIndex = 58;
+            this.B너트검사수동확인.Tag = "Front";
+            this.B너트검사수동확인.Text = "너트검사 수동확인";
+            this.B너트검사수동확인.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.B너트검사수동확인.UseVisualStyleBackColor = true;
+            this.B너트검사수동확인.Click += new System.EventHandler(this.B너트검사수동확인_Click);
             // 
             // btn카메라리로드
             // 
@@ -366,6 +384,7 @@
             this.lb_Time.TabIndex = 0;
             this.lb_Time.Text = "0000-00-00 오전 00:00:00";
             this.lb_Time.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lb_Time.Click += new System.EventHandler(this.lb_Time_Click);
             // 
             // lb_Ver
             // 
@@ -381,6 +400,7 @@
             this.lb_Ver.TabIndex = 4;
             this.lb_Ver.Text = "Ver. 1.0.0";
             this.lb_Ver.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lb_Ver.Click += new System.EventHandler(this.lb_Ver_Click);
             // 
             // btn_Exit
             // 
@@ -500,7 +520,7 @@
             // LightControl1
             // 
             this.LightControl1.BaudRate = 19200;
-            this.LightControl1.PortName = "COM6";
+            this.LightControl1.PortName = "COM2";
             // 
             // tabPage2
             // 
@@ -1046,12 +1066,12 @@
             // LightControl2
             // 
             this.LightControl2.BaudRate = 19200;
-            this.LightControl2.PortName = "COM7";
+            this.LightControl2.PortName = "COM3";
             // 
             // LightControl3
             // 
             this.LightControl3.BaudRate = 19200;
-            this.LightControl3.PortName = "COM8";
+            this.LightControl3.PortName = "COM4";
             // 
             // tableLayoutPanel2
             // 
@@ -1135,25 +1155,7 @@
             // 
             // LightControl4
             // 
-            this.LightControl4.PortName = "COM9";
-            // 
-            // B너트검사수동확인
-            // 
-            this.B너트검사수동확인.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.B너트검사수동확인.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.B너트검사수동확인.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.B너트검사수동확인.Image = global::VISION.Properties.Resources.OneShot;
-            this.B너트검사수동확인.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.B너트검사수동확인.Location = new System.Drawing.Point(399, 1);
-            this.B너트검사수동확인.Margin = new System.Windows.Forms.Padding(0);
-            this.B너트검사수동확인.Name = "B너트검사수동확인";
-            this.B너트검사수동확인.Size = new System.Drawing.Size(257, 87);
-            this.B너트검사수동확인.TabIndex = 58;
-            this.B너트검사수동확인.Tag = "Front";
-            this.B너트검사수동확인.Text = "너트검사 수동확인";
-            this.B너트검사수동확인.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.B너트검사수동확인.UseVisualStyleBackColor = true;
-            this.B너트검사수동확인.Click += new System.EventHandler(this.B너트검사수동확인_Click);
+            this.LightControl4.PortName = "COM5";
             // 
             // Frm_Main
             // 

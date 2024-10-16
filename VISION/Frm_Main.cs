@@ -1169,7 +1169,7 @@ namespace VISION
                 InspectTime[funCamNumber].Start();
 
                 TempCogDisplay[funCamNumber].Image = Glob.코그넥스파일.카메라[funCamNumber].Run();
-                log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
+                //log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
                 TempCogDisplay[funCamNumber].Fit();
                 TempCogDisplay[funCamNumber].InteractiveGraphics.Clear();
                 TempCogDisplay[funCamNumber].StaticGraphics.Clear();
@@ -1218,7 +1218,7 @@ namespace VISION
                 InspectTime[funCamNumber].Start();
 
                 Glob.FlipImageTool[funCamNumber].InputImage = Glob.코그넥스파일.카메라[funCamNumber].Run();
-                log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
+                //log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
                 Glob.FlipImageTool[funCamNumber].Run();
 
                 TempCogDisplay[funCamNumber].Image = Glob.FlipImageTool[funCamNumber].OutputImage;
@@ -1267,7 +1267,7 @@ namespace VISION
                 InspectTime[funCamNumber].Reset();
                 InspectTime[funCamNumber].Start();
                 Glob.FlipImageTool[funCamNumber].InputImage = Glob.코그넥스파일.카메라[funCamNumber].Run();
-                log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
+                //log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
                 Glob.FlipImageTool[funCamNumber].Run();
 
                 TempCogDisplay[funCamNumber].Image = Glob.FlipImageTool[funCamNumber].OutputImage;
@@ -1322,7 +1322,7 @@ namespace VISION
 
                 //Cam4너트검사이미지[shotNumber - 1] = Glob.코그넥스파일.카메라[funCamNumber].Run();
                 //cdy.Image = Cam4너트검사이미지[shotNumber - 1];
-                log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
+                //log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
                 cdy.Fit();
                 cdy.InteractiveGraphics.Clear();
                 cdy.StaticGraphics.Clear();
@@ -1427,7 +1427,7 @@ namespace VISION
 
                 //Cam5너트검사이미지[shotNumber - 1] = Glob.코그넥스파일.카메라[funCamNumber].Run();
                 //cdy.Image = Cam5너트검사이미지[shotNumber - 1];
-                log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
+                //log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
                 cdy.Fit();
                 cdy.InteractiveGraphics.Clear();
                 cdy.StaticGraphics.Clear();
@@ -1526,7 +1526,7 @@ namespace VISION
                 }
 
                 Glob.FlipImageTool[funCamNumber].InputImage = Glob.코그넥스파일.카메라[funCamNumber].Run();
-                log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
+                //log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} shot end");
                 Glob.FlipImageTool[funCamNumber].Run();
 
                 cdy.Image = Glob.FlipImageTool[funCamNumber].OutputImage;
@@ -1549,6 +1549,8 @@ namespace VISION
                     Glob.카메라6검사결과[0] = r;
                 else if (Glob.카메라별인덱스[funCamNumber] == 2)
                     Glob.카메라6검사결과[1] = r;
+
+                log.AddLogMessage(LogType.Result, 0, $"CAM{funCamNumber + 1} 검사완료 => {r}");
 
                 Glob.최종검사중 = false;
 
@@ -1870,7 +1872,7 @@ namespace VISION
                 //각 카메라별 배열 첫번째 검사결과확인.
                 if (Glob.카메라1검사결과[1] == false || Glob.카메라2검사결과[1] == false || Glob.카메라3검사결과[1] == false)
                 {
-                    log.AddLogMessage(LogType.Result, 0, $"인덱스2 검사결과 불량유형1 on 및 전송 {Glob.카메라4검사결과[1]} {Glob.카메라5검사결과[1]} {Glob.카메라6검사결과[1]}");
+                    log.AddLogMessage(LogType.Result, 0, $"인덱스2 검사결과 불량유형1 on 및 전송 {Glob.카메라1검사결과[1]} {Glob.카메라2검사결과[1]} {Glob.카메라3검사결과[1]}");
                     SelectHighIndex(1, 1);
                     await Task.Delay(1000);
                     SelectHighIndex(1, 0);
@@ -1879,7 +1881,7 @@ namespace VISION
                 }
                 else if (Glob.카메라4검사결과[1] == false || Glob.카메라5검사결과[1] == false || Glob.카메라6검사결과[1] == false)
                 {
-                    log.AddLogMessage(LogType.Result, 0, $"인덱스2 검사결과 불량유형1 on 및 전송 {Glob.카메라4검사결과[1]} {Glob.카메라5검사결과[1]} {Glob.카메라6검사결과[1]}");
+                    log.AddLogMessage(LogType.Result, 0, $"인덱스2 검사결과 불량유형2 on 및 전송 {Glob.카메라4검사결과[1]} {Glob.카메라5검사결과[1]} {Glob.카메라6검사결과[1]}");
                     SelectHighIndex(2, 1);
                     await Task.Delay(1000);
                     SelectHighIndex(2, 0);
@@ -3513,8 +3515,8 @@ namespace VISION
                                 if (Glob.검사결과확인인덱스번호 >= 2) Glob.검사결과확인인덱스번호 = 0;
                                 Glob.검사결과확인인덱스번호++;
 
-                                log.AddLogMessage(LogType.Result, 0, $"Index => {Glob.검사결과확인인덱스번호}");
-                                //Task.Delay(100);
+                                log.AddLogMessage(LogType.Result, 0, $"검사결과 요청신호 Index => {Glob.검사결과확인인덱스번호}");
+                                Task.Delay(100);
                                 ErrorCheckAndSendPLC();
                                 break;
                         }
@@ -3618,6 +3620,16 @@ namespace VISION
                 ShotAndInspect_Cam8(TempCogNutDisplay[1], 1);
             });
 
+        }
+
+        private void lb_Ver_Click(object sender, EventArgs e)
+        {
+            조명온오프제어(true);
+        }
+
+        private void lb_Time_Click(object sender, EventArgs e)
+        {
+            조명온오프제어(false);
         }
     }
 }

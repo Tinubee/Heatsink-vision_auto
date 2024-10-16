@@ -1,5 +1,6 @@
 ﻿using Cognex.VisionPro;
 using Cognex.VisionPro.Dimensioning;
+using Cognex.VisionPro.Display;
 using Cognex.VisionPro.ToolGroup;
 using System;
 using System.Collections.Generic;
@@ -751,7 +752,7 @@ namespace VISION.Cogs
             }
         }
 
-        public bool Dimension_Inspection(ref Cognex.VisionPro.Display.CogDisplay Display, CogImage8Grey Image, ref string[] ResultString, int CamNumber, CogGraphicCollection Collection)
+        public bool Dimension_Inspection(ref CogDisplay Display, CogImage8Grey Image, ref string[] ResultString, int CamNumber, CogGraphicCollection Collection)
         {
             try
             {
@@ -763,7 +764,7 @@ namespace VISION.Cogs
 
                 for (int lop = 1; lop <= DistanceMax; lop++)
                 {
-                    if (DistanceEnable[CamNumber, lop] == true)
+                    if (Glob.코그넥스파일.거리측정툴사용여부[CamNumber, lop] == true)
                     {
                         string Tool1_Name = Distance_UseTool1_Number[CamNumber, lop];
                         string Tool2_Name = Distance_UseTool2_Number[CamNumber, lop];
@@ -775,6 +776,10 @@ namespace VISION.Cogs
                         Lines[CamNumber, Convert.ToInt32(splitTool1Name[1])].Run(Image);
                         Lines[CamNumber, Convert.ToInt32(splitTool1Name[1])].ResultDisplay(Display, Collection);
                         Distances[CamNumber, lop].InputLine(lop, Lines[CamNumber, Convert.ToInt32(splitTool1Name[1])].GetLine());
+
+                        //Glob.코그넥스파일.라인툴[CamNumber, Convert.ToInt32(splitTool1Name[1])].Run(Image);
+                        //Glob.코그넥스파일.라인툴[CamNumber, Convert.ToInt32(splitTool1Name[1])].ResultDisplay(Display, Collection);
+                        //Glob.코그넥스파일.거리측정툴[CamNumber, lop].InputLine(lop, Glob.코그넥스파일.라인툴[CamNumber, Convert.ToInt32(splitTool1Name[1])].GetLine());
 
                         //포인트 툴 실행.
                         switch (splitTool2Name[0])
@@ -806,7 +811,7 @@ namespace VISION.Cogs
                 }
                 for (int lop = 1; lop <= DistanceMax; lop++)
                 {
-                    if (DistanceEnable[CamNumber, lop] == true)
+                    if (Glob.코그넥스파일.거리측정툴사용여부[CamNumber, lop] == true)
                     {
                         Distances[CamNumber, lop].ResultDisplay(lop, Display, Collection);
                     }

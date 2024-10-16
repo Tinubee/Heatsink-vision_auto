@@ -1,5 +1,6 @@
 ﻿using Cognex.VisionPro;
 using Cognex.VisionPro.Dimensioning;
+using Cognex.VisionPro.Display;
 using Cognex.VisionPro.ImageFile;
 using Cognex.VisionPro.ImageProcessing;
 using Cognex.VisionPro.QuickBuild;
@@ -246,6 +247,15 @@ namespace VISION
             {
                 int usePatternNumber = Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnumber].HighestResultToolNumber();
                 Fiximage = Glob.코그넥스파일.모델.Blob_FixtureImage((CogImage8Grey)cdyDisplay.Image, Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnumber].ToolName(), Glob.CamNumber, toolnumber, out FimageSpace, usePatternNumber);
+            }
+        }
+
+        public void Line_Train(int toolnumber)
+        {
+            if (Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnumber].Run((CogImage8Grey)cdyDisplay.Image) == true)
+            {
+                int usePatternNumber = Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnumber].HighestResultToolNumber();
+                Fiximage = Glob.코그넥스파일.모델.LINE_FixtureImage((CogImage8Grey)cdyDisplay.Image, Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnumber].ResultPoint(usePatternNumber), Glob.코그넥스파일.패턴툴[Glob.CamNumber, toolnumber].ToolName(), Glob.CamNumber, toolnumber, out FimageSpace, usePatternNumber);
             }
         }
 
@@ -914,7 +924,8 @@ namespace VISION
             if (Tool1_Name[0] == "Line ")
             {
                 ImageClear();
-                Pattern_Train();
+                Line_Train((int)num_DimensionToolNum.Value);
+                //Pattern_Train();
                 Glob.코그넥스파일.라인툴[Glob.CamNumber, Convert.ToInt32(Tool1_Name[1])].Area(ref cdyDisplay, (CogImage8Grey)cdyDisplay.Image, Glob.코그넥스파일.패턴툴[Glob.CamNumber, 0].ToolName());
             }
         }

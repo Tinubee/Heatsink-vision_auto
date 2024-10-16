@@ -92,5 +92,15 @@ namespace VISION
         {
 
         }
+
+        private void tb감도값_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb노출값_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
